@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                .lists
+                    a.btn.btn-default(href='/user/add') 添加用户
+                    table.table
+                        thead
+                            tr
+                                th 用户名 
+                                th Email
+                                th Name
+                                th 创建日期
+                        tbody
+                            - each user in users
+                                tr
+                                    td 
+                                        a(href='/user/#{user.id}') #{user.username}
+                                    td #{user.email}
+                                    td #{user.name}
+                                    td #{user.created}

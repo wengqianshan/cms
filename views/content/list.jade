@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                a.btn.btn-default(href='/content/add') 添加内容
+                .lists
+                    - each content in contents
+                        .item
+                            h2
+                                a(href='content/#{content.id}') #{content.title}
+                            .post-author
+                                strong #{content.author}
+                                span / #{content.created}
+                            p.lead #{content.content}

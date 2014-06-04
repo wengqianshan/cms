@@ -1,0 +1,5 @@
+#忽略组件文件
+node_modules/
+
+#特殊文件
+.DS_Store

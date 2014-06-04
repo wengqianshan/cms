@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                .panel.panel-default
+                    .panel-heading
+                        | 用户信息
+                    .panel-body
+                        | 这里是单个用户的信息
+                    table.table
+                        thead
+                            tr
+                                th ID
+                                th Name
+                                th Username
+                                th Salt
+                                th Hashed_password
+                        tbody
+                            tr
+                                td #{user.id}
+                                td #{user.name}
+                                td #{user.username}
+                                td #{user.salt}
+                                td #{user.hashed_password}
+
