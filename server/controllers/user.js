@@ -4,9 +4,10 @@ var mongoose = require('mongoose'),
 
 exports.authenticate = function(req, res, next) {
     if(!req.session.user) {
-        return res.render('message', {
+        return res.redirect('/user/login')
+        /*return res.render('message', {
             msg: '未登录'
-        });
+        });*/
     }else{
         next();
     }

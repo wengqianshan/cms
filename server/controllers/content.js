@@ -16,6 +16,7 @@ exports.list = function(req, res) {
 exports.one = function(req, res) {
     var id = req.param('id');
     Content.findById(id).populate('author').exec(function(err, result) {
+        console.log(result);
         res.render('content/item', {
             title: '正文',
             content: result
