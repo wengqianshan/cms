@@ -20,7 +20,11 @@ html
                         li
                             a(href='/user') 用户
                     .navbar-right
-                        | xiaoshan 
-                        a(href='#') 注销
+                        if (user)
+                            | #{user.name} 
+                            a(href='/user/logout') 注销
+                        else
+                            a(href='/user/login') 登录  
+                            a(href='/user/register') 注册
         block content
         block foot-js

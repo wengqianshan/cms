@@ -37,12 +37,28 @@ app.use(session({
     secret: 'ruoguan'/*,
     store: new RedisStore*/
 }));
+app.use(function(req, res, next) {
+    /*res.locals.user = {
+        name: 'xiaoshan',
+        username: 'aaaa'
+    };*/
+    //req.session.user = '1111'
+    if(req.session) {
+        //req.session.destroy();
+        //req.session.user = null;
+        //delete req.session.user;
+    }
+    if(req.session.user) {
+        res.locals.user = req.session.user;
+    }
+    next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 //定义全局字段
 app.locals.title = '弱冠';
 app.locals.pretty = true;
 
-//引入数据模型
+//引入路由控制
 util.walk(appPath + '/server/routes', 'middlewares', function(path) {
     require(path)(app);
 });

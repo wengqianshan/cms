@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                form(action='', method='post')
+                    .form-group
+                        label 用户名
+                        input.form-control(name='username')
+                    .form-group
+                        label 密码
+                        input.form-control(type='password', name='password')
+                    button.btn.btn-primary(type='submit') 登录
+

@@ -11,6 +11,7 @@ exports.authenticate = function(req, res, next) {
         next();
     }
 };
+//用户列表
 exports.list = function(req, res) {
     User.find(function(err, results) {
         res.render('user/list', {
@@ -18,25 +19,7 @@ exports.list = function(req, res) {
         });
     })
 }
-exports.add = function(req, res) {
-    var method = req.method;
-    if(method === 'GET') {
-        res.render('user/add', {});
-    }else if(method === 'POST') {
-        var obj = req.body;
-        console.log(obj);
-        var user = new User(obj);
-        user.save(function(err, result) {
-            console.log(result);
-            if(err) {
-                return console.log('注册失败');
-            }
-            res.render('message', {
-                msg: '注册成功'
-            });
-        });
-    }
-}
+//单个用户
 exports.one = function(req, res) {
     var id = req.param('id');
     User.findById(id, function(err, result) {
@@ -46,30 +29,71 @@ exports.one = function(req, res) {
     });
 }
 //注册
-/*exports.register = function(obj) {
-    var user = new User(obj);
-    user.save(function(err, result) {
-        if(err) {
-            return console.log('注册失败');
-        }
-        console.log('注册成功', result);
-    });
-};*/
+exports.register = function(req, res) {
+    var method = req.method;
+    if(method === 'GET') {
+        res.render('user/register', {});
+    }else if(method === 'POST') {
+        var obj = req.body;
+        console.log(obj);
+        var user = new User(obj);
+        user.save(function(err, result) {
+            console.log(result);
+            if(err) {
+                console.log(err);
+                return res.render('message', {
+                    msg: '注册失败'
+                });
+            }
+            res.render('message', {
+                msg: '注册成功'
+            });
+        });
+    }
+}
 
 //登录
-exports.login = function(username, password) {
-    User.findOne({username: username}, function(err, user) {
-        console.log(err, user);
-        if(!user) {
-            return console.log('登录失败, 没有该用户');
-        }
-        if(user.authenticate(password)) {
-            console.log('登录成功');
-            req.session.user = user;
-        }else{
-            console.log('密码不正确');
-        }
-    });
+exports.login = function(req, res) {
+    if(req.method === 'GET') {
+        res.render('user/login');
+    } else if(req.method === 'POST') {
+        var username = req.body.username;
+        var password = req.body.password;
+        User.findOne({username: username}, function(err, user) {
+            console.log(err, user);
+            if(!user) {
+                return res.render('message', {
+                    msg: '登录失败, 没有该用户'
+                });
+            }
+            if(user.authenticate(password)) {
+                console.log('登录成功');
+                req.session.user = user;
+                res.redirect('/');
+            }else{
+                res.render('message', {
+                    msg: '密码不正确'
+                });
+            }
+        });
+    }
+    
+};
+
+//注销
+exports.logout = function(req, res) {
+    if(req.session) {
+        req.session.destroy();
+        res.locals.user = null;
+        console.log('注销成功');
+        res.render('message', {
+            msg: '注销成功'
+        });
+    }else{
+        res.render('message', {
+            msg: '注销失败'
+        });
+    }
 };
 
 //更新内容：不包括virtual的数据

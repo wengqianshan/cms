@@ -14,9 +14,12 @@ var user = require('../../server/controllers/user');
     res.render('index', { title: 'CMS系统' });
 });*/
 //router.get('/list', content.list);
-router.route('/').get(user.list);
-router.route('/add').get(user.add).post(user.add);
+
+router.route('/login').get(user.login).post(user.login);
+router.route('/register').get(user.register).post(user.register);
+router.route('/logout').get(user.logout);
 router.route('/:id').get(user.one);
+router.route('/').get(user.list);
 
 
 module.exports = function(app) {
