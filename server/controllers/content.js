@@ -94,7 +94,7 @@ exports.del = function(req, res) {
             });
         }else {
             return res.render('message', {
-                msg: '你没有权限删除这篇文章'
+                msg: '你没有权限删除别人的文章'
             });
         }
     });

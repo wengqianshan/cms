@@ -16,6 +16,7 @@
     "express-session": "^1.2.0",
     "connect-redis": "^2.0.0",
     "mongoose": "^3.8.12",
-    "moment": "^2.6.0"
+    "moment": "^2.6.0",
+    "underscore": "^1.6.0"
   }
 }

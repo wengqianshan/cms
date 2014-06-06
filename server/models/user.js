@@ -1,5 +1,6 @@
 'use strict';
 var crypto = require('crypto');
+var _ = require('underscore');
 /**
  * 模块依赖
  */
@@ -101,9 +102,21 @@ UserSchema.methods = {
      * @return {Boolean}
      * @api public
      */
+     //通过角色名判断权限
     hasRole: function(role) {
-        var roles = this.roles;
-        return (roles.indexOf('admin') !== -1 || roles.indexOf(role) !== -1);
+        var roles = [];
+        this.role.forEach(function(item) {
+            roles = _.union(roles, item.name);
+        });
+        return (roles.indexOf(role) !== -1);
+    },
+    //通过动作判断权限
+    hasAction: function(action) {
+        var actions = [];
+        this.role.forEach(function(item) {
+            actions = _.union(actions, item.action);
+        });
+        return (actions.indexOf(action) !== -1);
     },
     /**
      * Authenticate - check if the passwords are the same

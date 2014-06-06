@@ -62,6 +62,7 @@ exports.edit = function(req, res) {
     } else if(req.method === 'POST') {
         var id = req.params.id;
         var obj = req.body;
+        obj.role = ['5391e2bfa8d2561888dbc301', '5391e8f7a8d2561888dbc302'];
         User.findByIdAndUpdate(id, obj, function(err, result) {
             console.log(err, result);
             if(!err) {
@@ -87,9 +88,7 @@ exports.del = function(req, res) {
                 msg: '用户不存在'
             });
         }
-        //判断权限
-        console.log(result, req.session.user, req.session.user.authenticate);
-        return;
+        //TODO:判断权限
         //if(result._id == req.session.user._id) {
             result.remove(function(err) {
                 if(err) {
@@ -117,11 +116,12 @@ exports.login = function(req, res) {
         var password = req.body.password;
         User.findOne({
             username: username
-        }, function(err, user) {
-            console.log(err, user);
+        }).populate('role').exec(function(err, user) {
+            //console.log(user.hasRole('admin'));
+            //console.log(user.hasAction('read'));
             if (!user) {
                 return res.render('message', {
-                    msg: '登录失败, 没有该用户'
+                    msg: '登录失败, 查无此人'
                 });
             }
             if (user.authenticate(password)) {
