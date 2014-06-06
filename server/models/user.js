@@ -6,6 +6,12 @@ var crypto = require('crypto');
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+
+/*var securityCheck = function(type, user) {
+
+};
+securityCheck('createUser', user);*/
+
 /**
  * 用户模型
  */
@@ -22,10 +28,10 @@ var UserSchema = new Schema({
         type: String,
         unique: true
     },
-    role: {
+    role: [{
         type: Schema.ObjectId,
         ref: 'Role'
-    },
+    }],
     //password: String,
     last_login_date: Date,
     last_login_ip: String,

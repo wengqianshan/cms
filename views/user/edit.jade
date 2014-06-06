@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                form(action='', method='post')
+                    .form-group
+                        label 用户名
+                        input.form-control(name='username', value='#{user.username}')
+                    .form-group
+                        label 姓名
+                        input.form-control(name='name', value='#{user.name}')
+                    .form-group
+                        label Email
+                        input.form-control(name='email', value='#{user.email}')
+                    button.btn.btn-primary(type='submit') 提交
+

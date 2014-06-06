@@ -13,4 +13,6 @@ block content
                             .post-author
                                 strong #{content.author}
                                 span / #{content.created}
+                            .post-action
+                                a(href='content/#{content.id}/edit') 编辑
                             p.lead #{content.content}

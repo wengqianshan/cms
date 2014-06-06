@@ -48,6 +48,29 @@ exports.register = function(req, res) {
             });
         });
     }
+};
+
+//编辑
+exports.edit = function(req, res) {
+    if(req.method === 'GET') {
+        var id = req.params.id;
+        User.findById(id, function(err, result) {
+            res.render('user/edit', {
+                user: result
+            });
+        })
+    } else if(req.method === 'POST') {
+        var id = req.params.id;
+        var obj = req.body;
+        User.findByIdAndUpdate(id, obj, function(err, result) {
+            console.log(err, result);
+            if(!err) {
+                res.render('message', {
+                    msg: '更新成功'
+                });
+            }
+        })
+    }
 }
 
 //登录

@@ -46,7 +46,27 @@ exports.add = function(req, res) {
         });
     }
 };
-
+exports.edit = function(req, res) {
+    if(req.method === 'GET') {
+        var id = req.param('id');
+        Content.findById(id, function(err, result) {
+            res.render('content/edit', {
+                content: result
+            });
+        });
+    } else if(req.method === 'POST') {
+        var id = req.param('id');
+        var obj = req.body;
+        Content.findByIdAndUpdate(id, obj, function(err, result) {
+            //console.log(err, result);
+            if(!err) {
+                res.render('message', {
+                    msg: '更新成功'
+                });
+            }
+        })
+    }
+};
 exports.find = function(condition) {
     Content.find(condition, function(err, results) {
         console.log(results);

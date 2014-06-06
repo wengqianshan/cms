@@ -7,6 +7,8 @@ var content = require('../../server/controllers/content');
 router.route('/add').get(content.add).post(content.add);
 //单条信息
 router.route('/:id').get(content.one);
+//更新信息
+router.route('/:id/edit').get(content.edit).post(content.edit);
 //内容列表
 router.route('/').get(content.list);
 
