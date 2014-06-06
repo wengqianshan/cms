@@ -7,6 +7,8 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var bodyParser = require('body-parser');
+var moment = require('moment');
+moment.lang('zh-cn');
 var util = require('./server/libs/util');
 var appPath = process.cwd();
 
@@ -55,8 +57,11 @@ app.use(function(req, res, next) {
 });
 app.use(express.static(path.join(__dirname, 'public')));
 //定义全局字段
-app.locals.title = '弱冠';
-app.locals.pretty = true;
+app.locals = {
+    title: '弱冠',
+    pretty: true,
+    moment: moment
+}
 
 //引入路由控制
 util.walk(appPath + '/server/routes', 'middlewares', function(path) {

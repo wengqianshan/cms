@@ -71,8 +71,43 @@ exports.edit = function(req, res) {
             }
         })
     }
-}
+};
 
+//删除
+exports.del = function(req, res) {
+    /*if(!req.session.user) {
+        return res.render('message', {
+            msg: '请先登录'
+        });
+    }*/
+    var id = req.params.id;
+    User.findById(id, function(err, result) {
+        if(!result) {
+            return res.render('message', {
+                msg: '用户不存在'
+            });
+        }
+        //判断权限
+        console.log(result, req.session.user, req.session.user.authenticate);
+        return;
+        //if(result._id == req.session.user._id) {
+            result.remove(function(err) {
+                if(err) {
+                    return res.render('message', {
+                        msg: '删除失败222'
+                    });
+                }
+                res.render('message', {
+                    msg: '删除成功'
+                })
+            });
+        /*}else {
+            return res.render('message', {
+                msg: '你没有权限删除这篇文章'
+            });
+        }*/
+    });
+}
 //登录
 exports.login = function(req, res) {
     if (req.method === 'GET') {

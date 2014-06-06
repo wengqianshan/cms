@@ -28,6 +28,10 @@ var UserSchema = new Schema({
         type: String,
         unique: true
     },
+    gender: {
+        type: String,
+        enum: ['男', '女', '保密']
+    },
     role: [{
         type: Schema.ObjectId,
         ref: 'Role'

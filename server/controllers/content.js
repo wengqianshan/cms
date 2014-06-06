@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 //列表
 exports.list = function(req, res) {
     console.time('content-list');
-    Content.find(function(err, results) {
+    Content.find({}).populate('author', 'username name email').exec(function(err, results) {
         //console.log(err, results);
         console.timeEnd('content-list');
         res.render('content/list', {
@@ -66,6 +66,49 @@ exports.edit = function(req, res) {
             }
         })
     }
+};
+//删除
+exports.del = function(req, res) {
+    if(!req.session.user) {
+        return res.render('message', {
+            msg: '请先登录'
+        });
+    }
+    var id = req.params.id;
+    Content.findById(id, function(err, result) {
+        if(!result) {
+            return res.render('message', {
+                msg: '内容不存在'
+            });
+        }
+        if(result.author == req.session.user._id) {
+            result.remove(function(err) {
+                if(err) {
+                    return res.render('message', {
+                        msg: '删除失败222'
+                    });
+                }
+                res.render('message', {
+                    msg: '删除成功'
+                })
+            });
+        }else {
+            return res.render('message', {
+                msg: '你没有权限删除这篇文章'
+            });
+        }
+    });
+    /*Content.findByIdAndRemove(id, function(err, result) {
+        console.log(err, result)
+        if(err) {
+            return res.render('message', {
+                msg: '删除失败'
+            });
+        }
+        res.render('message', {
+            msg: '删除成功'
+        })
+    })*/
 };
 exports.find = function(condition) {
     Content.find(condition, function(err, results) {

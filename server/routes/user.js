@@ -13,6 +13,8 @@ router.route('/logout').get(user.logout);
 router.route('/:id').get(user.one);
 //编辑用户信息
 router.route('/:id/edit').get(user.edit).post(user.edit);
+//删除用户
+router.route('/:id/del').get(user.del).post(user.del);
 //用户列表
 router.route('/').get(user.authenticate, user.list);
 

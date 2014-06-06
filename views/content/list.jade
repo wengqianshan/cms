@@ -11,8 +11,11 @@ block content
                             h2
                                 a(href='content/#{content.id}') #{content.title}
                             .post-author
-                                strong #{content.author}
-                                span / #{content.created}
+                                if (content.author)
+                                    strong #{content.author.name}
+                                span 发表于： #{moment(content.created).format('LLL')}
                             .post-action
-                                a(href='content/#{content.id}/edit') 编辑
+                                a.btn.btn-default.btn-xs(href='content/#{content.id}/edit') 编辑
+                                | &nbsp;
+                                a.btn.btn-danger.btn-xs(href='content/#{content.id}/del') 删除
                             p.lead #{content.content}

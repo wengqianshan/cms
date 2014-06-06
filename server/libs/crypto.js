@@ -1,6 +1,4 @@
 //加密组件
-
-
 var crypto = require('crypto');
 /**
  * md5 hash
