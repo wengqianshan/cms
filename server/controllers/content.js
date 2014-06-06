@@ -19,7 +19,7 @@ exports.one = function(req, res) {
     Content.findById(id).populate('author', 'username name email').exec(function(err, result) {
         console.log(result);
         res.render('content/item', {
-            title: '正文',
+            title: result.title,
             content: result
         });
     });
@@ -81,7 +81,7 @@ exports.del = function(req, res) {
                 msg: '内容不存在'
             });
         }
-        if(result.author == req.session.user._id) {
+        if(!result.author || result.author == req.session.user._id) {
             result.remove(function(err) {
                 if(err) {
                     return res.render('message', {

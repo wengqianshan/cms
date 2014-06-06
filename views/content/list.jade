@@ -5,17 +5,24 @@ block content
         .row
             .col-md-12
                 a.btn.btn-default(href='/content/add') 添加内容
-                .lists
-                    - each content in contents
-                        .item
-                            h2
-                                a(href='content/#{content.id}') #{content.title}
-                            .post-author
-                                if (content.author)
-                                    strong #{content.author.name}
-                                span 发表于： #{moment(content.created).format('LLL')}
-                            .post-action
-                                a.btn.btn-default.btn-xs(href='content/#{content.id}/edit') 编辑
-                                | &nbsp;
-                                a.btn.btn-danger.btn-xs(href='content/#{content.id}/del') 删除
-                            p.lead #{content.content}
+                table.table
+                    thead
+                        tr
+                            th 标题
+                            th 作者
+                            th 发布时间
+                            th 操作
+                    tbody
+                        - each content in contents
+                            tr
+                                td
+                                    a(href='content/#{content.id}') #{content.title}
+                                td
+                                    if (content.author)
+                                        strong #{content.author.name}
+                                td
+                                    | #{moment(content.created).format('LLL')}
+                                td
+                                    a.btn.btn-default.btn-xs(href='content/#{content.id}/edit') 编辑
+                                    | &nbsp;
+                                    a.btn.btn-danger.btn-xs(href='content/#{content.id}/del') 删除

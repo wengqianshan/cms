@@ -6,8 +6,8 @@ block content
             .col-md-12
                 .lists
                     p 标题：#{content.title}
-                    p 内容：#{content.content}
                     p 日期：#{content.created}
                     p 作者: 
                         if (content.author)
                             | #{content.author.name}
+                    p 内容：!{content.content}
