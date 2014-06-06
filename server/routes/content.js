@@ -3,13 +3,12 @@ var router = express.Router();
 
 var content = require('../../server/controllers/content');
 
-router.route('/').get(content.list);
+//添加内容
 router.route('/add').get(content.add).post(content.add);
+//单条信息
 router.route('/:id').get(content.one);
-/*content.add({
-    title: '唐诗三百首',
-    content: '宋词呢'
-});*/
+//内容列表
+router.route('/').get(content.list);
 
 module.exports = function(app) {
     app.use('/content', router);

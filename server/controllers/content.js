@@ -1,7 +1,7 @@
 'use strict';
 var mongoose = require('mongoose'),
     Content = mongoose.model('Content');
-
+//列表
 exports.list = function(req, res) {
     console.time('content-list');
     Content.find(function(err, results) {
@@ -13,33 +13,29 @@ exports.list = function(req, res) {
         });
     })
 };
+//单条
 exports.one = function(req, res) {
     var id = req.param('id');
-    Content.findById(id).populate('author').exec(function(err, result) {
+    Content.findById(id).populate('author', 'username name email').exec(function(err, result) {
         console.log(result);
         res.render('content/item', {
             title: '正文',
             content: result
         });
-    })
-    /*Content.findById(id, function(err, result) {
-        res.render('content/item', {
-            title: '正文',
-            content: result
-        });
-    });*/
+    });
 };
+//添加
 exports.add = function(req, res) {
-    if(req.method === 'GET') {
+    if (req.method === 'GET') {
         res.render('content/add');
-    } else if(req.method === 'POST') {
+    } else if (req.method === 'POST') {
         var obj = req.body;
-        if(req.session.user) {
+        if (req.session.user) {
             obj.author = req.session.user._id;
         }
         var content = new Content(obj);
         content.save(function(err, content) {
-            if(err) {
+            if (err) {
                 return res.render('message', {
                     msg: '创建失败'
                 });
