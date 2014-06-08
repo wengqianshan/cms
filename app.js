@@ -40,19 +40,10 @@ app.use(session({
     store: new RedisStore*/
 }));
 app.use(function(req, res, next) {
-    for(var i in req) {
-        //console.log(i);
-    }
-    //console.log(req.path)
+    //用来定位菜单
     var path = req.path ? req.path.split('/')[1] : '';
-    console.log(path);
     res.locals.path = path;
-    //console.log(req.path, req.method, req.url)
-    /*res.locals.user = {
-        name: 'xiaoshan',
-        username: 'aaaa'
-    };*/
-    //req.session.user = '1111'
+
     if(req.session) {
         //req.session.destroy();
         //req.session.user = null;
@@ -69,7 +60,7 @@ app.locals = {
     title: '弱冠',
     pretty: true,
     moment: moment
-}
+};
 
 //引入路由控制
 util.walk(appPath + '/server/routes', 'middlewares', function(path) {
