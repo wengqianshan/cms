@@ -13,36 +13,15 @@ html
                     a.navbar-brand(href='/') CMS系统
                 .collapse.navbar-collapse
                     ul.nav.navbar-nav
-                        if(!path)
-                            li.active
+                        li(class=!path ? 'active' : '')
                                 a(href='/') 首页
-                        else
-                            li
-                                a(href='/') 首页
-                        if(path === 'content')
-                            li.active
+                        li(class=path === 'content' ? 'active' : '')
                                 a(href='/content') 内容
-                        else
-                            li
-                                a(href='/content') 内容
-                        if(path === 'user')
-                            li.active
+                        li(class=path === 'user' ? 'active' : '')
                                 a(href='/user') 用户
-                        else
-                            li
-                                a(href='/user') 用户
-                        
-                        if(path === 'category')
-                            li.active
+                        li(class=path === 'category' ? 'active' : '')
                                 a(href='/category') 分类
-                        else
-                            li
-                                a(href='/category') 分类
-                        if(path === 'role')
-                            li.active
-                                a(href='/role') 角色
-                        else
-                            li
+                        li(class=path === 'role' ? 'active' : '')
                                 a(href='/role') 角色
                     .navbar-right
                         if (user)
