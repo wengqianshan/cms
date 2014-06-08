@@ -14,7 +14,10 @@ var ContentSchema = new Schema({
         type: String,
         required: true
     },
-    content: String,
+    content: {
+        type: String,
+        required: true
+    },
     author: {
         type: Schema.ObjectId,
         ref: 'User'

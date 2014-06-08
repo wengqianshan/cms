@@ -10,6 +10,39 @@ exports.authenticate = function(req, res, next) {
         next();
     }
 };
+//检查用户是否指定角色
+var checkRole = function(role, id, success, failure) {
+    User.findById(id).populate('roles').exec(function(err, user) {
+        if(err || !user) {
+            return failure && failure.call(null);
+        }
+        if(user.hasRole(role)) {
+            success && success.call(null, user);
+        }else{
+            failure && failure.call(null, user);
+        }
+    });
+};
+//检查用户是否有指定操作权限
+var checkAction = function(action, id, success, failure) {
+    User.findById(id).populate('roles').exec(function(err, user) {
+        if(err || !user) {
+            return failure && failure.call(null);
+        }
+        if(user.hasAction(action)) {
+            success && success.call(null, user);
+        }else{
+            failure && failure.call(null, user);
+        }
+    });
+};
+/*
+用法：
+checkAction('dev', user._id, function(u) {
+    console.log('鉴定成功', u);
+}, function(u) {
+    console.log('鉴定失败', u)
+});*/
 //用户列表
 exports.list = function(req, res) {
     User.find(function(err, results) {
@@ -21,7 +54,7 @@ exports.list = function(req, res) {
 //单个用户
 exports.one = function(req, res) {
     var id = req.param('id');
-    User.findById(id, function(err, result) {
+    User.findById(id).populate('roles').exec(function(err, result) {
         res.render('user/item', {
             user: result
         });
@@ -128,7 +161,9 @@ exports.login = function(req, res) {
         var password = req.body.password;
         User.findOne({
             username: username
-        }).populate('role').exec(function(err, user) {
+        }).populate('roles').exec(function(err, user) {
+            //var ruleObj = user.roleToObj();
+            //console.log(ruleObj)
             //console.log(user.hasRole('admin'));
             //console.log(user.hasAction('read'));
             if (!user) {
@@ -136,6 +171,11 @@ exports.login = function(req, res) {
                     msg: '登录失败, 查无此人'
                 });
             }
+            /*checkAction('dev', user._id, function(u) {
+                console.log('鉴定成功', u);
+            }, function(u) {
+                console.log('鉴定失败', u)
+            });*/
             if (user.authenticate(password)) {
                 console.log('登录成功');
                 req.session.user = user;

@@ -15,7 +15,10 @@ var CategorySchema = new Schema({
         required: true
     },
     description: String,
-    created: Date,
+    created: {
+        type: Date,
+        default: Date.now
+    },
     status: String
 });
 CategorySchema.methods = {

@@ -6,3 +6,14 @@ body {
     height: 20px;
     margin-top: 15px;
 }
+.login{
+    width: 300px;
+    margin: 0 auto;
+}
+.register{
+    width: 500px;
+    margin: 0 auto;
+}
+.content{
+    padding: 15px;
+}

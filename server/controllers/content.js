@@ -97,6 +97,7 @@ exports.del = function(req, res) {
                 msg: '内容不存在'
             });
         }
+        //TODO:或者管理员也可以删除
         if(!result.author || result.author == req.session.user._id) {
             result.remove(function(err) {
                 if(err) {

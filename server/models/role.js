@@ -14,10 +14,12 @@ var RoleSchema = new Schema({
         type: String,
         required: true
     },
-    value: Number,
     actions: Array,//['read', 'write', 'guest', 'createUser']
     description: String,
-    created: Date,
+    created: {
+        type: Date,
+        default: Date.now
+    },
     status: String
 });
 RoleSchema.methods = {

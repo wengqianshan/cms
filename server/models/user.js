@@ -66,15 +66,15 @@ UserSchema.virtual('password').set(function(password) {
  */
 UserSchema.path('name').validate(function(name) {
     return (typeof name === 'string' && name.length > 0);
-}, 'Name cannot be blank');
+}, '名字不能为空');
 
 UserSchema.path('email').validate(function(email) {
     return (typeof email === 'string' && email.length > 0);
-}, 'Email cannot be blank');
+}, 'Email不能为空');
 
 UserSchema.path('username').validate(function(username) {
     return (typeof username === 'string' && username.length > 0);
-}, 'Username cannot be blank');
+}, '用户名不能为空');
 
 
 /**
@@ -117,6 +117,18 @@ UserSchema.methods = {
             actions = _.union(actions, item.actions);
         });
         return (actions.indexOf(action) !== -1);
+    },
+    roleToObj: function() {
+        var roles = [];
+        var actions = [];
+        this.roles.forEach(function(item) {
+            roles = _.union(roles, item.name);
+            actions = _.union(actions, item.actions);
+        });
+        return {
+            _roles: roles,
+            _actions: actions
+        };
     },
     /**
      * Authenticate - check if the passwords are the same

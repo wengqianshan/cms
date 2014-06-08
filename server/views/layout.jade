@@ -10,17 +10,17 @@ html
         .navbar.navbar-inverse.navbar-fixed-top
             .container
                 .navbar-header
-                    a.navbar-brand(href='/') CMS系统
+                    a.navbar-brand(href='/') Hey
                 .collapse.navbar-collapse
                     ul.nav.navbar-nav
                         li(class=!path ? 'active' : '')
                                 a(href='/') 首页
                         li(class=path === 'content' ? 'active' : '')
                                 a(href='/content') 内容
-                        li(class=path === 'user' ? 'active' : '')
-                                a(href='/user') 用户
                         li(class=path === 'category' ? 'active' : '')
                                 a(href='/category') 分类
+                        li(class=path === 'user' ? 'active' : '')
+                                a(href='/user') 用户
                         li(class=path === 'role' ? 'active' : '')
                                 a(href='/role') 角色
                     .navbar-right
