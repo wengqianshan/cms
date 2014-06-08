@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 
 exports.authenticate = function(req, res, next) {
     if (!req.session.user) {
-        return res.redirect('/user/login')
+        return res.redirect('user/login')
     } else {
         next();
     }

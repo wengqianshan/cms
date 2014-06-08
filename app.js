@@ -39,25 +39,25 @@ app.use(session({
     secret: 'ruoguan'/*,
     store: new RedisStore*/
 }));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
+    res.header('X-Powered-By', 'wengqianshan');
     //用来定位菜单
     var path = req.path ? req.path.split('/')[1] : '';
     res.locals.path = path;
-
-    if(req.session) {
-        //req.session.destroy();
-        //req.session.user = null;
-        //delete req.session.user;
-    }
+    /*if (!req.session.user && req.path != '/user/login') {
+        return res.redirect('/user/login')
+    }*/
     if(req.session.user) {
         res.locals.user = req.session.user;
     }
+    
     next();
 });
-app.use(express.static(path.join(__dirname, 'public')));
+
 //定义全局字段
 app.locals = {
-    title: '弱冠',
+    title: 'CMS',
     pretty: true,
     moment: moment
 };
