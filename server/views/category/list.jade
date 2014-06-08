@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                a.btn.btn-default(href='/category/add') 添加分类
+                table.table
+                    thead
+                        tr
+                            th 标题
+                            th 创建时间
+                            th 操作
+                    tbody
+                        - each category in categorys
+                            tr
+                                td
+                                    a(href='category/#{category.id}') #{category.name}
+                                td
+                                    | #{moment(category.created).format('LLL')}
+                                td
+                                    a.btn.btn-default.btn-xs(href='category/#{category.id}/edit') 编辑
+                                    | &nbsp;
+                                    a.btn.btn-danger.btn-xs(href='category/#{category.id}/del') 删除

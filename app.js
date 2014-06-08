@@ -40,6 +40,14 @@ app.use(session({
     store: new RedisStore*/
 }));
 app.use(function(req, res, next) {
+    for(var i in req) {
+        //console.log(i);
+    }
+    //console.log(req.path)
+    var path = req.path ? req.path.split('/')[1] : '';
+    console.log(path);
+    res.locals.path = path;
+    //console.log(req.path, req.method, req.url)
     /*res.locals.user = {
         name: 'xiaoshan',
         username: 'aaaa'
@@ -100,7 +108,7 @@ app.use(function(err, req, res, next) {
 });
 
 var debug = require('debug')('cms');
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 7000);
 var server = app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + server.address().port);
 });

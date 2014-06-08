@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                form(action='', method='post')
+                    .form-group
+                        label 标题
+                        input.form-control(name='name', value='#{role.name}')
+                    .form-group
+                        label 操作
+                        .row
+                            - each action in role.actions
+                                .col-md-1
+                                    input.form-control(name='actions', value='#{action}')
+                    .form-group
+                        label 内容
+                        textarea.form-control(name='description', rows='8') #{role.description}
+                    button.btn.btn-primary(type='submit') 提交
+

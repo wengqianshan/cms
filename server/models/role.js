@@ -15,7 +15,7 @@ var RoleSchema = new Schema({
         required: true
     },
     value: Number,
-    action: Array,//['read', 'write', 'guest', 'createUser']
+    actions: Array,//['read', 'write', 'guest', 'createUser']
     description: String,
     created: Date,
     status: String

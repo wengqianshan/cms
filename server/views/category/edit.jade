@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                form(action='', method='post')
+                    .form-group
+                        label 标题
+                        input.form-control(name='name', value='#{category.name}')
+                    .form-group
+                        label 内容
+                        textarea.form-control(name='description', rows='8') #{category.description}
+                    button.btn.btn-primary(type='submit') 提交
+

@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                .lists
+                    p 名称：#{category.name}
+                    p 日期：#{category.created}
+                    p 描述：!{category.description}

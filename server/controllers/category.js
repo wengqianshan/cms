@@ -1,45 +1,43 @@
 'use strict';
 var mongoose = require('mongoose'),
-    Content = mongoose.model('Content');
+    Category = mongoose.model('Category');
 //列表
 exports.list = function(req, res) {
-    //console.time('content-list');
-    Content.find({}).populate('author', 'username name email').exec(function(err, results) {
+    Category.find({}).populate('author', 'username name email').exec(function(err, results) {
         //console.log(err, results);
-        //console.timeEnd('content-list');
-        res.render('content/list', {
+        res.render('category/list', {
             //title: '列表',
-            contents: results
+            categorys: results
         });
     })
 };
 //单条
 exports.one = function(req, res) {
     var id = req.param('id');
-    Content.findById(id).populate('author', 'username name email').exec(function(err, result) {
+    Category.findById(id).populate('author', 'username name email').exec(function(err, result) {
         console.log(result);
         if(!result) {
             return res.render('message', {
                 msg: '该内容不存在'
             });
         }
-        res.render('content/item', {
-            title: result.title,
-            content: result
+        res.render('category/item', {
+            title: result.name,
+            category: result
         });
     });
 };
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
-        res.render('content/add');
+        res.render('category/add');
     } else if (req.method === 'POST') {
         var obj = req.body;
         if (req.session.user) {
             obj.author = req.session.user._id;
         }
-        var content = new Content(obj);
-        content.save(function(err, content) {
+        var category = new Category(obj);
+        category.save(function(err, category) {
             if (err) {
                 return res.render('message', {
                     msg: '创建失败'
@@ -54,15 +52,15 @@ exports.add = function(req, res) {
 exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.param('id');
-        Content.findById(id, function(err, result) {
-            res.render('content/edit', {
-                content: result
+        Category.findById(id, function(err, result) {
+            res.render('category/edit', {
+                category: result
             });
         });
     } else if(req.method === 'POST') {
         var id = req.param('id');
         var obj = req.body;
-        Content.findByIdAndUpdate(id, obj, function(err, result) {
+        Category.findByIdAndUpdate(id, obj, function(err, result) {
             //console.log(err, result);
             if(!err) {
                 res.render('message', {
@@ -80,7 +78,7 @@ exports.del = function(req, res) {
         });
     }
     var id = req.params.id;
-    Content.findById(id, function(err, result) {
+    Category.findById(id, function(err, result) {
         if(!result) {
             return res.render('message', {
                 msg: '内容不存在'
@@ -103,28 +101,4 @@ exports.del = function(req, res) {
             });
         }
     });
-    /*Content.findByIdAndRemove(id, function(err, result) {
-        console.log(err, result)
-        if(err) {
-            return res.render('message', {
-                msg: '删除失败'
-            });
-        }
-        res.render('message', {
-            msg: '删除成功'
-        })
-    })*/
-};
-exports.find = function(condition) {
-    Content.find(condition, function(err, results) {
-        console.log(results);
-        results.forEach(function(item) {
-            console.log(item.id)
-        })
-    });
-};
-exports.remove = function(id) {
-    Content.findByIdAndRemove(id, function(err, content) {
-        console.log(err, content);
-    })
 };

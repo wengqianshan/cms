@@ -14,5 +14,15 @@ block content
                     .form-group
                         label Email
                         input.form-control(name='email', value='#{user.email}')
+                    .form-group
+                        label 角色
+                        select.form-control(multiple, name='roles')
+                            - each role in roles
+                                if (user.roles.indexOf(role.id) > -1)
+                                    option(value='#{role.id}', selected)
+                                        | #{role.name}
+                                else
+                                    option(value='#{role.id}')
+                                        | #{role.name}
                     button.btn.btn-primary(type='submit') 提交
 

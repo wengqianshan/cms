@@ -33,7 +33,7 @@ var UserSchema = new Schema({
         type: String,
         enum: ['男', '女', '保密']
     },
-    role: [{
+    roles: [{
         type: Schema.ObjectId,
         ref: 'Role'
     }],
@@ -105,7 +105,7 @@ UserSchema.methods = {
      //通过角色名判断权限
     hasRole: function(role) {
         var roles = [];
-        this.role.forEach(function(item) {
+        this.roles.forEach(function(item) {
             roles = _.union(roles, item.name);
         });
         return (roles.indexOf(role) !== -1);
@@ -113,8 +113,8 @@ UserSchema.methods = {
     //通过动作判断权限
     hasAction: function(action) {
         var actions = [];
-        this.role.forEach(function(item) {
-            actions = _.union(actions, item.action);
+        this.roles.forEach(function(item) {
+            actions = _.union(actions, item.actions);
         });
         return (actions.indexOf(action) !== -1);
     },

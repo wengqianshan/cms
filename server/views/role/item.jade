@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                .lists
+                    p 名称：#{role.name}
+                    p 动作：
+                        - each action in role.actions
+                            span.label.label-info
+                                | #{action}
+                            | 
+                    p 日期：#{role.created}
+                    p 描述：!{role.description}

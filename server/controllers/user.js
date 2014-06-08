@@ -1,6 +1,7 @@
 'use strict';
 var mongoose = require('mongoose'),
-    User = mongoose.model('User');
+    User = mongoose.model('User'),
+    Role = mongoose.model('Role');
 
 exports.authenticate = function(req, res, next) {
     if (!req.session.user) {
@@ -55,9 +56,20 @@ exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.params.id;
         User.findById(id, function(err, result) {
-            res.render('user/edit', {
-                user: result
-            });
+            try{
+                Role.find(function(err, results) {
+                    if(!err && results) {
+                        res.render('user/edit', {
+                            user: result,
+                            roles: results
+                        });
+                    }
+                }) 
+            }catch(e) {
+               res.render('user/edit', {
+                    user: result
+                });
+            }
         })
     } else if(req.method === 'POST') {
         var id = req.params.id;
