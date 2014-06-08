@@ -7,6 +7,9 @@ block content
                 .lists
                     p 标题：#{content.title}
                     p 日期：#{content.created}
+                    p 分类：
+                        if (content.category)
+                            | #{content.category.name}
                     p 作者: 
                         if (content.author)
                             | #{content.author.name}

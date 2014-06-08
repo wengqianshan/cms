@@ -1,6 +1,7 @@
 'use strict';
 var mongoose = require('mongoose'),
-    Content = mongoose.model('Content');
+    Content = mongoose.model('Content'),
+    Category = mongoose.model('Category');
 //列表
 exports.list = function(req, res) {
     //console.time('content-list');
@@ -16,7 +17,7 @@ exports.list = function(req, res) {
 //单条
 exports.one = function(req, res) {
     var id = req.param('id');
-    Content.findById(id).populate('author', 'username name email').exec(function(err, result) {
+    Content.findById(id).populate('author', 'username name email').populate('category').exec(function(err, result) {
         console.log(result);
         if(!result) {
             return res.render('message', {
@@ -32,7 +33,11 @@ exports.one = function(req, res) {
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
-        res.render('content/add');
+        Category.find(function(err, results) {
+            res.render('content/add', {
+                categorys: results
+            });
+        });
     } else if (req.method === 'POST') {
         var obj = req.body;
         if (req.session.user) {
@@ -55,15 +60,21 @@ exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.param('id');
         Content.findById(id, function(err, result) {
-            res.render('content/edit', {
-                content: result
+            if(err) {
+                console.log('加载内容失败');
+            }
+            Category.find(function(err, categorys) {
+                res.render('content/edit', {
+                    content: result,
+                    categorys: categorys
+                });
             });
         });
     } else if(req.method === 'POST') {
         var id = req.param('id');
         var obj = req.body;
         Content.findByIdAndUpdate(id, obj, function(err, result) {
-            //console.log(err, result);
+            console.log(err, result);
             if(!err) {
                 res.render('message', {
                     msg: '更新成功'

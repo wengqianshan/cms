@@ -9,6 +9,16 @@ block content
                         label 标题
                         input.form-control(name='title', value='#{content.title}')
                     .form-group
+                        label 分类
+                        select.form-control(name='category')
+                            - each category in categorys
+                                if(category._id == content.category)
+                                    option(value='#{category._id}', selected)
+                                        | #{category.name}
+                                else
+                                    option(value='#{category._id}')
+                                        | #{category.name}
+                    .form-group
                         label 内容
                         textarea.form-control(name='content', rows='8') #{content.content}
                     button.btn.btn-primary(type='submit') 提交
