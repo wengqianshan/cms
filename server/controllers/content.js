@@ -2,22 +2,36 @@
 var mongoose = require('mongoose'),
     Content = mongoose.model('Content'),
     Category = mongoose.model('Category');
+
 //列表
 exports.list = function(req, res) {
-    //console.time('content-list');
     var condition = {};
     var category = req.query.category;
     if(category) {
         condition.category = category;
     }
-    Content.find(condition).populate('author', 'username name email').exec(function(err, results) {
-        //console.log(err, results);
-        //console.timeEnd('content-list');
-        res.render('server/content/list', {
-            //title: '列表',
-            contents: results
+    //查数据总数
+    Content.count(condition, function(err, total) {
+        //分页
+        var pageSize = 10;
+        var page = req.query.page|0;//强制转化整型
+        var totalPage = Math.ceil(total/pageSize);//获取总页数
+        var currentPage = page < 1 ? 1 : page > totalPage ? totalPage : page;//获取当前页数
+        var start = pageSize * (currentPage - 1);//计算开始位置
+        Content.find(condition).populate('author', 'username name email').skip(start).limit(pageSize).exec(function(err, results) {
+            //console.log(err, results);
+            res.render('server/content/list', {
+                title: '内容列表',
+                contents: results,
+                pageInfo: {
+                    currentPage: currentPage,
+                    totalPage: totalPage,
+                    query: req.query
+                }
+            });
         });
-    })
+    });
+    
 };
 //单条
 exports.one = function(req, res) {

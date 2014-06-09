@@ -8,6 +8,7 @@ var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var bodyParser = require('body-parser');
 var moment = require('moment');
+var underscore = require('underscore');
 
 var util = require('./server/libs/util');
 var appPath = process.cwd();
@@ -38,6 +39,8 @@ app.locals = {
     title: 'CMS',
     pretty: true,
     moment: moment,
+    _: underscore,
+    util: util,
     adminDir: config.admin.dir ? ('/' + config.admin.dir) : ''
 };
 app.set('config', config);
@@ -94,7 +97,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
-        res.render('error', {
+        res.render('server/error', {
             message: err.message,
             error: err
         });

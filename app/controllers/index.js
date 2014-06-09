@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
     Content = mongoose.model('Content'),
     Category = mongoose.model('Category');
 exports.index = function(req, res) {
+    console.log('前台')
     //console.time('content-list');
     var condition = {};
     var category = req.query.category;
