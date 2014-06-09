@@ -33,6 +33,9 @@ exports.add = function(req, res) {
         res.render('role/add');
     } else if (req.method === 'POST') {
         var obj = req.body;
+        obj.actions = obj.actions.split(',').map(function(action) {
+            return action.trim();
+        });
         if (req.session.user) {
             obj.author = req.session.user._id;
         }
@@ -53,6 +56,9 @@ exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.param('id');
         Role.findById(id, function(err, result) {
+            if(result.actions) {
+                result.actions = result.actions.join(',');    
+            }
             res.render('role/edit', {
                 role: result
             });
@@ -60,6 +66,9 @@ exports.edit = function(req, res) {
     } else if(req.method === 'POST') {
         var id = req.param('id');
         var obj = req.body;
+        obj.actions = obj.actions.split(',').map(function(action) {
+            return action.trim();
+        });
         Role.findByIdAndUpdate(id, obj, function(err, result) {
             //console.log(err, result);
             if(!err) {
