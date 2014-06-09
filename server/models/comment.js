@@ -7,32 +7,24 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 /**
- * 内容模型
+ * 评论模型
  */
-var ContentSchema = new Schema({
-    title: {
-        type: String,
-        required: true
-    },
+var CommentSchema = new Schema({
     content: {
         type: String,
         required: true
+    },
+    from: {
+        type: Schema.ObjectId,
+        ref: 'Content'
     },
     author: {
         type: Schema.ObjectId,
         ref: 'User'
     },
-    category: {
-        type: Schema.ObjectId,
-        ref: 'Category'
-    },
     created: {
         type: Date,
         default: Date.now
-    },
-    visits: {
-        type: Number,
-        default: 0
     },
     comments: [{
         type: Schema.ObjectId,
@@ -41,7 +33,7 @@ var ContentSchema = new Schema({
     status: String
 });
 
-/*ContentSchema.pre('save', function(next) {
+/*CommentSchema.pre('save', function(next) {
     if (!this.isNew) return next();
     if (!this.title) {
         next(new Error('Invalid password'));
@@ -50,8 +42,8 @@ var ContentSchema = new Schema({
     }
 });*/
 
-ContentSchema.methods = {
+CommentSchema.methods = {
 
 };
 
-mongoose.model('Content', ContentSchema);
+mongoose.model('Comment', CommentSchema);
