@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 exports.list = function(req, res) {
     Category.find({}).populate('author', 'username name email').exec(function(err, results) {
         //console.log(err, results);
-        res.render('category/list', {
+        res.render('server/category/list', {
             //title: '列表',
             categorys: results
         });
@@ -17,11 +17,11 @@ exports.one = function(req, res) {
     Category.findById(id).populate('author', 'username name email').exec(function(err, result) {
         console.log(result);
         if(!result) {
-            return res.render('message', {
+            return res.render('server/message', {
                 msg: '该内容不存在'
             });
         }
-        res.render('category/item', {
+        res.render('server/category/item', {
             title: result.name,
             category: result
         });
@@ -30,7 +30,7 @@ exports.one = function(req, res) {
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
-        res.render('category/add');
+        res.render('server/category/add');
     } else if (req.method === 'POST') {
         var obj = req.body;
         if (req.session.user) {
@@ -39,11 +39,11 @@ exports.add = function(req, res) {
         var category = new Category(obj);
         category.save(function(err, category) {
             if (err) {
-                return res.render('message', {
+                return res.render('server/message', {
                     msg: '创建失败'
                 });
             }
-            res.render('message', {
+            res.render('server/message', {
                 msg: '创建成功'
             });
         });
@@ -53,7 +53,7 @@ exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.param('id');
         Category.findById(id, function(err, result) {
-            res.render('category/edit', {
+            res.render('server/category/edit', {
                 category: result
             });
         });
@@ -63,7 +63,7 @@ exports.edit = function(req, res) {
         Category.findByIdAndUpdate(id, obj, function(err, result) {
             //console.log(err, result);
             if(!err) {
-                res.render('message', {
+                res.render('server/message', {
                     msg: '更新成功'
                 });
             }
@@ -73,30 +73,30 @@ exports.edit = function(req, res) {
 //删除
 exports.del = function(req, res) {
     if(!req.session.user) {
-        return res.render('message', {
+        return res.render('server/message', {
             msg: '请先登录'
         });
     }
     var id = req.params.id;
     Category.findById(id, function(err, result) {
         if(!result) {
-            return res.render('message', {
+            return res.render('server/message', {
                 msg: '内容不存在'
             });
         }
         if(!result.author || result.author == req.session.user._id) {
             result.remove(function(err) {
                 if(err) {
-                    return res.render('message', {
+                    return res.render('server/message', {
                         msg: '删除失败222'
                     });
                 }
-                res.render('message', {
+                res.render('server/message', {
                     msg: '删除成功'
                 })
             });
         }else {
-            return res.render('message', {
+            return res.render('server/message', {
                 msg: '你没有权限删除别人的文章'
             });
         }

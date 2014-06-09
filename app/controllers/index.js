@@ -13,7 +13,7 @@ exports.list = function(req, res) {
     Content.find(condition).populate('author', 'username name email').exec(function(err, results) {
         //console.log(err, results);
         //console.timeEnd('content-list');
-        res.render('server/content/list', {
+        res.render('content/list', {
             //title: '列表',
             contents: results
         });
@@ -27,11 +27,11 @@ exports.one = function(req, res) {
         result.visits = result.visits + 1;
         result.save();
         if(!result) {
-            return res.render('server/message', {
+            return res.render('message', {
                 msg: '该内容不存在'
             });
         }
-        res.render('server/content/item', {
+        res.render('content/item', {
             title: result.title,
             content: result
         });
@@ -41,7 +41,7 @@ exports.one = function(req, res) {
 exports.add = function(req, res) {
     if (req.method === 'GET') {
         Category.find(function(err, results) {
-            res.render('server/content/add', {
+            res.render('content/add', {
                 categorys: results
             });
         });
@@ -53,11 +53,11 @@ exports.add = function(req, res) {
         var content = new Content(obj);
         content.save(function(err, content) {
             if (err) {
-                return res.render('server/message', {
+                return res.render('message', {
                     msg: '创建失败'
                 });
             }
-            res.render('server/message', {
+            res.render('message', {
                 msg: '创建成功'
             });
         });
@@ -71,7 +71,7 @@ exports.edit = function(req, res) {
                 console.log('加载内容失败');
             }
             Category.find(function(err, categorys) {
-                res.render('server/content/edit', {
+                res.render('content/edit', {
                     content: result,
                     categorys: categorys
                 });
@@ -83,7 +83,7 @@ exports.edit = function(req, res) {
         Content.findByIdAndUpdate(id, obj, function(err, result) {
             console.log(err, result);
             if(!err) {
-                res.render('server/message', {
+                res.render('message', {
                     msg: '更新成功'
                 });
             }
@@ -93,14 +93,14 @@ exports.edit = function(req, res) {
 //删除
 exports.del = function(req, res) {
     if(!req.session.user) {
-        return res.render('server/message', {
+        return res.render('message', {
             msg: '请先登录'
         });
     }
     var id = req.params.id;
     Content.findById(id, function(err, result) {
         if(!result) {
-            return res.render('server/message', {
+            return res.render('message', {
                 msg: '内容不存在'
             });
         }
@@ -108,16 +108,16 @@ exports.del = function(req, res) {
         if(!result.author || result.author == req.session.user._id) {
             result.remove(function(err) {
                 if(err) {
-                    return res.render('server/message', {
+                    return res.render('message', {
                         msg: '删除失败222'
                     });
                 }
-                res.render('server/message', {
+                res.render('message', {
                     msg: '删除成功'
                 })
             });
         }else {
-            return res.render('server/message', {
+            return res.render('message', {
                 msg: '你没有权限删除别人的文章'
             });
         }
@@ -125,11 +125,11 @@ exports.del = function(req, res) {
     /*Content.findByIdAndRemove(id, function(err, result) {
         console.log(err, result)
         if(err) {
-            return res.render('server/message', {
+            return res.render('message', {
                 msg: '删除失败'
             });
         }
-        res.render('server/message', {
+        res.render('message', {
             msg: '删除成功'
         })
     })*/

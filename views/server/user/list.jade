@@ -5,7 +5,7 @@ block content
         .row
             .col-md-12
                 .lists
-                    //a.btn.btn-default(href='/user/register') 添加用户
+                    //a.btn.btn-default(href='#{adminDir}/user/register') 添加用户
                     table.table.table-striped
                         thead
                             tr
@@ -18,11 +18,11 @@ block content
                             - each user in users
                                 tr
                                     td 
-                                        a(href='/user/#{user.id}') #{user.username}
+                                        a(href='#{adminDir}/user/#{user.id}') #{user.username}
                                     td #{user.email}
                                     td #{user.name}
                                     td #{user.created}
                                     td 
-                                        a.btn.btn-default.btn-xs(href='/user/#{user.id}/edit') 编辑
+                                        a.btn.btn-default.btn-xs(href='#{adminDir}/user/#{user.id}/edit') 编辑
                                         |  
-                                        a.btn.btn-danger.btn-xs(href='/user/#{user.id}/del') 删除
+                                        a.btn.btn-danger.btn-xs(href='#{adminDir}/user/#{user.id}/del') 删除

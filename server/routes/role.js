@@ -15,5 +15,8 @@ router.route('/:id/del').get(role.del).post(role.del);
 router.route('/').get(role.list);
 
 module.exports = function(app) {
-    app.use('/role', router);
+    //app.use('/role', router);
+    var config = app.get('config');
+    var path = (config.admin.dir ? '/' + config.admin.dir : '') + '/role';
+    app.use(path, router);
 };

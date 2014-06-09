@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                a.btn.btn-default(href='#{adminDir}/content/add') 添加内容
+                table.table.table-striped
+                    thead
+                        tr
+                            th 标题
+                            th 作者
+                            th 发布时间
+                            th 操作
+                    tbody
+                        - each content in contents
+                            tr
+                                td
+                                    a(href='content/#{content.id}') #{content.title}
+                                td
+                                    if (content.author)
+                                        strong #{content.author.name}
+                                td
+                                    | #{moment(content.created).format('LLL')}
+                                td
+                                    a.btn.btn-default.btn-xs(href='content/#{content.id}/edit') 编辑
+                                    | &nbsp;
+                                    a.btn.btn-danger.btn-xs(href='content/#{content.id}/del') 删除

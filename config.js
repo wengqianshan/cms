@@ -1,8 +1,7 @@
 var config = {
     mongodb: {
-        host: '',
-        db: '',
-        port: ''
+        uri: 'mongodb://localhost/cms',
+        options: {}
     },
     admin: {
         dir: 'admin'

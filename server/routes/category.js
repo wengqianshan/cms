@@ -15,5 +15,8 @@ router.route('/:id/del').get(category.del).post(category.del);
 router.route('/').get(category.list);
 
 module.exports = function(app) {
-    app.use('/category', router);
+    //app.use('/category', router);
+    var config = app.get('config');
+    var path = (config.admin.dir ? '/' + config.admin.dir : '') + '/category';
+    app.use(path, router);
 };

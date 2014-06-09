@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                .lists
+                    h2 #{content.title}
+                    p 
+                        if (content.category)
+                            span.label.label-default #{content.category.name}
+                        | 
+                        if (content.author)
+                            strong #{content.author.name}
+                        | 发布于：#{moment(content.created).format('LL')} 
+                        | 访问量：#{content.visits}
+                    .content !{content.content}

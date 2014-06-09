@@ -10,25 +10,25 @@ html
         .navbar.navbar-inverse.navbar-fixed-top
             .container
                 .navbar-header
-                    a.navbar-brand(href='/') Hey
+                    a.navbar-brand(href='#{adminDir}/') Hey
                 .collapse.navbar-collapse
                     ul.nav.navbar-nav
                         li(class=!path ? 'active' : '')
-                                a(href='/') 首页
+                                a(href='#{adminDir}/') 首页
                         li(class=path === 'content' ? 'active' : '')
-                                a(href='/content') 内容
+                                a(href='#{adminDir}/content') 内容
                         li(class=path === 'category' ? 'active' : '')
-                                a(href='/category') 分类
+                                a(href='#{adminDir}/category') 分类
                         li(class=path === 'user' ? 'active' : '')
-                                a(href='/user') 用户
+                                a(href='#{adminDir}/user') 用户
                         li(class=path === 'role' ? 'active' : '')
-                                a(href='/role') 角色
+                                a(href='#{adminDir}/role') 角色
                     .navbar-right
                         if (user)
                             | #{user.name} 
-                            a(href='/user/logout') 注销
+                            a(href='#{adminDir}/user/logout') 注销
                         else
-                            a(href='/user/login') 登录  
-                            a(href='/user/register') 注册
+                            a(href='#{adminDir}/user/login') 登录  
+                            a(href='#{adminDir}/user/register') 注册
         block content
         block foot-js

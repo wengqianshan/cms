@@ -1,14 +1,12 @@
 'use strict';
 var mongoose = require('mongoose'),
     User = mongoose.model('User'),
-    Role = mongoose.model('Role');
+    Role = mongoose.model('Role'),
+    config = require('../../config');
 
-exports.authenticate = function(req, res, next) {
-    if (!req.session.user) {
-        return res.redirect('user/login')
-    } else {
-        next();
-    }
+var translateAdminDir = function(path) {
+    var newPath = (config.admin.dir ? '/' + config.admin.dir : '') + path;
+    return newPath;
 };
 //检查用户是否指定角色
 var checkRole = function(role, id, success, failure) {
@@ -23,6 +21,7 @@ var checkRole = function(role, id, success, failure) {
         }
     });
 };
+
 //检查用户是否有指定操作权限
 var checkAction = function(action, id, success, failure) {
     User.findById(id).populate('roles').exec(function(err, user) {
@@ -43,10 +42,19 @@ checkAction('dev', user._id, function(u) {
 }, function(u) {
     console.log('鉴定失败', u)
 });*/
+//用户登录校验
+exports.authenticate = function(req, res, next) {
+    if (!req.session.user) {
+        var path = translateAdminDir('/user/login');
+        return res.redirect(path);
+    } else {
+        next();
+    }
+};
 //用户列表
 exports.list = function(req, res) {
     User.find(function(err, results) {
-        res.render('user/list', {
+        res.render('server/user/list', {
             users: results
         });
     })
@@ -55,7 +63,7 @@ exports.list = function(req, res) {
 exports.one = function(req, res) {
     var id = req.param('id');
     User.findById(id).populate('roles').exec(function(err, result) {
-        res.render('user/item', {
+        res.render('server/user/item', {
             user: result
         });
     });
@@ -64,7 +72,7 @@ exports.one = function(req, res) {
 exports.register = function(req, res) {
     var method = req.method;
     if (method === 'GET') {
-        res.render('user/register', {});
+        res.render('server/user/register', {});
     } else if (method === 'POST') {
         var obj = req.body;
         console.log(obj);
@@ -73,11 +81,11 @@ exports.register = function(req, res) {
             console.log(result);
             if (err) {
                 console.log(err);
-                return res.render('message', {
+                return res.render('server/message', {
                     msg: '注册失败'
                 });
             }
-            res.render('message', {
+            res.render('server/message', {
                 msg: '注册成功'
             });
         });
@@ -92,14 +100,14 @@ exports.edit = function(req, res) {
             try{
                 Role.find(function(err, results) {
                     if(!err && results) {
-                        res.render('user/edit', {
+                        res.render('server/user/edit', {
                             user: result,
                             roles: results
                         });
                     }
                 }) 
             }catch(e) {
-               res.render('user/edit', {
+               res.render('server/user/edit', {
                     user: result
                 });
             }
@@ -111,7 +119,7 @@ exports.edit = function(req, res) {
         User.findByIdAndUpdate(id, obj, function(err, result) {
             console.log(err, result);
             if(!err) {
-                res.render('message', {
+                res.render('server/message', {
                     msg: '更新成功'
                 });
             }
@@ -122,14 +130,14 @@ exports.edit = function(req, res) {
 //删除
 exports.del = function(req, res) {
     /*if(!req.session.user) {
-        return res.render('message', {
+        return res.render('server/message', {
             msg: '请先登录'
         });
     }*/
     var id = req.params.id;
     User.findById(id, function(err, result) {
         if(!result) {
-            return res.render('message', {
+            return res.render('server/message', {
                 msg: '用户不存在'
             });
         }
@@ -137,16 +145,16 @@ exports.del = function(req, res) {
         //if(result._id == req.session.user._id) {
             result.remove(function(err) {
                 if(err) {
-                    return res.render('message', {
+                    return res.render('server/message', {
                         msg: '删除失败222'
                     });
                 }
-                res.render('message', {
+                res.render('server/message', {
                     msg: '删除成功'
                 })
             });
         /*}else {
-            return res.render('message', {
+            return res.render('server/message', {
                 msg: '你没有权限删除这篇文章'
             });
         }*/
@@ -155,7 +163,7 @@ exports.del = function(req, res) {
 //登录
 exports.login = function(req, res) {
     if (req.method === 'GET') {
-        res.render('user/login');
+        res.render('server/user/login');
     } else if (req.method === 'POST') {
         var username = req.body.username;
         var password = req.body.password;
@@ -167,7 +175,7 @@ exports.login = function(req, res) {
             //console.log(user.hasRole('admin'));
             //console.log(user.hasAction('read'));
             if (!user) {
-                return res.render('message', {
+                return res.render('server/message', {
                     msg: '登录失败, 查无此人'
                 });
             }
@@ -179,9 +187,10 @@ exports.login = function(req, res) {
             if (user.authenticate(password)) {
                 console.log('登录成功');
                 req.session.user = user;
-                res.redirect('/');
+                var path = translateAdminDir('/');
+                res.redirect(path);
             } else {
-                res.render('message', {
+                res.render('server/message', {
                     msg: '密码不正确'
                 });
             }
@@ -196,11 +205,11 @@ exports.logout = function(req, res) {
         req.session.destroy();
         res.locals.user = null;
         console.log('注销成功');
-        res.render('message', {
+        res.render('server/message', {
             msg: '注销成功'
         });
     } else {
-        res.render('message', {
+        res.render('server/message', {
             msg: '注销失败'
         });
     }

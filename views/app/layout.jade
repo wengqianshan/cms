@@ -1,0 +1,31 @@
+doctype html
+html
+    head
+        title #{title}
+        link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/css/style.css')
+        block head-css
+        block head-js
+    body
+        .navbar.navbar-inverse.navbar-fixed-top
+            .container
+                .navbar-header
+                    a.navbar-brand(href='/') Hey
+                .collapse.navbar-collapse
+                    ul.nav.navbar-nav
+                        li(class=!path ? 'active' : '')
+                                a(href='/') 首页
+                        li(class=path === 'content' ? 'active' : '')
+                                a(href='/content') 内容
+                        li(class=path === 'category' ? 'active' : '')
+                                a(href='/category') 分类
+                        
+                    .navbar-right
+                        if (user)
+                            | #{user.name} 
+                            a(href='#{adminDir}/user/logout') 注销
+                        else
+                            a(href='#{adminDir}/user/login') 登录  
+                            a(href='#{adminDir}/user/register') 注册
+        block content
+        block foot-js

@@ -15,5 +15,7 @@ router.route('/:id/del').get(content.del).post(content.del);
 router.route('/').get(content.list);
 
 module.exports = function(app) {
-    app.use('/content', router);
+    var config = app.get('config');
+    var path = (config.admin.dir ? '/' + config.admin.dir : '') + '/content';
+    app.use(path, router);
 };

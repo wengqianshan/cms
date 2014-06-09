@@ -8,14 +8,18 @@ var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var bodyParser = require('body-parser');
 var moment = require('moment');
-moment.lang('zh-cn');
+
 var util = require('./server/libs/util');
 var appPath = process.cwd();
+var config = require('./config');
+//设置moment语言
+moment.lang('zh-cn');
+
 
 var app = express();
 
 //连接数据库
-mongoose.connect('mongodb://localhost/cms');
+mongoose.connect(config.mongodb.uri);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
@@ -27,8 +31,16 @@ util.walk(appPath + '/server/models', null, function(path) {
 });
 
 // view engine setup
-app.set('views', path.join(__dirname, 'server/views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+//定义全局字段
+app.locals = {
+    title: 'CMS',
+    pretty: true,
+    moment: moment,
+    adminDir: config.admin.dir ? ('/' + config.admin.dir) : ''
+};
+app.set('config', config);
 
 app.use(favicon());
 app.use(logger('dev'));
@@ -42,8 +54,14 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
     res.header('X-Powered-By', 'wengqianshan');
-    //用来定位菜单
-    var path = req.path ? req.path.split('/')[1] : '';
+    //用来定位菜单，兼容前后台
+    var path = '';
+    var pathArr = req.path ? req.path.split('/') : [];
+    if(pathArr[1] === config.admin.dir) {
+        path = pathArr[2];
+    }else{
+        path = pathArr[1];
+    }
     res.locals.path = path;
     /*if (!req.session.user && req.path != '/user/login') {
         return res.redirect('/user/login')
@@ -51,19 +69,14 @@ app.use(function(req, res, next) {
     if(req.session.user) {
         res.locals.user = req.session.user;
     }
-    
     next();
 });
 
-//定义全局字段
-app.locals = {
-    title: 'CMS',
-    pretty: true,
-    moment: moment
-};
-
 //引入路由控制
 util.walk(appPath + '/server/routes', 'middlewares', function(path) {
+    require(path)(app);
+});
+util.walk(appPath + '/app/routes', 'middlewares', function(path) {
     require(path)(app);
 });
 
@@ -92,7 +105,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.render('server/error', {
         message: err.message,
         error: {}
     });

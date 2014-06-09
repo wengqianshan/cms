@@ -4,7 +4,7 @@ block content
     .container
         .row
             .col-md-12
-                a.btn.btn-default(href='/category/add') 添加分类
+                a.btn.btn-default(href='#{adminDir}/role/add') 添加角色
                 table.table.table-striped
                     thead
                         tr
@@ -12,13 +12,13 @@ block content
                             th 创建时间
                             th 操作
                     tbody
-                        - each category in categorys
+                        - each role in roles
                             tr
                                 td
-                                    a(href='category/#{category.id}') #{category.name}
+                                    a(href='#{adminDir}/role/#{role.id}') #{role.name}
                                 td
-                                    | #{moment(category.created).format('LLL')}
+                                    | #{moment(role.created).format('LLL')}
                                 td
-                                    a.btn.btn-default.btn-xs(href='category/#{category.id}/edit') 编辑
+                                    a.btn.btn-default.btn-xs(href='#{adminDir}/role/#{role.id}/edit') 编辑
                                     | &nbsp;
-                                    a.btn.btn-danger.btn-xs(href='category/#{category.id}/del') 删除
+                                    a.btn.btn-danger.btn-xs(href='#{adminDir}/role/#{role.id}/del') 删除

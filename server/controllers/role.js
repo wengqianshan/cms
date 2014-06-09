@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 exports.list = function(req, res) {
     Role.find({}).populate('author', 'username name email').exec(function(err, results) {
         //console.log(err, results);
-        res.render('role/list', {
+        res.render('server/role/list', {
             //title: '列表',
             roles: results
         });
@@ -17,11 +17,11 @@ exports.one = function(req, res) {
     Role.findById(id).populate('author', 'username name email').exec(function(err, result) {
         console.log(result);
         if(!result) {
-            return res.render('message', {
+            return res.render('server/message', {
                 msg: '该内容不存在'
             });
         }
-        res.render('role/item', {
+        res.render('server/role/item', {
             title: result.name,
             role: result
         });
@@ -30,7 +30,7 @@ exports.one = function(req, res) {
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
-        res.render('role/add');
+        res.render('server/role/add');
     } else if (req.method === 'POST') {
         var obj = req.body;
         obj.actions = obj.actions.split(',').map(function(action) {
@@ -42,11 +42,11 @@ exports.add = function(req, res) {
         var role = new Role(obj);
         role.save(function(err, role) {
             if (err) {
-                return res.render('message', {
+                return res.render('server/message', {
                     msg: '创建失败'
                 });
             }
-            res.render('message', {
+            res.render('server/message', {
                 msg: '创建成功'
             });
         });
@@ -59,7 +59,7 @@ exports.edit = function(req, res) {
             if(result.actions) {
                 result.actions = result.actions.join(',');    
             }
-            res.render('role/edit', {
+            res.render('server/role/edit', {
                 role: result
             });
         });
@@ -72,7 +72,7 @@ exports.edit = function(req, res) {
         Role.findByIdAndUpdate(id, obj, function(err, result) {
             //console.log(err, result);
             if(!err) {
-                res.render('message', {
+                res.render('server/message', {
                     msg: '更新成功'
                 });
             }
@@ -82,30 +82,30 @@ exports.edit = function(req, res) {
 //删除
 exports.del = function(req, res) {
     if(!req.session.user) {
-        return res.render('message', {
+        return res.render('server/message', {
             msg: '请先登录'
         });
     }
     var id = req.params.id;
     Role.findById(id, function(err, result) {
         if(!result) {
-            return res.render('message', {
+            return res.render('server/message', {
                 msg: '内容不存在'
             });
         }
         if(!result.author || result.author == req.session.user._id) {
             result.remove(function(err) {
                 if(err) {
-                    return res.render('message', {
+                    return res.render('server/message', {
                         msg: '删除失败222'
                     });
                 }
-                res.render('message', {
+                res.render('server/message', {
                     msg: '删除成功'
                 })
             });
         }else {
-            return res.render('message', {
+            return res.render('server/message', {
                 msg: '你没有权限删除别人的文章'
             });
         }

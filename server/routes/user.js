@@ -20,5 +20,8 @@ router.route('/').get(user.authenticate, user.list);
 
 
 module.exports = function(app) {
-    app.use('/user', router);
+    //app.use('/user', router);
+    var config = app.get('config');
+    var path = (config.admin.dir ? '/' + config.admin.dir : '') + '/user';
+    app.use(path, router);
 };
