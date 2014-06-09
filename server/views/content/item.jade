@@ -13,4 +13,5 @@ block content
                         if (content.author)
                             strong #{content.author.name}
                         | 发布于：#{moment(content.created).format('LL')} 
+                        | 访问量：#{content.visits}
                     .content !{content.content}

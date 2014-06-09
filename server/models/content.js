@@ -30,8 +30,22 @@ var ContentSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    visits: {
+        type: Number,
+        default: 0
+    },
     status: String
 });
+
+/*ContentSchema.pre('save', function(next) {
+    if (!this.isNew) return next();
+    if (!this.title) {
+        next(new Error('Invalid password'));
+    } else {
+        next();
+    }
+});*/
+
 ContentSchema.methods = {
 
 };

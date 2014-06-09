@@ -19,6 +19,8 @@ exports.one = function(req, res) {
     var id = req.param('id');
     Content.findById(id).populate('author', 'username name email').populate('category').exec(function(err, result) {
         console.log(result);
+        result.visits = result.visits + 1;
+        result.save();
         if(!result) {
             return res.render('message', {
                 msg: '该内容不存在'
