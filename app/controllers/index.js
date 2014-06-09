@@ -2,6 +2,22 @@
 var mongoose = require('mongoose'),
     Content = mongoose.model('Content'),
     Category = mongoose.model('Category');
+exports.index = function(req, res) {
+    //console.time('content-list');
+    var condition = {};
+    var category = req.query.category;
+    if(category) {
+        condition.category = category;
+    }
+    Content.find(condition).populate('author', 'username name email').exec(function(err, results) {
+        //console.log(err, results);
+        //console.timeEnd('content-list');
+        res.render('app/index', {
+            //title: '列表',
+            contents: results
+        });
+    })
+};
 //列表
 exports.list = function(req, res) {
     //console.time('content-list');
@@ -13,7 +29,7 @@ exports.list = function(req, res) {
     Content.find(condition).populate('author', 'username name email').exec(function(err, results) {
         //console.log(err, results);
         //console.timeEnd('content-list');
-        res.render('content/list', {
+        res.render('app/content/list', {
             //title: '列表',
             contents: results
         });

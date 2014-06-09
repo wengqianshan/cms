@@ -1,11 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var user = require('../../app/controllers/user');
+var index = require('../../app/controllers/index');
 
 //首页
-router.get('/', function(req, res) {
-    res.render('app/index', { title: 'CMS系统前台' });
-});
+router.get('/', index.index);
 
 module.exports = function(app) {
     app.use('/', router);

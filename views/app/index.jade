@@ -2,9 +2,12 @@ extends layout
 
 block content
     .container
-        .jumbotron
-            h1 CMS系统前台
-            p 加油 !
+        each content in contents
+            h2 #{content.title}
+            p
+                | #{content.author.name} 发布于 #{moment(content.created).format('LLL')}
+            .content
+                | #{content.content}
 block foot-js
     script.
         
