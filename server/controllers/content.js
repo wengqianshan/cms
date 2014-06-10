@@ -136,28 +136,4 @@ exports.del = function(req, res) {
             });
         }
     });
-    /*Content.findByIdAndRemove(id, function(err, result) {
-        console.log(err, result)
-        if(err) {
-            return res.render('server/message', {
-                msg: '删除失败'
-            });
-        }
-        res.render('server/message', {
-            msg: '删除成功'
-        })
-    })*/
-};
-exports.find = function(condition) {
-    Content.find(condition, function(err, results) {
-        console.log(results);
-        results.forEach(function(item) {
-            console.log(item.id)
-        })
-    });
-};
-exports.remove = function(id) {
-    Content.findByIdAndRemove(id, function(err, content) {
-        console.log(err, content);
-    })
 };

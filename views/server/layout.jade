@@ -30,5 +30,8 @@ html
                         else
                             a(href='#{adminDir}/user/login') 登录  
                             a(href='#{adminDir}/user/register') 注册
+        .content
+            //each role in user.roles
+                span #{role.actions.indexOf('hhhh')}
         block content
         block foot-js

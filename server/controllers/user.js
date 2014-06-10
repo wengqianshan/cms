@@ -9,29 +9,29 @@ var translateAdminDir = function(path) {
     return newPath;
 };
 //检查用户是否指定角色
-var checkRole = function(role, id, success, failure) {
+var checkRole = exports.checkRole = function(role, id, success, failure) {
     User.findById(id).populate('roles').exec(function(err, user) {
         if(err || !user) {
-            return failure && failure.call(null);
+            return failure && failure.call(null, err);
         }
         if(user.hasRole(role)) {
-            success && success.call(null, user);
+            success && success.call(null, err, user);
         }else{
-            failure && failure.call(null, user);
+            failure && failure.call(null, err, user);
         }
     });
 };
 
 //检查用户是否有指定操作权限
-var checkAction = function(action, id, success, failure) {
+var checkAction = exports.checkAction = function(action, id, success, failure) {
     User.findById(id).populate('roles').exec(function(err, user) {
         if(err || !user) {
-            return failure && failure.call(null);
+            return failure && failure.call(null, err);
         }
         if(user.hasAction(action)) {
-            success && success.call(null, user);
+            success && success.call(null, err, user);
         }else{
-            failure && failure.call(null, user);
+            failure && failure.call(null, err, user);
         }
     });
 };
@@ -186,6 +186,7 @@ exports.login = function(req, res) {
             });*/
             if (user.authenticate(password)) {
                 console.log('登录成功');
+                console.log(user);
                 req.session.user = user;
                 var path = translateAdminDir('/');
                 res.redirect(path);
@@ -215,36 +216,16 @@ exports.logout = function(req, res) {
     }
 };
 
-//更新内容：不包括virtual的数据
-exports.update = function(id, obj) {
-    User.update({
-        username: 'same'
-    }, {
-        name: '111111'
-    }, function(err, results) {
-        console.log(err, results)
-    })
-};
 //修改密码
-exports.changePassword = function(id, password) {
-    User.findById(id, function(err, user) {
-        user.password = password;
+exports.changePassword = function(req, res) {
+    var obj = req.body;
+    User.findById(obj.id, function(err, user) {
+        user.password = obj.password;
         user.save(function(err, result) {
+            res.render('server/message', {
+                msg: '修改密码成功'
+            });
             console.log('修改密码成功', result);
         })
     });
-}
-
-//删除
-exports.remove = function(id) {
-    User.findByIdAndRemove(id, function(err, user) {
-        console.log(err, user);
-    })
-};
-
-//查找
-exports.find = function(conditions, fields, options) {
-    User.find(conditions, fields, function(err, results) {
-        console.log(err, results);
-    })
 };
