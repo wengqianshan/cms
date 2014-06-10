@@ -2,9 +2,17 @@ extends layout
 
 block content
     .container
-        .jumbotron
-            h1 CMS系统
-            p 加油 !
+        .console
+            h2 管理员你好！你当前角色：
+            if(User && User.roles)
+                    each role in User.roles
+                        ul.list-group
+                            li.list-group-item 角色：
+                                span.label.label-primary #{role.name}
+                            li.list-group-item 权限：
+                                span.label.label-info #{role.actions}
+                            li.list-group-item 是否有'admin'权限：
+                                span #{role.actions.indexOf('admin') > -1}
 block foot-js
     script.
         

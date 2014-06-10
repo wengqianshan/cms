@@ -17,3 +17,7 @@ body {
 .content{
     padding: 15px;
 }
+.console{
+    padding: 10px;
+    background-color: #eee;
+}

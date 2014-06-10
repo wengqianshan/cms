@@ -33,15 +33,15 @@ html
                             //- a(href='#{adminDir}/user/register') 注册
         
         block content
-        .console
-            if(User && User.roles)
-                ul.list-group
-                    each role in User.roles
-                        li 角色：
-                            span.label.label-primary #{role.name}
-                        li 权限：
-                            span.label.label-info #{role.actions}
-                        li 是否有'publish'权限：
-                            span #{role.actions.indexOf('publish') > -1}
+        //- .console
+        //-     if(User && User.roles)
+        //-             each role in User.roles
+        //-                 ul.list-group
+        //-                     li.list-group-item 角色：
+        //-                         span.label.label-primary #{role.name}
+        //-                     li.list-group-item 权限：
+        //-                         span.label.label-info #{role.actions}
+        //-                     li.list-group-item 是否有'publish'权限：
+        //-                         span #{role.actions.indexOf('publish') > -1}
         block foot-js
         script.
