@@ -24,14 +24,22 @@ html
                         li(class=path === 'role' ? 'active' : '')
                                 a(href='#{adminDir}/role') 角色
                     .navbar-right
-                        if (user)
-                            | #{user.name} 
+                        if (User)
+                            | #{User.name} 
                             a(href='#{adminDir}/user/logout') 注销
                         else
                             a(href='#{adminDir}/user/login') 登录  
                             a(href='#{adminDir}/user/register') 注册
-        .content
-            //each role in user.roles
-                span #{role.actions.indexOf('hhhh')}
+        
         block content
+        .console
+            if(User && User.roles)
+                ul.list-group
+                    each role in User.roles
+                        li 角色：
+                            span.label.label-primary #{role.name}
+                        li 权限：
+                            span.label.label-info #{role.actions}
+                        li 是否有'publish'权限：
+                            span #{role.actions.indexOf('publish') > -1}
         block foot-js

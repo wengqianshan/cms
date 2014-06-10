@@ -115,10 +115,11 @@ exports.edit = function(req, res) {
     } else if(req.method === 'POST') {
         var id = req.params.id;
         var obj = req.body;
-        obj.role = ['5391e2bfa8d2561888dbc301', '5391e8f7a8d2561888dbc302'];
-        User.findByIdAndUpdate(id, obj, function(err, result) {
-            console.log(err, result);
+        User.findByIdAndUpdate(id, obj).populate('roles').exec(function(err, user) {
+            console.log(err, user);
             if(!err) {
+                req.session.user = user;
+                res.locals.User = user;
                 res.render('server/message', {
                     msg: '更新成功'
                 });
@@ -160,6 +161,7 @@ exports.del = function(req, res) {
         }*/
     });
 }
+
 //登录
 exports.login = function(req, res) {
     if (req.method === 'GET') {

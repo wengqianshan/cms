@@ -70,7 +70,9 @@ app.use(function(req, res, next) {
         return res.redirect('/user/login')
     }*/
     if(req.session.user) {
-        res.locals.user = req.session.user;
+        res.locals.User = req.session.user;
+    }else{
+        res.locals.User = null;
     }
     next();
 });
