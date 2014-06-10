@@ -1,7 +1,8 @@
 'use strict';
 
 var fs = require('fs'),
-    path = require('path');
+    path = require('path'),
+    config = require('../../config');
 
 // recursively walk modules path and callback for each file
 var walk = function(modulesPath, excludeDir, callback) {
@@ -17,10 +18,16 @@ var walk = function(modulesPath, excludeDir, callback) {
 };
 exports.walk = walk;
 
+//obj to params
 exports.generateParamsByObj = function(obj) {
     var arr = [];
     for(var i in obj) {
         arr.push(i + '=' + obj[i]);
     }
     return arr.join('&');
-}
+};
+//包装admin路径
+exports.translateAdminDir = function(path) {
+    var newPath = (config.admin.dir ? '/' + config.admin.dir : '') + path;
+    return newPath;
+};

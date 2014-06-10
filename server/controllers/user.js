@@ -2,12 +2,9 @@
 var mongoose = require('mongoose'),
     User = mongoose.model('User'),
     Role = mongoose.model('Role'),
-    config = require('../../config');
+    config = require('../../config'),
+    util = require('../libs/util');
 
-var translateAdminDir = function(path) {
-    var newPath = (config.admin.dir ? '/' + config.admin.dir : '') + path;
-    return newPath;
-};
 //检查用户是否指定角色
 var checkRole = exports.checkRole = function(role, id, success, failure) {
     User.findById(id).populate('roles').exec(function(err, user) {
@@ -45,7 +42,7 @@ checkAction('dev', user._id, function(u) {
 //用户登录校验
 exports.authenticate = function(req, res, next) {
     if (!req.session.user) {
-        var path = translateAdminDir('/user/login');
+        var path = util.translateAdminDir('/user/login');
         return res.redirect(path);
     } else {
         next();
@@ -190,7 +187,7 @@ exports.login = function(req, res) {
                 console.log('登录成功');
                 console.log(user);
                 req.session.user = user;
-                var path = translateAdminDir('/');
+                var path = util.translateAdminDir('/');
                 res.redirect(path);
             } else {
                 res.render('server/message', {
@@ -201,12 +198,18 @@ exports.login = function(req, res) {
     }
 
 };
+//更新用户session信息
+exports.reload = function(id, callback) {
+    User.findById(id).populate('roles').exec(function(err, user) {
+        callback && callback.call(null, err, user);
+    });
+};
 
 //注销
 exports.logout = function(req, res) {
     if (req.session) {
         req.session.destroy();
-        res.locals.user = null;
+        res.locals.User = null;
         console.log('注销成功');
         res.render('server/message', {
             msg: '注销成功'

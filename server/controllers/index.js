@@ -1,7 +1,8 @@
 'use strict';
 var mongoose = require('mongoose'),
     User = mongoose.model('User'),
-    config = require('../../config');
+    config = require('../../config'),
+    util = require('../libs/util');
 var user = require('../../server/controllers/user');
 
 exports.index = function(req, res) {
@@ -13,7 +14,10 @@ exports.index = function(req, res) {
             console.log(err);
             res.render('server/message', { msg: '你不是管理员' });
         });
-    }
+    }/*else{
+        var path = util.translateAdminDir('/user/login');
+        res.redirect(path);
+    }*/
     
     
 };
