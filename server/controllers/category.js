@@ -1,15 +1,26 @@
 'use strict';
 var mongoose = require('mongoose'),
-    Category = mongoose.model('Category');
+    Category = mongoose.model('Category'),
+    util = require('../libs/util');
 //列表
 exports.list = function(req, res) {
-    Category.find({}).populate('author', 'username name email').exec(function(err, results) {
-        //console.log(err, results);
-        res.render('server/category/list', {
-            //title: '列表',
-            categorys: results
-        });
+    Category.count(function(err, total) {
+        var query = Category.find({}).populate('author', 'username name email');
+        //分页
+        var pageInfo = util.createPage(req.query.page, total, 10, req);
+        //console.log(pageInfo);
+        query.skip(pageInfo.start);
+        query.limit(pageInfo.pageSize);
+        query.exec(function(err, results) {
+            //console.log(err, results);
+            res.render('server/category/list', {
+                //title: '列表',
+                categorys: results,
+                pageInfo: pageInfo
+            });
+        })
     })
+    
 };
 //单条
 exports.one = function(req, res) {

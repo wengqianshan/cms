@@ -21,7 +21,7 @@ block content
                                         a(href='#{adminDir}/user/#{user.id}') #{user.username}
                                     td #{user.email}
                                     td #{user.name}
-                                    td #{user.created}
+                                    td #{moment(user.created).format('LLL')}
                                     td 
                                         a.btn.btn-default.btn-xs(href='#{adminDir}/user/#{user.id}/edit') 编辑
                                         |  

@@ -1,4 +1,4 @@
-extends ../layout
+extends ../layout-blank
 
 block content
     .container
@@ -13,4 +13,6 @@ block content
                         label 密码
                         input.form-control(type='password', name='password')
                     button.btn.btn-primary(type='submit') 登录
+                    | &nbsp;&nbsp;
+                    a(href='#{adminDir}/user/register') 注册
 

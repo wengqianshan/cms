@@ -13,11 +13,11 @@ html
                     a.navbar-brand(href='/') CMS
                 .collapse.navbar-collapse
                     ul.nav.navbar-nav
-                        li(class=!path ? 'active' : '')
+                        li(class=!Path ? 'active' : '')
                                 a(href='/') 首页
-                        //- li(class=path === 'content' ? 'active' : '')
+                        //- li(class=Path === 'content' ? 'active' : '')
                         //-         a(href='/content') 内容
-                        //- li(class=path === 'category' ? 'active' : '')
+                        //- li(class=Path === 'category' ? 'active' : '')
                         //-         a(href='/category') 分类
                         
                     .navbar-right
@@ -25,7 +25,6 @@ html
                             | #{user.name} 
                             a(href='#{adminDir}/user/logout') 注销
                         else
-                            a(href='#{adminDir}/user/login') 登录  
-                            a(href='#{adminDir}/user/register') 注册
+                            a(href='#{adminDir}') 后台管理
         block content
         block foot-js

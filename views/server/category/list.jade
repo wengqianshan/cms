@@ -22,3 +22,6 @@ block content
                                     a.btn.btn-default.btn-xs(href='#{adminDir}/category/#{category.id}/edit') 编辑
                                     | &nbsp;
                                     a.btn.btn-danger.btn-xs(href='#{adminDir}/category/#{category.id}/del') 删除
+                if (pageInfo)
+                    include ../page
+                    +pagination(pageInfo)

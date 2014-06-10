@@ -13,23 +13,24 @@ html
                     a.navbar-brand(href='#{adminDir}/') 管理后台
                 .collapse.navbar-collapse
                     ul.nav.navbar-nav
-                        li(class=!path ? 'active' : '')
+                        li(class=!Path ? 'active' : '')
                                 a(href='#{adminDir}/') 首页
-                        li(class=path === 'content' ? 'active' : '')
+                        li(class=Path === 'content' ? 'active' : '')
                                 a(href='#{adminDir}/content') 内容
-                        li(class=path === 'category' ? 'active' : '')
+                        li(class=Path === 'category' ? 'active' : '')
                                 a(href='#{adminDir}/category') 分类
-                        li(class=path === 'user' ? 'active' : '')
+                        li(class=Path === 'user' ? 'active' : '')
                                 a(href='#{adminDir}/user') 用户
-                        li(class=path === 'role' ? 'active' : '')
+                        li(class=Path === 'role' ? 'active' : '')
                                 a(href='#{adminDir}/role') 角色
                     .navbar-right
                         if (User)
-                            | #{User.name} 
+                            a(href='#{adminDir}/me') #{User.name}
+                            | 
                             a(href='#{adminDir}/user/logout') 注销
                         else
-                            a(href='#{adminDir}/user/login') 登录  
-                            a(href='#{adminDir}/user/register') 注册
+                            //- a(href='#{adminDir}/user/login') 登录  
+                            //- a(href='#{adminDir}/user/register') 注册
         
         block content
         .console
@@ -43,3 +44,4 @@ html
                         li 是否有'publish'权限：
                             span #{role.actions.indexOf('publish') > -1}
         block foot-js
+        script.

@@ -18,6 +18,14 @@ exports.index = function(req, res) {
         var path = util.translateAdminDir('/user/login');
         res.redirect(path);
     }*/
-    
-    
 };
+
+exports.me = function(req, res) {
+    var id = req.session.user._id;
+    User.findById(id).populate('roles').exec(function(err, user) {
+        res.render('server/me', {
+            title: '我的资料',
+            user: user
+        });
+    }); 
+}

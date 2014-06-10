@@ -1,0 +1,57 @@
+extends layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                .panel.panel-default
+                    .panel-heading
+                        | 管理员资料信息
+                    ul.list-group
+                        li.list-group-item
+                            .row
+                                .col-md-2
+                                    strong 用户ID
+                                .col-md-10
+                                    | #{user.id}
+                        li.list-group-item
+                            .row
+                                .col-md-2
+                                    strong 名字
+                                .col-md-10
+                                    | #{user.name}
+                        li.list-group-item
+                            .row
+                                .col-md-2
+                                    strong 用户名
+                                .col-md-10
+                                    | #{user.username}
+                        li.list-group-item
+                            .row
+                                .col-md-2
+                                    strong 角色
+                                .col-md-10
+                                    | #{util.getUserRoles(user.roles)}
+                        li.list-group-item
+                            .row
+                                .col-md-2
+                                    strong 权限
+                                .col-md-10
+                                    | #{util.getUserActions(user.roles)}
+                        li.list-group-item
+                            .row
+                                .col-md-2
+                                    strong Salt
+                                .col-md-10
+                                    | #{user.salt}
+                        li.list-group-item
+                            .row
+                                .col-md-2
+                                    strong Hashed_password
+                                .col-md-10
+                                    | #{user.hashed_password}
+
+                    
+
+                    
+

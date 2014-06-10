@@ -58,14 +58,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
     res.header('X-Powered-By', 'wengqianshan');
     //用来定位菜单，兼容前后台
-    var path = '';
+    var Path = '';
     var pathArr = req.path ? req.path.split('/') : [];
     if(pathArr[1] === config.admin.dir) {
-        path = pathArr[2];
+        Path = pathArr[2];
+        //统一管理后台入口
+        if(!req.session.user && req.path.indexOf('login') < 0 && req.path.indexOf('register') < 0) {
+            var path = util.translateAdminDir('/user/login');
+            return res.redirect(path);
+        }
     }else{
-        path = pathArr[1];
+        Path = pathArr[1];
     }
-    res.locals.path = path;
+    res.locals.Path = Path;
     /*if (!req.session.user && req.path != '/user/login') {
         return res.redirect('/user/login')
     }*/

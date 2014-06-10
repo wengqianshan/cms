@@ -115,8 +115,11 @@ exports.edit = function(req, res) {
         User.findByIdAndUpdate(id, obj).populate('roles').exec(function(err, user) {
             console.log(err, user);
             if(!err) {
-                req.session.user = user;
-                res.locals.User = user;
+                console.log(id, req.session.user._id);
+                if(id === req.session.user._id) {
+                    req.session.user = user;
+                    res.locals.User = user;
+                }
                 res.render('server/message', {
                     msg: '更新成功'
                 });
@@ -199,8 +202,8 @@ exports.login = function(req, res) {
 
 };
 //更新用户session信息
-exports.reload = function(id, callback) {
-    User.findById(id).populate('roles').exec(function(err, user) {
+exports.reload = function(uid, callback) {
+    User.findById(uid).populate('roles').exec(function(err, user) {
         callback && callback.call(null, err, user);
     });
 };

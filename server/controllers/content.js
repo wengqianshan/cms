@@ -18,10 +18,8 @@ exports.list = function(req, res) {
         //分页
         var pageInfo = util.createPage(req.query.page, total, 10, req);
         //console.log(pageInfo);
-        if(pageInfo.start && pageInfo.pageSize) {
-            query.skip(pageInfo.start);
-            query.limit(pageInfo.pageSize);
-        }
+        query.skip(pageInfo.start);
+        query.limit(pageInfo.pageSize);
         query.exec(function(err, results) {
             //console.log(err, results);
             res.render('server/content/list', {
@@ -38,13 +36,13 @@ exports.one = function(req, res) {
     var id = req.param('id');
     Content.findById(id).populate('author', 'username name email').populate('category').exec(function(err, result) {
         console.log(result);
-        result.visits = result.visits + 1;
-        result.save();
         if(!result) {
             return res.render('server/message', {
                 msg: '该内容不存在'
             });
         }
+        result.visits = result.visits + 1;
+        result.save();
         res.render('server/content/item', {
             title: result.title,
             content: result
@@ -112,7 +110,7 @@ exports.del = function(req, res) {
         });
     }
     var id = req.params.id;
-    Content.findById(id, function(err, result) {
+    Content.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/message', {
                 msg: '内容不存在'
@@ -123,7 +121,7 @@ exports.del = function(req, res) {
             result.remove(function(err) {
                 if(err) {
                     return res.render('server/message', {
-                        msg: '删除失败222'
+                        msg: '删除失败'
                     });
                 }
                 res.render('server/message', {

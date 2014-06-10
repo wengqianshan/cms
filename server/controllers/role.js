@@ -1,6 +1,7 @@
 'use strict';
 var mongoose = require('mongoose'),
-    Role = mongoose.model('Role');
+    Role = mongoose.model('Role'),
+    userController = require('./user');
 //列表
 exports.list = function(req, res) {
     Role.find({}).populate('author', 'username name email').exec(function(err, results) {
@@ -72,9 +73,16 @@ exports.edit = function(req, res) {
         Role.findByIdAndUpdate(id, obj, function(err, result) {
             //console.log(err, result);
             if(!err) {
-                res.render('server/message', {
-                    msg: '更新成功'
-                });
+                //重置session信息
+                userController.reload(req.session.user._id, function(err, user) {
+                    req.session.user = user;
+                    res.locals.User = user;
+                    if(!err) {
+                        res.render('server/message', {
+                            msg: '更新成功'
+                        });
+                    }
+                })
             }
         })
     }
@@ -100,6 +108,7 @@ exports.del = function(req, res) {
                         msg: '删除失败222'
                     });
                 }
+                //TODO:reload userinfo
                 res.render('server/message', {
                     msg: '删除成功'
                 })

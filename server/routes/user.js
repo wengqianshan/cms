@@ -16,7 +16,7 @@ router.route('/:id/edit').get(user.edit).post(user.edit);
 //删除用户
 router.route('/:id/del').get(user.del).post(user.del);
 //用户列表
-router.route('/').get(user.authenticate, user.list);
+router.route('/').get(user.list);
 
 
 module.exports = function(app) {

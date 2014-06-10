@@ -46,3 +46,18 @@ exports.createPage = function(page, total, pageSize, req) {
         query: req ? req.query : null
     };
 };
+
+exports.getUserActions = function(roles) {
+    var result = [];
+    roles.forEach(function(role) {
+        result = result.concat(role.actions);
+    });
+    return result;
+};
+exports.getUserRoles = function(roles) {
+    var result = [];
+    roles.forEach(function(role) {
+        result.push(role.name);
+    });
+    return result;
+};
