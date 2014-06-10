@@ -50,6 +50,12 @@ block content
                                     strong Hashed_password
                                 .col-md-10
                                     | #{user.hashed_password}
+                        li.list-group-item
+                            .row
+                                .col-md-2
+                                    strong 注册日期
+                                .col-md-10
+                                    | #{moment(user.created).format('LLL')}
 
                     
 
