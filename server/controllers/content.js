@@ -1,7 +1,9 @@
 'use strict';
 var mongoose = require('mongoose'),
     Content = mongoose.model('Content'),
-    Category = mongoose.model('Category');
+    Category = mongoose.model('Category'),
+    _ = require('underscore'),
+    util = require('../libs/util');
 
 //列表
 exports.list = function(req, res) {
@@ -12,40 +14,20 @@ exports.list = function(req, res) {
     }
     //查数据总数
     Content.count(condition, function(err, total) {
+        var query = Content.find(condition).populate('author', 'username name email');
         //分页
-        var pageSize = 10;
-        var page = req.query.page|0;//强制转化整型
-        var totalPage = Math.ceil(total/pageSize);//获取总页数
-        var currentPage = page < 1 ? 1 : page > totalPage ? totalPage : page;//获取当前页数
-        var start = pageSize * (currentPage - 1);//计算开始位置
-
-        //通用方法: 当前页, 总条数, 每页条数
-        /*var parsePage = function(page, total, pageSize) {
-            var pageSize = pageSize || 10;
-            var page = page|0;//强制转化整型
-            var totalPage = Math.ceil(total/pageSize);//获取总页数
-            var currentPage = page < 1 ? 1 : page > totalPage ? totalPage : page;//获取当前页数
-            var start = pageSize * (currentPage - 1);//计算开始位置
-            return {
-                start: start,
-                pageSize: pageSize,
-                totalPage: totalPage,
-                currentPage: currentPage
-            };
-        };
-        var pageInfo = parsePage(req.query.page, total, 10);
-        console.log(pageInfo);*/
-
-        Content.find(condition).populate('author', 'username name email').skip(start).limit(pageSize).exec(function(err, results) {
+        var pageInfo = util.createPage(req.query.page, total, 10, req);
+        //console.log(pageInfo);
+        if(pageInfo.start && pageInfo.pageSize) {
+            query.skip(pageInfo.start);
+            query.limit(pageInfo.pageSize);
+        }
+        query.exec(function(err, results) {
             //console.log(err, results);
             res.render('server/content/list', {
                 title: '内容列表',
                 contents: results,
-                pageInfo: {
-                    currentPage: currentPage,
-                    totalPage: totalPage,
-                    query: req.query
-                }
+                pageInfo: pageInfo
             });
         });
     });
