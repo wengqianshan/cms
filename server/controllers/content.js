@@ -18,6 +18,24 @@ exports.list = function(req, res) {
         var totalPage = Math.ceil(total/pageSize);//获取总页数
         var currentPage = page < 1 ? 1 : page > totalPage ? totalPage : page;//获取当前页数
         var start = pageSize * (currentPage - 1);//计算开始位置
+
+        //通用方法: 当前页, 总条数, 每页条数
+        /*var parsePage = function(page, total, pageSize) {
+            var pageSize = pageSize || 10;
+            var page = page|0;//强制转化整型
+            var totalPage = Math.ceil(total/pageSize);//获取总页数
+            var currentPage = page < 1 ? 1 : page > totalPage ? totalPage : page;//获取当前页数
+            var start = pageSize * (currentPage - 1);//计算开始位置
+            return {
+                start: start,
+                pageSize: pageSize,
+                totalPage: totalPage,
+                currentPage: currentPage
+            };
+        };
+        var pageInfo = parsePage(req.query.page, total, 10);
+        console.log(pageInfo);*/
+
         Content.find(condition).populate('author', 'username name email').skip(start).limit(pageSize).exec(function(err, results) {
             //console.log(err, results);
             res.render('server/content/list', {
