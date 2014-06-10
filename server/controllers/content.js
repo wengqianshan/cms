@@ -62,9 +62,13 @@ exports.add = function(req, res) {
         if (req.session.user) {
             obj.author = req.session.user._id;
         }
+        if(obj.category === '') {
+            obj.category = null;
+        }
         var content = new Content(obj);
         content.save(function(err, content) {
             if (err) {
+                console.log(err);
                 return res.render('server/message', {
                     msg: '创建失败'
                 });

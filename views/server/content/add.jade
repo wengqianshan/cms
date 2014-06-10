@@ -11,6 +11,7 @@ block content
                     .form-group
                         label 分类
                         select.form-control(name='category')
+                            option(value='') 请选择
                             - each category in categorys
                                 option(value='#{category.id}')
                                     | #{category.name}
