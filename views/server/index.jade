@@ -3,7 +3,7 @@ extends layout
 block content
     .container
         .console
-            h2 管理员你好！你当前角色：
+            h2 你好！你当前角色：
             if(User && User.roles)
                     each role in User.roles
                         ul.list-group
