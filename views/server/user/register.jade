@@ -1,4 +1,4 @@
-extends ../layout
+extends ../layout-blank
 
 block content
     .container
@@ -19,4 +19,6 @@ block content
                         label Email
                         input.form-control(name='email')
                     button.btn.btn-primary(type='submit') 提交
+                    | 
+                    a(href='#{adminDir}/user/login') 登录
 
