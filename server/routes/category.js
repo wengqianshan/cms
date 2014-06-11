@@ -20,13 +20,13 @@ router.use(function(req, res, next) {
     next();
 });
 //添加内容
-router.route('/add').get(category.add).post(category.add);
+router.route('/add').all(category.add);
 //单条信息
 router.route('/:id').get(category.one);
 //更新信息
-router.route('/:id/edit').get(category.edit).post(category.edit);
+router.route('/:id/edit').all(category.edit);
 //删除信息
-router.route('/:id/del').get(category.del).post(category.del);
+router.route('/:id/del').all(category.del);
 //内容列表
 router.route('/').get(category.list);
 

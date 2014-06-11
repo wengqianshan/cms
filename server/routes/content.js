@@ -19,14 +19,15 @@ router.use(function(req, res, next) {
     }
     next();
 });
+
 //添加内容
-router.route('/add').get(content.add).post(content.add);
+router.route('/add').all(content.add);
 //单条信息
 router.route('/:id').get(content.one);
 //更新信息
-router.route('/:id/edit').get(content.edit).post(content.edit);
+router.route('/:id/edit').all(content.edit);
 //删除信息
-router.route('/:id/del').get(content.del).post(content.del);
+router.route('/:id/del').all(content.del);
 //内容列表
 router.route('/').get(content.list);
 
