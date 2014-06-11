@@ -96,6 +96,9 @@ exports.edit = function(req, res) {
     } else if(req.method === 'POST') {
         var id = req.param('id');
         var obj = req.body;
+        if(obj.category === '') {
+            obj.category = null;
+        }
         Content.findByIdAndUpdate(id, obj, function(err, result) {
             console.log(err, result);
             if(!err) {
