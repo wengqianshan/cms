@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
 var userController = require('../../server/controllers/user');
 
 //后台首页
-exports.index = function(req, res, next) {
+exports.index = function(req, res) {
     if(req.session.user) {
         res.render('server/index', { title: 'CMS系统' });
         var roles = userController.getRoles(req.session.user);

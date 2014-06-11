@@ -2,19 +2,37 @@ var express = require('express');
 var router = express.Router();
 
 var user = require('../../server/controllers/user');
+var util = require('../libs/util');
+
 
 //登录
-router.route('/login').get(user.login).post(user.login);
+router.route('/login').all(user.login);
 //注册
-router.route('/register').get(user.register).post(user.register);
+router.route('/register').all(user.register);
 //注销
-router.route('/logout').get(user.logout);
+router.route('/logout').all(user.logout);
+
+//权限判断
+router.use(function(req, res, next) {
+    if(!req.session.user) {
+        var path = util.translateAdminDir('/user/login');
+        return res.redirect(path);
+    }
+    var roles = user.getRoles(req.session.user);
+    var actions = user.getActions(req.session.user);
+    if(roles.indexOf('admin') < 0 && actions.indexOf('user') < 0) {
+        var path = util.translateAdminDir('/');
+        return res.redirect(path);
+    }
+    next();
+});
+
 //单个用户
 router.route('/:id').get(user.one);
 //编辑用户信息
-router.route('/:id/edit').get(user.edit).post(user.edit);
+router.route('/:id/edit').all(user.edit);
 //删除用户
-router.route('/:id/del').get(user.del).post(user.del);
+router.route('/:id/del').all(user.del);
 //用户列表
 router.route('/').get(user.list);
 

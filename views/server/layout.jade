@@ -15,14 +15,20 @@ html
                     ul.nav.navbar-nav
                         li(class=!Path ? 'active' : '')
                                 a(href='#{adminDir}/') 首页
-                        li(class=Path === 'content' ? 'active' : '')
-                                a(href='#{adminDir}/content') 内容
-                        li(class=Path === 'category' ? 'active' : '')
-                                a(href='#{adminDir}/category') 分类
-                        li(class=Path === 'user' ? 'active' : '')
-                                a(href='#{adminDir}/user') 用户
-                        li(class=Path === 'role' ? 'active' : '')
-                                a(href='#{adminDir}/role') 角色
+                        - var _roles = util.getRoles(User);
+                        - var _actions = util.getActions(User);
+                        if (User && (_roles.indexOf('admin') > -1 || _actions.indexOf('content') > -1))
+                            li(class=Path === 'content' ? 'active' : '')
+                                    a(href='#{adminDir}/content') 内容
+                        if (User && (_roles.indexOf('admin') > -1 || _actions.indexOf('category') > -1))
+                            li(class=Path === 'category' ? 'active' : '')
+                                    a(href='#{adminDir}/category') 分类
+                        if (User && (_roles.indexOf('admin') > -1 || _actions.indexOf('user') > -1))
+                            li(class=Path === 'user' ? 'active' : '')
+                                    a(href='#{adminDir}/user') 用户
+                        if (User && (_roles.indexOf('admin') > -1 || _actions.indexOf('role') > -1))
+                            li(class=Path === 'role' ? 'active' : '')
+                                    a(href='#{adminDir}/role') 角色
                     .navbar-right
                         if (User)
                             a(href='#{adminDir}/me') #{User.name}

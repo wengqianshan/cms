@@ -47,3 +47,24 @@ exports.createPage = function(page, total, pageSize, req) {
         query: req ? req.query : null
     };
 };
+
+//获取用户的所有角色,去重
+exports.getRoles = function(user) {
+    var result = [];
+    if(user && user.roles) {
+        user.roles.forEach(function(role) {
+            result.push(role.name);
+        });
+    }
+    return result;
+};
+//获取用户的所有权限,去重
+exports.getActions = function(user) {
+    var result = [];
+    if(user && user.roles) {
+        user.roles.forEach(function(role) {
+            result = result.concat(role.actions);
+        });
+    }
+    return _.uniq(result);
+};

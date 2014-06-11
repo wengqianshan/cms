@@ -1,8 +1,24 @@
 var express = require('express');
 var router = express.Router();
 
+var util = require('../libs/util');
 var category = require('../../server/controllers/category');
+var user = require('../../server/controllers/user');
 
+//权限判断
+router.use(function(req, res, next) {
+    if(!req.session.user) {
+        var path = util.translateAdminDir('/user/login');
+        return res.redirect(path);
+    }
+    var roles = user.getRoles(req.session.user);
+    var actions = user.getActions(req.session.user);
+    if(roles.indexOf('admin') < 0 && actions.indexOf('category') < 0) {
+        var path = util.translateAdminDir('/');
+        return res.redirect(path);
+    }
+    next();
+});
 //添加内容
 router.route('/add').get(category.add).post(category.add);
 //单条信息

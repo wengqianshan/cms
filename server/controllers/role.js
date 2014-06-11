@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 //列表
 exports.list = function(req, res) {
     Role.find({}).populate('author', 'username name email').exec(function(err, results) {
-        //console.log(err, results);
+        console.log(err, results);
         res.render('server/role/list', {
             //title: '列表',
             roles: results

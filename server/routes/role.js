@@ -1,16 +1,31 @@
 var express = require('express');
 var router = express.Router();
-
+var util = require('../libs/util');
 var role = require('../../server/controllers/role');
+var user = require('../../server/controllers/user');
 
+//权限判断
+router.use(function(req, res, next) {
+    if(!req.session.user) {
+        var path = util.translateAdminDir('/user/login');
+        return res.redirect(path);
+    }
+    var roles = user.getRoles(req.session.user);
+    var actions = user.getActions(req.session.user);
+    if(roles.indexOf('admin') < 0 && actions.indexOf('role') < 0) {
+        var path = util.translateAdminDir('/');
+        return res.redirect(path);
+    }
+    next();
+});
 //添加内容
-router.route('/add').get(role.add).post(role.add);
+router.route('/add').all(role.add);
 //单条信息
 router.route('/:id').get(role.one);
 //更新信息
-router.route('/:id/edit').get(role.edit).post(role.edit);
+router.route('/:id/edit').all(role.edit);
 //删除信息
-router.route('/:id/del').get(role.del).post(role.del);
+router.route('/:id/del').all(role.del);
 //内容列表
 router.route('/').get(role.list);
 
