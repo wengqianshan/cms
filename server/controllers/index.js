@@ -15,10 +15,7 @@ exports.index = function(req, res) {
             console.log(err);
             res.render('server/message', { msg: '你不是管理员' });
         });*/
-    }/*else{
-        var path = util.translateAdminDir('/user/login');
-        res.redirect(path);
-    }*/
+    }
 };
 
 exports.me = function(req, res) {
@@ -29,4 +26,33 @@ exports.me = function(req, res) {
             user: user
         });
     }); 
-}
+};
+
+//初始化后台
+exports.install = function(req, res) {
+    if(req.session.user) {
+        var path = util.translateAdminDir('/');
+        return res.redirect(path);
+    }
+    //检查是否已经有用户
+    User.find({}, function(err, results) {
+        console.log(err, results);
+        if(err) {
+            return;
+        }
+        if(results.length < 1) {
+            //满足条件
+            if(req.method === 'GET') {
+                res.render('server/install', {
+                    title: '初始化'
+                });
+            } else if(req.method === 'POST') {
+                console.log(req.body);
+            }
+        }else{
+            //
+            var path = util.translateAdminDir('/');
+            res.redirect(path);
+        }
+    })
+};

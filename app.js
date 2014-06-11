@@ -63,7 +63,7 @@ app.use(function(req, res, next) {
     if(pathArr[1] === config.admin.dir) {
         Path = pathArr[2];
         //统一管理后台入口
-        if(!req.session.user && req.path.indexOf('login') < 0 && req.path.indexOf('register') < 0) {
+        if(!req.session.user && req.path.indexOf('login') < 0 && req.path.indexOf('register') < 0 && req.path.indexOf('install') < 0) {
             var path = util.translateAdminDir('/user/login');
             return res.redirect(path);
         }

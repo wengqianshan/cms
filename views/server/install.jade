@@ -1,0 +1,22 @@
+extends layout-blank
+
+block content
+    .container
+        .row
+            .register
+                form(action='', method='post')
+                    h2 后台初始化
+                    .form-group
+                        label 用户名
+                        input.form-control(name='username')
+                    .form-group
+                        label 密码
+                        input.form-control(type='password', name='password')
+                    .form-group
+                        label 姓名
+                        input.form-control(name='name')
+                    .form-group
+                        label Email
+                        input.form-control(name='email')
+                    button.btn.btn-primary(type='submit') 提交
+
