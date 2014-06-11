@@ -1,6 +1,7 @@
 'use strict';
 var mongoose = require('mongoose'),
     User = mongoose.model('User'),
+    Role = mongoose.model('Role'),
     config = require('../../config'),
     util = require('../libs/util');
 var user = require('../../server/controllers/user');
@@ -47,6 +48,33 @@ exports.install = function(req, res) {
                     title: '初始化'
                 });
             } else if(req.method === 'POST') {
+                var createUser = function(obj) {
+                    var user = new User(obj);
+                    user.save(function() {
+                        res.render('server/message', {
+                            msg: '初始化完成'
+                        });
+                    });
+                };
+                var obj = req.body;
+                //检查是否有角色，没有的话创建
+                Role.find({name: 'admin'}, function(err, roles) {
+                    console.log('查找role', err, roles)
+                    if(roles.length < 1) {
+                        console.log('没有角色 admin');
+                        var role = new Role({
+                            name: 'admin',
+                            actions: ['admin']
+                        });
+                        role.save(function(err, result) {
+                            console.log('role result', result);
+                            obj.roles = [role._id];
+                            createUser(obj);
+                        });
+                    }else{
+                        createUser(obj);
+                    }
+                })
                 console.log(req.body);
             }
         }else{
