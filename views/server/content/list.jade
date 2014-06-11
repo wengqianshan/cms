@@ -27,6 +27,6 @@ block content
                                     | &nbsp;
                                     a.btn.btn-danger.btn-xs(href='#{adminDir}/content/#{content.id}/del') 删除
                 
-                if (pageInfo)
+                if (pageInfo && pageInfo.totalPage > 1)
                     include ../page
                     +pagination(pageInfo)

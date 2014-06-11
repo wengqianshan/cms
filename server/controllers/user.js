@@ -73,11 +73,26 @@ exports.authenticate = function(req, res, next) {
 };
 //用户列表
 exports.list = function(req, res) {
-    User.find({}).populate('roles').exec(function(err, results) {
+    User.count(function(err, total) {
+        var query = User.find({}).populate('roles');
+        //分页
+        var pageInfo = util.createPage(req.query.page, total, 10, req);
+        query.skip(pageInfo.start);
+        query.limit(pageInfo.pageSize);
+        query.exec(function(err, results) {
+            //console.log(err, results);
+            res.render('server/user/list', {
+                title: '内容列表',
+                users: results,
+                pageInfo: pageInfo
+            });
+        });
+    })
+    /*User.find({}).populate('roles').exec(function(err, results) {
         res.render('server/user/list', {
             users: results
         });
-    })
+    })*/
 }
 //单个用户
 exports.one = function(req, res) {
@@ -96,6 +111,7 @@ exports.register = function(req, res) {
     } else if (method === 'POST') {
         var obj = req.body;
         console.log(obj);
+        //TODO: 默认角色
         var user = new User(obj);
         user.save(function(err, result) {
             console.log(result);

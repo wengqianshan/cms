@@ -1,16 +1,30 @@
 'use strict';
 var mongoose = require('mongoose'),
     Role = mongoose.model('Role'),
-    userController = require('./user');
+    userController = require('./user'),
+    util = require('../libs/util');
 //列表
 exports.list = function(req, res) {
-    Role.find({}).populate('author', 'username name email').exec(function(err, results) {
+    Role.count(function(err, total) {
+        var query = Role.find({}).populate('author', 'username name email');
+        //分页
+        var pageInfo = util.createPage(req.query.page, total, 10, req);
+        query.skip(pageInfo.start);
+        query.limit(pageInfo.pageSize);
+        query.exec(function(err, results) {
+            res.render('server/role/list', {
+                roles: results,
+                pageInfo: pageInfo
+            });
+        });
+    })
+    /*Role.find({}).populate('author', 'username name email').exec(function(err, results) {
         console.log(err, results);
         res.render('server/role/list', {
             //title: '列表',
             roles: results
         });
-    })
+    })*/
 };
 //单条
 exports.one = function(req, res) {
