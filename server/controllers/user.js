@@ -3,10 +3,33 @@ var mongoose = require('mongoose'),
     User = mongoose.model('User'),
     Role = mongoose.model('Role'),
     config = require('../../config'),
-    util = require('../libs/util');
+    util = require('../libs/util'),
+    _ = require('underscore');
 
+
+//获取用户的所有角色,去重
+var getRoles = exports.getRoles = function(user) {
+    var result = [];
+    if(user.roles) {
+        user.roles.forEach(function(role) {
+            result.push(role.name);
+        });
+    }
+    return result;
+};
+//获取用户的所有权限,去重
+var getActions = exports.getActions = function(user) {
+    var result = [];
+    if(user.roles) {
+        user.roles.forEach(function(role) {
+            result = result.concat(role.actions);
+        });
+    }
+    return _.uniq(result);
+};
 //检查用户是否指定角色
 var checkRole = exports.checkRole = function(role, id, success, failure) {
+    //
     User.findById(id).populate('roles').exec(function(err, user) {
         if(err || !user) {
             return failure && failure.call(null, err);
@@ -50,7 +73,7 @@ exports.authenticate = function(req, res, next) {
 };
 //用户列表
 exports.list = function(req, res) {
-    User.find(function(err, results) {
+    User.find({}).populate('roles').exec(function(err, results) {
         res.render('server/user/list', {
             users: results
         });

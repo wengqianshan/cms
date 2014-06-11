@@ -31,13 +31,13 @@ block content
                                 .col-md-2
                                     strong 角色
                                 .col-md-10
-                                    | #{util.getUserRoles(user.roles)}
+                                    | #{user._roles}
                         li.list-group-item
                             .row
                                 .col-md-2
                                     strong 权限
                                 .col-md-10
-                                    | #{util.getUserActions(user.roles)}
+                                    | #{user._actions}
                         li.list-group-item
                             .row
                                 .col-md-2

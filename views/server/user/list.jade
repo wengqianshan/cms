@@ -10,8 +10,8 @@ block content
                         thead
                             tr
                                 th 用户名 
-                                th Email
-                                th Name
+                                th 姓名
+                                th 角色
                                 th 创建日期
                                 th 操作
                         tbody
@@ -19,8 +19,13 @@ block content
                                 tr
                                     td 
                                         a(href='#{adminDir}/user/#{user.id}') #{user.username}
-                                    td #{user.email}
                                     td #{user.name}
+                                    td
+                                        if (user.roles)
+                                        - each role in user.roles
+                                            span.label.label-info
+                                                | #{role.name}
+                                            | 
                                     td #{moment(user.created).format('LLL')}
                                     td 
                                         a.btn.btn-default.btn-xs(href='#{adminDir}/user/#{user.id}/edit') 编辑

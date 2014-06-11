@@ -4,24 +4,22 @@ var mongoose = require('mongoose'),
     Role = mongoose.model('Role'),
     config = require('../../config'),
     util = require('../libs/util');
-var user = require('../../server/controllers/user');
+var userController = require('../../server/controllers/user');
 
-exports.index = function(req, res) {
+//后台首页
+exports.index = function(req, res, next) {
     if(req.session.user) {
         res.render('server/index', { title: 'CMS系统' });
-        /*user.checkRole('admin', req.session.user._id, function(err, user) {
-            console.log('校验通过', user);
-            res.render('server/index', { title: 'CMS系统' });
-        }, function(err) {
-            console.log(err);
-            res.render('server/message', { msg: '你不是管理员' });
-        });*/
+        var roles = userController.getRoles(req.session.user);
+        var actions = userController.getActions(req.session.user);
     }
 };
-
+//管理员资料
 exports.me = function(req, res) {
     var id = req.session.user._id;
     User.findById(id).populate('roles').exec(function(err, user) {
+        user._roles = userController.getRoles(req.session.user);;
+        user._actions = userController.getActions(req.session.user);
         res.render('server/me', {
             title: '我的资料',
             user: user
@@ -29,7 +27,7 @@ exports.me = function(req, res) {
     }); 
 };
 
-//初始化后台
+//初始化后台,安装初始数据
 exports.install = function(req, res) {
     if(req.session.user) {
         var path = util.translateAdminDir('/');
@@ -80,10 +78,9 @@ exports.install = function(req, res) {
                         createUser(obj);
                     }
                 })
-                console.log(req.body);
             }
         }else{
-            //
+            //已经初始化过，跳过
             var path = util.translateAdminDir('/');
             res.redirect(path);
         }

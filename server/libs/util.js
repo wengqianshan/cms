@@ -2,7 +2,8 @@
 
 var fs = require('fs'),
     path = require('path'),
-    config = require('../../config');
+    config = require('../../config'),
+    _ = require('underscore');
 
 // recursively walk modules path and callback for each file
 var walk = function(modulesPath, excludeDir, callback) {
@@ -45,19 +46,4 @@ exports.createPage = function(page, total, pageSize, req) {
         currentPage: currentPage,
         query: req ? req.query : null
     };
-};
-
-exports.getUserActions = function(roles) {
-    var result = [];
-    roles.forEach(function(role) {
-        result = result.concat(role.actions);
-    });
-    return result;
-};
-exports.getUserRoles = function(roles) {
-    var result = [];
-    roles.forEach(function(role) {
-        result.push(role.name);
-    });
-    return result;
 };
