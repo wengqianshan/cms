@@ -71,6 +71,11 @@ exports.install = function(req, res) {
                             obj.roles = [role._id];
                             createUser(obj);
                         });
+                        //创建普通角色
+                        new Role({
+                            name: 'public',
+                            actions: ['read']
+                        }).save();
                     }else{
                         createUser(obj);
                     }

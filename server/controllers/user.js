@@ -214,9 +214,11 @@ exports.logout = function(req, res) {
         req.session.destroy();
         res.locals.User = null;
         console.log('注销成功');
-        res.render('server/message', {
+        /*res.render('server/message', {
             msg: '注销成功'
-        });
+        });*/
+        var path = util.translateAdminDir('/');
+        res.redirect(path);
     } else {
         res.render('server/message', {
             msg: '注销失败'
