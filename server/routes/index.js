@@ -1,16 +1,27 @@
 var express = require('express');
 var router = express.Router();
 var index = require('../../server/controllers/index');
+var util = require('../libs/util');
 
 //首页
+router.use(function(req, res, next) {
+    res.locals.Path = '';
+    next();
+});
 router.route('/install').all(index.install);
 router.use(index.checkInstall);
+router.use(function(req, res, next) {
+    if(!req.session.user && req.path.indexOf('login') < 0 && req.path.indexOf('register') < 0) {
+        var path = util.translateAdminDir('/user/login');
+        return res.redirect(path);
+    }
+    next();
+});
 router.get('/', index.index);
 router.get('/me', index.me);
 
 
 module.exports = function(app) {
-    //app.use('/', router);
     var config = app.get('config');
     var path = (config.admin.dir ? '/' + config.admin.dir : '') + '/';
     app.use(path, router);

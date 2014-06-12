@@ -30,7 +30,8 @@ block content
                                     td 
                                         a.btn.btn-default.btn-xs(href='#{adminDir}/user/#{user.id}/edit') 编辑
                                         |  
-                                        a.btn.btn-danger.btn-xs(href='#{adminDir}/user/#{user.id}/del') 删除
+                                        if (util.getRoles(user).indexOf(__config.admin.role.admin) === -1)
+                                            a.btn.btn-danger.btn-xs(href='#{adminDir}/user/#{user.id}/del') 删除
                     if (pageInfo && pageInfo.totalPage > 1)
                         include ../page
                         +pagination(pageInfo)

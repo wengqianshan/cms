@@ -7,6 +7,7 @@ var user = require('../../server/controllers/user');
 
 //权限判断
 router.use(function(req, res, next) {
+    res.locals.Path = 'content';
     if(!req.session.user) {
         var path = util.translateAdminDir('/user/login');
         return res.redirect(path);

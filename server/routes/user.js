@@ -5,6 +5,10 @@ var user = require('../../server/controllers/user');
 var util = require('../libs/util');
 
 
+router.use(function(req, res, next) {
+    res.locals.Path = 'user';
+    next();
+});
 //登录
 router.route('/login').all(user.login);
 //注册
@@ -38,7 +42,6 @@ router.route('/').get(user.list);
 
 
 module.exports = function(app) {
-    //app.use('/user', router);
     var config = app.get('config');
     var path = (config.admin.dir ? '/' + config.admin.dir : '') + '/user';
     app.use(path, router);

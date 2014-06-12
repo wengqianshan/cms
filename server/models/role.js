@@ -20,7 +20,10 @@ var RoleSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    status: String
+    status: {
+        type: Number,
+        default: 0
+    }
 });
 RoleSchema.methods = {
 

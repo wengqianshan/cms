@@ -6,6 +6,7 @@ var user = require('../../server/controllers/user');
 
 //权限判断
 router.use(function(req, res, next) {
+    res.locals.Path = 'role';
     if(!req.session.user) {
         var path = util.translateAdminDir('/user/login');
         return res.redirect(path);
@@ -30,7 +31,6 @@ router.route('/:id/del').all(role.del);
 router.route('/').get(role.list);
 
 module.exports = function(app) {
-    //app.use('/role', router);
     var config = app.get('config');
     var path = (config.admin.dir ? '/' + config.admin.dir : '') + '/role';
     app.use(path, router);

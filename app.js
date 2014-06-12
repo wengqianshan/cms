@@ -36,11 +36,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 //定义全局字段
 app.locals = {
-    title: 'CMS',
+    __title: 'CMS',
     pretty: true,
     moment: moment,
     _: underscore,
     util: util,
+    __config: config,
     adminDir: config.admin.dir ? ('/' + config.admin.dir) : ''
 };
 app.set('config', config);
@@ -57,23 +58,7 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
     res.header('X-Powered-By', 'wengqianshan');
-    //用来定位菜单，兼容前后台
-    var Path = '';
-    var pathArr = req.path ? req.path.split('/') : [];
-    if(pathArr[1] === config.admin.dir) {
-        Path = pathArr[2];
-        //统一管理后台入口
-        if(!req.session.user && req.path.indexOf('login') < 0 && req.path.indexOf('register') < 0 && req.path.indexOf('install') < 0) {
-            var path = util.translateAdminDir('/user/login');
-            return res.redirect(path);
-        }
-    }else{
-        Path = pathArr[1];
-    }
-    res.locals.Path = Path;
-    /*if (!req.session.user && req.path != '/user/login') {
-        return res.redirect('/user/login')
-    }*/
+
     if(req.session.user) {
         res.locals.User = req.session.user;
     }else{
