@@ -6,12 +6,13 @@ var mongoose = require('mongoose'),
 //列表
 exports.list = function(req, res) {
     Role.count(function(err, total) {
-        var query = Role.find({}).populate('author', 'username name email');
+        var query = Role.find({});
         //分页
         var pageInfo = util.createPage(req.query.page, total, 10, req);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.exec(function(err, results) {
+            console.log(results)
             res.render('server/role/list', {
                 roles: results,
                 pageInfo: pageInfo
@@ -51,9 +52,6 @@ exports.add = function(req, res) {
         obj.actions = obj.actions.split(',').map(function(action) {
             return action.trim();
         });
-        if (req.session.user) {
-            obj.author = req.session.user._id;
-        }
         var role = new Role(obj);
         role.save(function(err, role) {
             if (err) {

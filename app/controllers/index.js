@@ -15,6 +15,7 @@ exports.index = function(req, res) {
         //console.timeEnd('content-list');
         res.render('app/index', {
             //title: '列表',
+            title: '网站首页',
             contents: results
         });
     })

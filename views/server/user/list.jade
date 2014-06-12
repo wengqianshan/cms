@@ -22,10 +22,10 @@ block content
                                     td #{user.name}
                                     td
                                         if (user.roles)
-                                        - each role in user.roles
-                                            span.label.label-info
-                                                | #{role.name}
-                                            | 
+                                            - each role in user.roles
+                                                span.label.label-info
+                                                    | #{role.name}
+                                                | 
                                     td #{moment(user.created).format('LLL')}
                                     td 
                                         a.btn.btn-default.btn-xs(href='#{adminDir}/user/#{user.id}/edit') 编辑

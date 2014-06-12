@@ -111,18 +111,27 @@ exports.register = function(req, res) {
     } else if (method === 'POST') {
         var obj = req.body;
         console.log(obj);
-        //TODO: 默认角色
-        var user = new User(obj);
-        user.save(function(err, result) {
-            console.log(result);
-            if (err) {
-                console.log(err);
+        //默认角色
+        Role.findOne({name: config.admin.role.user}, function(err, role) {
+            console.log('role', role);
+            if(err || !role) {
                 return res.render('server/message', {
-                    msg: '注册失败'
+                    msg: '注册失败, 未开放角色:' + config.admin.role.user
                 });
             }
-            res.render('server/message', {
-                msg: '注册成功'
+            obj.roles = [role._id];
+            var user = new User(obj);
+            user.save(function(err, result) {
+                console.log(result);
+                if (err) {
+                    console.log(err);
+                    return res.render('server/message', {
+                        msg: '注册失败'
+                    });
+                }
+                res.render('server/message', {
+                    msg: '注册成功'
+                });
             });
         });
     }

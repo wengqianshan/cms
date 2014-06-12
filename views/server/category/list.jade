@@ -9,6 +9,7 @@ block content
                     thead
                         tr
                             th 名称
+                            th 标记
                             th 创建时间
                             th 操作
                     tbody
@@ -16,6 +17,8 @@ block content
                             tr
                                 td
                                     a(href='#{adminDir}/category/#{category.id}') #{category.name}
+                                td
+                                    | #{category.flag}
                                 td
                                     | #{moment(category.created).format('LLL')}
                                 td

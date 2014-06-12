@@ -4,7 +4,11 @@ var config = {
         options: {}
     },
     admin: {
-        dir: 'admin'
+        dir: 'admin',
+        role: {
+            admin: 'admin',
+            user: 'user'
+        }
     }
 };
 

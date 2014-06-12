@@ -26,7 +26,18 @@ exports.me = function(req, res) {
         });
     }); 
 };
-
+exports.checkInstall = function(req, res, next) {
+    User.find({}, function(err, results) {
+        if(err) {
+            return;
+        }
+        if(results.length < 1) {
+            var path = util.translateAdminDir('/install');
+            return res.redirect(path);
+        }
+        next();
+    })
+}
 //初始化后台,安装初始数据
 exports.install = function(req, res) {
     if(req.session.user) {
@@ -56,13 +67,13 @@ exports.install = function(req, res) {
                 };
                 var obj = req.body;
                 //检查是否有角色，没有的话创建
-                Role.find({name: 'admin'}, function(err, roles) {
+                Role.find({name: config.admin.role.admin}, function(err, roles) {
                     console.log('查找role', err, roles)
                     if(roles.length < 1) {
-                        console.log('没有角色 admin');
+                        console.log('没有角色 ' + config.admin.role.admin);
                         var role = new Role({
-                            name: 'admin',
-                            actions: ['admin']
+                            name: config.admin.role.admin,
+                            actions: []
                         });
                         role.save(function(err, result) {
                             console.log('role result', result);
@@ -71,8 +82,8 @@ exports.install = function(req, res) {
                         });
                         //创建普通角色
                         new Role({
-                            name: 'public',
-                            actions: ['read']
+                            name: config.admin.role.user,
+                            actions: []
                         }).save();
                     }else{
                         obj.roles = [roles[0]._id];

@@ -9,6 +9,9 @@ block content
                         label 名称
                         input.form-control(name='name', value='#{category.name}')
                     .form-group
+                        label 标记(别名)
+                        input.form-control(name='flag', value='#{category.flag}')
+                    .form-group
                         label 描述
                         textarea.form-control(name='description', rows='8') #{category.description}
                     button.btn.btn-primary(type='submit') 提交
