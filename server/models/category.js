@@ -14,6 +14,10 @@ var CategorySchema = new Schema({
         type: String,
         required: true
     },
+    flag: {
+        type: String,
+        unique: true
+    }
     description: String,
     created: {
         type: Date,

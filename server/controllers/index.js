@@ -75,6 +75,7 @@ exports.install = function(req, res) {
                             actions: ['read']
                         }).save();
                     }else{
+                        obj.roles = [roles[0]._id];
                         createUser(obj);
                     }
                 })
