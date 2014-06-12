@@ -13,6 +13,8 @@ router.use(function(req, res, next) {
 router.route('/login').all(user.login);
 //注册
 router.route('/register').all(user.register);
+//添加
+router.route('/add').all(user.add);
 //注销
 router.route('/logout').all(user.logout);
 

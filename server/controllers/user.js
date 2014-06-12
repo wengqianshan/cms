@@ -136,6 +136,39 @@ exports.register = function(req, res) {
         });
     }
 };
+//添加
+exports.add = function(req, res) {
+    var method = req.method;
+    if (method === 'GET') {
+        res.render('server/user/add', {});
+    } else if (method === 'POST') {
+        var obj = req.body;
+        console.log(obj);
+        //默认角色
+        Role.findOne({name: config.admin.role.user}, function(err, role) {
+            console.log('role', role);
+            if(err || !role) {
+                return res.render('server/message', {
+                    msg: '添加失败, 未开放角色:' + config.admin.role.user
+                });
+            }
+            obj.roles = [role._id];
+            var user = new User(obj);
+            user.save(function(err, result) {
+                console.log(result);
+                if (err) {
+                    console.log(err);
+                    return res.render('server/message', {
+                        msg: '添加失败'
+                    });
+                }
+                res.render('server/message', {
+                    msg: '添加成功'
+                });
+            });
+        });
+    }
+};
 
 //编辑
 exports.edit = function(req, res) {
