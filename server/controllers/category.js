@@ -4,8 +4,12 @@ var mongoose = require('mongoose'),
     util = require('../libs/util');
 //列表
 exports.list = function(req, res) {
-    Category.count(function(err, total) {
-        var query = Category.find({});
+    var condition = {};
+    if(req.Roles && req.Roles.indexOf('admin') < 0) {
+        condition.author = req.session.user._id;
+    }
+    Category.count(condition, function(err, total) {
+        var query = Category.find(condition);
         //分页
         var pageInfo = util.createPage(req.query.page, total, 10, req);
         //console.log(pageInfo);
@@ -44,6 +48,9 @@ exports.add = function(req, res) {
         res.render('server/category/add');
     } else if (req.method === 'POST') {
         var obj = req.body;
+        if (req.session.user) {
+            obj.author = req.session.user._id;
+        }
         var category = new Category(obj);
         category.save(function(err, category) {
             if (err) {

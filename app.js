@@ -58,11 +58,17 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
     res.header('X-Powered-By', 'wengqianshan');
-
     if(req.session.user) {
         res.locals.User = req.session.user;
+        //角色信息
+        var roles = util.getRoles(req.session.user);
+        var actions = util.getActions(req.session.user);
+        req.Roles = roles;
+        req.Actions = actions;
     }else{
         res.locals.User = null;
+        req.Roles = [];
+        req.Actions = [];
     }
     next();
 });

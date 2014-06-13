@@ -4,22 +4,19 @@ var mongoose = require('mongoose'),
     Role = mongoose.model('Role'),
     config = require('../../config'),
     util = require('../libs/util');
-var userController = require('../../server/controllers/user');
 
 //后台首页
 exports.index = function(req, res) {
     if(req.session.user) {
         res.render('server/index', { title: 'CMS系统' });
-        var roles = userController.getRoles(req.session.user);
-        var actions = userController.getActions(req.session.user);
     }
 };
 //管理员资料
 exports.me = function(req, res) {
     var id = req.session.user._id;
     User.findById(id).populate('roles').exec(function(err, user) {
-        user._roles = userController.getRoles(req.session.user);;
-        user._actions = userController.getActions(req.session.user);
+        user._roles = req.Roles;
+        user._actions = req.Actions;
         res.render('server/me', {
             title: '我的资料',
             user: user

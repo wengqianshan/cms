@@ -12,6 +12,9 @@ exports.list = function(req, res) {
     if(category) {
         condition.category = category;
     }
+    if(req.Roles && req.Roles.indexOf('admin') < 0) {
+        condition.author = req.session.user._id;
+    }
     //查数据总数
     Content.count(condition, function(err, total) {
         var query = Content.find(condition).populate('author', 'username name email');

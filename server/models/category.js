@@ -18,6 +18,10 @@ var CategorySchema = new Schema({
         type: String,
         unique: true
     },
+    author: {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
     description: String,
     created: {
         type: Date,

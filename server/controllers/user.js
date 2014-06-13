@@ -8,7 +8,7 @@ var mongoose = require('mongoose'),
 
 
 //获取用户的所有角色,去重
-var getRoles = exports.getRoles = function(user) {
+/*var getRoles = exports.getRoles = function(user) {
     var result = [];
     if(user.roles) {
         user.roles.forEach(function(role) {
@@ -16,9 +16,9 @@ var getRoles = exports.getRoles = function(user) {
         });
     }
     return result;
-};
+};*/
 //获取用户的所有权限,去重
-var getActions = exports.getActions = function(user) {
+/*var getActions = exports.getActions = function(user) {
     var result = [];
     if(user.roles) {
         user.roles.forEach(function(role) {
@@ -26,7 +26,7 @@ var getActions = exports.getActions = function(user) {
         });
     }
     return _.uniq(result);
-};
+};*/
 //检查用户是否指定角色
 var checkRole = exports.checkRole = function(role, id, success, failure) {
     //

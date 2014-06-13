@@ -13,8 +13,7 @@ router.use(function(req, res, next) {
 router.route('/login').all(user.login);
 //注册
 router.route('/register').all(user.register);
-//添加
-router.route('/add').all(user.add);
+
 //注销
 router.route('/logout').all(user.logout);
 
@@ -24,15 +23,14 @@ router.use(function(req, res, next) {
         var path = util.translateAdminDir('/user/login');
         return res.redirect(path);
     }
-    var roles = user.getRoles(req.session.user);
-    var actions = user.getActions(req.session.user);
-    if(roles.indexOf('admin') < 0 && actions.indexOf('user') < 0) {
+    if(req.Roles && req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('user') < 0) {
         var path = util.translateAdminDir('/');
         return res.redirect(path);
     }
     next();
 });
-
+//添加
+router.route('/add').all(user.add);
 //单个用户
 router.route('/:id').get(user.one);
 //编辑用户信息
