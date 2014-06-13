@@ -23,8 +23,9 @@ exports.list = function(req, res) {
         var pageInfo = util.createPage(req.query.page, total, 10, req);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
+        query.sort({created: -1});
         query.exec(function(err, results) {
-            console.log(err, results);
+            //console.log(err, results);
             res.render('server/user/list', {
                 title: '内容列表',
                 users: results,
@@ -155,7 +156,6 @@ exports.edit = function(req, res) {
                     if(newRoles.indexOf(config.admin.role.admin) > -1) {
                         //还是管理员
                         _.extend(user, obj);
-                        console.log('小角色', user);
                         editHandler(user);
                     }else{
                         //不是了, 看看还有管理员吗
@@ -190,8 +190,7 @@ exports.edit = function(req, res) {
                 editHandler(user);
             }
         });
-        return;
-        User.findByIdAndUpdate(id, obj).populate('roles').exec(function(err, user) {
+        /*User.findByIdAndUpdate(id, obj).populate('roles').exec(function(err, user) {
             console.log(err, user);
             if(!err) {
                 console.log(id, req.session.user._id);
@@ -203,7 +202,7 @@ exports.edit = function(req, res) {
                     msg: '更新成功'
                 });
             }
-        })
+        })*/
     }
 };
 

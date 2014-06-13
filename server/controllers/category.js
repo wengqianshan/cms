@@ -15,6 +15,7 @@ exports.list = function(req, res) {
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
+        query.sort({created: -1});
         query.exec(function(err, results) {
             //console.log(err, results);
             res.render('server/category/list', {

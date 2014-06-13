@@ -11,6 +11,7 @@ exports.list = function(req, res) {
         var pageInfo = util.createPage(req.query.page, total, 10, req);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
+        query.sort({created: -1});
         query.exec(function(err, results) {
             console.log(results)
             res.render('server/role/list', {
