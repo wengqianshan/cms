@@ -30,7 +30,10 @@ var CommentSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Comment'
     }],
-    status: String
+    status: {
+        type: Number,
+        default: 0
+    }
 });
 
 /*CommentSchema.pre('save', function(next) {

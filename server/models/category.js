@@ -27,7 +27,10 @@ var CategorySchema = new Schema({
         type: Date,
         default: Date.now
     },
-    status: String
+    status: {
+        type: Number,
+        default: 0
+    }
 });
 CategorySchema.methods = {
 

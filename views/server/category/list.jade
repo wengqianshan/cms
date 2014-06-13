@@ -10,6 +10,7 @@ block content
                         tr
                             th 名称
                             th 标记
+                            th 创建者
                             th 创建时间
                             th 操作
                     tbody
@@ -19,6 +20,9 @@ block content
                                     a(href='#{adminDir}/category/#{category.id}') #{category.name}
                                 td
                                     | #{category.flag}
+                                td
+                                    if (category.author)
+                                        | #{category.author.name}
                                 td
                                     | #{moment(category.created).format('LLL')}
                                 td

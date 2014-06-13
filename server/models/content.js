@@ -38,7 +38,10 @@ var ContentSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Comment'
     }],
-    status: String
+    status: {
+        type: Number,
+        default: 0
+    }
 });
 
 /*ContentSchema.pre('save', function(next) {

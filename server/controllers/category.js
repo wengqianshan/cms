@@ -9,7 +9,7 @@ exports.list = function(req, res) {
         condition.author = req.session.user._id;
     }
     Category.count(condition, function(err, total) {
-        var query = Category.find(condition);
+        var query = Category.find(condition).populate('author');
         //分页
         var pageInfo = util.createPage(req.query.page, total, 10, req);
         //console.log(pageInfo);

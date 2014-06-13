@@ -6,62 +6,6 @@ var mongoose = require('mongoose'),
     util = require('../libs/util'),
     _ = require('underscore');
 
-
-//获取用户的所有角色,去重
-/*var getRoles = exports.getRoles = function(user) {
-    var result = [];
-    if(user.roles) {
-        user.roles.forEach(function(role) {
-            result.push(role.name);
-        });
-    }
-    return result;
-};*/
-//获取用户的所有权限,去重
-/*var getActions = exports.getActions = function(user) {
-    var result = [];
-    if(user.roles) {
-        user.roles.forEach(function(role) {
-            result = result.concat(role.actions);
-        });
-    }
-    return _.uniq(result);
-};*/
-//检查用户是否指定角色
-var checkRole = exports.checkRole = function(role, id, success, failure) {
-    //
-    User.findById(id).populate('roles').exec(function(err, user) {
-        if(err || !user) {
-            return failure && failure.call(null, err);
-        }
-        if(user.hasRole(role)) {
-            success && success.call(null, err, user);
-        }else{
-            failure && failure.call(null, err, user);
-        }
-    });
-};
-
-//检查用户是否有指定操作权限
-var checkAction = exports.checkAction = function(action, id, success, failure) {
-    User.findById(id).populate('roles').exec(function(err, user) {
-        if(err || !user) {
-            return failure && failure.call(null, err);
-        }
-        if(user.hasAction(action)) {
-            success && success.call(null, err, user);
-        }else{
-            failure && failure.call(null, err, user);
-        }
-    });
-};
-/*
-用法：
-checkAction('dev', user._id, function(u) {
-    console.log('鉴定成功', u);
-}, function(u) {
-    console.log('鉴定失败', u)
-});*/
 //用户登录校验
 exports.authenticate = function(req, res, next) {
     if (!req.session.user) {
@@ -80,7 +24,7 @@ exports.list = function(req, res) {
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.exec(function(err, results) {
-            //console.log(err, results);
+            console.log(err, results);
             res.render('server/user/list', {
                 title: '内容列表',
                 users: results,
@@ -88,11 +32,6 @@ exports.list = function(req, res) {
             });
         });
     })
-    /*User.find({}).populate('roles').exec(function(err, results) {
-        res.render('server/user/list', {
-            users: results
-        });
-    })*/
 }
 //单个用户
 exports.one = function(req, res) {
@@ -102,7 +41,7 @@ exports.one = function(req, res) {
             user: result
         });
     });
-}
+};
 //注册
 exports.register = function(req, res) {
     var method = req.method;
@@ -172,8 +111,19 @@ exports.add = function(req, res) {
 
 //编辑
 exports.edit = function(req, res) {
+    var id = req.params.id;
+    var editHandler = function(user) {
+        user.save(function(err, user) {
+            if(id === req.session.user._id) {
+                req.session.user = user;
+                res.locals.User = user;
+            }
+            res.render('server/message', {
+                msg: '更新成功'
+            });
+        })
+    };
     if(req.method === 'GET') {
-        var id = req.params.id;
         User.findById(id, function(err, result) {
             try{
                 Role.find(function(err, results) {
@@ -191,8 +141,56 @@ exports.edit = function(req, res) {
             }
         })
     } else if(req.method === 'POST') {
-        var id = req.params.id;
         var obj = req.body;
+        //判断是否允许编辑
+        User.findById(id).populate('roles').exec(function(err, user) {
+            var roles = util.getRoles(user);
+            //啊 这个人是管你员
+            if(roles.indexOf(config.admin.role.admin) > -1) {
+                //啊 这个人是管你员 我得好好研究研究
+                //console.log('管理员', user);
+                Role.find({_id: {$in: obj.roles}}).exec(function(err, roles) {
+                    var newRoles = _.pluck(roles, 'name');
+                    console.log(newRoles);
+                    if(newRoles.indexOf(config.admin.role.admin) > -1) {
+                        //还是管理员
+                        _.extend(user, obj);
+                        console.log('小角色', user);
+                        editHandler(user);
+                    }else{
+                        //不是了, 看看还有管理员吗
+                        User.find({}).populate('roles').exec(function(err, results) {
+                            var len = 0;
+                            //统计当前管理员人数
+                            results.forEach(function(user) {
+                                if(user.roles && user.roles.length > 0) {
+                                    user.roles.forEach(function(role) {
+                                        if(role.name === config.admin.role.admin) {
+                                            len ++;
+                                        }
+                                    })
+                                }
+                            });
+                            if (len > 1) {
+                                _.extend(user, obj);
+                                console.log('还有管理员');
+                                editHandler(user);
+                            }else {
+                                res.render('server/message', {
+                                    msg: '至少要有一个管理员'
+                                });
+                            }
+                        });
+                    }
+                });
+            }else{
+                //屁民一个，爱咋地咋地
+                _.extend(user, obj);
+                console.log('小角色', user);
+                editHandler(user);
+            }
+        });
+        return;
         User.findByIdAndUpdate(id, obj).populate('roles').exec(function(err, user) {
             console.log(err, user);
             if(!err) {
@@ -211,35 +209,52 @@ exports.edit = function(req, res) {
 
 //删除
 exports.del = function(req, res) {
-    /*if(!req.session.user) {
-        return res.render('server/message', {
-            msg: '请先登录'
+    var deleteHandle = function(user) {
+        user.remove(function(err) {
+            if(err) {
+                return res.render('server/message', {
+                    msg: '删除失败222'
+                });
+            }
+            res.render('server/message', {
+                msg: '删除成功'
+            })
         });
-    }*/
+    };
     var id = req.params.id;
-    User.findById(id, function(err, result) {
+    User.findById(id).populate('roles').exec(function(err, result) {
         if(!result) {
             return res.render('server/message', {
                 msg: '用户不存在'
             });
         }
-        //TODO:判断权限
-        //if(result._id == req.session.user._id) {
-            result.remove(function(err) {
-                if(err) {
-                    return res.render('server/message', {
-                        msg: '删除失败222'
+        //看看删除的是不是管理员
+        var roles = util.getRoles(result);
+        if(roles.indexOf(config.admin.role.admin) > -1) {
+            console.log('这个是管理员');
+            User.find({}).populate('roles').exec(function(err, results) {
+                var len = 0;
+                //统计当前管理员人数
+                results.forEach(function(user) {
+                    if(user.roles && user.roles.length > 0) {
+                        user.roles.forEach(function(role) {
+                            if(role.name === config.admin.role.admin) {
+                                len ++;
+                            }
+                        })
+                    }
+                });
+                if (len > 1) {
+                    deleteHandle(result);
+                }else {
+                    res.render('server/message', {
+                        msg: '不能删除最后一个管理员'
                     });
                 }
-                res.render('server/message', {
-                    msg: '删除成功'
-                })
             });
-        /*}else {
-            return res.render('server/message', {
-                msg: '你没有权限删除这篇文章'
-            });
-        }*/
+        }else{
+            deleteHandle(result);
+        }
     });
 }
 
