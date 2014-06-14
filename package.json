@@ -17,6 +17,7 @@
     "mongoose": "^3.8.12",
     "morgan": "~1.0.0",
     "static-favicon": "~1.0.0",
-    "underscore": "^1.6.0"
+    "underscore": "^1.6.0",
+    "blueimp-file-upload-expressjs": "^0.2.9"
   }
 }
