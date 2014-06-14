@@ -19,7 +19,8 @@ block foot-js
                 done: function (e, data) {
                     $.each(data.result.files, function (index, file) {
                         console.log(file)
-                        $('<p/>').text(file.name).appendTo(document.body);
+                        //$('<p/>').text(file.name).appendTo(document.body);
+                        $('<img src="' + file.url + '"/>').appendTo(document.body);
                     });
                 }
             });
