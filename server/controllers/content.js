@@ -56,7 +56,11 @@ exports.one = function(req, res) {
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
-        Category.find(function(err, results) {
+        var condition = {};
+        if(req.Roles && req.Roles.indexOf('admin') < 0) {
+            condition.author = req.session.user._id;
+        }
+        Category.find(condition, function(err, results) {
             res.render('server/content/add', {
                 categorys: results
             });
@@ -90,7 +94,11 @@ exports.edit = function(req, res) {
             if(err) {
                 console.log('加载内容失败');
             }
-            Category.find(function(err, categorys) {
+            var condition = {};
+            if(req.Roles && req.Roles.indexOf('admin') < 0) {
+                condition.author = req.session.user._id;
+            }
+            Category.find(condition, function(err, categorys) {
                 res.render('server/content/edit', {
                     content: result,
                     categorys: categorys
