@@ -1,7 +1,8 @@
 'use strict';
 var mongoose = require('mongoose'),
     Content = mongoose.model('Content'),
-    Category = mongoose.model('Category');
+    Category = mongoose.model('Category'),
+    config = require('../../config');
 exports.index = function(req, res) {
     console.log('前台')
     //console.time('content-list');
@@ -20,11 +21,17 @@ exports.index = function(req, res) {
         });
     })
 };
+
+// init the uploader  https://github.com/arvindr21/blueimp-file-upload-expressjs
+var uploader = require('blueimp-file-upload-expressjs')(config.upload);
+
 exports.upload = function(req, res) {
     if(req.method === 'GET') {
         res.render('app/upload');
     } else if(req.method === 'POST') {
-        
+        uploader.post(req, res, function (obj) {
+            res.send(JSON.stringify(obj)); 
+        });
     }
 };
 //列表
