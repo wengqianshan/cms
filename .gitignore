@@ -3,3 +3,6 @@ node_modules/
 
 #特殊文件
 .DS_Store
+
+#上传目录
+public/uploaded/
