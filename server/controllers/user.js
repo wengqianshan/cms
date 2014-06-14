@@ -149,12 +149,22 @@ exports.edit = function(req, res) {
             //啊 这个人是管你员
             if(roles.indexOf(config.admin.role.admin) > -1) {
                 //啊 这个人是管你员 我得好好研究研究
-                //console.log('管理员', user);
-                Role.find({_id: {$in: obj.roles}}).exec(function(err, roles) {
+                var query;
+                if(typeof obj.roles === 'string') {
+                    query = Role.find({_id: obj.roles});
+                } else if(typeof obj.roles === 'object') {
+                    query = Role.find({_id: {$in: obj.roles}})    
+                }
+                if(!query) {
+                    return;
+                }
+                query.exec(function(err, roles) {
+                    //console.log('现有roles', roles);
                     var newRoles = _.pluck(roles, 'name');
-                    console.log(newRoles);
+                    //console.log(newRoles);
                     if(newRoles.indexOf(config.admin.role.admin) > -1) {
                         //还是管理员
+                        obj.roles = roles;//传递给editHandler 以更新session
                         _.extend(user, obj);
                         editHandler(user);
                     }else{
@@ -172,6 +182,7 @@ exports.edit = function(req, res) {
                                 }
                             });
                             if (len > 1) {
+                                obj.roles = roles;//传递给editHandler 以更新session
                                 _.extend(user, obj);
                                 console.log('还有管理员');
                                 editHandler(user);

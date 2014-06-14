@@ -20,6 +20,13 @@ exports.index = function(req, res) {
         });
     })
 };
+exports.upload = function(req, res) {
+    if(req.method === 'GET') {
+        res.render('app/upload');
+    } else if(req.method === 'POST') {
+        
+    }
+};
 //列表
 exports.list = function(req, res) {
     //console.time('content-list');
