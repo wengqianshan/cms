@@ -10,11 +10,11 @@ html
         .navbar.navbar-inverse.navbar-fixed-top
             .container
                 .navbar-header
-                    a.navbar-brand(href='#{adminDir}/') 管理后台
+                    a.navbar-brand(href='#{adminDir}/index') 管理后台
                 .collapse.navbar-collapse
                     ul.nav.navbar-nav
-                        li(class=!Path ? 'active' : '')
-                                a(href='#{adminDir}/') 首页
+                        li(class=Path === 'index' ? 'active' : '')
+                                a(href='#{adminDir}/index') 首页
                         - var _roles = util.getRoles(User);
                         - var _actions = util.getActions(User);
                         if (User && (_roles.indexOf('admin') > -1 || _actions.indexOf('content') > -1))
@@ -31,7 +31,7 @@ html
                                     a(href='#{adminDir}/role') 角色
                     .navbar-right
                         if (User)
-                            a(href='#{adminDir}/me') #{User.name}
+                            a(href='#{adminDir}/index/me') #{User.name}
                             | 
                             a(href='#{adminDir}/user/logout') 注销
                         else

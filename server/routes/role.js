@@ -12,7 +12,7 @@ router.use(function(req, res, next) {
         return res.redirect(path);
     }
     if(req.Roles && req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('role') < 0) {
-        var path = util.translateAdminDir('/');
+        var path = util.translateAdminDir('/index');
         return res.redirect(path);
     }
     next();
@@ -29,7 +29,6 @@ router.route('/:id/del').all(role.del);
 router.route('/').get(role.list);
 
 module.exports = function(app) {
-    var config = app.get('config');
-    var path = (config.admin.dir ? '/' + config.admin.dir : '') + '/role';
+    var path = util.translateAdminDir('/role');
     app.use(path, router);
 };

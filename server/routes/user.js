@@ -24,7 +24,7 @@ router.use(function(req, res, next) {
         return res.redirect(path);
     }
     if(req.Roles && req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('user') < 0) {
-        var path = util.translateAdminDir('/');
+        var path = util.translateAdminDir('/index');
         return res.redirect(path);
     }
     next();
@@ -42,7 +42,6 @@ router.route('/').get(user.list);
 
 
 module.exports = function(app) {
-    var config = app.get('config');
-    var path = (config.admin.dir ? '/' + config.admin.dir : '') + '/user';
+    var path = util.translateAdminDir('/user');
     app.use(path, router);
 };

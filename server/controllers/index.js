@@ -41,7 +41,7 @@ exports.checkInstall = function(req, res, next) {
 //初始化后台,安装初始数据
 exports.install = function(req, res) {
     if(req.session.user) {
-        var path = util.translateAdminDir('/');
+        var path = util.translateAdminDir('/index');
         return res.redirect(path);
     }
     //检查是否已经有用户
@@ -96,7 +96,7 @@ exports.install = function(req, res) {
             }
         }else{
             //已经初始化过，跳过
-            var path = util.translateAdminDir('/');
+            var path = util.translateAdminDir('/index');
             res.redirect(path);
         }
     })

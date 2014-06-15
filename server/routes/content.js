@@ -12,7 +12,7 @@ router.use(function(req, res, next) {
         return res.redirect(path);
     }
     if(req.Roles && req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('content') < 0) {
-        var path = util.translateAdminDir('/');
+        var path = util.translateAdminDir('/index');
         return res.redirect(path);
     }
     next();
@@ -30,7 +30,6 @@ router.route('/:id/del').all(content.del);
 router.route('/').get(content.list);
 
 module.exports = function(app) {
-    var config = app.get('config');
-    var path = (config.admin.dir ? '/' + config.admin.dir : '') + '/content';
+    var path = util.translateAdminDir('/content');
     app.use(path, router);
 };

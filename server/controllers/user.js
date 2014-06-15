@@ -296,7 +296,7 @@ exports.login = function(req, res) {
                 console.log('登录成功');
                 console.log(user);
                 req.session.user = user;
-                var path = util.translateAdminDir('/');
+                var path = util.translateAdminDir('/index');
                 res.redirect(path);
             } else {
                 res.render('server/message', {
@@ -323,7 +323,7 @@ exports.logout = function(req, res) {
         /*res.render('server/message', {
             msg: '注销成功'
         });*/
-        var path = util.translateAdminDir('/');
+        var path = util.translateAdminDir('/index');
         res.redirect(path);
     } else {
         res.render('server/message', {
