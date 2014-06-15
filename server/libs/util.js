@@ -29,7 +29,7 @@ exports.generateParamsByObj = function(obj) {
 };
 //包装admin路径
 exports.translateAdminDir = function(path) {
-    var newPath = (config.admin.dir ? '/' + config.admin.dir : '') + path;
+    var newPath = (config.admin.dir ? '/' + config.admin.dir : '') + (path || '');
     return newPath;
 };
 //分页  params: 当前页, 总条数, 每页条数

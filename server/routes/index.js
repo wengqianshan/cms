@@ -7,14 +7,14 @@ var index = require('../../server/controllers/index');
 router.use(function(req, res, next) {
     console.log('首页: ' + Date.now());
     res.locals.Path = 'index';
-    if(!req.session.user) {
+    /*if(!req.session.user) {
         var path = util.translateAdminDir('/user/login');
         return res.redirect(path);
-    }
+    }*/
     next();
 });
 router.route('/install').all(index.install);
-router.use(index.checkInstall);
+//router.use(index.checkInstall);
 router.get('/', index.index);
 router.get('/me', index.me);
 
@@ -22,4 +22,5 @@ router.get('/me', index.me);
 module.exports = function(app) {
     var path = util.translateAdminDir('/index');
     app.use(path, router);
+    app.use(index.checkInstall);
 };

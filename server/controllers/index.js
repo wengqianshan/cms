@@ -31,8 +31,11 @@ exports.checkInstall = function(req, res, next) {
         if(err) {
             return;
         }
-        if(results.length < 1) {
-            var path = util.translateAdminDir('/install');
+        if(results.length > 0) {
+            var path = util.translateAdminDir('/user/login');
+            return res.redirect(path);
+        } else {
+            var path = util.translateAdminDir('/index/install');
             return res.redirect(path);
         }
         next();
