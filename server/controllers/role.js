@@ -13,20 +13,13 @@ exports.list = function(req, res) {
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});
         query.exec(function(err, results) {
-            console.log(results)
+            //console.log(results)
             res.render('server/role/list', {
                 roles: results,
                 pageInfo: pageInfo
             });
         });
     })
-    /*Role.find({}).populate('author', 'username name email').exec(function(err, results) {
-        console.log(err, results);
-        res.render('server/role/list', {
-            //title: '列表',
-            roles: results
-        });
-    })*/
 };
 //单条
 exports.one = function(req, res) {

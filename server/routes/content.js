@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-
 var util = require('../libs/util');
 var content = require('../../server/controllers/content');
 
 //权限判断
 router.use(function(req, res, next) {
+    console.log('内容页: ' + Date.now());
     res.locals.Path = 'content';
     if(!req.session.user) {
         var path = util.translateAdminDir('/user/login');

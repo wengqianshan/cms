@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-
-var user = require('../../server/controllers/user');
 var util = require('../libs/util');
+var user = require('../../server/controllers/user');
 
-
+//权限判断
 router.use(function(req, res, next) {
+    console.log('用户页: ' + Date.now());
     res.locals.Path = 'user';
     next();
 });

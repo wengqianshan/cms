@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var index = require('../../server/controllers/index');
 var util = require('../libs/util');
+var index = require('../../server/controllers/index');
 
 //首页
 router.use(function(req, res, next) {
+    console.log('首页: ' + Date.now());
     res.locals.Path = '';
     next();
 });

@@ -2,10 +2,10 @@ var express = require('express');
 var router = express.Router();
 var util = require('../libs/util');
 var role = require('../../server/controllers/role');
-var user = require('../../server/controllers/user');
 
 //权限判断
 router.use(function(req, res, next) {
+    console.log('角色页: ' + Date.now());
     res.locals.Path = 'role';
     if(!req.session.user) {
         var path = util.translateAdminDir('/user/login');
