@@ -67,8 +67,8 @@ app.use(function(req, res, next) {
         req.Actions = actions;
     }else{
         res.locals.User = null;
-        req.Roles = [];
-        req.Actions = [];
+        req.Roles = null;
+        req.Actions = null;
     }
     next();
 });

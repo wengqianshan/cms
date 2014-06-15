@@ -145,20 +145,20 @@ exports.edit = function(req, res) {
         var obj = req.body;
         //判断是否允许编辑
         User.findById(id).populate('roles').exec(function(err, user) {
-            var roles = util.getRoles(user);
+            //var roles = util.getRoles(user);
+            var oldRoles = util.getRoles(user);
             //啊 这个人是管你员
-            if(roles.indexOf(config.admin.role.admin) > -1) {
-                //啊 这个人是管你员 我得好好研究研究
-                var query;
-                if(typeof obj.roles === 'string') {
-                    query = Role.find({_id: obj.roles});
-                } else if(typeof obj.roles === 'object') {
-                    query = Role.find({_id: {$in: obj.roles}})    
-                }
-                if(!query) {
-                    return;
-                }
-                query.exec(function(err, roles) {
+            var query;
+            if(typeof obj.roles === 'string') {
+                query = Role.find({_id: obj.roles});
+            } else if(typeof obj.roles === 'object') {
+                query = Role.find({_id: {$in: obj.roles}})    
+            }
+            if(!query) {
+                return;
+            }
+            query.exec(function(err, roles) {
+                if(oldRoles.indexOf(config.admin.role.admin) > -1) {
                     //console.log('现有roles', roles);
                     var newRoles = _.pluck(roles, 'name');
                     //console.log(newRoles);
@@ -193,13 +193,13 @@ exports.edit = function(req, res) {
                             }
                         });
                     }
-                });
-            }else{
-                //屁民一个，爱咋地咋地
-                _.extend(user, obj);
-                console.log('小角色', user);
-                editHandler(user);
-            }
+                } else {
+                    obj.roles = roles;
+                    _.extend(user, obj);
+                    console.log('小角色', user);
+                    editHandler(user);
+                }
+            });
         });
         /*User.findByIdAndUpdate(id, obj).populate('roles').exec(function(err, user) {
             console.log(err, user);
