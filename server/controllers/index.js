@@ -7,7 +7,6 @@ var mongoose = require('mongoose'),
 
 //后台首页
 exports.index = function(req, res) {
-    console.log('kkkkkkkkkkkkkkkk')
     if(req.session.user) {
         res.render('server/index', { title: 'CMS系统' });
     } else {

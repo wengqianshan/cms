@@ -29,6 +29,8 @@ router.use(function(req, res, next) {
     }
     next();
 });
+//用户列表
+router.route('/').get(user.list);
 //添加
 router.route('/add').all(user.add);
 //单个用户
@@ -37,8 +39,7 @@ router.route('/:id').get(user.one);
 router.route('/:id/edit').all(user.edit);
 //删除用户
 router.route('/:id/del').all(user.del);
-//用户列表
-router.route('/').get(user.list);
+
 
 
 module.exports = function(app) {

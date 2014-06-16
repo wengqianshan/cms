@@ -18,6 +18,8 @@ router.use(function(req, res, next) {
     next();
 });
 
+//内容列表
+router.route('/').get(content.list);
 //添加内容
 router.route('/add').all(content.add);
 //单条信息
@@ -26,8 +28,7 @@ router.route('/:id').get(content.one);
 router.route('/:id/edit').all(content.edit);
 //删除信息
 router.route('/:id/del').all(content.del);
-//内容列表
-router.route('/').get(content.list);
+
 
 module.exports = function(app) {
     var path = util.translateAdminDir('/content');

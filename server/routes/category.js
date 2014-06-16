@@ -17,6 +17,8 @@ router.use(function(req, res, next) {
     }
     next();
 });
+//内容列表
+router.route('/').get(category.list);
 //添加内容
 router.route('/add').all(category.add);
 //单条信息
@@ -25,8 +27,6 @@ router.route('/:id').get(category.one);
 router.route('/:id/edit').all(category.edit);
 //删除信息
 router.route('/:id/del').all(category.del);
-//内容列表
-router.route('/').get(category.list);
 
 module.exports = function(app) {
     var path = util.translateAdminDir('/category');

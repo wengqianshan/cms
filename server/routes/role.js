@@ -17,6 +17,8 @@ router.use(function(req, res, next) {
     }
     next();
 });
+//内容列表
+router.route('/').get(role.list);
 //添加内容
 router.route('/add').all(role.add);
 //单条信息
@@ -25,8 +27,7 @@ router.route('/:id').get(role.one);
 router.route('/:id/edit').all(role.edit);
 //删除信息
 router.route('/:id/del').all(role.del);
-//内容列表
-router.route('/').get(role.list);
+
 
 module.exports = function(app) {
     var path = util.translateAdminDir('/role');
