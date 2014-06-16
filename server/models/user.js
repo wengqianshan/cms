@@ -74,6 +74,9 @@ UserSchema.path('name').validate(function(name) {
 UserSchema.path('email').validate(function(email) {
     return (typeof email === 'string' && email.length > 0);
 }, 'Email不能为空');
+UserSchema.path('email').validate(function(email) {
+    return /w+([-+.]w+)*@w+([-.]w+)*.w+([-.]w+)*/.test(email);
+}, 'Email格式不正确');
 
 UserSchema.path('username').validate(function(username) {
     return (typeof username === 'string' && username.length > 0);
