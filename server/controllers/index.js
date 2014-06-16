@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
 
 //后台首页
 exports.index = function(req, res) {
+    console.log('kkkkkkkkkkkkkkkk')
     if(req.session.user) {
         res.render('server/index', { title: 'CMS系统' });
     } else {
@@ -16,6 +17,10 @@ exports.index = function(req, res) {
 };
 //管理员资料
 exports.me = function(req, res) {
+    if(!req.session.user) {
+        var path = util.translateAdminDir('/user/login');
+        return res.redirect(path);
+    }
     var id = req.session.user._id;
     User.findById(id).populate('roles').exec(function(err, user) {
         user._roles = req.Roles;
