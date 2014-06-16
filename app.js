@@ -82,12 +82,12 @@ util.walk(appPath + '/app/routes', 'middlewares', function(path) {
 });
 
 
-var adminPath = util.translateAdminDir('');
+/*var adminPath = util.translateAdminDir('');
 app.use(adminPath, function(req, res, next) {
     var path = util.translateAdminDir('/index');
     return res.redirect(path);
     next();
-})
+});*/
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

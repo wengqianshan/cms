@@ -22,5 +22,6 @@ router.get('/me', index.me);
 module.exports = function(app) {
     var path = util.translateAdminDir('/index');
     app.use(path, router);
-    app.use(index.checkInstall);
+    var adminPath = util.translateAdminDir('')
+    app.use(adminPath, index.checkInstall);
 };

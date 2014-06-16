@@ -9,6 +9,9 @@ var mongoose = require('mongoose'),
 exports.index = function(req, res) {
     if(req.session.user) {
         res.render('server/index', { title: 'CMS系统' });
+    } else {
+        var path = util.translateAdminDir('/user/login');
+        return res.redirect(path);
     }
 };
 //管理员资料
@@ -25,6 +28,10 @@ exports.me = function(req, res) {
 };
 exports.checkInstall = function(req, res, next) {
     if(req.session.user) {
+        var path = util.translateAdminDir('/index');
+        return res.redirect(path);
+    }
+    if(req.path.indexOf('/user/login') > -1 || req.path.indexOf('/user/login') > -1) {
         return next();
     }
     User.find({}, function(err, results) {
