@@ -24,5 +24,6 @@ block content
                                 else
                                     option(value='#{role.id}')
                                         | #{role.name}
+                    input(type='hidden', name='_csrf', value='#{token}')
                     button.btn.btn-primary(type='submit') 提交
 

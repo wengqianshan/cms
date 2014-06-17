@@ -22,5 +22,6 @@ block content
                     .form-group
                         label 内容
                         textarea.form-control(name='content', rows='8') #{content.content}
+                    input(type='hidden', name='_csrf', value='#{token}')
                     button.btn.btn-primary(type='submit') 提交
 
