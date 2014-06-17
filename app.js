@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var bodyParser = require('body-parser');
+var csrf = require('csurf');
 var moment = require('moment');
 var underscore = require('underscore');
 
@@ -55,9 +56,11 @@ app.use(session({
     secret: 'ruoguan'/*,
     store: new RedisStore*/
 }));
+app.use(csrf());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
     res.header('X-Powered-By', 'wengqianshan');
+    res.locals.token = req.csrfToken();
     if(req.session.user) {
         res.locals.User = req.session.user;
         //角色信息

@@ -6,9 +6,11 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "blueimp-file-upload-expressjs": "^0.2.9",
     "body-parser": "~1.0.0",
     "connect-redis": "^2.0.0",
     "cookie-parser": "~1.0.1",
+    "csurf": "^1.2.1",
     "debug": "~0.7.4",
     "express": "~4.2.0",
     "express-session": "^1.2.0",
@@ -17,7 +19,6 @@
     "mongoose": "^3.8.12",
     "morgan": "~1.0.0",
     "static-favicon": "~1.0.0",
-    "underscore": "^1.6.0",
-    "blueimp-file-upload-expressjs": "^0.2.9"
+    "underscore": "^1.6.0"
   }
 }
