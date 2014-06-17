@@ -15,7 +15,7 @@ exports.index = function(req, res) {
     Content.count(condition, function(err, total) {
         var query = Content.find(condition).populate('author', 'username name email');
         //分页
-        var pageInfo = util.createPage(req.query.page, total, 10, req);
+        var pageInfo = util.createPage(req, total, 10);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});

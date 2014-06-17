@@ -14,7 +14,7 @@ mixin pagination(pageInfo)
         - var currentPage = Math.min(page.currentPage, page.totalPage)
         - var prevPage = (currentPage - 1) || 1
         - var nextPage = currentPage >= page.totalPage ? page.totalPage : (currentPage + 1)
-        - var query = pageInfo.query
+        - var query = pageInfo.query || {}
         - query.page = prevPage
         li(class=(currentPage === 1) ? 'disabled' : '')
             a(href='?#{util.generateParamsByObj(query)}') &laquo;

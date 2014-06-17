@@ -11,7 +11,7 @@ exports.list = function(req, res) {
     Category.count(condition, function(err, total) {
         var query = Category.find(condition).populate('author');
         //分页
-        var pageInfo = util.createPage(req.query.page, total, 10, req);
+        var pageInfo = util.createPage(req, total, 10);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);

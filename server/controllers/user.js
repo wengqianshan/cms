@@ -20,7 +20,7 @@ exports.list = function(req, res) {
     User.count(function(err, total) {
         var query = User.find({}).populate('roles');
         //分页
-        var pageInfo = util.createPage(req.query.page, total, 10, req);
+        var pageInfo = util.createPage(req, total, 10);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});

@@ -8,7 +8,7 @@ exports.list = function(req, res) {
     Role.count(function(err, total) {
         var query = Role.find({});
         //分页
-        var pageInfo = util.createPage(req.query.page, total, 10, req);
+        var pageInfo = util.createPage(req, total, 10);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});

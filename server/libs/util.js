@@ -33,9 +33,14 @@ exports.translateAdminDir = function(path) {
     return newPath;
 };
 //分页  params: 当前页, 总条数, 每页条数
-exports.createPage = function(page, total, pageSize, req) {
+exports.createPage = function(req, total, pageSize) {
     var pageSize = pageSize || 10;
-    var page = page|0;//强制转化整型
+    if (!req) {
+        console.log('分页参数错误');
+        return;
+    }
+    var query = req.query || {};
+    var page = query.page|0;//强制转化整型
     var totalPage = Math.ceil(total/pageSize);//获取总页数
     var currentPage = page < 1 ? 1 : page > totalPage ? totalPage : page;//获取当前页数
     var start = pageSize * (currentPage - 1);//计算开始位置
@@ -44,7 +49,7 @@ exports.createPage = function(page, total, pageSize, req) {
         pageSize: pageSize,
         totalPage: totalPage,
         currentPage: currentPage,
-        query: req ? req.query : null
+        query: query
     };
 };
 
