@@ -2,7 +2,8 @@
 var mongoose = require('mongoose'),
     Content = mongoose.model('Content'),
     Category = mongoose.model('Category'),
-    config = require('../../config');
+    config = require('../../config'),
+    util = require('../../server/libs/util');
 exports.index = function(req, res) {
     console.log('前台')
     //console.time('content-list');
@@ -11,15 +12,25 @@ exports.index = function(req, res) {
     if(category) {
         condition.category = category;
     }
-    Content.find(condition).populate('author', 'username name email').exec(function(err, results) {
-        //console.log(err, results);
-        //console.timeEnd('content-list');
-        res.render('app/index', {
-            //title: '列表',
-            title: '网站首页',
-            contents: results
-        });
-    })
+    Content.count(condition, function(err, total) {
+        var query = Content.find(condition).populate('author', 'username name email');
+        //分页
+        var pageInfo = util.createPage(req.query.page, total, 10, req);
+        query.skip(pageInfo.start);
+        query.limit(pageInfo.pageSize);
+        query.sort({created: -1});
+        query.exec(function(err, results) {
+            //console.log(err, results);
+            //console.timeEnd('content-list');
+            res.render('app/index', {
+                //title: '列表',
+                title: '网站首页',
+                contents: results,
+                pageInfo: pageInfo
+            });
+        })
+    });
+    
 };
 
 // init the uploader  https://github.com/arvindr21/blueimp-file-upload-expressjs

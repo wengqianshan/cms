@@ -1,0 +1,27 @@
+//分页模块
+    pageInfo = {
+        totalPage: 15,
+        currentPage: 5,
+        query: {
+            page: 1,
+            nick: 2
+        }
+    }
+mixin pagination(pageInfo)
+    ul.pagination
+        - var page = pageInfo
+        - var totalPage = page.totalPage
+        - var currentPage = Math.min(page.currentPage, page.totalPage)
+        - var prevPage = (currentPage - 1) || 1
+        - var nextPage = currentPage >= page.totalPage ? page.totalPage : (currentPage + 1)
+        - var query = pageInfo.query
+        - query.page = prevPage
+        li(class=(currentPage === 1) ? 'disabled' : '')
+            a(href='?#{util.generateParamsByObj(query)}') &laquo;
+        - for (var i =1, len = totalPage; i <= len; i ++)
+            - query.page = i
+            li(class=(currentPage === i) ? 'active' : '') 
+                a(href='?#{util.generateParamsByObj(query)}') #{i}
+        - query.page = nextPage
+        li(class=(currentPage === totalPage) ? 'disabled' : '')
+            a(href='?#{util.generateParamsByObj(query)}') &raquo;
