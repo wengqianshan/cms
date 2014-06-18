@@ -37,12 +37,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 //定义全局字段
 app.locals = {
-    __title: 'CMS',
+    title: 'CMS',
     pretty: true,
     moment: moment,
     _: underscore,
     util: util,
-    __config: config,
+    config: config,
     adminDir: config.admin.dir ? ('/' + config.admin.dir) : ''
 };
 app.set('config', config);
