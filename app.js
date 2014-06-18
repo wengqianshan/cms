@@ -12,6 +12,7 @@ var moment = require('moment');
 var underscore = require('underscore');
 
 var util = require('./server/libs/util');
+
 var appPath = process.cwd();
 var config = require('./config');
 //设置moment语言
@@ -49,6 +50,8 @@ app.set('config', config);
 
 app.use(favicon());
 app.use(logger('dev'));
+//var index = require('./app/controllers/index');
+//app.use('/upload', index.upload);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
@@ -56,11 +59,11 @@ app.use(session({
     secret: 'ruoguan'/*,
     store: new RedisStore*/
 }));
-//app.use(csrf());
+app.use(csrf());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
     res.header('X-Powered-By', 'wengqianshan');
-    //res.locals.token = req.csrfToken();
+    res.locals.token = req.csrfToken();
     if(req.session.user) {
         res.locals.User = req.session.user;
         //角色信息

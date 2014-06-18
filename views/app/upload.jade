@@ -18,9 +18,9 @@ block foot-js
     script.
         $(function () {
             $('#fileupload').fileupload({
-                //- formData: {
-                //-     _csrf: '#{token}'
-                //- },
+                formData: {
+                    _csrf: '#{token}'
+                },
                 dataType: 'json',
                 done: function (e, data) {
                     $.each(data.result.files, function (index, file) {
