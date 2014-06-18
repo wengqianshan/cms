@@ -43,6 +43,7 @@ exports.upload = function(req, res) {
         uploader.post(req, res, function (obj) {
             res.send(JSON.stringify(obj)); 
         });
+        
     }
 };
 //列表
