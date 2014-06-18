@@ -50,8 +50,8 @@ app.set('config', config);
 
 app.use(favicon());
 app.use(logger('dev'));
-//var index = require('./app/controllers/index');
-//app.use('/upload', index.upload);
+var index = require('./app/controllers/index');
+app.use('/upload', index.upload);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
