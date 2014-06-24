@@ -12,11 +12,24 @@ block content
                 | #{moment(content.created).format('LLL')}
             .content
                 | #{content.content}
+            .comment(data-from='#{content.id}')
+                .row
+                    .col-md-4
+                        textarea.form-control(name='text')
+                .row
+                    .col-md-4
+                        button.btn.btn-info.btn-xs.J_submit(value='提交') 提交
         .text-center
             if (pageInfo && pageInfo.totalPage > 1)
                 include ./page
                 +pagination(pageInfo)
 block foot-js
     script.
+        $(document).on('click', '.J_submit', function() {
+            $.post('/commment/add', function(json) {
+                console.log(json);
+            });
+        });
+        
         
                 

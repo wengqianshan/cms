@@ -14,9 +14,13 @@ var CommentSchema = new Schema({
         type: String,
         required: true
     },
-    from: {
+    from: {//文章id
         type: Schema.ObjectId,
         ref: 'Content'
+    },
+    reply: {//回复评论的id
+        type: Schema.ObjectId,
+        ref: 'Comment'
     },
     author: {
         type: Schema.ObjectId,
