@@ -15,7 +15,7 @@ block content
             .comment(data-from='#{content.id}')
                 .row
                     .col-md-4
-                        textarea.form-control(name='text')
+                        textarea.form-control.J_textarea(name='content')
                 .row
                     .col-md-4
                         button.btn.btn-info.btn-xs.J_submit(value='提交') 提交
@@ -25,8 +25,19 @@ block content
                 +pagination(pageInfo)
 block foot-js
     script.
+        var token = '#{token}';
         $(document).on('click', '.J_submit', function() {
-            $.post('/commment/add', function(json) {
+            var $this = $(this);
+            var $item = $this.closest('.comment');
+            var cid = $item.attr('data-from');
+            var content = $item.find('.J_textarea').val();
+            console.log(cid, content);
+            var data = {
+                from: cid,
+                content: content,
+                _csrf: token
+            };
+            $.post('/comment/add', data, function(json) {
                 console.log(json);
             });
         });
