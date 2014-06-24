@@ -34,7 +34,7 @@ exports.one = function(req, res) {
         console.log(result);
         if(!result) {
             return res.render('server/message', {
-                msg: '该内容不存在'
+                msg: '该分类不存在'
             });
         }
         res.render('server/category/item', {
@@ -94,13 +94,14 @@ exports.del = function(req, res) {
         });
     }
     var id = req.params.id;
-    Category.findById(id, function(err, result) {
+    Category.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/message', {
-                msg: '内容不存在'
+                msg: '分类不存在'
             });
         }
-        if(!result.author || result.author == req.session.user._id) {
+        console.log(result)
+        if(!result.author || result.author._id == req.session.user._id) {
             result.remove(function(err) {
                 if(err) {
                     return res.render('server/message', {
@@ -113,7 +114,7 @@ exports.del = function(req, res) {
             });
         }else {
             return res.render('server/message', {
-                msg: '你没有权限删除别人的文章'
+                msg: '你没有权限删除别人的分类'
             });
         }
     });

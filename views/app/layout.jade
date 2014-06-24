@@ -15,6 +15,10 @@ html
                     ul.nav.navbar-nav
                         li(class=!Path ? 'active' : '')
                                 a(href='/') 首页
+                        li(class=Path === 'content' ? 'active' : '')
+                                a(href='/content') 内容
+                        li(class=Path === 'comment' ? 'active' : '')
+                                a(href='/comment') 评论
                         //- li(class=Path === 'content' ? 'active' : '')
                         //-         a(href='/content') 内容
                         //- li(class=Path === 'category' ? 'active' : '')

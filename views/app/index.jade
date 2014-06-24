@@ -14,6 +14,15 @@ block content
                 | #{content.content}
             .comment(data-from='#{content.id}')
                 .row
+                    .col-md-12
+                        strong 评论列表:
+                    .col-md-12
+                        if (content.comments)
+                            ul.J_list
+                                each comment in content.comments
+                                    li #{comment.content}
+
+                .row
                     .col-md-4
                         textarea.form-control.J_textarea(name='content')
                 .row
@@ -29,9 +38,11 @@ block foot-js
         $(document).on('click', '.J_submit', function() {
             var $this = $(this);
             var $item = $this.closest('.comment');
+            var $list = $item.find('.J_list');
+            var $textarea = $item.find('.J_textarea');
             var cid = $item.attr('data-from');
-            var content = $item.find('.J_textarea').val();
-            console.log(cid, content);
+            var content = $textarea.val();
+            //console.log(cid, content);
             var data = {
                 from: cid,
                 content: content,
@@ -39,6 +50,11 @@ block foot-js
             };
             $.post('/comment/add', data, function(json) {
                 console.log(json);
+                if(json.success === true) {
+                    var $li = $('<li>' + json.data.content + '</li>');
+                    $list.append($li);
+                    $textarea.val('');
+                }
             });
         });
         

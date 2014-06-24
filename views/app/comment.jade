@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    .container
+        each comment in comments
+            h2 #{comment.content}
+            p
+                if (comment.author)
+                    strong
+                        | #{comment.author.name} 
+                | 发布于 
+                | #{moment(comment.created).format('LLL')}
+                p 来自
+                    a(href='/content/#{comment.from._id}') #{comment.from.title}
+            
+        .text-center
+            if (pageInfo && pageInfo.totalPage > 1)
+                include ./page
+                +pagination(pageInfo)
+block foot-js
+    script.
+        var token = '#{token}';
+        
+        
+        
+                

@@ -22,14 +22,19 @@ exports.add = function(req, res) {
                         msg: '添加失败'
                     });
                 }
-                /*if(!content.comments) {
+                if(!content.comments) {
                     content.comments = [];
                 }
-                content.update({
-                    comments: [result._id]
+                content.comments.push(result._id);
+                content.save();
+                /*res.render('app/message', {
+                    msg: '添加成功',
+                    data: result
                 });*/
-                res.render('app/message', {
-                    msg: '添加成功'
+                res.json({
+                    success: true,
+                    msg: '评论成功',
+                    data: result
                 });
             });
         });
@@ -54,3 +59,27 @@ exports.one = function(req, res) {
     }
     
 };
+
+exports.list = function(req, res) {
+    var condition = {};
+    Comment.count(condition, function(err, total) {
+        var query = Comment.find({}).populate('author').populate('from');
+        //分页
+        var pageInfo = util.createPage(req, total, 10);
+        query.skip(pageInfo.start);
+        query.limit(pageInfo.pageSize);
+        query.sort({created: -1});
+        query.exec(function(err, results) {
+            res.render('app/comment', {
+                comments: results,
+                pageInfo: pageInfo
+            });
+        })
+    })
+    /*Comment.find({}).populate('author').exec(function(err, results) {
+        //console.log(results);
+        res.render('app/comment', {
+            comments: results
+        });
+    })*/
+}

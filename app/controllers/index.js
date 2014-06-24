@@ -13,7 +13,7 @@ exports.index = function(req, res) {
         condition.category = category;
     }
     Content.count(condition, function(err, total) {
-        var query = Content.find(condition).populate('author', 'username name email');
+        var query = Content.find(condition).populate('author', 'username name email').populate('comments');
         //分页
         var pageInfo = util.createPage(req, total, 10);
         query.skip(pageInfo.start);
