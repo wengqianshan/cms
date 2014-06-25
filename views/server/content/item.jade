@@ -16,3 +16,9 @@ block content
                         | 访问量：#{content.visits}
                     .content 
                         | !{content.content}
+                    .comments
+                        h2 评论
+                        if(content.comments)
+                            ul
+                                each comment in content.comments
+                                    li #{comment.content}

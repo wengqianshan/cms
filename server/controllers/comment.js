@@ -30,11 +30,11 @@ exports.list = function(req, res) {
 //单条
 exports.one = function(req, res) {
     var id = req.param('id');
-    Comment.findById(id).populate('author', 'username name email').exec(function(err, result) {
+    Comment.findById(id).populate('author', 'username name email').populate('from').exec(function(err, result) {
         console.log(result);
         if(!result) {
             return res.render('server/message', {
-                msg: '该分类不存在'
+                msg: '该评论不存在'
             });
         }
         res.render('server/comment/item', {
@@ -58,7 +58,7 @@ exports.del = function(req, res) {
             });
         }
         console.log(result)
-        if(!result.author || result.author._id == req.session.user._id) {
+        //if(!result.author || result.author._id == req.session.user._id) {
             result.remove(function(err) {
                 if(err) {
                     return res.render('server/message', {
@@ -69,10 +69,10 @@ exports.del = function(req, res) {
                     msg: '删除成功'
                 })
             });
-        }else {
+        /*}else {
             return res.render('server/message', {
                 msg: '你没有权限删除别人的评论'
             });
-        }
+        }*/
     });
 };
