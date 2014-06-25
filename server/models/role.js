@@ -20,6 +20,10 @@ var RoleSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    author: {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
     status: {
         type: Number,
         default: 0

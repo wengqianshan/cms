@@ -17,8 +17,12 @@ exports.authenticate = function(req, res, next) {
 };
 //用户列表
 exports.list = function(req, res) {
-    User.count(function(err, total) {
-        var query = User.find({}).populate('roles');
+    var condition = {};
+    if(req.Roles && req.Roles.indexOf('admin') < 0) {
+        condition.author = req.session.user._id;
+    }
+    User.count(condition, function(err, total) {
+        var query = User.find(condition).populate('roles');
         //分页
         var pageInfo = util.createPage(req, total, 10);
         query.skip(pageInfo.start);
@@ -60,6 +64,9 @@ exports.register = function(req, res) {
                 });
             }
             obj.roles = [role._id];
+            if (req.session.user) {
+                obj.author = req.session.user._id;
+            }
             var user = new User(obj);
             user.save(function(err, result) {
                 console.log(result);
@@ -93,6 +100,9 @@ exports.add = function(req, res) {
                 });
             }
             obj.roles = [role._id];
+            if (req.session.user) {
+                obj.author = req.session.user._id;
+            }
             var user = new User(obj);
             user.save(function(err, result) {
                 console.log(result);
@@ -127,7 +137,11 @@ exports.edit = function(req, res) {
     if(req.method === 'GET') {
         User.findById(id, function(err, result) {
             try{
-                Role.find(function(err, results) {
+                var condition = {};
+                if(req.Roles && req.Roles.indexOf('admin') < 0) {
+                    condition.author = req.session.user._id;
+                }
+                Role.find(condition, function(err, results) {
                     if(!err && results) {
                         res.render('server/user/edit', {
                             user: result,

@@ -5,8 +5,12 @@ var mongoose = require('mongoose'),
     util = require('../libs/util');
 //列表
 exports.list = function(req, res) {
-    Role.count(function(err, total) {
-        var query = Role.find({});
+    var condition = {};
+    if(req.Roles && req.Roles.indexOf('admin') < 0) {
+        condition.author = req.session.user._id;
+    }
+    Role.count(condition, function(err, total) {
+        var query = Role.find(condition);
         //分页
         var pageInfo = util.createPage(req, total, 10);
         query.skip(pageInfo.start);
@@ -46,6 +50,9 @@ exports.add = function(req, res) {
         obj.actions = obj.actions.split(',').map(function(action) {
             return action.trim();
         });
+        if (req.session.user) {
+            obj.author = req.session.user._id;
+        }
         var role = new Role(obj);
         role.save(function(err, role) {
             if (err) {

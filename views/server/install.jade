@@ -18,5 +18,6 @@ block content
                     .form-group
                         label Email
                         input.form-control(name='email')
+                    input(type='hidden', name='_csrf', value='#{token}')
                     button.btn.btn-primary(type='submit') 提交
 
