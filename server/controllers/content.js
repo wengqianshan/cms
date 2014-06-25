@@ -94,6 +94,11 @@ exports.edit = function(req, res) {
             if(err) {
                 console.log('加载内容失败');
             }
+            if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author + '') !== req.session.user._id) {
+                return res.render('server/message', {
+                    msg: '没有权限'
+                });
+            }
             var condition = {};
             if(req.Roles && req.Roles.indexOf('admin') < 0) {
                 condition.author = req.session.user._id;
@@ -111,14 +116,22 @@ exports.edit = function(req, res) {
         if(obj.category === '') {
             obj.category = null;
         }
-        Content.findByIdAndUpdate(id, obj, function(err, result) {
-            console.log(err, result);
-            if(!err) {
-                res.render('server/message', {
-                    msg: '更新成功'
+        Content.findById(id).exec(function(err, result) {
+            //console.log(result);
+            if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author + '') !== req.session.user._id) {
+                return res.render('server/message', {
+                    msg: '没有权限'
                 });
             }
-        })
+            _.extend(result, obj);
+            result.save(function(err, content) {
+                if(!err) {
+                    res.render('server/message', {
+                        msg: '更新成功'
+                    });
+                }
+            });
+        });
     }
 };
 //删除
@@ -129,28 +142,27 @@ exports.del = function(req, res) {
         });
     }
     var id = req.params.id;
-    Content.findById(id).populate('author').exec(function(err, result) {
-        if(!result) {
+    Content.findById(id).exec(function(err, result) {
+        if(err || !result) {
             return res.render('server/message', {
                 msg: '内容不存在'
             });
         }
-        //
-        //if(!result.author || result.author._id == req.session.user._id) {
-            result.remove(function(err) {
-                if(err) {
-                    return res.render('server/message', {
-                        msg: '删除失败'
-                    });
-                }
-                res.render('server/message', {
-                    msg: '删除成功'
-                })
-            });
-        /*}else {
+        if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author + '') !== req.session.user._id) {
             return res.render('server/message', {
-                msg: '你没有权限删除别人的文章'
+                msg: '没有权限'
             });
-        }*/
+        }
+        //
+        result.remove(function(err) {
+            if(err) {
+                return res.render('server/message', {
+                    msg: '删除失败'
+                });
+            }
+            res.render('server/message', {
+                msg: '删除成功'
+            })
+        });
     });
 };
