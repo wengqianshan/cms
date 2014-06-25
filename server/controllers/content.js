@@ -90,11 +90,11 @@ exports.add = function(req, res) {
 exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.param('id');
-        Content.findById(id, function(err, result) {
+        Content.findById(id).populate('author').exec(function(err, result) {
             if(err) {
                 console.log('加载内容失败');
             }
-            if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author + '') !== req.session.user._id) {
+            if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
                 return res.render('server/message', {
                     msg: '没有权限'
                 });
@@ -116,9 +116,9 @@ exports.edit = function(req, res) {
         if(obj.category === '') {
             obj.category = null;
         }
-        Content.findById(id).exec(function(err, result) {
+        Content.findById(id).populate('author').exec(function(err, result) {
             //console.log(result);
-            if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author + '') !== req.session.user._id) {
+            if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
                 return res.render('server/message', {
                     msg: '没有权限'
                 });
@@ -142,13 +142,13 @@ exports.del = function(req, res) {
         });
     }
     var id = req.params.id;
-    Content.findById(id).exec(function(err, result) {
+    Content.findById(id).populate('author').exec(function(err, result) {
         if(err || !result) {
             return res.render('server/message', {
                 msg: '内容不存在'
             });
         }
-        if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author + '') !== req.session.user._id) {
+        if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
             return res.render('server/message', {
                 msg: '没有权限'
             });

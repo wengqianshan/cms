@@ -69,8 +69,8 @@ exports.add = function(req, res) {
 exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.param('id');
-        Category.findById(id, function(err, result) {
-            if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author + '') !== req.session.user._id) {
+        Category.findById(id).populate('author').exec(function(err, result) {
+            if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
                 return res.render('server/message', {
                     msg: '没有权限'
                 });
@@ -82,8 +82,8 @@ exports.edit = function(req, res) {
     } else if(req.method === 'POST') {
         var id = req.param('id');
         var obj = req.body;
-        Category.findById(id).exec(function(err, result) {
-            if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author + '') !== req.session.user._id) {
+        Category.findById(id).populate('author').exec(function(err, result) {
+            if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
                 return res.render('server/message', {
                     msg: '没有权限'
                 });
@@ -107,13 +107,13 @@ exports.del = function(req, res) {
         });
     }
     var id = req.params.id;
-    Category.findById(id).exec(function(err, result) {
+    Category.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/message', {
                 msg: '分类不存在'
             });
         }
-        if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author + '') !== req.session.user._id) {
+        if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
             return res.render('server/message', {
                 msg: '没有权限'
             });

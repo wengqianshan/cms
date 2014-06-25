@@ -57,22 +57,21 @@ exports.del = function(req, res) {
                 msg: '评论不存在'
             });
         }
-        console.log(result)
-        //if(!result.author || result.author._id == req.session.user._id) {
-            result.remove(function(err) {
-                if(err) {
-                    return res.render('server/message', {
-                        msg: '删除失败222'
-                    });
-                }
-                res.render('server/message', {
-                    msg: '删除成功'
-                })
-            });
-        /*}else {
+        if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
             return res.render('server/message', {
-                msg: '你没有权限删除别人的评论'
+                msg: '没有权限'
             });
-        }*/
+        }
+        console.log(result)
+        result.remove(function(err) {
+            if(err) {
+                return res.render('server/message', {
+                    msg: '删除失败222'
+                });
+            }
+            res.render('server/message', {
+                msg: '删除成功'
+            })
+        });
     });
 };
