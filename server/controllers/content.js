@@ -135,8 +135,8 @@ exports.del = function(req, res) {
                 msg: '内容不存在'
             });
         }
-        //TODO:或者管理员也可以删除
-        if(!result.author || result.author == req.session.user._id) {
+        //
+        //if(!result.author || result.author._id == req.session.user._id) {
             result.remove(function(err) {
                 if(err) {
                     return res.render('server/message', {
@@ -147,10 +147,10 @@ exports.del = function(req, res) {
                     msg: '删除成功'
                 })
             });
-        }else {
+        /*}else {
             return res.render('server/message', {
                 msg: '你没有权限删除别人的文章'
             });
-        }
+        }*/
     });
 };
