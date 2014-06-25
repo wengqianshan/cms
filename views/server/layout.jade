@@ -23,6 +23,9 @@ html
                         if (User && (_roles.indexOf('admin') > -1 || _actions.indexOf('category') > -1))
                             li(class=Path === 'category' ? 'active' : '')
                                     a(href='#{adminDir}/category') 分类
+                        if (User && (_roles.indexOf('admin') > -1 || _actions.indexOf('comment') > -1))
+                            li(class=Path === 'comment' ? 'active' : '')
+                                    a(href='#{adminDir}/comment') 评论
                         if (User && (_roles.indexOf('admin') > -1 || _actions.indexOf('user') > -1))
                             li(class=Path === 'user' ? 'active' : '')
                                     a(href='#{adminDir}/user') 用户
