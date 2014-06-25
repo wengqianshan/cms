@@ -12,7 +12,8 @@ var mongoose = require('mongoose'),
 var RoleSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     actions: Array,//['read', 'write', 'guest', 'createUser']
     description: String,

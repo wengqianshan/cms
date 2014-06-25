@@ -1,6 +1,7 @@
 'use strict';
 var mongoose = require('mongoose'),
     Category = mongoose.model('Category'),
+    _ = require('underscore'),
     util = require('../libs/util');
 //列表
 exports.list = function(req, res) {
@@ -69,6 +70,11 @@ exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.param('id');
         Category.findById(id, function(err, result) {
+            if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author + '') !== req.session.user._id) {
+                return res.render('server/message', {
+                    msg: '没有权限'
+                });
+            }
             res.render('server/category/edit', {
                 category: result
             });
@@ -76,14 +82,21 @@ exports.edit = function(req, res) {
     } else if(req.method === 'POST') {
         var id = req.param('id');
         var obj = req.body;
-        Category.findByIdAndUpdate(id, obj, function(err, result) {
-            //console.log(err, result);
-            if(!err) {
-                res.render('server/message', {
-                    msg: '更新成功'
+        Category.findById(id).exec(function(err, result) {
+            if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author + '') !== req.session.user._id) {
+                return res.render('server/message', {
+                    msg: '没有权限'
                 });
             }
-        })
+            _.extend(result, obj);
+            result.save(function(err, category) {
+                if(!err) {
+                    res.render('server/message', {
+                        msg: '更新成功'
+                    });
+                }
+            });
+        });
     }
 };
 //删除
@@ -94,28 +107,26 @@ exports.del = function(req, res) {
         });
     }
     var id = req.params.id;
-    Category.findById(id).populate('author').exec(function(err, result) {
+    Category.findById(id).exec(function(err, result) {
         if(!result) {
             return res.render('server/message', {
                 msg: '分类不存在'
             });
         }
-        console.log(result)
-        if(!result.author || result.author._id == req.session.user._id) {
-            result.remove(function(err) {
-                if(err) {
-                    return res.render('server/message', {
-                        msg: '删除失败222'
-                    });
-                }
-                res.render('server/message', {
-                    msg: '删除成功'
-                })
-            });
-        }else {
+        if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author + '') !== req.session.user._id) {
             return res.render('server/message', {
-                msg: '你没有权限删除别人的分类'
+                msg: '没有权限'
             });
         }
+        result.remove(function(err) {
+            if(err) {
+                return res.render('server/message', {
+                    msg: '删除失败222'
+                });
+            }
+            res.render('server/message', {
+                msg: '删除成功'
+            })
+        });
     });
 };
