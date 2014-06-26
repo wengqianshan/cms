@@ -2,6 +2,7 @@
 var mongoose = require('mongoose'),
     Role = mongoose.model('Role'),
     userController = require('./user'),
+    _ = require('underscore'),
     util = require('../libs/util');
 //列表
 exports.list = function(req, res) {
@@ -69,7 +70,17 @@ exports.add = function(req, res) {
 exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.param('id');
-        Role.findById(id, function(err, result) {
+        Role.findById(id).populate('author').exec(function(err, result) {
+            if(!result.author) {
+                return res.render('server/message', {
+                    msg: '只有管理员才能编辑'
+                });
+            }
+            if(req.Roles && req.Roles.indexOf('admin') === -1 && (result.author._id + '') !== req.session.user._id) {
+                return res.render('server/message', {
+                    msg: '没有权限'
+                });
+            }
             if(result.actions) {
                 result.actions = result.actions.join(',');    
             }
@@ -83,9 +94,19 @@ exports.edit = function(req, res) {
         obj.actions = obj.actions.split(',').map(function(action) {
             return action.trim();
         });
-        Role.findByIdAndUpdate(id, obj, function(err, result) {
-            //console.log(err, result);
-            if(!err) {
+        Role.findById(id).populate('author').exec(function(err, result) {
+            if(!result.author) {
+                return res.render('server/message', {
+                    msg: '只有管理员才能编辑'
+                });
+            }
+            if(req.Roles && req.Roles.indexOf('admin') === -1 && (result.author._id + '') !== req.session.user._id) {
+                return res.render('server/message', {
+                    msg: '没有权限'
+                });
+            }
+            _.extend(result, obj);
+            result.save(function(err, role) {
                 //重置session信息
                 userController.reload(req.session.user._id, function(err, user) {
                     req.session.user = user;
@@ -95,9 +116,9 @@ exports.edit = function(req, res) {
                             msg: '更新成功'
                         });
                     }
-                })
-            }
-        })
+                });
+            });
+        });
     }
 };
 //删除
@@ -108,28 +129,41 @@ exports.del = function(req, res) {
         });
     }
     var id = req.params.id;
-    Role.findById(id, function(err, result) {
+    Role.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/message', {
-                msg: '内容不存在'
+                msg: '角色不存在'
             });
         }
-        if(!result.author || result.author == req.session.user._id) {
-            result.remove(function(err) {
-                if(err) {
-                    return res.render('server/message', {
-                        msg: '删除失败222'
+        if(!result.author) {
+            return res.render('server/message', {
+                msg: '只有管理员才能删除'
+            });
+        }
+        if(req.Roles && req.Roles.indexOf('admin') === -1 && (result.author._id + '') !== req.session.user._id) {
+            return res.render('server/message', {
+                msg: '没有权限'
+            });
+        }
+        result.remove(function(err) {
+            if(err) {
+                return res.render('server/message', {
+                    msg: '删除失败222'
+                });
+            }
+            /*res.render('server/message', {
+                msg: '删除成功'
+            })*/
+            //重置session信息
+            userController.reload(req.session.user._id, function(err, user) {
+                req.session.user = user;
+                res.locals.User = user;
+                if(!err) {
+                    res.render('server/message', {
+                        msg: '删除成功'
                     });
                 }
-                //TODO:reload userinfo
-                res.render('server/message', {
-                    msg: '删除成功'
-                })
             });
-        }else {
-            return res.render('server/message', {
-                msg: '你没有权限删除别人的文章'
-            });
-        }
+        });
     });
 };

@@ -125,6 +125,12 @@ exports.edit = function(req, res) {
     var id = req.params.id;
     var editHandler = function(user) {
         user.save(function(err, user) {
+            if(err || !user) {
+                console.log(err);
+                return res.render('server/message', {
+                    msg: '更新失败'
+                });
+            }
             if(id === req.session.user._id) {
                 req.session.user = user;
                 res.locals.User = user;
@@ -135,7 +141,17 @@ exports.edit = function(req, res) {
         })
     };
     if(req.method === 'GET') {
-        User.findById(id, function(err, result) {
+        User.findById(id).populate('author').exec(function(err, result) {
+            if(err || !result) {
+                return res.render('server/message', {
+                    msg: '出错了'
+                });
+            }
+            if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
+                return res.render('server/message', {
+                    msg: '没有权限'
+                });
+            }
             try{
                 var condition = {};
                 if(req.Roles && req.Roles.indexOf('admin') < 0) {
@@ -158,7 +174,12 @@ exports.edit = function(req, res) {
     } else if(req.method === 'POST') {
         var obj = req.body;
         //判断是否允许编辑
-        User.findById(id).populate('roles').exec(function(err, user) {
+        User.findById(id).populate('roles').populate('author').exec(function(err, user) {
+            if(req.Roles && req.Roles.indexOf('admin') === -1 && user.author && (user.author._id + '') !== req.session.user._id) {
+                return res.render('server/message', {
+                    msg: '没有权限'
+                });
+            }
             //var roles = util.getRoles(user);
             var oldRoles = util.getRoles(user);
             //啊 这个人是管你员
@@ -246,10 +267,15 @@ exports.del = function(req, res) {
         });
     };
     var id = req.params.id;
-    User.findById(id).populate('roles').exec(function(err, result) {
+    User.findById(id).populate('roles').populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/message', {
                 msg: '用户不存在'
+            });
+        }
+        if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
+            return res.render('server/message', {
+                msg: '没有权限'
             });
         }
         //看看删除的是不是管理员
