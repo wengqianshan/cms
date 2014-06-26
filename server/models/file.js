@@ -10,6 +10,9 @@ var mongoose = require('mongoose'),
  * 文件模型
  */
 var FileSchema = new Schema({
+    name: {
+        type: String
+    },
     url: {
         type: String,
         unique: true

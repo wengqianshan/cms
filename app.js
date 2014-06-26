@@ -51,7 +51,6 @@ app.set('config', config);
 app.use(favicon());
 app.use(logger('dev'));
 var index = require('./app/controllers/index');
-app.use('/upload', index.upload);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
@@ -59,6 +58,7 @@ app.use(session({
     secret: 'ruoguan'/*,
     store: new RedisStore*/
 }));
+app.use('/upload', index.upload);
 app.use(csrf());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
