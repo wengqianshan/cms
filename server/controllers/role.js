@@ -11,7 +11,7 @@ exports.list = function(req, res) {
         condition.author = req.session.user._id;
     }
     Role.count(condition, function(err, total) {
-        var query = Role.find(condition);
+        var query = Role.find(condition).populate('author');
         //分页
         var pageInfo = util.createPage(req, total, 10);
         query.skip(pageInfo.start);
@@ -29,7 +29,7 @@ exports.list = function(req, res) {
 //单条
 exports.one = function(req, res) {
     var id = req.param('id');
-    Role.findById(id).populate('author', 'username name email').exec(function(err, result) {
+    Role.findById(id).populate('author').exec(function(err, result) {
         console.log(result);
         if(!result) {
             return res.render('server/message', {

@@ -71,10 +71,14 @@ app.use(function(req, res, next) {
         var actions = util.getActions(req.session.user);
         req.Roles = roles;
         req.Actions = actions;
+        res.locals.Roles = roles;
+        res.locals.Actions = actions;
     }else{
         res.locals.User = null;
         req.Roles = null;
         req.Actions = null;
+        res.locals.Roles = null;
+        res.locals.Actions = null;
     }
     next();
 });

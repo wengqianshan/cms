@@ -6,6 +6,11 @@ block content
             .col-md-12
                 .lists
                     p 名称：#{role.name}
+                    p 创建人: 
+                        if (role.author)
+                            | #{role.author.username}
+                        else
+                            | 无
                     p 动作：
                         - each action in role.actions
                             span.label.label-info

@@ -22,7 +22,7 @@ exports.list = function(req, res) {
         condition.author = req.session.user._id;
     }
     User.count(condition, function(err, total) {
-        var query = User.find(condition).populate('roles');
+        var query = User.find(condition).populate('author').populate('roles');
         //分页
         var pageInfo = util.createPage(req, total, 10);
         query.skip(pageInfo.start);
@@ -41,7 +41,7 @@ exports.list = function(req, res) {
 //单个用户
 exports.one = function(req, res) {
     var id = req.param('id');
-    User.findById(id).populate('roles').exec(function(err, result) {
+    User.findById(id).populate('author').populate('roles').exec(function(err, result) {
         res.render('server/user/item', {
             user: result
         });

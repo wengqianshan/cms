@@ -15,21 +15,19 @@ html
                     ul.nav.navbar-nav
                         li(class=Path === 'index' ? 'active' : '')
                                 a(href='#{adminDir}/index') 首页
-                        - var _roles = util.getRoles(User);
-                        - var _actions = util.getActions(User);
-                        if (User && (_roles.indexOf('admin') > -1 || _actions.indexOf('content') > -1))
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('content') > -1))
                             li(class=Path === 'content' ? 'active' : '')
                                     a(href='#{adminDir}/content') 内容
-                        if (User && (_roles.indexOf('admin') > -1 || _actions.indexOf('category') > -1))
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('category') > -1))
                             li(class=Path === 'category' ? 'active' : '')
                                     a(href='#{adminDir}/category') 分类
-                        if (User && (_roles.indexOf('admin') > -1 || _actions.indexOf('comment') > -1))
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('comment') > -1))
                             li(class=Path === 'comment' ? 'active' : '')
                                     a(href='#{adminDir}/comment') 评论
-                        if (User && (_roles.indexOf('admin') > -1 || _actions.indexOf('user') > -1))
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('user') > -1))
                             li(class=Path === 'user' ? 'active' : '')
                                     a(href='#{adminDir}/user') 用户
-                        if (User && (_roles.indexOf('admin') > -1 || _actions.indexOf('role') > -1))
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('role') > -1))
                             li(class=Path === 'role' ? 'active' : '')
                                     a(href='#{adminDir}/role') 角色
                     .navbar-right

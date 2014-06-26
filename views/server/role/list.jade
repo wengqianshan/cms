@@ -9,6 +9,7 @@ block content
                     thead
                         tr
                             th 名称
+                            th 创建人
                             th 创建时间
                             th 操作
                     tbody
@@ -16,6 +17,11 @@ block content
                             tr
                                 td
                                     a(href='#{adminDir}/role/#{role.id}') #{role.name}
+                                td
+                                    if (role.author)
+                                        | #{role.author.username}
+                                    else
+                                        | 无
                                 td
                                     | #{moment(role.created).format('LLL')}
                                 td
