@@ -18,6 +18,10 @@ var ContentSchema = new Schema({
         type: String,
         required: true
     },
+    gallery: [{
+        type: Schema.ObjectId,
+        ref: 'File'
+    }],
     author: {
         type: Schema.ObjectId,
         ref: 'User'
