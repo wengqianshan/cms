@@ -71,12 +71,7 @@ exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.param('id');
         Role.findById(id).populate('author').exec(function(err, result) {
-            if(!result.author) {
-                return res.render('server/message', {
-                    msg: '只有管理员才能编辑'
-                });
-            }
-            if(req.Roles && req.Roles.indexOf('admin') === -1 && (result.author._id + '') !== req.session.user._id) {
+            if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
                 return res.render('server/message', {
                     msg: '没有权限'
                 });
@@ -95,12 +90,7 @@ exports.edit = function(req, res) {
             return action.trim();
         });
         Role.findById(id).populate('author').exec(function(err, result) {
-            if(!result.author) {
-                return res.render('server/message', {
-                    msg: '只有管理员才能编辑'
-                });
-            }
-            if(req.Roles && req.Roles.indexOf('admin') === -1 && (result.author._id + '') !== req.session.user._id) {
+            if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
                 return res.render('server/message', {
                     msg: '没有权限'
                 });
@@ -135,12 +125,7 @@ exports.del = function(req, res) {
                 msg: '角色不存在'
             });
         }
-        if(!result.author) {
-            return res.render('server/message', {
-                msg: '只有管理员才能删除'
-            });
-        }
-        if(req.Roles && req.Roles.indexOf('admin') === -1 && (result.author._id + '') !== req.session.user._id) {
+        if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
             return res.render('server/message', {
                 msg: '没有权限'
             });

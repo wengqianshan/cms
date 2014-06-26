@@ -11,7 +11,7 @@ router.use(function(req, res, next) {
         var path = util.translateAdminDir('/user/login');
         return res.redirect(path);
     }
-    if(req.Roles && req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('category') < 0) {
+    if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('category') < 0)) {
         var path = util.translateAdminDir('/index');
         return res.redirect(path);
     }
