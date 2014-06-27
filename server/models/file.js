@@ -14,8 +14,7 @@ var FileSchema = new Schema({
         type: String
     },
     url: {
-        type: String,
-        unique: true
+        type: String
     },
     size: Number,
     type: String,

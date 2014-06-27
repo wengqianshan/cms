@@ -2,7 +2,9 @@
 var mongoose = require('mongoose'),
     Content = mongoose.model('Content'),
     Category = mongoose.model('Category'),
+    File = mongoose.model('File'),
     config = require('../../config'),
+    _ = require('underscore'),
     util = require('../../server/libs/util');
 exports.index = function(req, res) {
     console.log('前台')
@@ -40,8 +42,40 @@ exports.upload = function(req, res) {
     if(req.method === 'GET') {
         res.render('app/upload');
     } else if(req.method === 'POST') {
-        uploader.post(req, res, function (obj) {
-            res.send(JSON.stringify(obj)); 
+        uploader.post(req, res, function (result) {
+            console.log(result);
+            if(!result || !result.files) {
+                return;
+            }
+            var len = result.files.length;
+            var json = {
+                files: []
+            };
+            result.files.forEach(function(item) {
+                if(req.session.user) {
+                    item.author = req.session.user._id;
+                }
+                //这里还可以处理url
+                var fileObj = _.pick(item, 'name', 'size', 'type', 'url');
+                console.log(fileObj);
+                var file = new File(fileObj);
+                file.save(function(err, obj) {
+                    if(err || !obj) {
+                        console.log('保存file失败', err, obj);
+                        return;
+                    }
+                    len --;
+                    item._id = obj._id;
+                    json.files.push(item);
+                    if(len === 0) {
+                        //res.send(JSON.stringify(result)); 
+                        console.log(json)
+                        res.json(json);
+                    }
+                    //console.log('保存文件', file);
+                });
+            });
+            //res.send(JSON.stringify(result)); 
         });
         
     }

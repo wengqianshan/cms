@@ -38,7 +38,7 @@ exports.list = function(req, res) {
 //单条
 exports.one = function(req, res) {
     var id = req.param('id');
-    Content.findById(id).populate('author', 'username name email').populate('category').populate('comments').exec(function(err, result) {
+    Content.findById(id).populate('author', 'username name email').populate('category').populate('comments').populate('gallery').exec(function(err, result) {
         console.log(result);
         if(!result) {
             return res.render('server/message', {

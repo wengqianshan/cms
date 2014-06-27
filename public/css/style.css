@@ -21,3 +21,11 @@ body {
     padding: 10px;
     background-color: #eee;
 }
+.gallery img{
+    max-width: 200px;
+    max-height: 200px;
+}
+.preview img{
+    max-width: 200px;
+    max-height: 200px;
+}

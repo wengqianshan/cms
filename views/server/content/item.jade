@@ -1,5 +1,7 @@
 extends ../layout
-
+block head-css
+    <link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery.css">
+    <link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery-indicator.css">
 block content
     .container
         .row
@@ -14,6 +16,11 @@ block content
                             strong #{content.author.name}
                         | 发布于：#{moment(content.created).format('LL')} 
                         | 访问量：#{content.visits}
+                    .gallery
+                        if (content.gallery)
+                            each image in content.gallery
+                                a(href='#{image.url}')
+                                    img(src='#{image.url}')
                     .content 
                         | !{content.content}
                     .comments
@@ -22,3 +29,22 @@ block content
                             ul
                                 each comment in content.comments
                                     li #{comment.content}
+    #blueimp-gallery.blueimp-gallery
+        .slides
+        h3.title
+        a.prev ‹
+        a.next ›
+        a.close ×
+        a.play-pause
+        ol.indicator
+
+block foot-js
+    <script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+    script.
+        $('.gallery a').on('click', function(e) {
+            var $img = $(this);
+            blueimp.Gallery($('.gallery a'), {
+                index: this,
+                event: e
+            })
+        })
