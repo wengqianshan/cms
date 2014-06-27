@@ -3,7 +3,7 @@ extends layout
 block content
     .container
         .console
-            h2 你好！你当前角色：
+            h2 你好！#{(Roles.indexOf('admin') > -1) ? '管理员' : '普通用户'}
             if(User && User.roles)
                     each role in User.roles
                         ul.list-group
@@ -11,8 +11,9 @@ block content
                                 span.label.label-primary #{role.name}
                             li.list-group-item 权限：
                                 span.label.label-info #{role.actions}
-                            li.list-group-item 是否有'admin'权限：
+                            //li.list-group-item 是否有'admin'权限：
                                 span #{role.actions && role.actions.indexOf('admin') > -1}
+
 block foot-js
     script.
         
