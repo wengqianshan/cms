@@ -22,7 +22,7 @@ block content
                                 a(href='#{image.url}')
                                     img(src='#{image.url}')
                     .content 
-                        | !{content.content}
+                        | #{content.content}
                     .comments
                         h2 评论
                         if(content.comments)
