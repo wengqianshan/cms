@@ -53,7 +53,7 @@ var UserSchema = new Schema({
         type: Number,
         default: 0
     },
-    save: {//找回密码
+    forget: {//找回密码
         hash: String,
         till: Date
     },
