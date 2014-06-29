@@ -10,6 +10,7 @@ exports.add = function(req, res) {
         
     } else if (req.method === 'POST') {
         var obj = req.body;
+        obj.ip = req.ip;
         if (req.session.user) {
             obj.author = req.session.user._id;
         }
