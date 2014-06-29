@@ -56,7 +56,7 @@ exports.upload = function(req, res) {
                     item.author = req.session.user._id;
                 }
                 //这里还可以处理url
-                var fileObj = _.pick(item, 'name', 'size', 'type', 'url');
+                var fileObj = item;//_.pick(item, 'name', 'size', 'type', 'url');
                 console.log(fileObj);
                 var file = new File(fileObj);
                 file.save(function(err, obj) {

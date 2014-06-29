@@ -30,6 +30,9 @@ html
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('role') > -1))
                             li(class=Path === 'role' ? 'active' : '')
                                     a(href='#{adminDir}/role') 角色
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('file') > -1))
+                            li(class=Path === 'file' ? 'active' : '')
+                                    a(href='#{adminDir}/file') 文件
                     .navbar-right
                         if (User)
                             a(href='#{adminDir}/index/me') #{User.name}

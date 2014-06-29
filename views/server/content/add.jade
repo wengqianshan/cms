@@ -25,6 +25,8 @@ block content
                             span 添加文件
                             input#fileupload(data-url='/upload', type='file', name='files[]', multiple='multiple')
                         #J_files
+                        div#progress.progress
+                            div.progress-bar.progress-bar-success
                         #J_preview.preview
                     .form-group
                         label 内容
@@ -52,6 +54,14 @@ block foot-js
                     _csrf: '#{token}'
                 },
                 dataType: 'json',
+                progressall: function(e, data) {
+                    //console.log(e, data);
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#progress .progress-bar').css(
+                        'width',
+                        progress + '%'
+                    );
+                },
                 done: function (e, data) {
                     $.each(data.result.files, function (index, file) {
                         console.log(file)
