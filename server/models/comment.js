@@ -34,6 +34,9 @@ var CommentSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Comment'
     }],
+    ip: {//回复ip
+        type: String
+    },
     status: {
         type: Number,
         default: 0
