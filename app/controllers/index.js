@@ -42,6 +42,8 @@ exports.upload = function(req, res) {
     if(req.method === 'GET') {
         res.render('app/upload');
     } else if(req.method === 'POST') {
+        var id = req.body.id;//根据id判断是否要保持到数据库，如果有id就不保存到数据，而是更换数据
+
         uploader.post(req, res, function (result) {
             console.log(result);
             if(!result || !result.files) {
