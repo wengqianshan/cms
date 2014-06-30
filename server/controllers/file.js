@@ -10,6 +10,7 @@ var mongoose = require('mongoose'),
 var uploader = require('blueimp-file-upload-expressjs')(config.upload);
 //列表
 exports.list = function(req, res) {
+    //console.log(req.cookies['XSRF-TOKEN'])
     var condition = {};
     if(req.Roles && req.Roles.indexOf('admin') < 0) {
         condition.author = req.session.user._id;
