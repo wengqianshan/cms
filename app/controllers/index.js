@@ -68,16 +68,12 @@ exports.upload = function(req, res) {
                     item._id = obj._id;
                     json.files.push(item);
                     if(len === 0) {
-                        //res.send(JSON.stringify(result)); 
                         console.log(json)
                         res.json(json);
                     }
-                    //console.log('保存文件', file);
                 });
             });
-            //res.send(JSON.stringify(result)); 
         });
-        
     }
 };
 //列表

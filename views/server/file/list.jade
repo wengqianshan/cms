@@ -10,6 +10,7 @@ block content
                         tr
                             th 名称
                             th 创建人
+                            th 类型
                             th 创建时间
                             th 操作
                     tbody
@@ -25,6 +26,7 @@ block content
                                         | #{file.author.username}
                                     else
                                         | 无
+                                td #{file.type}
                                 td
                                     | #{moment(file.created).format('LLL')}
                                 td

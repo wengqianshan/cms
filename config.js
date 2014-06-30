@@ -23,6 +23,7 @@ var config = {
         // to prevent executing any scripts in the context of the service domain:
         inlineFileTypes:  /\.(gif|jpe?g|png)/i,
         imageTypes:  /\.(gif|jpe?g|png)/i,
+        //copyImgAsThumb: true,
         imageVersions: {
             width:  80,
             height: 80

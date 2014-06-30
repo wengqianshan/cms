@@ -1,16 +1,71 @@
 extends ../layout
-
+block head-css
+    <link rel="stylesheet" href="/js/upload/css/jquery.fileupload.css">
 block content
     .container
         .row
             .col-md-12
-                form(action='', method='post')
+                form(action='', method='post', enctype='multipart/form-data')
+                    .gallery
+                        img(src='#{file.url}')
                     .form-group
                         label 上传文件
-                        input(type='file')
+                        //input(type='file')
+                        span.btn.btn-success.fileinput-button
+                                i.glyphicon.glyphicon-plus
+                                span 添加文件
+                                input#fileupload(data-url='/upload', type='file', name='files[]', multiple='multiple')
+                        div(style='padding: 10px;')
+                        #J_files
+                        div#progress.progress
+                            div.progress-bar.progress-bar-success
+                        #J_preview.preview
                     .form-group
                         label 描述
-                        textarea.form-control(name='description', rows='8') #{role.description}
+                        textarea.form-control(name='description', rows='8') #{file.description}
                     input(type='hidden', name='_csrf', value='#{token}')
                     button.btn.btn-primary(type='submit') 提交
 
+block foot-js
+    script(src='/js/upload/js/vendor/jquery.ui.widget.js')
+    <script src="http://blueimp.github.io/JavaScript-Load-Image/js/load-image.min.js"></script>
+    <script src="http://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
+    script(src='/js/upload/js/jquery.iframe-transport.js')
+    script(src='/js/upload/js/jquery.fileupload.js')
+    <script src="/js/upload/js/jquery.fileupload-process.js"></script>
+    <script src="/js/upload/js/jquery.fileupload-image.js"></script>
+    <script src="/js/upload/js/jquery.fileupload-audio.js"></script>
+    <script src="/js/upload/js/jquery.fileupload-video.js"></script>
+    <script src="/js/upload/js/jquery.fileupload-validate.js"></script>
+
+    script.
+        $(function () {
+            $('#fileupload').fileupload({
+                url: '/upload',
+                formData: {
+                    _csrf: '#{token}',
+                    id: '#{file.id}'
+                },
+                dataType: 'json',
+                progressall: function(e, data) {
+                    //console.log(e, data);
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#progress .progress-bar').css(
+                        'width',
+                        progress + '%'
+                    );
+                },
+                done: function (e, data) {
+                    $('#progress .progress-bar').css(
+                        'width',
+                        '0%'
+                    );
+                    $.each(data.result.files, function (index, file) {
+                        console.log(file)
+                        //$('<img src="' + file.url + '"/>').appendTo(document.body);
+                        $('#J_files').append('<input type="hidden" name="gallery" value="' + file._id + '"/>');
+                        $('#J_preview').append('<img src="' + file.url + '"/>');
+                    });
+                }
+            });
+        });
