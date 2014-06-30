@@ -11,7 +11,7 @@ var csrf = require('csurf');
 var moment = require('moment');
 var underscore = require('underscore');
 
-var util = require('./server/libs/util');
+var core = require('./libs/core');
 
 var appPath = process.cwd();
 var config = require('./config');
@@ -29,7 +29,7 @@ db.once('open', function callback () {
   console.log('连接mongodb成功');
 });
 //引入数据模型
-util.walk(appPath + '/server/models', null, function(path) {
+core.walk(appPath + '/models', null, function(path) {
     require(path);
 });
 
@@ -42,7 +42,7 @@ app.locals = {
     pretty: true,
     moment: moment,
     _: underscore,
-    util: util,
+    core: core,
     config: config,
     adminDir: config.admin.dir ? ('/' + config.admin.dir) : ''
 };
@@ -67,8 +67,8 @@ app.use(function(req, res, next) {
     if(req.session.user) {
         res.locals.User = req.session.user;
         //角色信息
-        var roles = util.getRoles(req.session.user);
-        var actions = util.getActions(req.session.user);
+        var roles = core.getRoles(req.session.user);
+        var actions = core.getActions(req.session.user);
         req.Roles = roles;
         req.Actions = actions;
         res.locals.Roles = roles;
@@ -84,17 +84,17 @@ app.use(function(req, res, next) {
 });
 
 //引入路由控制
-util.walk(appPath + '/server/routes', 'middlewares', function(path) {
+core.walk(appPath + '/server/routes', 'middlewares', function(path) {
     require(path)(app);
 });
-util.walk(appPath + '/app/routes', 'middlewares', function(path) {
+core.walk(appPath + '/app/routes', 'middlewares', function(path) {
     require(path)(app);
 });
 
 //后台管理路由
-var adminPath = util.translateAdminDir('');
+var adminPath = core.translateAdminDir('');
 app.use(adminPath, function(req, res, next) {
-    var path = util.translateAdminDir('/index');
+    var path = core.translateAdminDir('/index');
     return res.redirect(path);
 });
 

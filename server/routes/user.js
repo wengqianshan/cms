@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var util = require('../libs/util');
-var user = require('../../server/controllers/user');
+var core = require('../../libs/core');
+var user = require('../controllers/user');
 
 //权限判断
 router.use(function(req, res, next) {
@@ -20,11 +20,11 @@ router.route('/logout').all(user.logout);
 //权限判断
 router.use(function(req, res, next) {
     if(!req.session.user) {
-        var path = util.translateAdminDir('/user/login');
+        var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
     if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('user') < 0)) {
-        var path = util.translateAdminDir('/index');
+        var path = core.translateAdminDir('/index');
         return res.redirect(path);
     }
     next();
@@ -43,6 +43,6 @@ router.route('/:id/del').all(user.del);
 
 
 module.exports = function(app) {
-    var path = util.translateAdminDir('/user');
+    var path = core.translateAdminDir('/user');
     app.use(path, router);
 };

@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
     File = mongoose.model('File'),
     config = require('../../config'),
     _ = require('underscore'),
-    util = require('../../server/libs/util');
+    core = require('../../libs/core');
 exports.index = function(req, res) {
     console.log('前台')
     //console.time('content-list');
@@ -17,7 +17,7 @@ exports.index = function(req, res) {
     Content.count(condition, function(err, total) {
         var query = Content.find(condition).populate('author', 'username name email').populate('comments');
         //分页
-        var pageInfo = util.createPage(req, total, 10);
+        var pageInfo = core.createPage(req, total, 10);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});

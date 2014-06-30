@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var util = require('../libs/util');
-var index = require('../../server/controllers/index');
+var core = require('../../libs/core');
+var index = require('../controllers/index');
 
 //首页
 router.use(function(req, res, next) {
@@ -15,6 +15,6 @@ router.route('/install').all(index.install);
 router.get('/me', index.me);
 
 module.exports = function(app) {
-    var path = util.translateAdminDir('/index');
+    var path = core.translateAdminDir('/index');
     app.use(path, router);
 };

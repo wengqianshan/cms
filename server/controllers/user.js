@@ -3,13 +3,13 @@ var mongoose = require('mongoose'),
     User = mongoose.model('User'),
     Role = mongoose.model('Role'),
     config = require('../../config'),
-    util = require('../libs/util'),
+    core = require('../../libs/core'),
     _ = require('underscore');
 
 //用户登录校验
 exports.authenticate = function(req, res, next) {
     if (!req.session.user) {
-        var path = util.translateAdminDir('/user/login');
+        var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     } else {
         next();
@@ -24,7 +24,7 @@ exports.list = function(req, res) {
     User.count(condition, function(err, total) {
         var query = User.find(condition).populate('author').populate('roles');
         //分页
-        var pageInfo = util.createPage(req, total, 10);
+        var pageInfo = core.createPage(req, total, 10);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});
@@ -180,8 +180,8 @@ exports.edit = function(req, res) {
                     msg: '没有权限'
                 });
             }
-            //var roles = util.getRoles(user);
-            var oldRoles = util.getRoles(user);
+            //var roles = core.getRoles(user);
+            var oldRoles = core.getRoles(user);
             //啊 这个人是管你员
             var query;
             if(typeof obj.roles === 'string') {
@@ -279,7 +279,7 @@ exports.del = function(req, res) {
             });
         }
         //看看删除的是不是管理员
-        var roles = util.getRoles(result);
+        var roles = core.getRoles(result);
         if(roles.indexOf(config.admin.role.admin) > -1) {
             console.log('这个是管理员');
             User.find({}).populate('roles').exec(function(err, results) {
@@ -336,7 +336,7 @@ exports.login = function(req, res) {
                 console.log('登录成功');
                 console.log(user);
                 req.session.user = user;
-                var path = util.translateAdminDir('/index');
+                var path = core.translateAdminDir('/index');
                 res.redirect(path);
             } else {
                 res.render('server/message', {
@@ -363,7 +363,7 @@ exports.logout = function(req, res) {
         /*res.render('server/message', {
             msg: '注销成功'
         });*/
-        var path = util.translateAdminDir('/index');
+        var path = core.translateAdminDir('/index');
         res.redirect(path);
     } else {
         res.render('server/message', {

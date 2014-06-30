@@ -1,18 +1,18 @@
 var express = require('express');
 var router = express.Router();
-var util = require('../libs/util');
-var role = require('../../server/controllers/role');
+var core = require('../../libs/core');
+var role = require('../controllers/role');
 
 //权限判断
 router.use(function(req, res, next) {
     console.log('角色页: ' + Date.now());
     res.locals.Path = 'role';
     if(!req.session.user) {
-        var path = util.translateAdminDir('/user/login');
+        var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
     if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('role') < 0)) {
-        var path = util.translateAdminDir('/index');
+        var path = core.translateAdminDir('/index');
         return res.redirect(path);
     }
     next();
@@ -30,6 +30,6 @@ router.route('/:id/del').all(role.del);
 
 
 module.exports = function(app) {
-    var path = util.translateAdminDir('/role');
+    var path = core.translateAdminDir('/role');
     app.use(path, router);
 };

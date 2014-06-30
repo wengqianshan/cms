@@ -11,17 +11,31 @@ mixin pagination(pageInfo)
     ul.pagination
         - var page = pageInfo
         - var totalPage = page.totalPage
+        - var range = 3
         - var currentPage = Math.min(page.currentPage, page.totalPage)
         - var prevPage = (currentPage - 1) || 1
         - var nextPage = currentPage >= page.totalPage ? page.totalPage : (currentPage + 1)
         - var query = pageInfo.query || {}
         - query.page = prevPage
         li(class=(currentPage === 1) ? 'disabled' : '')
-            a(href='?#{util.generateParamsByObj(query)}') &laquo;
+            a(href='?#{core.generateParamsByObj(query)}') &laquo;
+        if (currentPage - range >= 2)
+            - query.page = 1
+            li(class=(currentPage === 1) ? 'active' : '') 
+                a(href='?#{core.generateParamsByObj(query)}') 1
+            li 
+                a ...
         - for (var i =1, len = totalPage; i <= len; i ++)
             - query.page = i
-            li(class=(currentPage === i) ? 'active' : '') 
-                a(href='?#{util.generateParamsByObj(query)}') #{i}
+            if(i >= Math.min(Math.max(currentPage - range, 1), totalPage - 2 * range) && i <= Math.max(Math.min(range + currentPage, totalPage), 2 * range))
+                li(class=(currentPage === i) ? 'active' : '') 
+                    a(href='?#{core.generateParamsByObj(query)}') #{i}
+        if (currentPage + range <= totalPage - 1 )
+            li 
+                a ...
+            - query.page = totalPage
+            li(class=(currentPage === totalPage) ? 'active' : '') 
+                a(href='?#{core.generateParamsByObj(query)}') #{totalPage}
         - query.page = nextPage
         li(class=(currentPage === totalPage) ? 'disabled' : '')
-            a(href='?#{util.generateParamsByObj(query)}') &raquo;
+            a(href='?#{core.generateParamsByObj(query)}') &raquo;

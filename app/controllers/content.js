@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
     Content = mongoose.model('Content'),
     Category = mongoose.model('Category'),
     _ = require('underscore'),
-    util = require('../../server/libs/util');
+    core = require('../../libs/core');
 
 //列表
 exports.list = function(req, res) {
@@ -16,7 +16,7 @@ exports.list = function(req, res) {
     Content.count(condition, function(err, total) {
         var query = Content.find(condition).populate('author', 'username name email');
         //分页
-        var pageInfo = util.createPage(req, total, 10);
+        var pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);

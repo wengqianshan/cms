@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
     Content = mongoose.model('Content'),
     Comment = mongoose.model('Comment'),
     config = require('../../config'),
-    util = require('../../server/libs/util');
+    core = require('../../libs/core');
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
@@ -66,7 +66,7 @@ exports.list = function(req, res) {
     Comment.count(condition, function(err, total) {
         var query = Comment.find({}).populate('author').populate('from');
         //分页
-        var pageInfo = util.createPage(req, total, 10);
+        var pageInfo = core.createPage(req, total, 10);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});

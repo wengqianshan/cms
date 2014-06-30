@@ -2,7 +2,7 @@
 var mongoose = require('mongoose'),
     Category = mongoose.model('Category'),
     _ = require('underscore'),
-    util = require('../libs/util');
+    core = require('../../libs/core');
 //列表
 exports.list = function(req, res) {
     var condition = {};
@@ -12,7 +12,7 @@ exports.list = function(req, res) {
     Category.count(condition, function(err, total) {
         var query = Category.find(condition).populate('author');
         //分页
-        var pageInfo = util.createPage(req, total, 10);
+        var pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);

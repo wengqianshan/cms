@@ -2,7 +2,7 @@
 
 var fs = require('fs'),
     path = require('path'),
-    config = require('../../config'),
+    config = require('../config'),
     _ = require('underscore');
 
 // recursively walk modules path and callback for each file

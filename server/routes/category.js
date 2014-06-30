@@ -1,18 +1,18 @@
 var express = require('express');
 var router = express.Router();
-var util = require('../libs/util');
-var category = require('../../server/controllers/category');
+var core = require('../../libs/core');
+var category = require('../controllers/category');
 
 //权限判断
 router.use(function(req, res, next) {
     console.log('分类页: ' + Date.now());
     res.locals.Path = 'category';
     if(!req.session.user) {
-        var path = util.translateAdminDir('/user/login');
+        var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
     if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('category') < 0)) {
-        var path = util.translateAdminDir('/index');
+        var path = core.translateAdminDir('/index');
         return res.redirect(path);
     }
     next();
@@ -29,6 +29,6 @@ router.route('/:id/edit').all(category.edit);
 router.route('/:id/del').all(category.del);
 
 module.exports = function(app) {
-    var path = util.translateAdminDir('/category');
+    var path = core.translateAdminDir('/category');
     app.use(path, router);
 };

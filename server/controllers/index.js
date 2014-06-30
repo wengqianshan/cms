@@ -3,21 +3,21 @@ var mongoose = require('mongoose'),
     User = mongoose.model('User'),
     Role = mongoose.model('Role'),
     config = require('../../config'),
-    util = require('../libs/util');
+    core = require('../../libs/core');
 
 //后台首页
 exports.index = function(req, res) {
     if(req.session.user) {
         res.render('server/index', { title: 'CMS系统' });
     } else {
-        var path = util.translateAdminDir('/user/login');
+        var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
 };
 //管理员资料
 exports.me = function(req, res) {
     if(!req.session.user) {
-        var path = util.translateAdminDir('/user/login');
+        var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
     var id = req.session.user._id;
@@ -32,7 +32,7 @@ exports.me = function(req, res) {
 };
 exports.checkInstall = function(req, res, next) {
     if(req.session.user) {
-        var path = util.translateAdminDir('/index');
+        var path = core.translateAdminDir('/index');
         return res.redirect(path);
     }
     if(req.path.indexOf('/user/login') > -1 || req.path.indexOf('/user/login') > -1) {
@@ -43,10 +43,10 @@ exports.checkInstall = function(req, res, next) {
             return;
         }
         if(results.length > 0) {
-            var path = util.translateAdminDir('/user/login');
+            var path = core.translateAdminDir('/user/login');
             return res.redirect(path);
         } else {
-            var path = util.translateAdminDir('/index/install');
+            var path = core.translateAdminDir('/index/install');
             return res.redirect(path);
         }
         next();
@@ -55,7 +55,7 @@ exports.checkInstall = function(req, res, next) {
 //初始化后台,安装初始数据
 exports.install = function(req, res) {
     if(req.session.user) {
-        var path = util.translateAdminDir('/index');
+        var path = core.translateAdminDir('/index');
         return res.redirect(path);
     }
     //检查是否已经有用户
@@ -110,7 +110,7 @@ exports.install = function(req, res) {
             }
         }else{
             //已经初始化过，跳过
-            var path = util.translateAdminDir('/index');
+            var path = core.translateAdminDir('/index');
             res.redirect(path);
         }
     })
