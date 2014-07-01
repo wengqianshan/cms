@@ -90,7 +90,7 @@ exports.add = function(req, res) {
 exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.param('id');
-        Content.findById(id).populate('author').exec(function(err, result) {
+        Content.findById(id).populate('author').populate('gallery').exec(function(err, result) {
             if(err) {
                 console.log('加载内容失败');
             }
