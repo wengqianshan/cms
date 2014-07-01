@@ -54,6 +54,11 @@ exports.add = function(req, res) {
     } else if (req.method === 'POST') {
         console.log(req.files);
         console.log(req.body);
+        var files = req.files.files;
+        files.forEach(function(file) {
+            fs.renameSync(file.path, config.upload.uploadDir + '/' + file.name);
+        });
+        return;
         //以下不执行
         uploader.post(req, res, function (result) {
             console.log(result);
