@@ -6,6 +6,8 @@ block content
             .col-md-12
                 .panel.panel-default
                     .panel-heading
+                        a.pull-right(href='', title='编辑')
+                            span.glyphicon.glyphicon-edit
                         | 管理员资料信息
                     ul.list-group
                         li.list-group-item
@@ -56,6 +58,28 @@ block content
                                     strong 注册日期
                                 .col-md-10
                                     | #{moment(user.created).format('LLL')}
+        .row
+            .col-md-12
+                .panel.panel-info
+                    .panel-heading
+                        | 修改密码
+                    .panel-body
+                        form.form-horizontal(action='#{adminDir}/index/me/updatepwd', method='post')
+                            .form-group
+                                label.col-md-2.text-right 旧密码
+                                .col-md-4
+                                    input.form-control(type='text', name='oldpassword')
+                            .form-group
+                                label.col-md-2.text-right 新密码
+                                .col-md-4
+                                    input.form-control(type='text', name='password')
+                            .form-group
+                                label.col-md-2.text-right 确认新密码
+                                .col-md-4
+                                    input.form-control(type='text', name='repassword')
+                            .form-group
+                                .col-md-4.col-md-offset-2
+                                    button.btn.btn-primary(type='submit') 提交
 
                     
 
