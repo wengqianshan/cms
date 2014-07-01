@@ -19,6 +19,7 @@
     "mongoose": "^3.8.12",
     "morgan": "~1.0.0",
     "static-favicon": "~1.0.0",
-    "underscore": "^1.6.0"
+    "underscore": "^1.6.0",
+    "connect-multiparty": "^1.0.5"
   }
 }

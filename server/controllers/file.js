@@ -52,6 +52,8 @@ exports.add = function(req, res) {
     if (req.method === 'GET') {
         res.render('server/file/add');
     } else if (req.method === 'POST') {
+        console.log(req.files);
+        console.log(req.body);
         //以下不执行
         uploader.post(req, res, function (result) {
             console.log(result);
