@@ -25,7 +25,7 @@ mixin pagination(pageInfo)
                 a(href='?#{core.generateParamsByObj(query)}') 1
             li 
                 a ...
-        - for (var i =1, len = totalPage; i <= len; i ++)
+        - for (var i = 1; i <= totalPage; i ++)
             - query.page = i
             if(i >= Math.min(Math.max(currentPage - range, 1), totalPage - 2 * range) && i <= Math.max(Math.min(range + currentPage, totalPage), 2 * range))
                 li(class=(currentPage === i) ? 'active' : '') 
