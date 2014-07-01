@@ -10,7 +10,7 @@ var bodyParser = require('body-parser');
 var csrf = require('csurf');
 var moment = require('moment');
 var underscore = require('underscore');
-
+//var multipart = require('connect-multiparty');//解析文件
 var core = require('./libs/core');
 
 var appPath = process.cwd();
@@ -59,6 +59,7 @@ app.use(session({
     store: new RedisStore*/
 }));
 app.use('/upload', index.upload);
+//app.use(multipart());
 app.use(csrf());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
