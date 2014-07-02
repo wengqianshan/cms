@@ -127,7 +127,7 @@ html.no-js
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('content') > -1))
                             li.sub-menu(class=Path === 'content' ? 'active' : '')
                                 a(href='javascript:void(0);')
-                                    i.fa.fa-cogs
+                                    i.fa.fa-file-text
                                     span 内容
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
@@ -138,13 +138,13 @@ html.no-js
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('category') > -1))
                             li.sub-menu(class=Path === 'category' ? 'active' : '')
                                 a(href='javascript:void(0);')
-                                    i.fa.fa-cogs
+                                    i.fa.fa-th
                                     span 分类
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
-                                    li
+                                    li(class=Menu === 'list' ? 'active' : '')
                                         a(href='#{adminDir}/category') 分类列表
-                                    li
+                                    li(class=Menu === 'add' ? 'active' : '')
                                         a(href='#{adminDir}/category/add') 添加分类
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('comment') > -1))
                             li(class=Path === 'comment' ? 'active' : '')
@@ -152,35 +152,35 @@ html.no-js
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('user') > -1))
                             li.sub-menu(class=Path === 'user' ? 'active' : '')
                                 a(href='javascript:void(0);')
-                                    i.fa.fa-cogs
+                                    i.fa.fa-users
                                     span 用户
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
-                                    li
+                                    li(class=Menu === 'list' ? 'active' : '')
                                         a(href='#{adminDir}/user') 用户列表
-                                    li
+                                    li(class=Menu === 'add' ? 'active' : '')
                                         a(href='#{adminDir}/user/add') 添加用户
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('role') > -1))
                             li.sub-menu(class=Path === 'role' ? 'active' : '')
                                 a(href='javascript:void(0);')
-                                    i.fa.fa-cogs
+                                    i.fa.fa-unlock-alt
                                     span 角色
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
-                                    li
+                                    li(class=Menu === 'list' ? 'active' : '')
                                         a(href='#{adminDir}/role') 角色列表
-                                    li
+                                    li(class=Menu === 'add' ? 'active' : '')
                                         a(href='#{adminDir}/role/add') 添加角色
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('file') > -1))
                             li.sub-menu(class=Path === 'file' ? 'active' : '')
                                 a(href='javascript:void(0);')
-                                    i.fa.fa-cogs
+                                    i.fa.fa-folder-open
                                     span 文件
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
-                                    li
+                                    li(class=Menu === 'list' ? 'active' : '')
                                         a(href='#{adminDir}/file') 文件列表
-                                    li
+                                    li(class=Menu === 'add' ? 'active' : '')
                                         a(href='#{adminDir}/file/add') 添加文件
                                 
             // sidebar left end

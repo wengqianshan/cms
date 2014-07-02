@@ -33,7 +33,8 @@ exports.list = function(req, res) {
             res.render('server/user/list', {
                 title: '内容列表',
                 users: results,
-                pageInfo: pageInfo
+                pageInfo: pageInfo,
+                Menu: 'list'
             });
         });
     })
@@ -87,7 +88,9 @@ exports.register = function(req, res) {
 exports.add = function(req, res) {
     var method = req.method;
     if (method === 'GET') {
-        res.render('server/user/add', {});
+        res.render('server/user/add', {
+            Menu: 'add'
+        });
     } else if (method === 'POST') {
         var obj = req.body;
         console.log(obj);

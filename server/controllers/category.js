@@ -22,7 +22,8 @@ exports.list = function(req, res) {
             res.render('server/category/list', {
                 //title: '列表',
                 categorys: results,
-                pageInfo: pageInfo
+                pageInfo: pageInfo,
+                Menu: 'list'
             });
         })
     })
@@ -47,7 +48,9 @@ exports.one = function(req, res) {
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
-        res.render('server/category/add');
+        res.render('server/category/add', {
+            Menu: 'add'
+        });
     } else if (req.method === 'POST') {
         var obj = req.body;
         if (req.session.user) {

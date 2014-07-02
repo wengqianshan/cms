@@ -21,7 +21,8 @@ exports.list = function(req, res) {
             //console.log(results)
             res.render('server/role/list', {
                 roles: results,
-                pageInfo: pageInfo
+                pageInfo: pageInfo,
+                Menu: 'list'
             });
         });
     })
@@ -45,7 +46,9 @@ exports.one = function(req, res) {
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
-        res.render('server/role/add');
+        res.render('server/role/add', {
+            Menu: 'add'
+        });
     } else if (req.method === 'POST') {
         var obj = req.body;
         obj.actions = obj.actions.split(',').map(function(action) {
