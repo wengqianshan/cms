@@ -1,6 +1,9 @@
-extends layout
+extends layout-blank
 
 block content
-        h1.alert.alert-danger= message
-        h2= error.status
-        pre #{error.stack}
+    section#error-container
+        .block-error
+            .alert.alert-danger
+                p #{message}
+                h2= error.status
+                pre #{error.stack}
