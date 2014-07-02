@@ -1,5 +1,8 @@
 body {
-  padding-top: 70px;
+  
+}
+body.fixed-top{
+    padding-top: 70px;
 }
 .navbar-right{
     color: #eee;
@@ -28,4 +31,44 @@ body {
 .preview img{
     max-width: 200px;
     max-height: 200px;
+}
+.cms-masthead{
+    background-color: #428bca;
+    box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
+}
+.cms-nav{
+
+}
+.cms-nav a{
+    color: #cdddeb;
+}
+.admin-link{
+    color: #fff;
+    padding-top: 10px;
+}
+.admin-link a{
+
+}
+.cms-nav-item{
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+    font-weight: 500;
+    color: #cdddeb;
+}
+.cms-nav-item.active{
+    color: #fff;
+}
+.cms-nav-item.active:after{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -5px;
+    vertical-align: middle;
+    content: " ";
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid;
+    border-left: 5px solid transparent;
 }
