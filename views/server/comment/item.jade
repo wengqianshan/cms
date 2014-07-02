@@ -1,17 +1,16 @@
 extends ../layout
 
 block content
-    .container
-        .row
-            .col-md-12
-                .lists
-                    p 内容：#{comment.content}
-                    p 来自：
-                        if (comment.from)
-                            a(href='#{adminDir}/content/#{comment.from.id}') #{comment.from.title}
-                    p 日期：#{comment.created}
-                    p 作者：
-                        if (comment.author)
-                            | #{comment.author.name}
-                        else
-                            | 匿名
+    .row
+        .col-md-12
+            .lists
+                p 内容：#{comment.content}
+                p 来自：
+                    if (comment.from)
+                        a(href='#{adminDir}/content/#{comment.from.id}') #{comment.from.title}
+                p 日期：#{comment.created}
+                p 作者：
+                    if (comment.author)
+                        | #{comment.author.name}
+                    else
+                        | 匿名

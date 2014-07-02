@@ -1,19 +1,18 @@
 extends ../layout
 
 block content
-    .container
-        .row
-            .col-md-12
-                form(action='', method='post')
-                    .form-group
-                        label 名称
-                        input.form-control(name='name')
-                    .form-group
-                        label 标记(别名)
-                        input.form-control(name='flag')
-                    .form-group
-                        label 描述
-                        textarea.form-control(name='description', rows='8')
-                    input(type='hidden', name='_csrf', value='#{token}')
-                    button.btn.btn-primary(type='submit') 提交
+    .row
+        .col-md-12
+            form(action='', method='post')
+                .form-group
+                    label 名称
+                    input.form-control(name='name')
+                .form-group
+                    label 标记(别名)
+                    input.form-control(name='flag')
+                .form-group
+                    label 描述
+                    textarea.form-control(name='description', rows='8')
+                input(type='hidden', name='_csrf', value='#{token}')
+                button.btn.btn-primary(type='submit') 提交
 

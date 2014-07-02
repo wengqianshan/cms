@@ -3,32 +3,31 @@ block head-css
     <link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery.css">
     <link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery-indicator.css">
 block content
-    .container
-        .row
-            .col-md-12
-                .lists
-                    h2 #{content.title}
-                    p 
-                        if (content.category)
-                            span.label.label-default #{content.category.name}
-                        | 
-                        if (content.author)
-                            strong #{content.author.name}
-                        | 发布于：#{moment(content.created).format('LL')} 
-                        | 访问量：#{content.visits}
-                    .gallery
-                        if (content.gallery)
-                            each image in content.gallery
-                                a(href='#{image.url}')
-                                    img(src='#{image.url}')
-                    .content 
-                        | #{content.content}
-                    .comments
-                        h2 评论
-                        if(content.comments)
-                            ul
-                                each comment in content.comments
-                                    li #{comment.content}
+    .row
+        .col-md-12
+            .lists
+                h2 #{content.title}
+                p 
+                    if (content.category)
+                        span.label.label-default #{content.category.name}
+                    | 
+                    if (content.author)
+                        strong #{content.author.name}
+                    | 发布于：#{moment(content.created).format('LL')} 
+                    | 访问量：#{content.visits}
+                .gallery
+                    if (content.gallery)
+                        each image in content.gallery
+                            a(href='#{image.url}')
+                                img(src='#{image.url}')
+                .content 
+                    | #{content.content}
+                .comments
+                    h2 评论
+                    if(content.comments)
+                        ul
+                            each comment in content.comments
+                                li #{comment.content}
     #blueimp-gallery.blueimp-gallery
         .slides
         h3.title

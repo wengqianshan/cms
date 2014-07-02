@@ -1,5 +1,6 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var gravatar = require('gravatar');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
@@ -44,7 +45,8 @@ app.locals = {
     _: underscore,
     core: core,
     config: config,
-    adminDir: config.admin.dir ? ('/' + config.admin.dir) : ''
+    adminDir: config.admin.dir ? ('/' + config.admin.dir) : '',
+    gravatar: gravatar
 };
 app.set('config', config);
 

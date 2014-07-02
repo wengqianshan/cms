@@ -1,8 +1,8 @@
 extends ../layout
 
 block content
-    .container
-        .row
+    .row
+        .col-md-12
             .register
                 form(action='', method='post')
                     h2 添加用户
@@ -20,4 +20,34 @@ block content
                         input.form-control(name='email')
                     input(type='hidden', name='_csrf', value='#{token}')
                     button.btn.btn-primary(type='submit') 提交
+    .row
+        .col-md-6
+            .panel.panel-default
+                .panel-heading
+                    h3.panel-title 添加用户
+                    .actions.pull-right
+                        i.fa.fa-chevron-down
+                        i.fa.fa-times
+                .panel-body
+                    form.form-horizontal(role='form', action='', method='post')
+                        .form-group
+                            label.col-sm-2.control-label(for='inputEmail2') 用户名
+                            .col-sm-10
+                                input#inputEmail2.form-control(type='text', name='username', placeholder='用户名')
+                        .form-group
+                            label.col-sm-2.control-label(for='inputPassword3') 密码
+                            .col-sm-10
+                                input#inputPassword3.form-control(type='password', name='password', placeholder='密码')
+                        .form-group
+                            label.col-sm-2.control-label(for='inputPassword4') 姓名
+                            .col-sm-10
+                                input#inputPassword4.form-control(type='text', name='name', placeholder='姓名')
+                        .form-group
+                            label.col-sm-2.control-label(for='inputPassword5') Email
+                            .col-sm-10
+                                input#inputPassword5.form-control(type='email', name='email', placeholder='Email')
+                        input(type='hidden', name='_csrf', value='#{token}')
+                        .form-group
+                            .col-sm-offset-2.col-sm-10
+                                button.btn.btn-primary(type='submit') 提交
 

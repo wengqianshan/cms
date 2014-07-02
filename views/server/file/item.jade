@@ -1,15 +1,14 @@
 extends ../layout
 
 block content
-    .container
-        .row
-            .col-md-12
-                .lists
-                    p 名称：#{role.name}
-                    p 创建人: 
-                        if (role.author)
-                            | #{role.author.username}
-                        else
-                            | 无
-                    p 日期：#{role.created}
-                    p 描述：!{role.description}
+    .row
+        .col-md-12
+            .lists
+                p 名称：#{role.name}
+                p 创建人: 
+                    if (role.author)
+                        | #{role.author.username}
+                    else
+                        | 无
+                p 日期：#{role.created}
+                p 描述：!{role.description}

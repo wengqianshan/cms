@@ -29,7 +29,8 @@ exports.list = function(req, res) {
             res.render('server/content/list', {
                 title: '内容列表',
                 contents: results,
-                pageInfo: pageInfo
+                pageInfo: pageInfo,
+                Menu: 'list'
             });
         });
     });
@@ -62,7 +63,8 @@ exports.add = function(req, res) {
         }
         Category.find(condition, function(err, results) {
             res.render('server/content/add', {
-                categorys: results
+                categorys: results,
+                Menu: 'add'
             });
         });
     } else if (req.method === 'POST') {

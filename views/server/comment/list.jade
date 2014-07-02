@@ -1,34 +1,33 @@
 extends ../layout
 
 block content
-    .container
-        .row
-            .col-md-12
-                table.table.table-striped
-                    thead
+    .row
+        .col-md-12
+            table.table.table-striped
+                thead
+                    tr
+                        th 内容
+                        th 作者
+                        th 来自
+                        th 时间
+                        th 操作
+                tbody
+                    - each comment in comments
                         tr
-                            th 内容
-                            th 作者
-                            th 来自
-                            th 时间
-                            th 操作
-                    tbody
-                        - each comment in comments
-                            tr
-                                td
-                                    a(href='#{adminDir}/comment/#{comment.id}') #{comment.content}
-                                td
-                                    if (comment.author)
-                                        | #{comment.author.name}
-                                    else
-                                        | 匿名
-                                td
-                                    if comment.from
-                                        a(href='#{adminDir}/content/#{comment.from._id}/') #{comment.from.title}
-                                td
-                                    | #{moment(comment.created).format('LLL')}
-                                td
-                                    a.btn.btn-danger.btn-xs(href='#{adminDir}/comment/#{comment.id}/del') 删除
-                if (pageInfo && pageInfo.totalPage > 1)
-                    include ../page
-                    +pagination(pageInfo)
+                            td
+                                a(href='#{adminDir}/comment/#{comment.id}') #{comment.content}
+                            td
+                                if (comment.author)
+                                    | #{comment.author.name}
+                                else
+                                    | 匿名
+                            td
+                                if comment.from
+                                    a(href='#{adminDir}/content/#{comment.from._id}/') #{comment.from.title}
+                            td
+                                | #{moment(comment.created).format('LLL')}
+                            td
+                                a.btn.btn-danger.btn-xs(href='#{adminDir}/comment/#{comment.id}/del') 删除
+            if (pageInfo && pageInfo.totalPage > 1)
+                include ../page
+                +pagination(pageInfo)

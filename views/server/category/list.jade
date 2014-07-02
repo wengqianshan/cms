@@ -1,34 +1,33 @@
 extends ../layout
 
 block content
-    .container
-        .row
-            .col-md-12
-                a.btn.btn-default(href='#{adminDir}/category/add') 添加分类
-                table.table.table-striped
-                    thead
+    .row
+        .col-md-12
+            a.btn.btn-info(href='#{adminDir}/category/add') 添加分类
+            table.table.table-striped
+                thead
+                    tr
+                        th 名称
+                        th 标记
+                        th 创建者
+                        th 创建时间
+                        th 操作
+                tbody
+                    - each category in categorys
                         tr
-                            th 名称
-                            th 标记
-                            th 创建者
-                            th 创建时间
-                            th 操作
-                    tbody
-                        - each category in categorys
-                            tr
-                                td
-                                    a(href='#{adminDir}/category/#{category.id}') #{category.name}
-                                td
-                                    | #{category.flag}
-                                td
-                                    if (category.author)
-                                        | #{category.author.name}
-                                td
-                                    | #{moment(category.created).format('LLL')}
-                                td
-                                    a.btn.btn-default.btn-xs(href='#{adminDir}/category/#{category.id}/edit') 编辑
-                                    | &nbsp;
-                                    a.btn.btn-danger.btn-xs(href='#{adminDir}/category/#{category.id}/del') 删除
-                if (pageInfo && pageInfo.totalPage > 1)
-                    include ../page
-                    +pagination(pageInfo)
+                            td
+                                a(href='#{adminDir}/category/#{category.id}') #{category.name}
+                            td
+                                | #{category.flag}
+                            td
+                                if (category.author)
+                                    | #{category.author.name}
+                            td
+                                | #{moment(category.created).format('LLL')}
+                            td
+                                a.btn.btn-default.btn-xs(href='#{adminDir}/category/#{category.id}/edit') 编辑
+                                | &nbsp;
+                                a.btn.btn-danger.btn-xs(href='#{adminDir}/category/#{category.id}/del') 删除
+            if (pageInfo && pageInfo.totalPage > 1)
+                include ../page
+                +pagination(pageInfo)

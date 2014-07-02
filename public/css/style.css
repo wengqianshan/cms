@@ -1,28 +1,5 @@
-body {
-  
-}
-body.fixed-top{
-    padding-top: 70px;
-}
-.navbar-right{
-    color: #eee;
-    height: 20px;
-    margin-top: 15px;
-}
-.login{
-    width: 300px;
-    margin: 0 auto;
-}
-.register{
-    width: 500px;
-    margin: 0 auto;
-}
-.content{
-    padding: 15px;
-}
-.console{
-    padding: 10px;
-    background-color: #eee;
+body{
+    font-family: '微软雅黑' Monaco;
 }
 .gallery img{
     max-width: 200px;
@@ -31,6 +8,9 @@ body.fixed-top{
 .preview img{
     max-width: 200px;
     max-height: 200px;
+}
+a.btn-danger{
+    color: #fff;
 }
 .cms-masthead{
     background-color: #428bca;

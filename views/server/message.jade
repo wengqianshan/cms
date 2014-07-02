@@ -1,5 +1,9 @@
-extends layout
+extends layout-blank
 
 block content
-    .container
-        pre #{msg}
+    section#error-container
+        .block-error
+            .alert.alert-danger
+                | #{msg}
+                p
+                a.btn.btn-info(href='#{adminDir}') 回首页

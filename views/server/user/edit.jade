@@ -1,29 +1,28 @@
 extends ../layout
 
 block content
-    .container
-        .row
-            .col-md-12
-                form(action='', method='post')
-                    .form-group
-                        label 用户名
-                        input.form-control(name='username', value='#{user.username}')
-                    .form-group
-                        label 姓名
-                        input.form-control(name='name', value='#{user.name}')
-                    .form-group
-                        label Email
-                        input.form-control(name='email', value='#{user.email}')
-                    .form-group
-                        label 角色
-                        select.form-control(multiple, name='roles')
-                            - each role in roles
-                                if (user.roles.indexOf(role.id) > -1)
-                                    option(value='#{role.id}', selected)
-                                        | #{role.name}
-                                else
-                                    option(value='#{role.id}')
-                                        | #{role.name}
-                    input(type='hidden', name='_csrf', value='#{token}')
-                    button.btn.btn-primary(type='submit') 提交
+    .row
+        .col-md-12
+            form(action='', method='post')
+                .form-group
+                    label 用户名
+                    input.form-control(name='username', value='#{user.username}')
+                .form-group
+                    label 姓名
+                    input.form-control(name='name', value='#{user.name}')
+                .form-group
+                    label Email
+                    input.form-control(name='email', value='#{user.email}')
+                .form-group
+                    label 角色
+                    select.form-control.input-sm(multiple, name='roles')
+                        - each role in roles
+                            if (user.roles.indexOf(role.id) > -1)
+                                option(value='#{role.id}', selected)
+                                    | #{role.name}
+                            else
+                                option(value='#{role.id}')
+                                    | #{role.name}
+                input(type='hidden', name='_csrf', value='#{token}')
+                button.btn.btn-primary(type='submit') 提交
 

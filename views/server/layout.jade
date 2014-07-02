@@ -1,58 +1,208 @@
 doctype html
-html
+html.no-js
     head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
         title #{title}
-        link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+        meta(name='description', content='')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+        // Favicon
+        link(rel='shortcut icon', href='/assets-admin/img/favicon.ico', type='image/x-icon')
+        // Bootstrap core CSS
+        link(rel='stylesheet', href='/assets-admin/plugins/bootstrap/css/bootstrap.min.css')
+        // Fonts from Font Awsome
+        link(rel='stylesheet', href='/assets-admin/css/font-awesome.min.css')
+        // CSS Animate
+        link(rel='stylesheet', href='/assets-admin/css/animate.css')
+        // Custom styles for this theme
+        link(rel='stylesheet', href='/assets-admin/css/main.css')
         link(rel='stylesheet', href='/css/style.css')
         block head-css
+        // Feature detection
+        script(src='/assets-admin/js/modernizr-2.6.2.min.js')
         block head-js
-    body.fixed-top
-        .navbar.navbar-inverse.navbar-fixed-top
-            .container
-                .navbar-header
-                    a.navbar-brand(href='#{adminDir}/index') 管理后台
-                .collapse.navbar-collapse
-                    ul.nav.navbar-nav
+        // HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+        //if lt IE 9
+            script(src='/assets-admin/js/html5shiv.js')
+            script(src='/assets-admin/js/respond.min.js')
+    body
+        section#container
+            header#header
+                // logo start
+                .brand
+                    a.logo(href='#{adminDir}')
+                        span CMS
+                        | 实验室
+                // logo end
+                .toggle-navigation.toggle-left
+                    button#toggle-left.btn.btn-default(type='button', data-toggle='tooltip', data-placement='right', title='切换左栏')
+                        i.fa.fa-bars
+
+                .user-nav
+                    ul
+                        //li.dropdown.messages
+                            span#new-messages.badge.badge-danager.animated.bounceIn 5
+                            button#toggle-mail.btn.btn-default.dropdown-toggle.options(type='button', data-toggle='dropdown')
+                                i.fa.fa-envelope
+                            ul.dropdown-menu.alert.animated.fadeInDown
+                                li
+                                    h1
+                                        | You have 
+                                        strong 5
+                                        |  new messages
+                                li
+                                    a(href='index.html#')
+                                        .profile-photo
+                                            img.img-circle(src='/assets-admin/img/avatar.gif', alt='')
+                                        .message-info
+                                            span.sender James Bagian
+                                            span.time 30 mins
+                                            .message-content Lorem ipsum dolor sit amet, elit rutrum felis sed erat augue fusce...
+                                li
+                                    a(href='index.html#')
+                                        .profile-photo
+                                            img.img-circle(src='/assets-admin/img/avatar1.gif', alt='')
+                                        .message-info
+                                            span.sender Jeffrey Ashby
+                                            span.time 2 hour
+                                            .message-content hendrerit pellentesque, iure tincidunt, faucibus vitae dolor aliquam...
+                                li
+                                    a(href='index.html#')
+                                        .profile-photo
+                                            img.img-circle(src='/assets-admin/img/avatar2.gif', alt='')
+                                        .message-info
+                                            span.sender John Douey
+                                            span.time 3 hours
+                                            .message-content Penatibus suspendisse sit pellentesque eu accumsan condimentum nec...
+                                li
+                                    a(href='index.html#')
+                                        .profile-photo
+                                            img.img-circle(src='/assets-admin/img/avatar3.gif', alt='')
+                                        .message-info
+                                            span.sender Ellen Baker
+                                            span.time 7 hours
+                                            .message-content Sem dapibus in, orci bibendum faucibus tellus, justo arcu...
+                                li
+                                    a(href='index.html#')
+                                        .profile-photo
+                                            img.img-circle(src='/assets-admin/img/avatar4.gif', alt='')
+                                        .message-info
+                                            span.sender Ivan Bella
+                                            span.time 6 hours
+                                            .message-content Curabitur metus faucibus sapien elit, ante molestie sapien...
+                                li
+                                    a(href='index.html#')
+                                        | Check all messages 
+                                        i.fa.fa-angle-right
+                        if (User)
+                            li.profile-photo
+                                - var avatar = gravatar.url(User.email, {s: '40',r: 'x',d: 'retro'}, true)
+                                img.img-circle(src='#{avatar}', alt='')
+                            li.dropdown.settings
+                                a.dropdown-toggle(data-toggle='dropdown', href='')
+                                    | #{User.name}
+                                    i.fa.fa-angle-down
+                                ul.dropdown-menu.animated.fadeInDown
+                                    li
+                                        a(href='#{adminDir}/index/me')
+                                            i.fa.fa-user
+                                            |  个人资料
+                                    //li
+                                        a(href='index.html#')
+                                            i.fa.fa-envelope
+                                            |  消息 
+                                            span#user-inbox.badge.badge-danager 5
+                                    li
+                                        a(href='#{adminDir}/user/logout')
+                                            i.fa.fa-power-off
+                                            |  登出
+            // sidebar left start
+            aside.sidebar
+                #leftside-navigation.nano
+                    ul.nano-content
                         li(class=Path === 'index' ? 'active' : '')
-                                a(href='#{adminDir}/index') 首页
+                            a(href='index.html')
+                                i.fa.fa-dashboard
+                                span 首页
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('content') > -1))
-                            li(class=Path === 'content' ? 'active' : '')
-                                    a(href='#{adminDir}/content') 内容
+                            li.sub-menu(class=Path === 'content' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-cogs
+                                    span 内容
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/content') 内容列表
+                                    li(class=Menu === 'add' ? 'active' : '')
+                                        a(href='#{adminDir}/content/add') 添加内容
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('category') > -1))
-                            li(class=Path === 'category' ? 'active' : '')
-                                    a(href='#{adminDir}/category') 分类
+                            li.sub-menu(class=Path === 'category' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-cogs
+                                    span 分类
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li
+                                        a(href='#{adminDir}/category') 分类列表
+                                    li
+                                        a(href='#{adminDir}/category/add') 添加分类
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('comment') > -1))
                             li(class=Path === 'comment' ? 'active' : '')
-                                    a(href='#{adminDir}/comment') 评论
+                                a(href='#{adminDir}/comment') 评论列表
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('user') > -1))
-                            li(class=Path === 'user' ? 'active' : '')
-                                    a(href='#{adminDir}/user') 用户
+                            li.sub-menu(class=Path === 'user' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-cogs
+                                    span 用户
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li
+                                        a(href='#{adminDir}/user') 用户列表
+                                    li
+                                        a(href='#{adminDir}/user/add') 添加用户
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('role') > -1))
-                            li(class=Path === 'role' ? 'active' : '')
-                                    a(href='#{adminDir}/role') 角色
+                            li.sub-menu(class=Path === 'role' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-cogs
+                                    span 角色
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li
+                                        a(href='#{adminDir}/role') 角色列表
+                                    li
+                                        a(href='#{adminDir}/role/add') 添加角色
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('file') > -1))
-                            li(class=Path === 'file' ? 'active' : '')
-                                    a(href='#{adminDir}/file') 文件
-                    .navbar-right
-                        if (User)
-                            a(href='#{adminDir}/index/me') #{User.name}
-                            | 
-                            a(href='#{adminDir}/user/logout') 注销
-                        else
-                            //- a(href='#{adminDir}/user/login') 登录  
-                            //- a(href='#{adminDir}/user/register') 注册
-        
-        block content
-        //- .console
-        //-     if(User && User.roles)
-        //-             each role in User.roles
-        //-                 ul.list-group
-        //-                     li.list-group-item 角色：
-        //-                         span.label.label-primary #{role.name}
-        //-                     li.list-group-item 权限：
-        //-                         span.label.label-info #{role.actions}
-        //-                     li.list-group-item 是否有'publish'权限：
-        //-                         span #{role.actions.indexOf('publish') > -1}
-        script(src='/js/vendor/jquery-2.1.1.min.js')
+                            li.sub-menu(class=Path === 'file' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-cogs
+                                    span 文件
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li
+                                        a(href='#{adminDir}/file') 文件列表
+                                    li
+                                        a(href='#{adminDir}/file/add') 添加文件
+                                
+            // sidebar left end
+            // main content start
+            section.main-content-wrapper
+                section#main-content
+                    block content
+                    
+                    
+            // main content end
+            
+        // Global JS
+        script(src='/assets-admin/js/jquery-1.10.2.min.js')
+        script(src='/assets-admin/plugins/bootstrap/js/bootstrap.min.js')
+        script(src='/assets-admin/plugins/waypoints/waypoints.min.js')
+        script(src='/assets-admin/js/application.js')
+        // Load these page level functions
         block foot-js
         script.
+            $(document).ready(function() {
+            //- app.timer();
+            //- app.map();
+            //- app.weather();
+            //- app.morrisPie();
+            });

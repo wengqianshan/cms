@@ -2,13 +2,12 @@ extends ../layout
 block head-css
     link(rel='stylesheet', href='/js/upload/css/jquery.fileupload.css')
 block content
-    .container
-        .row
-            .col-md-12
-                form(action='', method='post')
-                    .form-group
-                        label 上传文件
-                        //input(type='file')
+    .row
+        .col-md-12
+            form(action='', method='post')
+                .form-group
+                    label 上传文件
+                    div
                         span.btn.btn-success.fileinput-button
                                 i.glyphicon.glyphicon-plus
                                 span 添加文件
@@ -18,11 +17,11 @@ block content
                         div#progress.progress
                             div.progress-bar.progress-bar-success
                         #J_preview.preview
-                    //.form-group
-                        label 描述
-                        textarea.form-control(name='description', rows='8')
-                    //input(type='hidden', name='_csrf', value='#{token}')
-                    //button.btn.btn-primary(type='submit') 提交
+                //.form-group
+                    label 描述
+                    textarea.form-control(name='description', rows='8')
+                //input(type='hidden', name='_csrf', value='#{token}')
+                //button.btn.btn-primary(type='submit') 提交
 
 block foot-js
     script(src='/js/upload/js/vendor/jquery.ui.widget.js')

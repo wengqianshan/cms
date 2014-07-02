@@ -1,34 +1,33 @@
 extends ../layout
 
 block content
-    .container
-        .row
-            .col-md-12
-                a.btn.btn-default(href='#{adminDir}/role/add') 添加角色
-                table.table.table-striped
-                    thead
+    .row
+        .col-md-12
+            a.btn.btn-info(href='#{adminDir}/role/add') 添加角色
+            table.table.table-striped
+                thead
+                    tr
+                        th 名称
+                        th 创建人
+                        th 创建时间
+                        th 操作
+                tbody
+                    - each role in roles
                         tr
-                            th 名称
-                            th 创建人
-                            th 创建时间
-                            th 操作
-                    tbody
-                        - each role in roles
-                            tr
-                                td
-                                    a(href='#{adminDir}/role/#{role.id}') #{role.name}
-                                td
-                                    if (role.author)
-                                        | #{role.author.username}
-                                    else
-                                        | 无
-                                td
-                                    | #{moment(role.created).format('LLL')}
-                                td
-                                    a.btn.btn-default.btn-xs(href='#{adminDir}/role/#{role.id}/edit') 编辑
-                                    | &nbsp;
-                                    if (role.status !== -1)
-                                        a.btn.btn-danger.btn-xs(href='#{adminDir}/role/#{role.id}/del') 删除
-                if (pageInfo && pageInfo.totalPage > 1)
-                    include ../page
-                    +pagination(pageInfo)
+                            td
+                                a(href='#{adminDir}/role/#{role.id}') #{role.name}
+                            td
+                                if (role.author)
+                                    | #{role.author.username}
+                                else
+                                    | 无
+                            td
+                                | #{moment(role.created).format('LLL')}
+                            td
+                                a.btn.btn-default.btn-xs(href='#{adminDir}/role/#{role.id}/edit') 编辑
+                                | &nbsp;
+                                if (role.status !== -1)
+                                    a.btn.btn-danger.btn-xs(href='#{adminDir}/role/#{role.id}/del') 删除
+            if (pageInfo && pageInfo.totalPage > 1)
+                include ../page
+                +pagination(pageInfo)

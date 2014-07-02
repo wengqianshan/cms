@@ -1,0 +1,58 @@
+doctype html
+html
+    head
+        title #{title}
+        link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/css/style.css')
+        block head-css
+        block head-js
+    body.fixed-top
+        .navbar.navbar-inverse.navbar-fixed-top
+            .container
+                .navbar-header
+                    a.navbar-brand(href='#{adminDir}/index') 管理后台
+                .collapse.navbar-collapse
+                    ul.nav.navbar-nav
+                        li(class=Path === 'index' ? 'active' : '')
+                                a(href='#{adminDir}/index') 首页
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('content') > -1))
+                            li(class=Path === 'content' ? 'active' : '')
+                                    a(href='#{adminDir}/content') 内容
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('category') > -1))
+                            li(class=Path === 'category' ? 'active' : '')
+                                    a(href='#{adminDir}/category') 分类
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('comment') > -1))
+                            li(class=Path === 'comment' ? 'active' : '')
+                                    a(href='#{adminDir}/comment') 评论
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('user') > -1))
+                            li(class=Path === 'user' ? 'active' : '')
+                                    a(href='#{adminDir}/user') 用户
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('role') > -1))
+                            li(class=Path === 'role' ? 'active' : '')
+                                    a(href='#{adminDir}/role') 角色
+                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('file') > -1))
+                            li(class=Path === 'file' ? 'active' : '')
+                                    a(href='#{adminDir}/file') 文件
+                    .navbar-right
+                        if (User)
+                            a(href='#{adminDir}/index/me') #{User.name}
+                            | 
+                            a(href='#{adminDir}/user/logout') 注销
+                        else
+                            //- a(href='#{adminDir}/user/login') 登录  
+                            //- a(href='#{adminDir}/user/register') 注册
+        
+        block content
+        //- .console
+        //-     if(User && User.roles)
+        //-             each role in User.roles
+        //-                 ul.list-group
+        //-                     li.list-group-item 角色：
+        //-                         span.label.label-primary #{role.name}
+        //-                     li.list-group-item 权限：
+        //-                         span.label.label-info #{role.actions}
+        //-                     li.list-group-item 是否有'publish'权限：
+        //-                         span #{role.actions.indexOf('publish') > -1}
+        script(src='/js/vendor/jquery-2.1.1.min.js')
+        block foot-js
+        script.
