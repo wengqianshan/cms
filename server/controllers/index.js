@@ -116,16 +116,16 @@ exports.install = function(req, res) {
                     });
                 };
                 var obj = req.body;
-                obj.status = -1;
+                obj.status = 101;//系统默认管理员
                 //检查是否有角色，没有的话创建
-                Role.find({name: config.admin.role.admin}, function(err, roles) {
+                Role.find({status: 201}, function(err, roles) {
                     console.log('查找role', err, roles)
                     if(roles.length < 1) {
                         console.log('没有角色 ' + config.admin.role.admin);
                         var role = new Role({
                             name: config.admin.role.admin,
                             actions: [],
-                            status: -1
+                            status: 201//系统默认管理员角色
                         });
                         role.save(function(err, result) {
                             console.log('role result', result);
@@ -136,7 +136,7 @@ exports.install = function(req, res) {
                         new Role({
                             name: config.admin.role.user,
                             actions: [],
-                            status: -1
+                            status: 202//系统默认用户角色
                         }).save();
                     }else{
                         obj.roles = [roles[0]._id];

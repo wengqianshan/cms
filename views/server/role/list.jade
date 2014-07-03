@@ -26,7 +26,7 @@ block content
                             td
                                 a.btn.btn-default.btn-xs(href='#{adminDir}/role/#{role.id}/edit') 编辑
                                 | &nbsp;
-                                if (role.status !== -1)
+                                if (role.status !== 201 && role.status !== 202)
                                     a.btn.btn-danger.btn-xs(href='#{adminDir}/role/#{role.id}/del') 删除
             if (pageInfo && pageInfo.totalPage > 1)
                 include ../page
