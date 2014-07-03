@@ -1,0 +1,14 @@
+body{
+    font-family: '微软雅黑' Monaco;
+}
+.gallery img{
+    max-width: 200px;
+    max-height: 200px;
+}
+.preview img{
+    max-width: 200px;
+    max-height: 200px;
+}
+a.btn-danger{
+    color: #fff;
+}
