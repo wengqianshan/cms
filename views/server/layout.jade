@@ -121,7 +121,7 @@ html.no-js
                 #leftside-navigation.nano
                     ul.nano-content
                         li(class=Path === 'index' ? 'active' : '')
-                            a(href='index.html')
+                            a(href='#{adminDir}')
                                 i.fa.fa-dashboard
                                 span 首页
                         if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('content') > -1))

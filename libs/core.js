@@ -73,3 +73,7 @@ exports.getActions = function(user) {
     }
     return _.uniq(result);
 };
+//给字符组后面加上反斜杠，主要应用在目录拼接
+exports.prettySlash = function(str) {
+    return str.substr(-1) === '/' ? str : str + '/';
+};
