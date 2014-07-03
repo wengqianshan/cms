@@ -13,6 +13,7 @@ router.get('/', index.index);
 router.route('/install').all(index.install);
 //router.use(index.checkInstall);
 router.get('/me', index.me);
+router.route('/me/updatepwd').all(index.updatePassword);
 
 module.exports = function(app) {
     var path = core.translateAdminDir('/index');

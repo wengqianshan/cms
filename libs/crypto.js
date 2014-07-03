@@ -39,3 +39,14 @@ exports.decrypt = function decrypt(str, secret) {
     dec += decipher.final('utf8');
     return dec;
 };
+
+exports.hashPassword = function(password, secret) {
+    if (!password) return '';
+    var encrypred;
+    try {
+        encrypred = crypto.createHmac('sha1', secret).update(password).digest('hex');
+        return encrypred;
+    } catch (err) {
+        return '';
+    }
+};
