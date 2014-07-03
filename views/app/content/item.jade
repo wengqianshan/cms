@@ -21,7 +21,11 @@ block content
                             each image in content.gallery
                                 a(href='#{image.url}')
                                     img(src='#{image.url}')
-                    .content #{content.content}
+                    .content 
+                        if (content.author && content.author.status === -1)
+                            | !{content.content}
+                        else 
+                            | #{content.content}
                     .comments
                         h2 评论
                         if(content.comments)
