@@ -13,6 +13,7 @@ var moment = require('moment');
 var underscore = require('underscore');
 var multipart = require('connect-multiparty');//解析文件
 var core = require('./libs/core');
+var marked = require('marked');
 
 var appPath = process.cwd();
 var config = require('./config');
@@ -46,7 +47,8 @@ app.locals = {
     core: core,
     config: config,
     adminDir: config.admin.dir ? ('/' + config.admin.dir) : '',
-    gravatar: gravatar
+    gravatar: gravatar,
+    md: marked
 };
 app.set('config', config);
 

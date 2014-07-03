@@ -3,7 +3,9 @@ extends layout
 block content
     .container
         each content in contents
-            h2 #{content.title}
+            h2 
+                a(href='/content/#{content._id}')
+                    | #{content.title}
             p
                 if (content.author)
                     strong
@@ -11,7 +13,7 @@ block content
                 | 发布于 
                 | #{moment(content.created).format('LLL')}
             .content
-                | #{content.content}
+                | !{md(content.content)}
             .comment(data-from='#{content.id}')
                 .row
                     .col-md-12
