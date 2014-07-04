@@ -10,7 +10,7 @@ block content
                         | #{role.author.username}
                     else
                         | 无
-                p 动作：
+                p 权限：
                     - each action in role.actions
                         span.label.label-info
                             | #{action}
