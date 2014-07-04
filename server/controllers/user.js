@@ -246,43 +246,25 @@ exports.del = function(req, res) {
                 msg: '不能删除系统默认管理员'
             });
         }
+        
         result.remove(function(err) {
             if(err) {
                 return res.render('server/message', {
                     msg: '删除失败222'
                 });
             }
+            //自杀的节奏啊
+            if(id === req.session.user._id) {
+                req.session.destroy();
+                res.locals.User = null;
+                console.log('自杀成功');
+                var path = core.translateAdminDir('/index');
+                return res.redirect(path);
+            }
             res.render('server/message', {
                 msg: '删除成功'
             })
         });
-        //看看删除的是不是管理员
-        /*var roles = core.getRoles(result);
-        if(roles.indexOf(config.admin.role.admin) > -1) {
-            console.log('这个是管理员');
-            User.find({}).populate('roles').exec(function(err, results) {
-                var len = 0;
-                //统计当前管理员人数
-                results.forEach(function(user) {
-                    if(user.roles && user.roles.length > 0) {
-                        user.roles.forEach(function(role) {
-                            if(role.name === config.admin.role.admin) {
-                                len ++;
-                            }
-                        })
-                    }
-                });
-                if (len > 1) {
-                    deleteHandle(result);
-                }else {
-                    res.render('server/message', {
-                        msg: '不能删除最后一个管理员'
-                    });
-                }
-            });
-        }else{
-            deleteHandle(result);
-        }*/
     });
 }
 
