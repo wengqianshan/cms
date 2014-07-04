@@ -20,7 +20,7 @@ var walk = function(modulesPath, excludeDir, callback) {
 exports.walk = walk;
 
 //obj to params
-exports.generateParamsByObj = function(obj) {
+exports.param = function(obj) {
     var arr = [];
     for(var i in obj) {
         arr.push(i + '=' + obj[i]);
