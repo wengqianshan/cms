@@ -51,9 +51,24 @@ exports.add = function(req, res) {
         });
     } else if (req.method === 'POST') {
         var obj = req.body;
-        obj.actions = obj.actions.split(',').map(function(action) {
+        //转为数组格式
+        var actions = obj.actions.split(',');
+        //去空
+        actions = _.without(actions, '');
+        //去头尾空格
+        actions = _.map(actions, function(action) {
             return action.trim();
-        });
+        })
+        obj.actions = actions;
+        //如果不是管理员，检查是否超出权限
+        if(req.Roles.indexOf('admin') === -1) {
+            var overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
+            if(overAuth.length > 0) {
+                return res.render('server/message', {
+                    msg: '你不能操作如下权限:' + overAuth.join(',')
+                });
+            }
+        }
         if (req.session.user) {
             obj.author = req.session.user._id;
         }
@@ -94,9 +109,15 @@ exports.edit = function(req, res) {
     } else if(req.method === 'POST') {
         var id = req.param('id');
         var obj = req.body;
-        obj.actions = obj.actions.split(',').map(function(action) {
+        //转为数组格式
+        var actions = obj.actions.split(',');
+        //去空
+        actions = _.without(actions, '');
+        //去头尾空格
+        actions = _.map(actions, function(action) {
             return action.trim();
-        });
+        })
+        obj.actions = actions;
         Role.findById(id).populate('author').exec(function(err, result) {
             if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
                 return res.render('server/message', {
@@ -107,6 +128,15 @@ exports.edit = function(req, res) {
                 return res.render('server/message', {
                     msg: '系统默认管理员角色不可修改'
                 });   
+            }
+            //如果不是管理员，检查是否超出权限
+            if(req.Roles.indexOf('admin') === -1) {
+                var overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
+                if(overAuth.length > 0) {
+                    return res.render('server/message', {
+                        msg: '你不能操作如下权限:' + overAuth.join(',')
+                    });
+                }
             }
             _.extend(result, obj);
             result.save(function(err, role) {

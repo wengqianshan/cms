@@ -23,9 +23,9 @@ var config = {
         tmpDir:  appPath + '/public/uploaded/tmp',
         uploadDir: appPath + '/public/uploaded/files',
         uploadUrl:  '/uploaded/files/',
-        maxPostSize: 11000000000, // 11 GB
+        maxPostSize: 100000000, // 100M
         minFileSize:  1,
-        maxFileSize:  10000000000, // 10 GB
+        maxFileSize:  50000000, // 50M
         acceptFileTypes:  /.+/i,
         // Files not matched by this regular expression force a download dialog,
         // to prevent executing any scripts in the context of the service domain:
