@@ -7,9 +7,9 @@ block content
                     .panel.panel-primary
                         .panel-heading
                             h3.panel-title
-                                | 登录
+                                | 找回密码
                         .panel-body
-                            p  登录后方可继续访问
+                            p  请输入您的用户名
                             form.form-horizontal(role='form', action='', method='post')
                                 .form-group
                                     .col-md-12
@@ -17,13 +17,6 @@ block content
                                         i.fa.fa-user
                                 .form-group
                                     .col-md-12
-                                        input#password.form-control(type='password', name='password', placeholder='密码')
-                                        i.fa.fa-lock
-                                        a.help-block(href='#{adminDir}/user/forget') 忘记密码?
-                                .form-group
-                                    .col-md-12
                                         input(type='hidden', name='_csrf', value='#{token}')
-                                        button.btn.btn-primary.btn-block(type='submit') 登录
-                                        hr
-                                        a.btn.btn-default.btn-block(href='#{adminDir}/user/register') 还不是用户? 注册
+                                        button.btn.btn-primary.btn-block(type='submit') 提交
 

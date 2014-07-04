@@ -16,6 +16,9 @@ router.route('/register').all(user.register);
 
 //注销
 router.route('/logout').all(user.logout);
+//注销
+router.route('/forget').all(user.forget);
+
 
 //权限判断
 router.use(function(req, res, next) {

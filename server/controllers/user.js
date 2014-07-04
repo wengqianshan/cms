@@ -331,6 +331,40 @@ exports.logout = function(req, res) {
         });
     }
 };
+//找回密码
+exports.forget = function(req, res) {
+    if(req.method === 'GET') {
+        res.render('server/user/forget')
+    } else if(req.method === 'POST') {
+        var obj = req.body;
+        User.findOne({username: obj.username}, function(err, user) {
+            console.log(user);
+            if(err || !user) {
+                return res.render('server/message', {
+                    msg: '没有这个用户'
+                });
+            }
+            user.forget = {
+                hash: Math.random().toString(32).substr(2),
+                till: new Date()
+            };
+            user.save(function(err, result) {
+                console.log(result);
+                if(err || !result) {
+                    return res.render('server/message', {
+                        msg: '出错了 '
+                    });
+                }
+                res.render('server/message', {
+                    msg: '已邮件发到您的邮箱 ' + user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, '$1****$3$4')
+                });
+                //todo:发邮件
+            });
+            
+        });
+        
+    }
+}
 
 //修改密码
 exports.changePassword = function(req, res) {
