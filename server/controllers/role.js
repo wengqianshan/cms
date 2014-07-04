@@ -79,6 +79,11 @@ exports.edit = function(req, res) {
                     msg: '没有权限'
                 });
             }
+            if(result.status === 201) {
+                return res.render('server/message', {
+                    msg: '系统默认管理员角色不可修改'
+                });   
+            }
             if(result.actions) {
                 result.actions = result.actions.join(',');    
             }
@@ -98,8 +103,18 @@ exports.edit = function(req, res) {
                     msg: '没有权限'
                 });
             }
+            if(result.status === 201) {
+                return res.render('server/message', {
+                    msg: '系统默认管理员角色不可修改'
+                });   
+            }
             _.extend(result, obj);
             result.save(function(err, role) {
+                if(err || !role) {
+                    return res.render('server/message', {
+                        msg: '更新失败'
+                    });
+                }
                 //重置session信息
                 userController.reload(req.session.user._id, function(err, user) {
                     req.session.user = user;
@@ -116,11 +131,6 @@ exports.edit = function(req, res) {
 };
 //删除
 exports.del = function(req, res) {
-    if(!req.session.user) {
-        return res.render('server/message', {
-            msg: '请先登录'
-        });
-    }
     var id = req.params.id;
     Role.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
@@ -132,6 +142,11 @@ exports.del = function(req, res) {
             return res.render('server/message', {
                 msg: '没有权限'
             });
+        }
+        if(result.status === 201 || result.status === 202) {
+            return res.render('server/message', {
+                msg: '系统默认角色不可删除'
+            });   
         }
         result.remove(function(err) {
             if(err) {

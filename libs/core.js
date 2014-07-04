@@ -73,6 +73,18 @@ exports.getActions = function(user) {
     }
     return _.uniq(result);
 };
+
+//获取用户的所有权限,去重
+exports.getRoleStatus = function(user) {
+    var result = [];
+    if(user && user.roles) {
+        user.roles.forEach(function(role) {
+            result.push(role.status);
+        });
+    }
+    return result;
+};
+
 //给字符组后面加上反斜杠，主要应用在目录拼接
 exports.prettySlash = function(str) {
     return str.substr(-1) === '/' ? str : str + '/';

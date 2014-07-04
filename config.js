@@ -6,9 +6,17 @@ var config = {
     },
     admin: {
         dir: 'admin',
-        role: {
+        role: {//默认角色名,后期可修改
             admin: 'admin',
             user: 'user'
+            /*admin: {
+                name: 'admin',
+                code: 201
+            },
+            user: {
+                name: 'user',
+                code: 202
+            }*/
         }
     },
     upload: {
