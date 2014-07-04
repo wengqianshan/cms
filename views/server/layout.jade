@@ -200,9 +200,5 @@ html.no-js
         // Load these page level functions
         block foot-js
         script.
-            $(document).ready(function() {
-            //- app.timer();
-            //- app.map();
-            //- app.weather();
-            //- app.morrisPie();
-            });
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F3a258fabccde554fc44cba951692bdde' type='text/javascript'%3E%3C/script%3E"));
