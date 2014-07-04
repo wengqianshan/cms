@@ -39,6 +39,7 @@ block foot-js
         $(function () {
             $('#fileupload').fileupload({
                 url: '/upload',
+                //url: '/admin/file/add',
                 formData: {
                     _csrf: '#{token}'
                 },
