@@ -4,6 +4,7 @@ var config = {
         uri: 'mongodb://localhost/cms',
         options: {}
     },
+    findPasswordTill: 24 * 60 * 60 * 1000,
     admin: {
         dir: 'admin',
         role: {//默认角色名,后期可修改

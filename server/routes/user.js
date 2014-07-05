@@ -16,7 +16,7 @@ router.route('/register').all(user.register);
 
 //注销
 router.route('/logout').all(user.logout);
-//注销
+//忘记密码
 router.route('/forget').all(user.forget);
 
 

@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
     Role = mongoose.model('Role'),
     config = require('../../config'),
     core = require('../../libs/core'),
+    crypto = require('../../libs/crypto'),
     _ = require('underscore');
 
 //用户登录校验
@@ -334,8 +335,71 @@ exports.logout = function(req, res) {
 //找回密码
 exports.forget = function(req, res) {
     if(req.method === 'GET') {
-        res.render('server/user/forget')
+        var hash = req.query.hash;
+        if(!hash) {
+            return res.render('server/user/forget');
+        }
+        User.findOne({'forget.hash': hash}, function(err, user) {
+            console.log(err, user);
+            if(err || !user) {
+                return res.render('server/message', {
+                    msg: '初始后：token已过期，请重新找回密码'
+                });
+            }
+            var till = user.forget.till;
+            //console.log(till.getTime(), Date.now());
+            if(!till || till.getTime() + config.findPasswordTill < Date.now()) {
+                return res.render('server/message', {
+                    msg: 'token已过期，请重新找回密码'
+                });
+            }else {
+                //TODO 设置新密码
+                console.log('可以重新设置密码');
+                res.render('server/user/forget', {
+                    type: 'set',
+                    hash: hash,
+                    user: user
+                });
+                //post里面处理
+                /*user.forget.hash = '';
+                user.forget.till = 0;
+                user.save();*/
+            }
+        });
+        
     } else if(req.method === 'POST') {
+        console.log(req.query);
+        if(req.query.hash) {
+            var obj = req.body;
+            var hash = req.query.hash;
+            //处理更新密码操作，并重置hash
+            User.findOne({'forget.hash': hash}, function(err, user) {
+                console.log(err, user);
+                if(err || !user) {
+                    return res.render('server/message', {
+                        msg: '初始后：token已过期，请重新找回密码'
+                    });
+                }
+                var till = user.forget.till;
+                //console.log(till.getTime(), Date.now());
+                if(!till || till.getTime() + config.findPasswordTill < Date.now()) {
+                    return res.render('server/message', {
+                        msg: 'token已过期，请重新找回密码'
+                    });
+                }else {
+                    console.log('可以重新设置密码');
+                    user.password = obj.password;
+                    user.forget.hash = '';
+                    user.forget.till = 0;
+                    user.save(function(err, result) {
+                        res.render('server/message', {
+                            msg: '重置密码成功'
+                        });
+                    });
+                }
+            });
+            return;
+        }
         var obj = req.body;
         User.findOne({username: obj.username}, function(err, user) {
             console.log(user);
@@ -344,8 +408,9 @@ exports.forget = function(req, res) {
                     msg: '没有这个用户'
                 });
             }
+            var hash = crypto.random();
             user.forget = {
-                hash: Math.random().toString(32).substr(2),
+                hash: hash,
                 till: new Date()
             };
             user.save(function(err, result) {

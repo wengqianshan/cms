@@ -4,19 +4,41 @@ block content
     section#login-container
             .row
                 #login-wrapper.col-md-3
-                    .panel.panel-primary
-                        .panel-heading
-                            h3.panel-title
-                                | 找回密码
-                        .panel-body
-                            p  请输入您的用户名
-                            form.form-horizontal(role='form', action='', method='post')
-                                .form-group
-                                    .col-md-12
-                                        input#email.form-control(type='text', name='username', placeholder='用户名', autofocus)
-                                        i.fa.fa-user
-                                .form-group
-                                    .col-md-12
-                                        input(type='hidden', name='_csrf', value='#{token}')
-                                        button.btn.btn-primary.btn-block(type='submit') 提交
+                    if (type && type === 'set')
+                        .panel.panel-primary
+                            .panel-heading
+                                h3.panel-title
+                                    | 设置密码
+                            .panel-body
+                                p  请设置新密码 #{user.username}
+                                form.form-horizontal(role='form', action='', method='post')
+                                    .form-group
+                                        .col-md-12
+                                            input#email.form-control(type='password', name='password', placeholder='请输入新密码', autofocus)
+                                            i.fa.fa-user
+                                    .form-group
+                                        .col-md-12
+                                            input#password.form-control(type='password', name='repassword', placeholder='确认新密码')
+                                            i.fa.fa-lock
+                                    .form-group
+                                        .col-md-12
+                                            input(type='hidden', name='hash', value='#{hash}')
+                                            input(type='hidden', name='_csrf', value='#{token}')
+                                            button.btn.btn-primary.btn-block(type='submit') 提交
+                    else
+                        .panel.panel-primary
+                            .panel-heading
+                                h3.panel-title
+                                    | 找回密码
+                            .panel-body
+                                p  请输入您的用户名
+                                form.form-horizontal(role='form', action='', method='post')
+                                    .form-group
+                                        .col-md-12
+                                            input#email.form-control(type='text', name='username', placeholder='用户名', autofocus)
+                                            i.fa.fa-user
+                                    .form-group
+                                        .col-md-12
+                                            input(type='hidden', name='_csrf', value='#{token}')
+                                            button.btn.btn-primary.btn-block(type='submit') 提交
 

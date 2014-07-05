@@ -31,6 +31,9 @@ var UserSchema = new Schema({
         required: true,
         unique: true
     },
+    mobile: {
+        type: String
+    },
     gender: {
         type: String,
         enum: ['男', '女', '保密']

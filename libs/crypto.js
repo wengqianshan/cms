@@ -40,6 +40,10 @@ exports.decrypt = function decrypt(str, secret) {
     return dec;
 };
 
+exports.random = function(len) {
+    return crypto.randomBytes(len || 16).toString('hex');
+}
+
 exports.hashPassword = function(password, secret) {
     if (!password) return '';
     var encrypred;
