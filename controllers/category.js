@@ -3,8 +3,13 @@ var mongoose = require('mongoose'),
     Category = mongoose.model('Category'),
     _ = require('underscore'),
     core = require('../../libs/core');
+
+
+/*error: 
+message:
+otherObj:*/
 //列表
-exports.list = function(req, res) {
+exports.list = function(req, res, callback) {
     var condition = {};
     if(req.Roles && req.Roles.indexOf('admin') < 0) {
         condition.author = req.session.user._id;
@@ -19,38 +24,32 @@ exports.list = function(req, res) {
         query.sort({created: -1});
         query.exec(function(err, results) {
             //console.log(err, results);
-            res.render('server/category/list', {
-                //title: '列表',
+            callback.call(null, {
+                error: err,
+                message: '',
                 categorys: results,
-                pageInfo: pageInfo,
-                Menu: 'list'
+                pageInfo: pageInfo
             });
         })
     })
     
 };
 //单条
-exports.one = function(req, res) {
+exports.one = function(req, res, callback) {
     var id = req.param('id');
     Category.findById(id).populate('author', 'username name email').exec(function(err, result) {
         console.log(result);
-        if(!result) {
-            return res.render('server/message', {
-                msg: '该分类不存在'
-            });
-        }
-        res.render('server/category/item', {
-            title: result.name,
+        callback.call(null, {
+            error: err,
+            message: '',
             category: result
         });
     });
 };
 //添加
-exports.add = function(req, res) {
+exports.add = function(req, res, callback) {
     if (req.method === 'GET') {
-        res.render('server/category/add', {
-            Menu: 'add'
-        });
+        
     } else if (req.method === 'POST') {
         var obj = req.body;
         if (req.session.user) {
@@ -58,27 +57,27 @@ exports.add = function(req, res) {
         }
         var category = new Category(obj);
         category.save(function(err, category) {
-            if (err) {
-                return res.render('server/message', {
-                    msg: '创建失败'
-                });
-            }
-            res.render('server/message', {
-                msg: '创建成功'
+            callback.call(null, {
+                error: err,
+                message: '',
+                category: category
             });
         });
     }
 };
-exports.edit = function(req, res) {
+exports.edit = function(req, res, callback) {
     if(req.method === 'GET') {
         var id = req.param('id');
         Category.findById(id).populate('author').exec(function(err, result) {
             if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
-                return res.render('server/message', {
-                    msg: '没有权限'
+                return callback.call(null, {
+                    error: true,
+                    message: '没有权限'
                 });
             }
-            res.render('server/category/edit', {
+            callback.call(null, {
+                error: err,
+                message: '',
                 category: result
             });
         });
@@ -87,44 +86,43 @@ exports.edit = function(req, res) {
         var obj = req.body;
         Category.findById(id).populate('author').exec(function(err, result) {
             if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
-                return res.render('server/message', {
-                    msg: '没有权限'
+                return callback.call(null, {
+                    error: true,
+                    message: '没有权限',
                 });
             }
             _.extend(result, obj);
             result.save(function(err, category) {
-                if(!err) {
-                    res.render('server/message', {
-                        msg: '更新成功'
-                    });
-                }
+                callback.call(null, {
+                    error: err,
+                    message: '',
+                    category: category
+                });
             });
         });
     }
 };
 //删除
-exports.del = function(req, res) {
+exports.del = function(req, res, callback) {
     var id = req.params.id;
     Category.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
-            return res.render('server/message', {
-                msg: '分类不存在'
+            return callback.call(null, {
+                error: true,
+                message: '分类不存在',
             });
         }
         if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
-            return res.render('server/message', {
+            return callback.call(null, {
+                success: false,
                 msg: '没有权限'
             });
         }
         result.remove(function(err) {
-            if(err) {
-                return res.render('server/message', {
-                    msg: '删除失败222'
-                });
-            }
-            res.render('server/message', {
-                msg: '删除成功'
-            })
+            return callback.call(null, {
+                error: err,
+                message: '删除成功',
+            });
         });
     });
 };

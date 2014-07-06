@@ -45,6 +45,11 @@ exports.one = function(req, res) {
 };
 //删除
 exports.del = function(req, res) {
+    if(!req.session.user) {
+        return res.render('server/message', {
+            msg: '请先登录'
+        });
+    }
     var id = req.params.id;
     Comment.findById(id).populate('author').exec(function(err, result) {
         if(!result) {

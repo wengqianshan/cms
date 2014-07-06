@@ -14,9 +14,8 @@ block content
                         span.btn.btn-success.fileinput-button
                                 i.glyphicon.glyphicon-plus
                                 span 选取文件
-                                input#fileupload(type='file', name='files[]')
+                                input#fileupload(type='file')
                         div(style='padding: 10px;')
-                        #J_files
                         div#progress.progress
                             div.progress-bar.progress-bar-success
                 .form-group
@@ -42,6 +41,7 @@ block foot-js
             $('#fileupload').fileupload({
                 //url: '/upload',
                 url: '/admin/file/add',
+                paramName: 'files[]',//防止影响表单提交
                 formData: {
                     _csrf: '#{token}',
                     id: '#{file.id}'

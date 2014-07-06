@@ -78,19 +78,8 @@ exports.add = function(req, res) {
             //如果是修改文件，则不保存到服务器
             if(id) {
                 console.log('修改文件');
-                File.findById(id).populate('author').exec(function(err, file) {
-                    if(req.Roles.indexOf('admin') === -1 && (!file.author || (file.author._id + '') !== req.session.user._id)) {
-                        return res.render('server/message', {
-                            msg: '没有权限'
-                        });
-                    }
-                    //TODO: 删除之前的文件 uploader.delete()?
-                    fs.unlink(config.upload.uploadDir + '/' + file.name, function(err) {
-                        console.log('删除成功', config.upload.uploadDir + '/' + file.name)
-                    });
-                    res.json(result);
-                });
-                return;
+                //TODO: 是否删除之前的文件呢 uploader.delete()?
+                return res.json(result);
             }
             var len = result.files.length;
             var json = {
