@@ -19,7 +19,7 @@ block content
                     span.btn.btn-success.fileinput-button
                         i.glyphicon.glyphicon-plus
                         span 添加文件
-                        input#fileupload(data-url='/upload', type='file', name='files[]', multiple='multiple')
+                        input#fileupload(type='file', name='files[]', multiple='multiple')
                     #J_files
                     div#progress.progress
                         div.progress-bar.progress-bar-success
@@ -57,7 +57,8 @@ block foot-js
     script.
         $(function () {
             $('#fileupload').fileupload({
-                url: '/upload',
+                //url: '/upload',
+                url: '/admin/file/add',
                 formData: {
                     _csrf: '#{token}'
                 },

@@ -18,7 +18,7 @@ block content
                                     | #{category.name}
                 .form-group
                     label 图集
-                    //input#fileupload(type="file", name="files[]", data-url="/upload", multiple)
+                    //input#fileupload(type="file", name="files[]", multiple)
                     div
                         span.btn.btn-success.fileinput-button
                             i.glyphicon.glyphicon-plus
@@ -49,7 +49,8 @@ block foot-js
     script.
         $(function () {
             $('#fileupload').fileupload({
-                url: '/upload',
+                //url: '/upload',
+                url: '/admin/file/add',
                 formData: {
                     _csrf: '#{token}'
                 },

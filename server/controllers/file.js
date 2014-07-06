@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
     config = require('../../config'),
     core = require('../../libs/core');
 
-var uploader = require('blueimp-file-upload-expressjs')(config.upload);
+var uploader = require('../../libs/uploader')(config.upload);
 //列表
 exports.list = function(req, res) {
     //console.log(req.cookies['XSRF-TOKEN'])
@@ -56,6 +56,9 @@ var client = qn.create({
   bucket: 'wenglou',
   domain: 'http://wenglou.qiniudn.com',
   // timeout: 3600000, // default rpc timeout: one hour, optional
+});
+client.uploadFile(file.path, {key: file.name}, function (err, result) {
+  console.log(result);
 });*/
 //添加
 exports.add = function(req, res) {
@@ -64,21 +67,19 @@ exports.add = function(req, res) {
             Menu: 'add'
         });
     } else if (req.method === 'POST') {
-        console.log(req.files);
-        console.log(req.body);
-        var files = req.files.files;
-        files.forEach(function(file) {
-            fs.renameSync(file.path, config.upload.uploadDir + '/' + file.name);
-            /*client.uploadFile(file.path, {key: file.name}, function (err, result) {
-              console.log(result);
-            });*/
-        });
-        return;
-        //以下不执行
+        //console.log(req.files);
+        //console.log(req.body);
         uploader.post(req, res, function (result) {
             console.log(result);
             if(!result || !result.files) {
                 return;
+            }
+            var id = req.body.id;
+            //如果是修改文件，则不保存到服务器
+            if(id) {
+                console.log('修改文件');
+                //TODO: 是否删除之前的文件呢 uploader.delete()?
+                return res.json(result);
             }
             var len = result.files.length;
             var json = {

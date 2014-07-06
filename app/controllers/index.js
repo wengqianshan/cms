@@ -34,60 +34,6 @@ exports.index = function(req, res) {
     });
     
 };
-
-// init the uploader  https://github.com/arvindr21/blueimp-file-upload-expressjs
-var uploader = require('blueimp-file-upload-expressjs')(config.upload);
-
-exports.upload = function(req, res) {
-    if(req.method === 'GET') {
-        res.render('app/upload');
-    } else if(req.method === 'POST') {
-        var id = req.param('id');//根据id判断是否要保持到数据库，如果有id就不保存到数据，而是更换数据
-        uploader.post(req, res, function (result) {
-            console.log(result);
-            if(!result || !result.files) {
-                return;
-            }
-            var len = result.files.length;
-            var json = {
-                files: []
-            };
-            result.files.forEach(function(item) {
-                if(req.session.user) {
-                    item.author = req.session.user._id;
-                }
-                if(id) {
-                    console.log('检测到ID');
-                    return;
-                    json.files.push(item);
-                    len --;
-                    if(len === 0) {
-                        console.log(json);
-                        res.json(json);
-                    }
-                }else{
-                    //这里还可以处理url:处理成相对路径
-                    var fileObj = item;//_.pick(item, 'name', 'size', 'type', 'url');
-                    var file = new File(fileObj);
-                    file.save(function(err, obj) {
-                        if(err || !obj) {
-                            console.log('保存file失败', err, obj);
-                            return;
-                        }
-                        len --;
-                        item._id = obj._id;
-                        json.files.push(item);
-                        if(len === 0) {
-                            console.log(json)
-                            res.json(json);
-                        }
-                    });
-                }
-                
-            });
-        });
-    }
-};
 //列表
 exports.list = function(req, res) {
     //console.time('content-list');

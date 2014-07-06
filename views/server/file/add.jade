@@ -38,8 +38,8 @@ block foot-js
     script.
         $(function () {
             $('#fileupload').fileupload({
-                url: '/upload',
-                //url: '/admin/file/add',
+                //url: '/upload',
+                url: '/admin/file/add',
                 formData: {
                     _csrf: '#{token}'
                 },
@@ -60,7 +60,7 @@ block foot-js
                     $.each(data.result.files, function (index, file) {
                         console.log(file)
                         //$('<img src="' + file.url + '"/>').appendTo(document.body);
-                        $('#J_files').append('<input type="hidden" name="gallery" value="' + file._id + '"/>');
+                        //$('#J_files').append('<input type="hidden" name="gallery" value="' + file._id + '"/>');
                         $('#J_preview').append('<img src="' + file.url + '"/>');
                     });
                 }

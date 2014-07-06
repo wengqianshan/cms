@@ -4,19 +4,15 @@
 //     maxFileSize: 30000
 // });
 // upload.post(req, res, callback);
-module.exports = function (options) {
+var _ = require('underscore');
+var config = require('../config');
+module.exports = function (opts) {
     var path = require('path'),
         fs = require('fs'),
         _existsSync = fs.existsSync || path.existsSync,
         mkdirp = require('mkdirp'),
         nameCountRegexp = /(?:(?: \(([\d]+)\))?(\.[^.]+))?$/,
-        tmpDir = options.tmpDir || '',
-        uploadDir = options.uploadDir || '',
-        uploadUrl = options.uploadUrl || '',
-        useSSL = options.useSSL || false,
-        minFileSize = options.minFileSize || 10000000,
-        maxFileSize = options.maxFileSize || 100000000,
-        acceptFileTypes = options.acceptFileTypes || /.+/i;
+        options = _.extend({}, config.upload, opts);
     // check if upload folders exists
     function checkExists(dir){
         fs.exists(dir, function(exists){
@@ -45,11 +41,11 @@ module.exports = function (options) {
         return name;
     };
 
-    var initUrls = function (req, file) {
+    var initUrls = function (host, name) {
             var baseUrl = (options.useSSL ? 'https:' : 'http:') +
-                '//' + req.headers.host + options.uploadUrl;
-            var url =  baseUrl + encodeURIComponent(file.name);
-            
+                '//' + host + options.uploadUrl;
+            var url =  baseUrl + encodeURIComponent(name);
+            return url;
     };
     var validate = function (file) {
         var error = '';
@@ -79,16 +75,21 @@ module.exports = function (options) {
                 fs.unlink(file.path);
                 return;
             }
-            fs.renameSync(file.path, options.uploadDir + '/' + safeName(file.name));
+            var sName = safeName(file.name);
+            fs.renameSync(file.path, options.uploadDir + '/' + sName);
             result.push({
-                url: initUrls(req, file),
-                name: file.name,
+                url: initUrls(req.headers.host, sName),
+                name: sName,
                 size: file.size,
                 type: file.type
             })
         });
-        return result;
-    }
+        //return result;
+        callback.call(null, {
+            files: result
+        });
+    };
+    return Uploader;
 };
 
 

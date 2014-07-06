@@ -6,19 +6,19 @@ block content
         .col-md-12
             form(action='', method='post', enctype='multipart/form-data')
                 .gallery
-                    img(src='#{file.url}')
+                    img#J_preview(src='#{file.url}')
+                    input#J_hidden(type='hidden', name='url', value='#{file.url}')
                 .form-group
                     label 上传文件
                     div
                         span.btn.btn-success.fileinput-button
                                 i.glyphicon.glyphicon-plus
                                 span 选取文件
-                                input#fileupload(type='file', name='files[]', multiple='multiple')
+                                input#fileupload(type='file', name='files[]')
                         div(style='padding: 10px;')
                         #J_files
                         div#progress.progress
                             div.progress-bar.progress-bar-success
-                        #J_preview.preview
                 .form-group
                     label 描述
                     textarea.form-control(name='description', rows='8') #{file.description}
@@ -63,8 +63,8 @@ block foot-js
                     $.each(data.result.files, function (index, file) {
                         console.log(file)
                         //$('<img src="' + file.url + '"/>').appendTo(document.body);
-                        $('#J_files').append('<input type="hidden" name="gallery" value="' + file._id + '"/>');
-                        $('#J_preview').append('<img src="' + file.url + '"/>');
+                        $('#J_hidden').val(file.url);
+                        $('#J_preview').attr('src', file.url);
                     });
                 }
             });
