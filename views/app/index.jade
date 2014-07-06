@@ -14,22 +14,11 @@ block content
                 | #{moment(content.created).format('LLL')}
             .content
                 | !{md(content.content)}
-            .comment(data-from='#{content.id}')
-                .row
-                    .col-md-12
-                        strong 评论列表:
-                    .col-md-12
-                        if (content.comments)
-                            ul.J_list
-                                each comment in content.comments
-                                    li #{comment.content}
-
-                .row.form-group
-                    .col-md-4
-                        textarea.form-control.J_textarea(name='content')
-                .row
-                    .col-md-4
-                        button.btn.btn-info.btn-xs.J_submit(value='提交') 提交
+            .meta
+                | 评论数
+                strong #{content.comments.length}
+                | 访问量
+                strong #{content.visits}
         .text-center
             if (pageInfo && pageInfo.totalPage > 1)
                 include ./page
@@ -37,8 +26,7 @@ block content
 block foot-js
     script.
         var token = '#{token}';
-        $(document).on('click', '.J_submit', function() {
-            var $this = $(this);
+        $(document).on('click', '.J_svar $this = $(this);
             var $item = $this.closest('.comment');
             var $list = $item.find('.J_list');
             var $textarea = $item.find('.J_textarea');
@@ -57,7 +45,8 @@ block foot-js
                     $list.append($li);
                     $textarea.val('');
                 }
-            });
+            });ubmit', function() {
+            
         });
         
         

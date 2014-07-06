@@ -27,12 +27,18 @@ block content
                         //- else 
                         //-     | #{content.content}
                         | !{md(content.content)}
-                    .comments
+                    .comment(data-from='#{content.id}')
                         h2 评论
                         if(content.comments)
-                            ul
+                            ul.J_list
                                 each comment in content.comments
                                     li #{comment.content}
+                        .row.form-group
+                            .col-md-4
+                                textarea.form-control.J_textarea(name='content')
+                        .row
+                            .col-md-4
+                                button.btn.btn-info.btn-xs.J_submit(value='提交') 提交
     #blueimp-gallery.blueimp-gallery
         .slides
         h3.title
@@ -50,4 +56,27 @@ block foot-js
                 index: this,
                 event: e
             })
-        })
+        });
+        var token = '#{token}';
+        $(document).on('click', '.J_submit', function() {
+            var $this = $(this);
+            var $item = $this.closest('.comment');
+            var $list = $item.find('.J_list');
+            var $textarea = $item.find('.J_textarea');
+            var cid = $item.attr('data-from');
+            var content = $textarea.val();
+            //console.log(cid, content);
+            var data = {
+                from: cid,
+                content: content,
+                _csrf: token
+            };
+            $.post('/comment/add', data, function(json) {
+                console.log(json);
+                if(json.success === true) {
+                    var $li = $('<li>' + json.data.content + '</li>');
+                    $list.append($li);
+                    $textarea.val('');
+                }
+            });
+        });

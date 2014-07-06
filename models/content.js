@@ -44,7 +44,11 @@ var ContentSchema = new Schema({
     }],
     status: {
         type: Number,
-        default: 0//0:正常 1:待审核 2:垃圾箱 3:已删除 4:被举报
+        default: 0
+    },
+    like: {
+        type: Number,
+        default: 0
     }
 });
 
