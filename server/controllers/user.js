@@ -343,27 +343,21 @@ exports.forget = function(req, res) {
             console.log(err, user);
             if(err || !user) {
                 return res.render('server/message', {
-                    msg: '初始后：token已过期，请重新找回密码'
+                    msg: 'hash错误'
                 });
             }
             var till = user.forget.till;
-            //console.log(till.getTime(), Date.now());
+            //检查hash有没有过期
             if(!till || till.getTime() + config.findPasswordTill < Date.now()) {
                 return res.render('server/message', {
-                    msg: 'token已过期，请重新找回密码'
+                    msg: 'hash已过期，请重新找回密码'
                 });
             }else {
-                //TODO 设置新密码
-                console.log('可以重新设置密码');
                 res.render('server/user/forget', {
                     type: 'set',
                     hash: hash,
                     user: user
                 });
-                //post里面处理
-                /*user.forget.hash = '';
-                user.forget.till = 0;
-                user.save();*/
             }
         });
         
@@ -420,10 +414,10 @@ exports.forget = function(req, res) {
                         msg: '出错了 '
                     });
                 }
+                //TODO： 发邮件操作
                 res.render('server/message', {
                     msg: '已邮件发到您的邮箱 ' + user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, '$1****$3$4')
                 });
-                //todo:发邮件
             });
             
         });
