@@ -28,7 +28,7 @@ mongoose.connect(config.mongodb.uri);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
-  console.log('连接mongodb成功');
+  console.log('mongodb连接成功');
 });
 //引入数据模型
 core.walk(appPath + '/models', null, function(path) {
@@ -137,7 +137,7 @@ app.use(function(err, req, res, next) {
 var debug = require('debug')('cms');
 app.set('port', process.env.PORT || 7000);
 var server = app.listen(app.get('port'), function() {
-  console.log('Express server listening on port ' + server.address().port);
+  console.log('网站服务已启动，端口号： ' + server.address().port);
 });
 
 

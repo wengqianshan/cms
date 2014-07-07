@@ -11,7 +11,6 @@ router.use(function(req, res, next) {
 });
 router.get('/', index.index);
 router.route('/install').all(index.install);
-//router.use(index.checkInstall);
 router.get('/me', index.me);
 router.route('/me/updatepwd').all(index.updatePassword);
 

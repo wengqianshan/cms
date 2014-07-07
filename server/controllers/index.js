@@ -66,6 +66,7 @@ exports.updatePassword = function(req, res) {
         });
     }
 };
+// 这个最好移到app.js里面，每次开启服务时检查，
 exports.checkInstall = function(req, res, next) {
     if(req.session.user) {
         var path = core.translateAdminDir('/index');
