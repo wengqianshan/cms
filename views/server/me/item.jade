@@ -5,13 +5,16 @@ block content
         .col-md-12
             .panel.panel-primary
                 .panel-heading
-                    a.pull-right(href='#{adminDir}/me/edit', title='编辑')
-                        span.glyphicon.glyphicon-edit
                     | 管理员资料信息
                 ul.list-group
                     li.list-group-item
-                        - var avatar = User.avatar || gravatar.url(User.email, {s: '100',r: 'x',d: 'retro'}, true)
-                        img.img-circle(src='#{avatar}', alt='')
+                        .row
+                            .col-md-2
+                                - var avatar = user.avatar || gravatar.url(user.email, {s: '100',r: 'x',d: 'retro'}, true)
+                                img.img-circle(src='#{avatar}', alt='', width='100', height='100')
+                            .col-md-10
+                                a(href='#{adminDir}/me/edit', title='编辑', style='line-height: 100px;')
+                                    span.glyphicon.glyphicon-edit
                     li.list-group-item
                         .row
                             .col-md-2
@@ -21,15 +24,33 @@ block content
                     li.list-group-item
                         .row
                             .col-md-2
+                                strong 用户名
+                            .col-md-10
+                                | #{user.username}
+                    li.list-group-item
+                        .row
+                            .col-md-2
                                 strong 名字
                             .col-md-10
                                 | #{user.name}
                     li.list-group-item
                         .row
                             .col-md-2
-                                strong 用户名
+                                strong Email
                             .col-md-10
-                                | #{user.username}
+                                | #{user.email}
+                    li.list-group-item
+                        .row
+                            .col-md-2
+                                strong 手机号
+                            .col-md-10
+                                | #{user.mobile}
+                    li.list-group-item
+                        .row
+                            .col-md-2
+                                strong 性别
+                            .col-md-10
+                                | #{user.gender}
                     li.list-group-item
                         .row
                             .col-md-2
@@ -42,13 +63,13 @@ block content
                                 strong 权限
                             .col-md-10
                                 | #{user._actions}
-                    li.list-group-item
+                    //li.list-group-item
                         .row
                             .col-md-2
                                 strong Salt
                             .col-md-10
                                 | #{user.salt}
-                    li.list-group-item
+                    //li.list-group-item
                         .row
                             .col-md-2
                                 strong Hashed_password

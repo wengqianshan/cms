@@ -33,10 +33,17 @@ exports.edit = function(req, res) {
         });
     } else if(req.method === 'POST') {
         var obj = req.body;
-        User.findById(id).exec(function(err, user) {
-            _.extend(user, obj);
+        User.findById(id).populate('roles').exec(function(err, user) {
+            _.extend(user, _.pick(obj, 'name', 'email', 'mobile', 'gender', 'birthday'));
             user.save(function(err, result) {
                 console.log(err, result);
+                if(err || !result) {
+                    return res.render('server/message', {
+                        msg: '修改失败'
+                    });    
+                }
+                req.session.user = result;
+                res.locals.User = user;
                 res.render('server/message', {
                     msg: '修改成功'
                 });

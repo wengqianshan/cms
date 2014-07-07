@@ -38,11 +38,15 @@ var UserSchema = new Schema({
         type: String,
         enum: ['男', '女', '保密']
     },
+    birthday: {
+        type: Date,
+        default: Date.now
+    },
+    //以上是普通信息
     roles: [{
         type: Schema.ObjectId,
         ref: 'Role'
     }],
-    //password: String,
     last_login_date: Date,
     last_login_ip: String,
     last_login_geo: String,

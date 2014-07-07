@@ -35,7 +35,7 @@ module.exports = function (opts) {
         // Prevent directory traversal and creating hidden system files:
         var name = path.basename(name).replace(/^\.+/, '');
         // Prevent overwriting existing files:
-        if(_existsSync(options.uploadDir + '/' + name)) {
+        while(_existsSync(options.uploadDir + '/' + name)) {
             name = name.replace(nameCountRegexp, nameCountFunc);
         }
         return name;

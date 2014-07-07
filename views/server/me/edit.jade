@@ -8,7 +8,7 @@ block content
                     h3.panel-title 修改我的信息
                 .panel-body
                     form.form-horizontal(role='form', action='#{adminDir}/me/edit', method='post')
-                        .form-group
+                        //.form-group
                             label.col-sm-2.control-label(for='inputEmail2') 用户名
                             .col-sm-10
                                 input#inputEmail2.form-control(type='text', name='username', value='#{user.username}', placeholder='用户名')

@@ -12,8 +12,8 @@ router.use(function(req, res, next) {
         return res.redirect(path);
     }
     if(!req.Roles || (req.Roles.indexOf('admin') < 0)) {
-        var path = core.translateAdminDir('/index');
-        return res.redirect(path);
+        //var path = core.translateAdminDir('/index');
+        //return res.redirect(path);
     }
     next();
 });
