@@ -1,0 +1,90 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            .panel.panel-primary
+                .panel-heading
+                    a.pull-right(href='#{adminDir}/me/edit', title='编辑')
+                        span.glyphicon.glyphicon-edit
+                    | 管理员资料信息
+                ul.list-group
+                    li.list-group-item
+                        - var avatar = User.avatar || gravatar.url(User.email, {s: '100',r: 'x',d: 'retro'}, true)
+                        img.img-circle(src='#{avatar}', alt='')
+                    li.list-group-item
+                        .row
+                            .col-md-2
+                                strong 用户ID
+                            .col-md-10
+                                | #{user.id}
+                    li.list-group-item
+                        .row
+                            .col-md-2
+                                strong 名字
+                            .col-md-10
+                                | #{user.name}
+                    li.list-group-item
+                        .row
+                            .col-md-2
+                                strong 用户名
+                            .col-md-10
+                                | #{user.username}
+                    li.list-group-item
+                        .row
+                            .col-md-2
+                                strong 角色
+                            .col-md-10
+                                | #{user._roles}
+                    li.list-group-item
+                        .row
+                            .col-md-2
+                                strong 权限
+                            .col-md-10
+                                | #{user._actions}
+                    li.list-group-item
+                        .row
+                            .col-md-2
+                                strong Salt
+                            .col-md-10
+                                | #{user.salt}
+                    li.list-group-item
+                        .row
+                            .col-md-2
+                                strong Hashed_password
+                            .col-md-10
+                                | #{user.hashed_password}
+                    li.list-group-item
+                        .row
+                            .col-md-2
+                                strong 注册日期
+                            .col-md-10
+                                | #{moment(user.created).format('LLL')}
+    .row
+        .col-md-12
+            .panel.panel-danger
+                .panel-heading
+                    | 修改密码
+                .panel-body
+                    form.form-horizontal(action='#{adminDir}/me/updatepwd', method='post')
+                        .form-group
+                            label.col-md-2.text-right 旧密码
+                            .col-md-4
+                                input.form-control(type='password', name='oldpassword')
+                        .form-group
+                            label.col-md-2.text-right 新密码
+                            .col-md-4
+                                input.form-control(type='password', name='password')
+                        .form-group
+                            label.col-md-2.text-right 确认新密码
+                            .col-md-4
+                                input.form-control(type='password', name='repassword')
+                        input(type='hidden', name='_csrf', value='#{token}')
+                        .form-group
+                            .col-md-4.col-md-offset-2
+                                button.btn.btn-primary(type='submit') 提交
+
+                    
+
+                    
+

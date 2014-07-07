@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block content
     .row
@@ -66,7 +66,7 @@ block content
                 .panel-heading
                     | 修改密码
                 .panel-body
-                    form.form-horizontal(action='#{adminDir}/index/me/updatepwd', method='post')
+                    form.form-horizontal(action='#{adminDir}/me/updatepwd', method='post')
                         .form-group
                             label.col-md-2.text-right 旧密码
                             .col-md-4
