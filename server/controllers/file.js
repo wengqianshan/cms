@@ -171,11 +171,6 @@ exports.del = function(req, res) {
         var fileName = path.basename(decodeURIComponent(url));
         if (fileName[0] !== '.') {
             fs.unlink(config.upload.uploadDir + '/' + fileName, function (err) {
-                Object.keys(config.upload.imageVersions).forEach(function (version) {
-                    fs.unlink(config.upload.uploadDir + '/' + version + '/' + fileName, function (err) {
-                        //if (err) throw err;
-                    });
-                });
                 result.remove(function(err) {
                     if(err) {
                         return res.render('server/message', {
