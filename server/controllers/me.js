@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
     User = mongoose.model('User'),
     Role = mongoose.model('Role'),
     userController = require('./user'),
+    _ = require('underscore'),
     config = require('../../config'),
     core = require('../../libs/core');
 
@@ -31,7 +32,16 @@ exports.edit = function(req, res) {
             });
         });
     } else if(req.method === 'POST') {
-        
+        var obj = req.body;
+        User.findById(id).exec(function(err, user) {
+            _.extend(user, obj);
+            user.save(function(err, result) {
+                console.log(err, result);
+                res.render('server/message', {
+                    msg: '修改成功'
+                });
+            })
+        });
     }
 };
 //修改密码
