@@ -50,6 +50,7 @@ var UserSchema = new Schema({
     last_login_date: Date,
     last_login_ip: String,
     last_login_geo: String,
+    reg_ip: String,//注册ip
     created: {
         type: Date,
         default: Date.now

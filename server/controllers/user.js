@@ -69,6 +69,7 @@ exports.register = function(req, res) {
             if (req.session.user) {
                 obj.author = req.session.user._id;
             }
+            obj.reg_ip = req.ip;
             var user = new User(obj);
             user.save(function(err, result) {
                 console.log(result);
@@ -279,23 +280,18 @@ exports.login = function(req, res) {
         User.findOne({
             username: username
         }).populate('roles').exec(function(err, user) {
-            //var ruleObj = user.roleToObj();
-            //console.log(ruleObj)
-            //console.log(user.hasRole('admin'));
-            //console.log(user.hasAction('read'));
             if (!user) {
                 return res.render('server/message', {
                     msg: '登录失败, 查无此人'
                 });
             }
-            /*checkAction('dev', user._id, function(u) {
-                console.log('鉴定成功', u);
-            }, function(u) {
-                console.log('鉴定失败', u)
-            });*/
             if (user.authenticate(password)) {
                 console.log('登录成功');
                 console.log(user);
+                //记录登录信息
+                user.last_login_date = new Date();
+                user.last_login_ip = req.ip;
+                user.save();
                 req.session.user = user;
                 var path = core.translateAdminDir('/index');
                 res.redirect(path);
