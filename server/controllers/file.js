@@ -19,11 +19,12 @@ exports.list = function(req, res) {
         var query = File.find(condition).populate('author');
         //分页
         var pageInfo = core.createPage(req, total, 10);
+        console.log(pageInfo)
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});
         query.exec(function(err, results) {
-            //console.log(results)
+            console.log(results)
             res.render('server/file/list', {
                 files: results,
                 pageInfo: pageInfo,
@@ -172,6 +173,12 @@ exports.del = function(req, res) {
         if (fileName[0] !== '.') {
             fs.unlink(config.upload.uploadDir + '/' + fileName, function (err) {
                 result.remove(function(err) {
+                    if(req.xhr) {
+                        return res.json({
+                            success: !err,
+                            error: err
+                        });
+                    }
                     if(err) {
                         return res.render('server/message', {
                             msg: '删除失败222'
@@ -184,16 +191,5 @@ exports.del = function(req, res) {
             });
             return;
         }
-        return;
-        result.remove(function(err) {
-            if(err) {
-                return res.render('server/message', {
-                    msg: '删除失败222'
-                });
-            }
-            res.render('server/message', {
-                msg: '删除成功'
-            });
-        });
     });
 };

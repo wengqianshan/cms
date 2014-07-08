@@ -41,7 +41,7 @@ exports.createPage = function(req, total, pageSize) {
     }
     var query = req.query || {};
     var page = query.page|0;//强制转化整型
-    var totalPage = Math.ceil(total/pageSize);//获取总页数
+    var totalPage = Math.max(Math.ceil(total/pageSize), 1);//获取总页数,容错
     var currentPage = page < 1 ? 1 : page > totalPage ? totalPage : page;//获取当前页数
     var start = pageSize * (currentPage - 1);//计算开始位置
     return {

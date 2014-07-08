@@ -115,9 +115,15 @@ exports.edit = function(req, res) {
     } else if(req.method === 'POST') {
         var id = req.param('id');
         var obj = req.body;
+        console.log(obj);
+        console.log(obj.gallery)
         if(obj.category === '') {
             obj.category = null;
         }
+        if(!obj.gallery) {
+            obj.gallery = [];
+        }
+        
         Content.findById(id).populate('author').exec(function(err, result) {
             //console.log(result);
             if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {

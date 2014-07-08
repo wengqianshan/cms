@@ -16,7 +16,7 @@ block content
                     - each file in files
                         tr
                             td
-                                .gallery
+                                .gallery-item
                                     a(href='#{file.url}')
                                         img(src='#{file.url}')
                                         span #{file.name}
@@ -32,7 +32,26 @@ block content
                                 a.btn.btn-default.btn-xs(href='#{adminDir}/file/#{file.id}/edit') 编辑
                                 | &nbsp;
                                 if (file.status !== -1)
-                                    a.btn.btn-danger.btn-xs(href='#{adminDir}/file/#{file.id}/del') 删除
+                                    a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/file/#{file.id}/del') 删除
             if (pageInfo && pageInfo.totalPage > 1)
                 include ../page
                 +pagination(pageInfo)
+block foot-js
+    script.
+        $(function () {
+            $(document).on('click', '.J_del', function(e) {
+                e.preventDefault();
+                var $this = $(this);
+                var $item = $this.closest('tr');
+                var url = $this.attr('href');
+                $.post(url, {
+                    _csrf: '#{token}'
+                }, function(json) {
+                    if(json.success) {
+                        $item.remove();
+                    } else{
+                        BootstrapDialog.alert('删除失败');
+                    }
+                });
+            })
+        })

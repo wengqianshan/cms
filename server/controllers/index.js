@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
 //后台首页
 exports.index = function(req, res) {
     if(req.session.user) {
-        res.render('server/index', { title: 'CMS系统' });
+        res.render('server/index', { title: '管理后台' });
     } else {
         var path = core.translateAdminDir('/user/login');
         return res.redirect(path);

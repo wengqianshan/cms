@@ -49,6 +49,11 @@ var ContentSchema = new Schema({
     like: {
         type: Number,
         default: 0
+    },
+    //置顶,权重由数值决定
+    ding: {
+        type: Number,
+        default: 0
     }
 });
 

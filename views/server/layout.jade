@@ -10,6 +10,9 @@ html.no-js
         link(rel='shortcut icon', href='/assets-admin/img/favicon.ico', type='image/x-icon')
         // Bootstrap core CSS
         link(rel='stylesheet', href='/assets-admin/plugins/bootstrap/css/bootstrap.min.css')
+        // Bootstrap dialog
+        link(rel='stylesheet', href='/assets-admin/plugins/bootstrap3-dialog/css/bootstrap-dialog.min.css')
+
         // Fonts from Font Awsome
         link(rel='stylesheet', href='/assets-admin/css/font-awesome.min.css')
         // CSS Animate
@@ -31,8 +34,8 @@ html.no-js
                 // logo start
                 .brand
                     a.logo(href='#{adminDir}')
-                        span CMS
-                        | 实验室
+                        | 管理后台
+                        //| 实验室
                 // logo end
                 .toggle-navigation.toggle-left
                     button#toggle-left.btn.btn-default(type='button', data-toggle='tooltip', data-placement='right', title='切换左栏')
@@ -195,7 +198,8 @@ html.no-js
         // Global JS
         script(src='/assets-admin/js/jquery-1.10.2.min.js')
         script(src='/assets-admin/plugins/bootstrap/js/bootstrap.min.js')
-        script(src='/assets-admin/plugins/waypoints/waypoints.min.js')
+        script(src='/assets-admin/plugins/bootstrap3-dialog/js/bootstrap-dialog.min.js')
+        script(src='/assets/js/vendor/mustache.js')
         script(src='/assets-admin/js/application.js')
         // Load these page level functions
         block foot-js

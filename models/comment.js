@@ -26,6 +26,16 @@ var CommentSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
+    //匿名用户信息
+    name: {
+
+    },
+    email: {
+
+    },
+    website: {
+
+    },
     created: {
         type: Date,
         default: Date.now

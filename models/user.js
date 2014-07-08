@@ -8,11 +8,6 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 
-/*var securityCheck = function(type, user) {
-
-};
-securityCheck('createUser', user);*/
-
 /**
  * 用户模型
  */
