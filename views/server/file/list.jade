@@ -17,9 +17,9 @@ block content
                         tr
                             td
                                 .gallery-item
-                                    a(href='#{file.url}')
-                                        img(src='#{file.url}')
-                                        span #{file.name}
+                                    a(href='#{file.url}', target='_blank')
+                                        img(src='#{file.url}', title='#{file.name}')
+                                        //span #{file.name}
                             td
                                 if (file.author)
                                     | #{file.author.username}

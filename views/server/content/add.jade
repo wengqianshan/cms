@@ -31,8 +31,8 @@ block content
                 input(type='hidden', name='_csrf', value='#{token}')
                 button.btn.btn-primary(type='submit') 提交
     script#J_tmpl_gallery_item(type='x-tmpl-mustache')
-        .gallery-item(style='background-image:url({{url}})')
-            //img.gallery-image(src='{{url}}')
+        .gallery-item
+            img.gallery-image(src='{{url}}')
             input(type='hidden', name='gallery[]', value='{{id}}')
             a.gallery-remove.J_del(href='')
                 span.fa.fa-times-circle

@@ -13,8 +13,8 @@ block content
                     .gallery#J_gallery
                         if (content.gallery)
                             - each image in content.gallery
-                                .gallery-item(style='background-image:url(#{image.url})')
-                                    //img.gallery-image(src='#{image.url}')
+                                .gallery-item
+                                    img.gallery-image(src='#{image.url}')
                                     input(type='hidden', name='gallery[]', value='#{image._id}')
                                     a.gallery-remove.J_del(href='#{adminDir}/file/#{image._id}/del')
                                         span.fa.fa-times-circle
@@ -44,8 +44,8 @@ block content
                 input(type='hidden', name='_csrf', value='#{token}')
                 button.btn.btn-primary(type='submit') 提交
     script#J_tmpl_gallery_item(type='x-tmpl-mustache')
-        .gallery-item(style='background-image:url({{url}})')
-            //img.gallery-image(src='{{url}}')
+        .gallery-item
+            img.gallery-image(src='{{url}}')
             input(type='hidden', name='gallery[]', value='{{id}}')
             a.gallery-remove.J_del(href='')
                 span.fa.fa-times-circle
