@@ -89,3 +89,33 @@ exports.getRoleStatus = function(user) {
 exports.prettySlash = function(str) {
     return str.substr(-1) === '/' ? str : str + '/';
 };
+//根据文件类型输出icon
+exports.fileToIcon = function(type) {
+    var suffix = '';
+    switch(type) {
+        case 'text/html':
+        case 'text/javascript':
+            suffix = '-code-o';
+            break;
+        case 'application/pdf':
+            suffix = '-pdf-o';
+            break;
+        case 'application/zip':
+            suffix = '-zip-o';
+            break;
+        case 'application/msword':
+            suffix = '-word-o';
+            break;
+        case 'image/png':
+        case 'iamge/jpeg':
+            suffix = '-photo-o';
+            break;
+        case 'audio/amr':
+            suffix = '-audio-o';
+            break;
+        case 'video/mp4':
+            suffix = '-video-o';
+            break;
+    }
+    return 'fa-file' + suffix;
+}
