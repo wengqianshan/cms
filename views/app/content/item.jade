@@ -27,18 +27,39 @@ block content
                         //- else 
                         //-     | #{content.content}
                         | !{md(content.content)}
-                    .comment(data-from='#{content.id}')
-                        h2 评论
+                    
+                    .comments(data-from='#{content.id}')
+                        h3 评论
                         if(content.comments)
-                            ul.J_list
+                            ul.media-list.J_list
                                 each comment in content.comments
-                                    li #{comment.content}
-                        .row.form-group
-                            .col-md-4
-                                textarea.form-control.J_textarea(name='content')
-                        .row
-                            .col-md-4
-                                button.btn.btn-info.btn-xs.J_submit(value='提交') 提交
+                                    include ../_comment
+                                    +item(comment)
+                        .comment-form
+                            .row.form-group
+                                .col-md-4
+                                    textarea.form-control.J_textarea(name='content')
+                            .row
+                                .col-md-4
+                                    button.btn.btn-info.btn-xs.J_submit(value='提交') 提交
+    script#J_tmpl_comment_item(type='x-tmpl-mustache')
+        li.media
+            a.pull-left
+                img.media-object(src='{{avatar}}')
+            .media-body
+                //h4.media-heading 标题
+                p {{content}}
+                .media-meta(data-id='{{_id}}', data-reply='{{reply}}')
+                    span.text-muted {{created}} 
+                    //a(href='javascript:') 回复
+    script#J_tmpl_comment_form(type='x-tmpl-mustache')
+        .comment-form(data-reply='{{reply}}')
+            .row.form-group
+                .col-md-4
+                    textarea.form-control.J_textarea(name='content')
+            .row
+                .col-md-4
+                    button.btn.btn-info.btn-xs.J_submit(value='提交') 提交
     #blueimp-gallery.blueimp-gallery
         .slides
         h3.title
@@ -48,8 +69,10 @@ block content
         a.play-pause
         ol.indicator
 block foot-js
-    <script src="/assets/plugins/blueimp-gallery/js/jquery.blueimp-gallery.min.js"></script>
+    script(src='/assets/plugins/blueimp-gallery/js/jquery.blueimp-gallery.min.js')
     script.
+        moment.lang('zh-cn');
+        var token = '#{token}';
         $('.gallery a').on('click', function(e) {
             var $img = $(this);
             blueimp.Gallery($('.gallery a'), {
@@ -57,26 +80,40 @@ block foot-js
                 event: e
             })
         });
-        var token = '#{token}';
         $(document).on('click', '.J_submit', function() {
             var $this = $(this);
-            var $item = $this.closest('.comment');
-            var $list = $item.find('.J_list');
+            var $item = $this.closest('.comments');
+            var $form = $this.closest('.comment-form')
+            var $list = $form.siblings('.J_list');
             var $textarea = $item.find('.J_textarea');
             var cid = $item.attr('data-from');
+            var reply = $form.attr('data-reply');
             var content = $textarea.val();
-            //console.log(cid, content);
+            //console.log(cid, content, reply);
             var data = {
                 from: cid,
                 content: content,
                 _csrf: token
             };
+            if(reply) {
+                data.reply = reply;
+            }
             $.post('/comment/add', data, function(json) {
                 console.log(json);
                 if(json.success === true) {
-                    var $li = $('<li>' + json.data.content + '</li>');
-                    $list.append($li);
+                    var tmpl = $('#J_tmpl_comment_item').html();
+                    json.data.avatar = json.data.avatar || 'https://secure.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=40&r=x&d=retro';
+                    json.data.created = moment(json.data.created).fromNow();
+                    var html = Mustache.render(tmpl, json.data)
+                    $list.append(html);
                     $textarea.val('');
                 }
             });
+        });
+        $(document).on('click', '.J_reply', function() {
+            var $this = $(this);
+            var $meta = $this.closest('.media-meta');
+            var id = $meta.attr('data-id');
+            var tmpl = $('#J_tmpl_comment_form').html();
+            $meta.append(Mustache.render(tmpl, {reply: id}));
         });

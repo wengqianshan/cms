@@ -15,7 +15,6 @@ exports.add = function(req, res) {
             obj.author = req.session.user._id;
         }
         Content.findById(obj.from, function(err, content) {
-            
             var comment = new Comment(obj);
             comment.save(function(err, result) {
                 if(err || !result) {
@@ -28,6 +27,15 @@ exports.add = function(req, res) {
                 }
                 content.comments.push(result._id);
                 content.save();
+                if(obj.reply) {
+                    Comment.findById(obj.reply, function(err, comment) {
+                        if(!comment.comments) {
+                            comment.comments = [];
+                        }
+                        comment.comments.push(result._id);
+                        comment.save();
+                    });
+                }
                 /*res.render('app/message', {
                     msg: '添加成功',
                     data: result

@@ -36,7 +36,7 @@ exports.list = function(req, res) {
 exports.one = function(req, res) {
     var id = req.param('id');
     Content.findById(id).populate('author').populate('category').populate('comments').populate('gallery').exec(function(err, result) {
-        console.log(result);
+        //console.log(result);
         if(!result) {
             return res.render('app/message', {
                 msg: '该内容不存在'
@@ -44,6 +44,7 @@ exports.one = function(req, res) {
         }
         result.visits = result.visits + 1;
         result.save();
+       
         res.render('app/content/item', {
             title: result.title,
             content: result
