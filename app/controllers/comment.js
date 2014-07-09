@@ -18,8 +18,9 @@ exports.add = function(req, res) {
             var comment = new Comment(obj);
             comment.save(function(err, result) {
                 if(err || !result) {
-                    return res.render('app/message', {
-                        msg: '添加失败'
+                    return res.json({
+                        success: false,
+                        message: '出错啦'
                     });
                 }
                 if(!content.comments) {

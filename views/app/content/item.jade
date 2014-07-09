@@ -109,6 +109,8 @@ block foot-js
                     var html = Mustache.render(tmpl, json.data)
                     $list.append(html);
                     $textarea.val('');
+                }else{
+                    alert(json.message);
                 }
             });
         });
