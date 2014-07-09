@@ -40,19 +40,21 @@ mixin pagination(pageInfo)
         li(class=(currentPage === totalPage) ? 'disabled' : '')
             a(href='?#{core.param(query)}') &raquo;
 //评论条目
-mixin commentItem(comment)
+mixin commentItem(comment, comments)
     li.media
         a.pull-left
-            - var avatar = gravatar.url(comment.email || '', {s: '40',r: 'x',d: 'retro'}, true)
+            - var avatar = gravatar.url((comment.author &&comment.author.email) || comment.email || '', {s: '40',r: 'x',d: 'retro'}, true)
             img.media-object(src='#{avatar}')
         .media-body
             //h4.media-heading 标题
             p #{comment.content}
             .media-meta(data-id='#{comment._id}', data-reply='#{comment.reply || ""}')
-                | #{moment(comment.created).fromNow()} 
+                span.text-muted #{moment(comment.created).fromNow()} 
                 a.J_reply(href='javascript:') 回复
             
-            //if(comment.comments)
-                ul.media-list
-                    each comment1 in comment.comments
-                        +item(comment1)
+            if(comment.comments)
+                ul.media-list.J_list
+                    if (comment.comments && comment.comments.length > 0)
+                        each cid in comment.comments
+                            - var c = comments.filter(function(item) {return (item._id + '') === (cid + '')})
+                            +commentItem(c[0], comments)

@@ -1,5 +1,6 @@
 'use strict';
 var mongoose = require('mongoose'),
+    Comment = mongoose.model('Comment'),
     Content = mongoose.model('Content'),
     Category = mongoose.model('Category'),
     _ = require('underscore'),
@@ -44,10 +45,11 @@ exports.one = function(req, res) {
         }
         result.visits = result.visits + 1;
         result.save();
-       
+
         res.render('app/content/item', {
             title: result.title,
-            content: result
+            content: result,
+            comments: result.comments
         });
     });
 };

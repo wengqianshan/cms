@@ -29,12 +29,13 @@ block content
                         | !{md(content.content)}
                     
                     .comments(data-from='#{content.id}')
-                        h3 评论
+                        h3 评论(#{content.comments.length})
                         if(content.comments)
                             ul.media-list.J_list
                                 each comment in content.comments
-                                    include ../mixin
-                                    +commentItem(comment)
+                                    if (!comment.reply)
+                                        include ../mixin
+                                        +commentItem(comment, comments)
                         .comment-form
                             .row.form-group
                                 .col-md-4
@@ -51,7 +52,8 @@ block content
                 p {{content}}
                 .media-meta(data-id='{{_id}}', data-reply='{{reply}}')
                     span.text-muted {{created}} 
-                    //a(href='javascript:') 回复
+                    a.J_reply(href='javascript:') 回复
+                ul.media-list.J_list
     script#J_tmpl_comment_form(type='x-tmpl-mustache')
         .comment-form(data-reply='{{reply}}')
             .row.form-group
@@ -115,5 +117,8 @@ block foot-js
             var $meta = $this.closest('.media-meta');
             var id = $meta.attr('data-id');
             var tmpl = $('#J_tmpl_comment_form').html();
-            $meta.append(Mustache.render(tmpl, {reply: id}));
+            if($meta.siblings('.comment-form').length > 0) {
+                return;
+            }
+            $meta.after(Mustache.render(tmpl, {reply: id}));
         });
