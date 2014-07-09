@@ -18,8 +18,13 @@ block content
                             td
                                 .gallery-item
                                     a(href='#{file.url}', target='_blank')
-                                        img(src='#{file.url}', title='#{file.name}')
-                                        //span #{file.name}
+                                        if (file.type.indexOf('image') > -1)
+                                            img(src='#{file.url}', title='#{file.name}')
+                                        else if (file.type.indexOf('text') > -1)
+                                            span.fa.fa-file-code-o
+                                        else
+                                            span.fa.fa-file-zip-o
+
                             td
                                 if (file.author)
                                     | #{file.author.username}
