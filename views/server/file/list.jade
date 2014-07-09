@@ -22,8 +22,18 @@ block content
                                             img(src='#{file.url}', title='#{file.name}')
                                         else if (file.type.indexOf('text') > -1)
                                             span.fa.fa-file-code-o
-                                        else
+                                        else if (file.type.indexOf('pdf') > -1)
+                                            span.fa.fa-file-pdf-o
+                                        else if (file.type.indexOf('video') > -1)
+                                            span.fa.fa-file-video-o
+                                        else if (file.type.indexOf('word') > -1)
+                                            span.fa.fa-file-word-o
+                                        else if (file.type.indexOf('zip') > -1)
                                             span.fa.fa-file-zip-o
+                                        else if (file.type.indexOf('audio') > -1)
+                                            span.fa.fa-file-audio-o
+                                        else
+                                            span.fa.fa-file-archive-o
 
                             td
                                 if (file.author)

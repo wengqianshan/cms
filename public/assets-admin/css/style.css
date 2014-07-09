@@ -32,6 +32,9 @@ a.btn-danger{
     -webkit-align-items: center;
     -webkit-justify-content: center;
 }
+.gallery-item .fa{
+    font-size: 100px;
+}
 .gallery-item img{
     max-width: 100%;
     max-height: 100%;
