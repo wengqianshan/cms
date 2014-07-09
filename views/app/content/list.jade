@@ -22,5 +22,5 @@ block content
                                     | #{moment(content.created).format('LLL')}
                 .text-center
                     if (pageInfo && pageInfo.totalPage > 1)
-                        include ../page
+                        include ../mixin
                         +pagination(pageInfo)

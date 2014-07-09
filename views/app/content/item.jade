@@ -33,8 +33,8 @@ block content
                         if(content.comments)
                             ul.media-list.J_list
                                 each comment in content.comments
-                                    include ../_comment
-                                    +item(comment)
+                                    include ../mixin
+                                    +commentItem(comment)
                         .comment-form
                             .row.form-group
                                 .col-md-4

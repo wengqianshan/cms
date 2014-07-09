@@ -16,12 +16,12 @@ block content
                 | !{md(content.content)}
             .meta
                 | 评论数
-                strong #{content.comments.length}
+                strong #{content.comments && content.comments.length}
                 | 访问量
                 strong #{content.visits}
         .text-center
             if (pageInfo && pageInfo.totalPage > 1)
-                include ./page
+                include ./mixin
                 +pagination(pageInfo)
 block foot-js
     script.
