@@ -87,7 +87,7 @@ block foot-js
             var $item = $this.closest('.comments');
             var $form = $this.closest('.comment-form')
             var $list = $form.siblings('.J_list');
-            var $textarea = $item.find('.J_textarea');
+            var $textarea = $form.find('.J_textarea');
             var cid = $item.attr('data-from');
             var reply = $form.attr('data-reply');
             var content = $textarea.val();
