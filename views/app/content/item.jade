@@ -29,13 +29,25 @@ block content
                         | !{md(content.content)}
                     
                     .comments(data-from='#{content.id}')
-                        h3 评论(#{content.comments.length})
+                        h3 评论(#{content.comments.length}) 
+                            label.J_toggle_comment(style='font-size: 12px;')
+                                if (comment_nested === '1')
+                                    input.J_toggle_comment_input(data-href='?', type='checkbox', checked)
+                                    | 切换到列表模式
+                                else
+                                    input.J_toggle_comment_input(data-href='?comment_nested=1', type='checkbox')
+                                    | 切换到嵌套模式
                         if(content.comments)
                             ul.media-list.J_list
                                 each comment in content.comments
-                                    if (!comment.reply)
+                                    - var nestedComment = !!comment_nested
+                                    if(nestedComment)
+                                        if (!comment.reply)
+                                            include ../mixin
+                                            +commentItem(comment, content.comments)
+                                    else 
                                         include ../mixin
-                                        +commentItem(comment, comments)
+                                        +commentItem(comment)
                         .comment-form
                             .row.form-group
                                 .col-md-4
@@ -124,3 +136,12 @@ block foot-js
             }
             $meta.after(Mustache.render(tmpl, {reply: id}));
         });
+        $('.J_toggle_comment').on('mousedown', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $input = $this.find('.J_toggle_comment_input');
+            var checked = $input[0].checked;
+            var url = $input.attr('data-href');
+            location.href = url;
+            console.log($this[0].checked)
+        })

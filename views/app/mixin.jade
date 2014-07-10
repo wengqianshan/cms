@@ -52,7 +52,7 @@ mixin commentItem(comment, comments)
                 span.text-muted #{moment(comment.created).fromNow()} 
                 a.J_reply(href='javascript:') 回复
             
-            if(comment.comments)
+            if(comments)
                 ul.media-list.J_list
                     if (comment.comments && comment.comments.length > 0)
                         each cid in comment.comments

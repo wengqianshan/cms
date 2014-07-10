@@ -36,6 +36,7 @@ exports.list = function(req, res) {
 //单条
 exports.one = function(req, res) {
     var id = req.param('id');
+    var nested = req.query.comment_nested;
     Content.findById(id).populate('author').populate('category').populate('comments').populate('gallery').exec(function(err, result) {
         //console.log(result);
         if(!result) {
@@ -49,7 +50,7 @@ exports.one = function(req, res) {
         res.render('app/content/item', {
             title: result.title,
             content: result,
-            comments: result.comments
+            comment_nested: nested
         });
     });
 };
