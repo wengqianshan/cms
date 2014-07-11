@@ -31,17 +31,18 @@ block content
                     .comments(data-from='#{content.id}')
                         h3 评论(#{content.comments.length}) 
                             label.J_toggle_comment(style='font-size: 12px;')
-                                if (comment_nested === '1')
-                                    input.J_toggle_comment_input(data-href='?', type='checkbox', checked)
-                                    | 切换到列表模式
+                                if (comment_list !== '1')
+                                    input.J_toggle_comment_input(data-href='?comment_list=1', type='checkbox', checked)
+                                    | 嵌套模式
                                 else
-                                    input.J_toggle_comment_input(data-href='?comment_nested=1', type='checkbox')
-                                    | 切换到嵌套模式
+                                    input.J_toggle_comment_input(data-href='?', type='checkbox')
+                                    | 嵌套模式
+                                    
                         if(content.comments)
                             ul.media-list.J_list
                                 each comment in content.comments
-                                    - var nestedComment = !!comment_nested
-                                    if(nestedComment)
+                                    - var listComment = !!comment_list
+                                    if(!listComment)
                                         if (!comment.reply)
                                             include ../mixin
                                             +commentItem(comment, content.comments)
