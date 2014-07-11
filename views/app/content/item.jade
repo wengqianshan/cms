@@ -52,7 +52,10 @@ block content
                         .comment-form
                             .row.form-group
                                 .col-md-4
-                                    textarea.form-control.J_textarea(name='content')
+                                    input.form-control.J_input_email(name='email', placeholder='email')
+                            .row.form-group
+                                .col-md-4
+                                    textarea.form-control.J_textarea(name='content', placeholder='评论内容')
                             .row
                                 .col-md-4
                                     button.btn.btn-info.btn-xs.J_submit(value='提交') 提交
@@ -71,7 +74,10 @@ block content
         .comment-form(data-reply='{{reply}}')
             .row.form-group
                 .col-md-4
-                    textarea.form-control.J_textarea(name='content')
+                    input.form-control.J_input_email(name='email', placeholder='email')
+            .row.form-group
+                .col-md-4
+                    textarea.form-control.J_textarea(name='content', placeholder='评论内容')
             .row
                 .col-md-4
                     button.btn.btn-info.btn-xs.J_submit(value='提交') 提交
@@ -100,13 +106,16 @@ block foot-js
             var $item = $this.closest('.comments');
             var $form = $this.closest('.comment-form')
             var $list = $form.siblings('.J_list');
+            var $email = $form.find('.J_input_email');
             var $textarea = $form.find('.J_textarea');
             var cid = $item.attr('data-from');
             var reply = $form.attr('data-reply');
+            var email = $email.val();
             var content = $textarea.val();
             //console.log(cid, content, reply);
             var data = {
                 from: cid,
+                email: email,
                 content: content,
                 _csrf: token
             };
