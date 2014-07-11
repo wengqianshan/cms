@@ -6,10 +6,11 @@ block content
         .col-md-12
             form(action='', method='post', enctype='multipart/form-data')
                 .gallery
-                    img#J_preview(src='#{file.url}')
-                    input#J_hidden(type='hidden', name='url', value='#{file.url}')
+                    .gallery-item
+                        img#J_preview(src='#{file.url}')
+                        input#J_hidden(type='hidden', name='url', value='#{file.url}')
                 .form-group
-                    label 上传文件
+                    label 选择替换文件
                     div
                         span.btn.btn-success.fileinput-button
                                 i.glyphicon.glyphicon-plus

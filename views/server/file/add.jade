@@ -7,21 +7,21 @@ block content
             form(action='', method='post')
                 .form-group
                     label 上传文件
-                    div
-                        span.btn.btn-success.fileinput-button
-                                i.glyphicon.glyphicon-plus
-                                span 添加文件
-                                input#fileupload(type='file', name='files[]', multiple='multiple')
-                        div(style='padding: 10px;')
-                        #J_files
-                        div#progress.progress
-                            div.progress-bar.progress-bar-success
-                        #J_preview.preview
-                //.form-group
-                    label 描述
-                    textarea.form-control(name='description', rows='8')
-                //input(type='hidden', name='_csrf', value='#{token}')
-                //button.btn.btn-primary(type='submit') 提交
+                    .gallery#J_gallery
+                    span.btn.btn-success.fileinput-button
+                        i.glyphicon.glyphicon-plus
+                        span 添加文件
+                        input#fileupload(type='file', name='files[]', multiple='multiple')
+                    div(style='padding: 10px;')
+                    div#progress.progress.progress-striped
+                        div.progress-bar.progress-bar-default
+                    //#J_preview.preview
+    script#J_tmpl_gallery_item(type='x-tmpl-mustache')
+        .gallery-item
+            img.gallery-image(src='{{url}}')
+            input(type='hidden', name='gallery[]', value='{{id}}')
+            a.gallery-remove.J_del(href='')
+                span.fa.fa-times-circle
 
 block foot-js
     script(src='/assets/plugins/upload/js/vendor/jquery.ui.widget.js')
@@ -50,19 +50,49 @@ block foot-js
                     $('#progress .progress-bar').css(
                         'width',
                         progress + '%'
-                    );
+                    ).text(progress + '%');
                 },
                 done: function (e, data) {
-                    $('#progress .progress-bar').css(
+                    $('#progress .progress-bar').addClass('progress-bar-success').css(
                         'width',
-                        '0%'
-                    );
+                        100 + '%'
+                    ).text('100%');
                     $.each(data.result.files, function (index, file) {
-                        console.log(file)
-                        //$('<img src="' + file.url + '"/>').appendTo(document.body);
-                        //$('#J_files').append('<input type="hidden" name="gallery" value="' + file._id + '"/>');
-                        $('#J_preview').append('<img src="' + file.url + '"/>');
+                        var tmpl = $('#J_tmpl_gallery_item').html();
+                        var html = Mustache.render(tmpl, {
+                            url: file.url,
+                            id: file._id
+                        });
+                        $('#J_gallery').append(html);
                     });
                 }
+            });
+            //删除图集
+            $('#J_gallery').on('click', '.J_del', function(e) {
+                e.preventDefault();
+                var $this = $(this);
+                var $item = $this.closest('.gallery-item');
+                var confirm = BootstrapDialog.confirm('<p>确定删除图片吗</p><label><input type="checkbox"/> 同时删除原图</label>', function(val) {
+                    var $input = confirm.$modal.find('input');
+                    var checked = $input[0].checked;
+                    if(val) {
+                        if(checked) {
+                            var id = $this.siblings('input').val();
+                            var url = '/admin/file/' + id + '/del';
+                            $.post(url, {
+                                _csrf: '#{token}'
+                            }, function(json) {
+                                if(json.success) {
+                                    $item.remove();
+                                } else{
+                                    BootstrapDialog.alert('删除失败');
+                                }
+                            });
+                        } else {
+                            $item.remove();
+                        }
+                        
+                    }
+                });
             });
         });

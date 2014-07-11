@@ -32,7 +32,7 @@ a.btn-danger{
     -webkit-align-items: center;
     -webkit-justify-content: center;
 }
-.gallery-item .fa{
+.gallery-item .file-holder{
     font-size: 100px;
 }
 .gallery-item img{

@@ -21,7 +21,7 @@ block content
                                         if (file.type.indexOf('image') > -1)
                                             img(src='#{file.url}', title='#{file.name}')
                                         else
-                                            span.fa(class='#{core.fileToIcon(file.type)}', title='#{file.name}')
+                                            span.fa.file-holder(class='#{core.fileToIcon(file.type)}', title='#{file.name}')
 
                             td
                                 if (file.author)
