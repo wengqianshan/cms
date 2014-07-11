@@ -38,5 +38,5 @@ block content
                                     if (user.status !== 101)
                                         a.btn.btn-danger.btn-xs(href='#{adminDir}/user/#{user.id}/del') 删除
                 if (pageInfo && pageInfo.totalPage > 1)
-                    include ../page
+                    include ../mixin
                     +pagination(pageInfo)

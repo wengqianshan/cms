@@ -18,8 +18,9 @@ block content
                 .gallery
                     if (content.gallery)
                         each image in content.gallery
-                            a(href='#{image.url}')
-                                img(src='#{image.url}')
+                            .gallery-item
+                                a(href='#{image.url}')
+                                    img(src='#{image.url}')
                 .content 
                     //- if (content.author && content.author.status === -1)
                     //-     | !{content.content}
@@ -29,9 +30,16 @@ block content
                 .comments
                     h2 评论
                     if(content.comments)
-                        ul
+                        ul.media-list.J_list
                             each comment in content.comments
-                                li #{comment.content}
+                                - var listComment = !!comment_list
+                                if(!listComment)
+                                    if (!comment.reply)
+                                        include ../mixin
+                                        +commentItem(comment, content.comments)
+                                else 
+                                    include ../mixin
+                                    +commentItem(comment)
     #blueimp-gallery.blueimp-gallery
         .slides
         h3.title

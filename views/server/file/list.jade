@@ -37,7 +37,7 @@ block content
                                 if (file.status !== -1)
                                     a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/file/#{file.id}/del') 删除
             if (pageInfo && pageInfo.totalPage > 1)
-                include ../page
+                include ../mixin
                 +pagination(pageInfo)
 block foot-js
     script.

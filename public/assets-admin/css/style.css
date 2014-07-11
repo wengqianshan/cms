@@ -47,3 +47,8 @@ a.btn-danger{
     line-height: 0;
     color: #000 !important;
 }
+.media-list{
+    border-left: 4px solid #eee;
+    padding: 0px 15px;
+    margin: 10px 0;
+}
