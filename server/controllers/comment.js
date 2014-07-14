@@ -34,7 +34,7 @@ exports.one = function(req, res) {
         console.log(result);
         if(!result) {
             return res.render('server/message', {
-                msg: '该评论不存在'
+                message: '该评论不存在'
             });
         }
         res.render('server/comment/item', {
@@ -49,23 +49,23 @@ exports.del = function(req, res) {
     Comment.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/message', {
-                msg: '评论不存在'
+                message: '评论不存在'
             });
         }
         if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
             return res.render('server/message', {
-                msg: '没有权限'
+                message: '没有权限'
             });
         }
         console.log(result)
         result.remove(function(err) {
             if(err) {
                 return res.render('server/message', {
-                    msg: '删除失败222'
+                    message: '删除失败222'
                 });
             }
             res.render('server/message', {
-                msg: '删除成功'
+                message: '删除成功'
             })
         });
     });

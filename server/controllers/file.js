@@ -40,7 +40,7 @@ exports.one = function(req, res) {
         console.log(result);
         if(!result) {
             return res.render('server/message', {
-                msg: '该文件不存在'
+                message: '该文件不存在'
             });
         }
         res.render('server/file/item', {
@@ -82,7 +82,7 @@ exports.add = function(req, res) {
                 File.findById(id).populate('author').exec(function(err, file) {
                     if(req.Roles.indexOf('admin') === -1 && (!file.author || (file.author._id + '') !== req.session.user._id)) {
                         return res.render('server/message', {
-                            msg: '没有权限'
+                            message: '没有权限'
                         });
                     }
                     //TODO: 删除之前的文件 uploader.delete()?
@@ -128,7 +128,7 @@ exports.edit = function(req, res) {
         File.findById(id).populate('author').exec(function(err, result) {
             if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
                 return res.render('server/message', {
-                    msg: '没有权限'
+                    message: '没有权限'
                 });
             }
             res.render('server/file/edit', {
@@ -141,13 +141,13 @@ exports.edit = function(req, res) {
         File.findById(id).populate('author').exec(function(err, result) {
             if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
                 return res.render('server/message', {
-                    msg: '没有权限'
+                    message: '没有权限'
                 });
             }
             _.extend(result, obj);
             result.save(function(err, role) {
                 res.render('server/message', {
-                    msg: '更新成功'
+                    message: '更新成功'
                 });
             });
         });
@@ -159,12 +159,12 @@ exports.del = function(req, res) {
     File.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/message', {
-                msg: '文件不存在'
+                message: '文件不存在'
             });
         }
         if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
             return res.render('server/message', {
-                msg: '没有权限'
+                message: '没有权限'
             });
         }
         console.log(result);
@@ -181,11 +181,11 @@ exports.del = function(req, res) {
                     }
                     if(err) {
                         return res.render('server/message', {
-                            msg: '删除失败222'
+                            message: '删除失败222'
                         });
                     }
                     res.render('server/message', {
-                        msg: '删除成功'
+                        message: '删除成功'
                     });
                 })
             });

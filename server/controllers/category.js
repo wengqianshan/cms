@@ -36,7 +36,7 @@ exports.one = function(req, res) {
         console.log(result);
         if(!result) {
             return res.render('server/message', {
-                msg: '该分类不存在'
+                message: '该分类不存在'
             });
         }
         res.render('server/category/item', {
@@ -60,11 +60,11 @@ exports.add = function(req, res) {
         category.save(function(err, category) {
             if (err) {
                 return res.render('server/message', {
-                    msg: '创建失败'
+                    message: '创建失败'
                 });
             }
             res.render('server/message', {
-                msg: '创建成功'
+                message: '创建成功'
             });
         });
     }
@@ -75,7 +75,7 @@ exports.edit = function(req, res) {
         Category.findById(id).populate('author').exec(function(err, result) {
             if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
                 return res.render('server/message', {
-                    msg: '没有权限'
+                    message: '没有权限'
                 });
             }
             res.render('server/category/edit', {
@@ -88,14 +88,14 @@ exports.edit = function(req, res) {
         Category.findById(id).populate('author').exec(function(err, result) {
             if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
                 return res.render('server/message', {
-                    msg: '没有权限'
+                    message: '没有权限'
                 });
             }
             _.extend(result, obj);
             result.save(function(err, category) {
                 if(!err) {
                     res.render('server/message', {
-                        msg: '更新成功'
+                        message: '更新成功'
                     });
                 }
             });
@@ -108,22 +108,22 @@ exports.del = function(req, res) {
     Category.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/message', {
-                msg: '分类不存在'
+                message: '分类不存在'
             });
         }
         if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
             return res.render('server/message', {
-                msg: '没有权限'
+                message: '没有权限'
             });
         }
         result.remove(function(err) {
             if(err) {
                 return res.render('server/message', {
-                    msg: '删除失败222'
+                    message: '删除失败222'
                 });
             }
             res.render('server/message', {
-                msg: '删除成功'
+                message: '删除成功'
             })
         });
     });

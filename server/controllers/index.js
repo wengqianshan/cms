@@ -49,18 +49,18 @@ exports.updatePassword = function(req, res) {
                         req.session.user = user;
                         res.locals.User = user;
                         res.render('server/message', {
-                            msg: '密码修改成功'
+                            message: '密码修改成功'
                         });
                     });
                     /*req.session.user = result;
                     res.locals.User = result;
                     res.render('server/message', {
-                        msg: '密码修改成功'
+                        message: '密码修改成功'
                     });*/
                 });
             } else {
                 res.render('server/message', {
-                    msg: '原密码不正确'
+                    message: '原密码不正确'
                 });
             }
         });
@@ -112,7 +112,7 @@ exports.install = function(req, res) {
                     var user = new User(obj);
                     user.save(function() {
                         res.render('server/message', {
-                            msg: '初始化完成'
+                            message: '初始化完成'
                         });
                     });
                 };

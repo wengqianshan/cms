@@ -1,12 +1,12 @@
-//分页模块
-    pageInfo = {
-        totalPage: 15,
-        currentPage: 5,
-        query: {
-            page: 1,
-            nick: 2
-        }
-    }
+//- 分页模块
+//- pageInfo = {
+//-     totalPage: 15,
+//-     currentPage: 5,
+//-     query: {
+//-         page: 1,
+//-         otherparam: 2
+//-     }
+//- }
 mixin pagination(pageInfo)
     ul.pagination
         - var page = pageInfo
@@ -39,7 +39,7 @@ mixin pagination(pageInfo)
         - query.page = nextPage
         li(class=(currentPage === totalPage) ? 'disabled' : '')
             a(href='?#{core.param(query)}') &raquo;
-//评论条目
+//- 评论条目
 mixin commentItem(comment, comments)
     li.media
         a.pull-left

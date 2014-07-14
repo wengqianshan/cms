@@ -41,7 +41,7 @@ exports.one = function(req, res) {
         //console.log(result);
         if(!result) {
             return res.render('app/message', {
-                msg: '该内容不存在'
+                message: '该内容不存在'
             });
         }
         result.visits = result.visits + 1;

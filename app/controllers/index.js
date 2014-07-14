@@ -60,7 +60,7 @@ exports.one = function(req, res) {
         result.save();
         if(!result) {
             return res.render('message', {
-                msg: '该内容不存在'
+                message: '该内容不存在'
             });
         }
         res.render('content/item', {
@@ -86,11 +86,11 @@ exports.add = function(req, res) {
         content.save(function(err, content) {
             if (err) {
                 return res.render('message', {
-                    msg: '创建失败'
+                    message: '创建失败'
                 });
             }
             res.render('message', {
-                msg: '创建成功'
+                message: '创建成功'
             });
         });
     }
@@ -116,7 +116,7 @@ exports.edit = function(req, res) {
             console.log(err, result);
             if(!err) {
                 res.render('message', {
-                    msg: '更新成功'
+                    message: '更新成功'
                 });
             }
         })

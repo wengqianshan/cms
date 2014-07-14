@@ -62,7 +62,7 @@ exports.register = function(req, res) {
             console.log('role', role);
             if(err || !role) {
                 return res.render('server/message', {
-                    msg: '注册失败, 未开放角色:' + config.admin.role.user
+                    message: '注册失败, 未开放角色:' + config.admin.role.user
                 });
             }
             obj.roles = [role._id];
@@ -76,11 +76,11 @@ exports.register = function(req, res) {
                 if (err) {
                     console.log(err);
                     return res.render('server/message', {
-                        msg: '注册失败'
+                        message: '注册失败'
                     });
                 }
                 res.render('server/message', {
-                    msg: '注册成功'
+                    message: '注册成功'
                 });
             });
         });
@@ -101,7 +101,7 @@ exports.add = function(req, res) {
             console.log('role', role);
             if(err || !role) {
                 return res.render('server/message', {
-                    msg: '添加失败, 未开放角色:' + config.admin.role.user
+                    message: '添加失败, 未开放角色:' + config.admin.role.user
                 });
             }
             obj.roles = [role._id];
@@ -114,11 +114,11 @@ exports.add = function(req, res) {
                 if (err) {
                     console.log(err);
                     return res.render('server/message', {
-                        msg: '添加失败'
+                        message: '添加失败'
                     });
                 }
                 res.render('server/message', {
-                    msg: '添加成功'
+                    message: '添加成功'
                 });
             });
         });
@@ -133,7 +133,7 @@ exports.edit = function(req, res) {
             if(err || !user) {
                 console.log(err);
                 return res.render('server/message', {
-                    msg: '更新失败'
+                    message: '更新失败'
                 });
             }
             if(id === req.session.user._id) {
@@ -141,7 +141,7 @@ exports.edit = function(req, res) {
                 res.locals.User = user;
             }
             res.render('server/message', {
-                msg: '更新成功'
+                message: '更新成功'
             });
         })
     };
@@ -149,12 +149,12 @@ exports.edit = function(req, res) {
         User.findById(id).populate('author').exec(function(err, result) {
             if(err || !result) {
                 return res.render('server/message', {
-                    msg: '出错了'
+                    message: '出错了'
                 });
             }
             if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
                 return res.render('server/message', {
-                    msg: '没有权限'
+                    message: '没有权限'
                 });
             }
             try{
@@ -182,7 +182,7 @@ exports.edit = function(req, res) {
         User.findById(id).populate('roles').populate('author').exec(function(err, user) {
             if(req.Roles.indexOf('admin') === -1 && (!user.author || (user.author._id + '') !== req.session.user._id)) {
                 return res.render('server/message', {
-                    msg: '没有权限'
+                    message: '没有权限'
                 });
             }
             //var roles = core.getRoles(user);
@@ -203,7 +203,7 @@ exports.edit = function(req, res) {
                     var statuses = _.pluck(roles, 'status');
                     if(statuses.indexOf(201) === -1) {
                         return res.render('server/message', {
-                            msg: '系统管理员角色不正确'
+                            message: '系统管理员角色不正确'
                         });
                     }
                 }
@@ -221,11 +221,11 @@ exports.del = function(req, res) {
         user.remove(function(err) {
             if(err) {
                 return res.render('server/message', {
-                    msg: '删除失败222'
+                    message: '删除失败222'
                 });
             }
             res.render('server/message', {
-                msg: '删除成功'
+                message: '删除成功'
             })
         });
     };
@@ -233,26 +233,26 @@ exports.del = function(req, res) {
     User.findById(id).populate('roles').populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/message', {
-                msg: '用户不存在'
+                message: '用户不存在'
             });
         }
         
         if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
             return res.render('server/message', {
-                msg: '没有权限'
+                message: '没有权限'
             });
         }
         //系统默认用户不能删除
         if(result.status === 101) {
             return res.render('server/message', {
-                msg: '不能删除系统默认管理员'
+                message: '不能删除系统默认管理员'
             });
         }
         
         result.remove(function(err) {
             if(err) {
                 return res.render('server/message', {
-                    msg: '删除失败222'
+                    message: '删除失败222'
                 });
             }
             //自杀的节奏啊
@@ -264,7 +264,7 @@ exports.del = function(req, res) {
                 return res.redirect(path);
             }
             res.render('server/message', {
-                msg: '删除成功'
+                message: '删除成功'
             })
         });
     });
@@ -282,7 +282,7 @@ exports.login = function(req, res) {
         }).populate('roles').exec(function(err, user) {
             if (!user) {
                 return res.render('server/message', {
-                    msg: '登录失败, 查无此人'
+                    message: '登录失败, 查无此人'
                 });
             }
             if (user.authenticate(password)) {
@@ -297,7 +297,7 @@ exports.login = function(req, res) {
                 res.redirect(path);
             } else {
                 res.render('server/message', {
-                    msg: '密码不正确'
+                    message: '密码不正确'
                 });
             }
         });
@@ -318,13 +318,13 @@ exports.logout = function(req, res) {
         res.locals.User = null;
         console.log('注销成功');
         /*res.render('server/message', {
-            msg: '注销成功'
+            message: '注销成功'
         });*/
         var path = core.translateAdminDir('/index');
         res.redirect(path);
     } else {
         res.render('server/message', {
-            msg: '注销失败'
+            message: '注销失败'
         });
     }
 };
@@ -339,14 +339,14 @@ exports.forget = function(req, res) {
             console.log(err, user);
             if(err || !user) {
                 return res.render('server/message', {
-                    msg: 'hash错误'
+                    message: 'hash错误'
                 });
             }
             var till = user.forget.till;
             //检查hash有没有过期
             if(!till || till.getTime() + config.findPasswordTill < Date.now()) {
                 return res.render('server/message', {
-                    msg: 'hash已过期，请重新找回密码'
+                    message: 'hash已过期，请重新找回密码'
                 });
             }else {
                 res.render('server/user/forget', {
@@ -367,14 +367,14 @@ exports.forget = function(req, res) {
                 console.log(err, user);
                 if(err || !user) {
                     return res.render('server/message', {
-                        msg: '初始后：token已过期，请重新找回密码'
+                        message: '初始后：token已过期，请重新找回密码'
                     });
                 }
                 var till = user.forget.till;
                 //console.log(till.getTime(), Date.now());
                 if(!till || till.getTime() + config.findPasswordTill < Date.now()) {
                     return res.render('server/message', {
-                        msg: 'token已过期，请重新找回密码'
+                        message: 'token已过期，请重新找回密码'
                     });
                 }else {
                     console.log('可以重新设置密码');
@@ -383,7 +383,7 @@ exports.forget = function(req, res) {
                     user.forget.till = 0;
                     user.save(function(err, result) {
                         res.render('server/message', {
-                            msg: '重置密码成功'
+                            message: '重置密码成功'
                         });
                     });
                 }
@@ -395,7 +395,7 @@ exports.forget = function(req, res) {
             console.log(user);
             if(err || !user) {
                 return res.render('server/message', {
-                    msg: '没有这个用户'
+                    message: '没有这个用户'
                 });
             }
             var hash = crypto.random();
@@ -407,12 +407,12 @@ exports.forget = function(req, res) {
                 console.log(result);
                 if(err || !result) {
                     return res.render('server/message', {
-                        msg: '出错了 '
+                        message: '出错了 '
                     });
                 }
                 //TODO： 发邮件操作
                 res.render('server/message', {
-                    msg: '已邮件发到您的邮箱 ' + user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, '$1****$3$4')
+                    message: '已邮件发到您的邮箱 ' + user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, '$1****$3$4')
                 });
             });
             
@@ -428,7 +428,7 @@ exports.changePassword = function(req, res) {
         user.password = obj.password;
         user.save(function(err, result) {
             res.render('server/message', {
-                msg: '修改密码成功'
+                message: '修改密码成功'
             });
             console.log('修改密码成功', result);
         })

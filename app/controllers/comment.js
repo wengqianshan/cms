@@ -38,12 +38,12 @@ exports.add = function(req, res) {
                     });
                 }
                 /*res.render('app/message', {
-                    msg: '添加成功',
+                    message: '添加成功',
                     data: result
                 });*/
                 res.json({
                     success: true,
-                    msg: '评论成功',
+                    message: '评论成功',
                     data: result
                 });
             });
@@ -55,7 +55,7 @@ exports.add = function(req, res) {
 exports.del = function(req, res) {
     if(!req.session.user) {
         return res.render('message', {
-            msg: '请先登录'
+            message: '请先登录'
         });
     }
     
@@ -64,7 +64,7 @@ exports.del = function(req, res) {
 exports.one = function(req, res) {
     if(!req.session.user) {
         return res.render('message', {
-            msg: '请先登录'
+            message: '请先登录'
         });
     }
     

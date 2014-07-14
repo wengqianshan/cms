@@ -39,13 +39,13 @@ exports.edit = function(req, res) {
                 console.log(err, result);
                 if(err || !result) {
                     return res.render('server/message', {
-                        msg: '修改失败'
+                        message: '修改失败'
                     });    
                 }
                 req.session.user = result;
                 res.locals.User = user;
                 res.render('server/message', {
-                    msg: '修改成功'
+                    message: '修改成功'
                 });
             })
         });
@@ -69,18 +69,18 @@ exports.updatePassword = function(req, res) {
                         req.session.user = user;
                         res.locals.User = user;
                         res.render('server/message', {
-                            msg: '密码修改成功'
+                            message: '密码修改成功'
                         });
                     });
                     /*req.session.user = result;
                     res.locals.User = result;
                     res.render('server/message', {
-                        msg: '密码修改成功'
+                        message: '密码修改成功'
                     });*/
                 });
             } else {
                 res.render('server/message', {
-                    msg: '原密码不正确'
+                    message: '原密码不正确'
                 });
             }
         });

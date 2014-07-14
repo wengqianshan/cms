@@ -34,7 +34,7 @@ exports.one = function(req, res) {
         console.log(result);
         if(!result) {
             return res.render('server/message', {
-                msg: '该内容不存在'
+                message: '该内容不存在'
             });
         }
         res.render('server/role/item', {
@@ -65,7 +65,7 @@ exports.add = function(req, res) {
             var overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
             if(overAuth.length > 0) {
                 return res.render('server/message', {
-                    msg: '你不能操作如下权限:' + overAuth.join(',')
+                    message: '你不能操作如下权限:' + overAuth.join(',')
                 });
             }
         }
@@ -76,11 +76,11 @@ exports.add = function(req, res) {
         role.save(function(err, role) {
             if (err) {
                 return res.render('server/message', {
-                    msg: '创建失败'
+                    message: '创建失败'
                 });
             }
             res.render('server/message', {
-                msg: '创建成功'
+                message: '创建成功'
             });
         });
     }
@@ -91,12 +91,12 @@ exports.edit = function(req, res) {
         Role.findById(id).populate('author').exec(function(err, result) {
             if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
                 return res.render('server/message', {
-                    msg: '没有权限'
+                    message: '没有权限'
                 });
             }
             if(result.status === 201) {
                 return res.render('server/message', {
-                    msg: '系统默认管理员角色不可修改'
+                    message: '系统默认管理员角色不可修改'
                 });   
             }
             if(result.actions) {
@@ -121,12 +121,12 @@ exports.edit = function(req, res) {
         Role.findById(id).populate('author').exec(function(err, result) {
             if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
                 return res.render('server/message', {
-                    msg: '没有权限'
+                    message: '没有权限'
                 });
             }
             if(result.status === 201) {
                 return res.render('server/message', {
-                    msg: '系统默认管理员角色不可修改'
+                    message: '系统默认管理员角色不可修改'
                 });   
             }
             //如果不是管理员，检查是否超出权限
@@ -134,7 +134,7 @@ exports.edit = function(req, res) {
                 var overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
                 if(overAuth.length > 0) {
                     return res.render('server/message', {
-                        msg: '你不能操作如下权限:' + overAuth.join(',')
+                        message: '你不能操作如下权限:' + overAuth.join(',')
                     });
                 }
             }
@@ -142,7 +142,7 @@ exports.edit = function(req, res) {
             result.save(function(err, role) {
                 if(err || !role) {
                     return res.render('server/message', {
-                        msg: '更新失败'
+                        message: '更新失败'
                     });
                 }
                 //重置session信息
@@ -151,7 +151,7 @@ exports.edit = function(req, res) {
                     res.locals.User = user;
                     if(!err) {
                         res.render('server/message', {
-                            msg: '更新成功'
+                            message: '更新成功'
                         });
                     }
                 });
@@ -165,27 +165,27 @@ exports.del = function(req, res) {
     Role.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/message', {
-                msg: '角色不存在'
+                message: '角色不存在'
             });
         }
         if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
             return res.render('server/message', {
-                msg: '没有权限'
+                message: '没有权限'
             });
         }
         if(result.status === 201 || result.status === 202) {
             return res.render('server/message', {
-                msg: '系统默认角色不可删除'
+                message: '系统默认角色不可删除'
             });   
         }
         result.remove(function(err) {
             if(err) {
                 return res.render('server/message', {
-                    msg: '删除失败222'
+                    message: '删除失败222'
                 });
             }
             /*res.render('server/message', {
-                msg: '删除成功'
+                message: '删除成功'
             })*/
             //重置session信息
             userController.reload(req.session.user._id, function(err, user) {
@@ -193,7 +193,7 @@ exports.del = function(req, res) {
                 res.locals.User = user;
                 if(!err) {
                     res.render('server/message', {
-                        msg: '删除成功'
+                        message: '删除成功'
                     });
                 }
             });
