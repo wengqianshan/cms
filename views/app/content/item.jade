@@ -113,6 +113,22 @@ block foot-js
             var email = $email.val();
             var content = $textarea.val();
             //console.log(cid, content, reply);
+            if(!email) {
+                BootstrapDialog.alert({
+                    type: BootstrapDialog.TYPE_WARNING,
+                    title: '提示',
+                    message: '请输入email'
+                });
+                return;
+            }
+            if(!content) {
+                BootstrapDialog.alert({
+                    type: BootstrapDialog.TYPE_WARNING,
+                    title: '提示',
+                    message: '请输入评论内容'
+                });
+                return;
+            }
             var data = {
                 from: cid,
                 email: email,
@@ -126,7 +142,7 @@ block foot-js
                 console.log(json);
                 if(json.success === true) {
                     var tmpl = $('#J_tmpl_comment_item').html();
-                    json.data.avatar = json.data.avatar || 'https://secure.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=40&r=x&d=retro';
+                    //json.data.avatar = json.data.avatar || 'https://secure.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=40&r=x&d=retro';
                     json.data.created = moment(json.data.created).fromNow();
                     var html = Mustache.render(tmpl, json.data)
                     $list.append(html);

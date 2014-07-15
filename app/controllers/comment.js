@@ -2,7 +2,9 @@
 var mongoose = require('mongoose'),
     Content = mongoose.model('Content'),
     Comment = mongoose.model('Comment'),
+    gravatar = require('gravatar'),
     config = require('../../config'),
+    _ = require('underscore'),
     core = require('../../libs/core');
 //添加
 exports.add = function(req, res) {
@@ -41,10 +43,13 @@ exports.add = function(req, res) {
                     message: '添加成功',
                     data: result
                 });*/
+                var json = _.extend({}, _.pick(result, 'id', 'content', 'created', 'email', 'reply', 'from', 'ip'), {
+                    avatar: gravatar.url(result.email || '', {s: '40',r: 'x',d: 'retro'}, true)
+                });
                 res.json({
                     success: true,
                     message: '评论成功',
-                    data: result
+                    data: json
                 });
             });
         });
