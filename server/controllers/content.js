@@ -135,11 +135,14 @@ exports.edit = function(req, res) {
             }
             _.extend(result, obj);
             result.save(function(err, content) {
-                if(!err) {
-                    res.render('server/message', {
-                        message: '更新成功'
+                if(err || !content) {
+                    return res.render('server/message', {
+                        message: '修改失败'
                     });
                 }
+                res.render('server/message', {
+                    message: '更新成功'
+                });
             });
         });
     }
