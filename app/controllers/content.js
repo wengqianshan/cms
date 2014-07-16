@@ -38,7 +38,7 @@ exports.one = function(req, res) {
     var id = req.param('id');
     var nested = req.query.comment_list;
     Content.findById(id).populate('author').populate('category').populate('comments').populate('gallery').exec(function(err, result) {
-        //console.log(result);
+        console.log(result);
         if(!result) {
             return res.render('app/message', {
                 message: '该内容不存在'
