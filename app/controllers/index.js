@@ -30,7 +30,7 @@ exports.index = function(req, res) {
                 contents: results,
                 pageInfo: pageInfo
             });
-        })
+        });
     });
     
 };
