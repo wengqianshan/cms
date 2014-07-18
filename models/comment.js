@@ -28,13 +28,13 @@ var CommentSchema = new Schema({
     },
     //匿名用户信息
     name: {
-
+        type: String
     },
     email: {
-
+        type: String
     },
     website: {
-
+        type: String
     },
     created: {
         type: Date,
