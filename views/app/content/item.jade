@@ -52,6 +52,9 @@ block content
                         .comment-form
                             .row.form-group
                                 .col-md-4
+                                    input.form-control.J_input_name(name='name', placeholder='name')
+                            .row.form-group
+                                .col-md-4
                                     input.form-control.J_input_email(name='email', placeholder='email')
                             .row.form-group
                                 .col-md-4
@@ -64,7 +67,7 @@ block content
             a.pull-left
                 img.media-object(src='{{avatar}}')
             .media-body
-                //h4.media-heading 标题
+                h4.media-heading {{name}}
                 p {{content}}
                 .media-meta(data-id='{{id}}', data-reply='{{reply}}')
                     span.text-muted {{created}} 
@@ -72,6 +75,9 @@ block content
                 ul.media-list.J_list
     script#J_tmpl_comment_form(type='x-tmpl-mustache')
         .comment-form(data-reply='{{reply}}')
+            .row.form-group
+                .col-md-4
+                    input.form-control.J_input_name(name='name', placeholder='name')
             .row.form-group
                 .col-md-4
                     input.form-control.J_input_email(name='email', placeholder='email')
@@ -106,10 +112,12 @@ block foot-js
             var $item = $this.closest('.comments');
             var $form = $this.closest('.comment-form')
             var $list = $form.siblings('.J_list');
+            var $name = $form.find('.J_input_name');
             var $email = $form.find('.J_input_email');
             var $textarea = $form.find('.J_textarea');
             var cid = $item.attr('data-from');
             var reply = $form.attr('data-reply');
+            var name = $name.val();
             var email = $email.val();
             var content = $textarea.val();
             //console.log(cid, content, reply);
@@ -131,6 +139,7 @@ block foot-js
             }
             var data = {
                 from: cid,
+                name: name,
                 email: email,
                 content: content,
                 _csrf: token

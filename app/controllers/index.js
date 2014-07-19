@@ -15,7 +15,7 @@ exports.index = function(req, res) {
         condition.category = category;
     }
     Content.count(condition, function(err, total) {
-        var query = Content.find(condition).populate('author', 'username name email').populate('comments');
+        var query = Content.find(condition).populate('author', 'username name email').populate('comments').populate('gallery');
         //分页
         var pageInfo = core.createPage(req, total, 10);
         query.skip(pageInfo.start);

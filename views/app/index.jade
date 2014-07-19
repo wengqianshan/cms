@@ -3,22 +3,31 @@ extends layout
 block content
     .container
         each content in contents
-            h2 
-                a(href='/content/#{content._id}')
-                    | #{content.title}
-            p
-                if (content.author)
-                    strong
-                        | #{content.author.name} 
-                | 发布于 
-                | #{moment(content.created).format('LLL')}
-            .content
-                | !{md(content.content)}
-            .meta
-                | 评论数
-                strong #{content.comments && content.comments.length}
-                | 访问量
-                strong #{content.visits}
+            article.post.well
+                header.entry-header
+                    h2.entry-title
+                        a(href='/content/#{content._id}') #{content.title}
+                    .entry-meta
+                        if (content.author)
+                            span.post-author
+                                span #{content.author.name}
+                        span.posted-on
+                            i.fa.fa-calendar
+                            time #{moment(content.created).format('YYYY-MM-DD')}
+                        span.comments-link
+                            i.fa.fa-comment-o
+                            span 评论:#{content.comments && content.comments.length}
+                        span.visits
+                            span 访问:#{content.visits}
+                .entry-content.clear
+                    if (content.gallery.length > 0)
+                        a(href='/content/#{content._id}')
+                            img.thumbnail.col-sm-4(src='#{content.gallery[0].url}')
+                        .col-sm-8
+                            | !{md(content.content.substr(0, 100))}
+                    else
+                        | !{md(content.content.substr(0, 100))}
+
         .text-center
             if (pageInfo && pageInfo.totalPage > 1)
                 include ./mixin
@@ -26,28 +35,7 @@ block content
 block foot-js
     script.
         var token = '#{token}';
-        $(document).on('click', '.J_svar $this = $(this);
-            var $item = $this.closest('.comment');
-            var $list = $item.find('.J_list');
-            var $textarea = $item.find('.J_textarea');
-            var cid = $item.attr('data-from');
-            var content = $textarea.val();
-            //console.log(cid, content);
-            var data = {
-                from: cid,
-                content: content,
-                _csrf: token
-            };
-            $.post('/comment/add', data, function(json) {
-                console.log(json);
-                if(json.success === true) {
-                    var $li = $('<li>' + json.data.content + '</li>');
-                    $list.append($li);
-                    $textarea.val('');
-                }
-            });ubmit', function() {
-            
-        });
+        
         
         
                 

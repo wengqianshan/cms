@@ -43,7 +43,7 @@ exports.add = function(req, res) {
                     message: '添加成功',
                     data: result
                 });*/
-                var json = _.extend({}, _.pick(result, 'id', 'content', 'created', 'email', 'reply', 'from', 'ip'), {
+                var json = _.extend({}, _.pick(result, 'id', 'content', 'created', 'name', 'email', 'reply', 'from', 'ip'), {
                     avatar: gravatar.url(result.email || '', {s: '40',r: 'x',d: 'retro'}, true)
                 });
                 res.json({

@@ -57,3 +57,9 @@ a.btn-danger{
     padding: 0px 15px;
     margin: 10px 0;
 }
+.clear:before,
+.clear:after{
+    content: '';
+    display: table;
+    clear: both;
+}
