@@ -19,7 +19,7 @@ var walk = function(modulesPath, excludeDir, callback) {
 };
 exports.walk = walk;
 
-//obj to params
+//obj to params TODO: 换成qs
 exports.param = function(obj) {
     var arr = [];
     for(var i in obj) {

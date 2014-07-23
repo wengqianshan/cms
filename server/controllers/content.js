@@ -16,7 +16,7 @@ exports.list = function(req, res) {
         condition.author = req.session.user._id;
     }
     //查数据总数
-    Content.count(condition, function(err, total) {
+    Content.count(condition).exec().then(function(total) {
         var query = Content.find(condition).populate('author', 'username name email');
         //分页
         var pageInfo = core.createPage(req, total, 10);
@@ -34,7 +34,6 @@ exports.list = function(req, res) {
             });
         });
     });
-    
 };
 //单条
 exports.one = function(req, res) {
