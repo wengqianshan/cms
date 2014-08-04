@@ -81,8 +81,8 @@ UserSchema.virtual('password').set(function(password) {
  * Validations
  */
 UserSchema.path('name').validate(function(name) {
-    return (typeof name === 'string' && name.length > 0);
-}, '名字不能为空');
+    return (typeof name === 'string' && name.length >= 1 && name.length <= 50);
+}, '名字在1-50个字符之间');
 
 UserSchema.path('email').validate(function(email) {
     return (typeof email === 'string' && email.length > 0);
@@ -92,8 +92,8 @@ UserSchema.path('email').validate(function(email) {
 }, 'Email格式不正确');
 
 UserSchema.path('username').validate(function(username) {
-    return (typeof username === 'string' && username.length > 0);
-}, '用户名不能为空');
+    return (typeof username === 'string' && username.length >= 4 && username.length <= 20);
+}, '用户名为4-20个字符');
 
 
 /**
