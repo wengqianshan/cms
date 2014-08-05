@@ -20,7 +20,7 @@ block content
                         span.visits
                             span 访问:#{content.visits}
                 .entry-content.clear
-                    if (content.gallery.length > 0)
+                    if (content.gallery && content.gallery.length > 0)
                         a(href='/content/#{content._id}')
                             img.thumbnail.col-sm-4(src='#{content.gallery[0].url}')
                         .col-sm-8
