@@ -37,7 +37,7 @@ block content
             .col-md-3
                 .well
                     form(action='/', method='get')
-                        input(type='hidden', _csrf='#{token}')
+                        //input(type='hidden', name='_csrf', value='#{token}')
                         .input-group
                             input(type="text", name="key", id="key", value="", required="required").form-control
                             .input-group-btn
