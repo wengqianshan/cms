@@ -5,6 +5,30 @@ var mongoose = require('mongoose'),
     _ = require('underscore'),
     core = require('../../libs/core');
 
+
+//同步mysql
+//先安装mysql模块 npm install mysql
+/*var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '',
+  database: 'ouyo'
+});
+connection.connect();
+connection.query('select * from info', function(err, result) {
+    result.forEach(function(item) {
+        var content = new Content({
+            title: item.title,
+            content: item.content,
+            created: item.created
+        });
+        content.save(function(c) {
+            console.log('保存成功', c);
+        });
+    })
+});*/
+//备份end
 //列表
 exports.list = function(req, res) {
     var condition = {};
