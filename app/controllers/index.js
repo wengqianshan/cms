@@ -14,6 +14,14 @@ exports.index = function(req, res) {
     if(category) {
         condition.category = category;
     }
+    var key = req.query.key;
+    if(key) {
+        console.log('关键字为', key);
+        var k = '[^\s]*' + key + '[^\s]*';
+        var reg = new RegExp(k, 'gi');
+        condition.title = reg;
+        
+    }
     Content.count(condition, function(err, total) {
         var query = Content.find(condition).populate('author', 'username name email').populate('comments').populate('gallery');
         //分页

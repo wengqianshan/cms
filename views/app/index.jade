@@ -1,37 +1,51 @@
 extends layout
 
 block content
-    .container
-        each content in contents
-            article.post.well
-                header.entry-header
-                    h2.entry-title
-                        a(href='/content/#{content._id}') #{content.title}
-                    .entry-meta
-                        if (content.author)
-                            span.post-author
-                                span #{content.author.name}
-                        span.posted-on
-                            i.fa.fa-calendar
-                            time #{moment(content.created).format('YYYY-MM-DD')}
-                        span.comments-link
-                            i.fa.fa-comment-o
-                            span 评论:#{content.comments && content.comments.length}
-                        span.visits
-                            span 访问:#{content.visits}
-                .entry-content.clear
-                    if (content.gallery && content.gallery.length > 0)
-                        a(href='/content/#{content._id}')
-                            img.thumbnail.col-sm-4(src='#{content.gallery[0].url}')
-                        .col-sm-8
-                            | !{md(content.content.substr(0, 100))}
-                    else
-                        | !{md(content.content.substr(0, 100))}
+    .container(style='margin-top:10px;')
+        .row
+            .col-md-9
+                each content in contents
+                    article.post.well
+                        header.entry-header
+                            h2.entry-title
+                                a(href='/content/#{content._id}') #{content.title}
+                            .entry-meta
+                                if (content.author)
+                                    span.post-author
+                                        span #{content.author.name}
+                                span.posted-on
+                                    i.fa.fa-calendar
+                                    time #{moment(content.created).format('YYYY-MM-DD')}
+                                span.comments-link
+                                    i.fa.fa-comment-o
+                                    span 评论:#{content.comments && content.comments.length}
+                                span.visits
+                                    span 访问:#{content.visits}
+                        .entry-content.clear
+                            if (content.gallery && content.gallery.length > 0)
+                                a(href='/content/#{content._id}')
+                                    img.thumbnail.col-sm-4(src='#{content.gallery[0].url}')
+                                .col-sm-8
+                                    | !{md(content.content.substr(0, 100))}
+                            else
+                                | !{md(content.content.substr(0, 100))}
 
-        .text-center
-            if (pageInfo && pageInfo.totalPage > 1)
-                include ./mixin
-                +pagination(pageInfo)
+                .text-center
+                    if (pageInfo && pageInfo.totalPage > 1)
+                        include ./mixin
+                        +pagination(pageInfo)
+            .col-md-3
+                .well
+                    form(action='/', method='get')
+                        input(type='hidden', _csrf='#{token}')
+                        .input-group
+                            input(type="text", name="key", id="key", value="", required="required").form-control
+                            .input-group-btn
+                                button(type="submit").btn.btn-info 搜索
+                .well
+                    h3 最新内容
+                .well
+                    h3 最热内容
 block foot-js
     script.
         var token = '#{token}';
