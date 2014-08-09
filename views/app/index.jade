@@ -22,13 +22,14 @@ block content
                                 span.visits
                                     span 访问:#{content.visits}
                         .entry-content.clear
+                            - var text = html_strip.html_strip(content.content).substr(0, 100);
                             if (content.gallery && content.gallery.length > 0)
                                 a(href='/content/#{content._id}')
                                     img.thumbnail.col-sm-4(src='#{content.gallery[0].url}')
                                 .col-sm-8
-                                    | !{md(content.content.substr(0, 100))}
+                                    | #{text}
                             else
-                                | !{md(content.content.substr(0, 100))}
+                                | #{text}
 
                 .text-center
                     if (pageInfo && pageInfo.totalPage > 1)
