@@ -14,7 +14,7 @@ var underscore = require('underscore');
 var multipart = require('connect-multiparty');//解析文件
 var core = require('./libs/core');
 var marked = require('marked');
-var html_strip = require('htmlstrip-native');
+var strip = require('strip');
 
 var appPath = process.cwd();
 var config = require('./config');
@@ -50,7 +50,7 @@ app.locals = {
     adminDir: config.admin.dir ? ('/' + config.admin.dir) : '',
     gravatar: gravatar,
     md: marked,
-    html_strip: html_strip
+    strip: strip
 };
 app.set('config', config);
 

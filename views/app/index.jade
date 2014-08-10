@@ -22,7 +22,7 @@ block content
                                 span.visits
                                     span 访问:#{content.visits}
                         .entry-content.clear
-                            - var text = html_strip.html_strip(content.content).substr(0, 100);
+                            - var text = strip(content.content).substr(0, 100);
                             if (content.gallery && content.gallery.length > 0)
                                 a(href='/content/#{content._id}')
                                     img.thumbnail.col-sm-4(src='#{content.gallery[0].url}')
