@@ -7,6 +7,28 @@ var mongoose = require('mongoose'),
     crypto = require('../../libs/crypto'),
     _ = require('underscore');
 
+// 这个最好移到app.js里面，每次开启服务时检查，
+exports.checkInstall = function(req, res, next) {
+    if(req.session.user) {
+        var path = core.translateAdminDir('/index');
+        return res.redirect(path);
+    }
+    User.find({}, function(err, results) {
+        if(err) {
+            return;
+        }
+        if(results.length > 0) {
+            // var path = core.translateAdminDir('/user/login');
+            // return res.redirect(path);
+            return next();
+        } else {
+            //var path = core.translateAdminDir('/index/install');
+            //return res.redirect(path);
+            var path = core.translateAdminDir('/index/install')
+            return res.send('请先<a href="' + path + '">安装应用</a>');
+        }
+    })
+}
 //用户登录校验
 exports.authenticate = function(req, res, next) {
     if (!req.session.user) {

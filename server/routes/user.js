@@ -10,7 +10,7 @@ router.use(function(req, res, next) {
     next();
 });
 //登录
-router.route('/login').all(user.login);
+router.route('/login').all(user.checkInstall, user.login);
 //注册
 router.route('/register').all(user.register);
 

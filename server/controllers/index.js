@@ -66,29 +66,7 @@ exports.updatePassword = function(req, res) {
         });
     }
 };
-// 这个最好移到app.js里面，每次开启服务时检查，
-exports.checkInstall = function(req, res, next) {
-    if(req.session.user) {
-        var path = core.translateAdminDir('/index');
-        return res.redirect(path);
-    }
-    if(req.path.indexOf('/user/login') > -1 || req.path.indexOf('/user/login') > -1) {
-        return next();
-    }
-    User.find({}, function(err, results) {
-        if(err) {
-            return;
-        }
-        if(results.length > 0) {
-            var path = core.translateAdminDir('/user/login');
-            return res.redirect(path);
-        } else {
-            var path = core.translateAdminDir('/index/install');
-            return res.redirect(path);
-        }
-        next();
-    })
-}
+
 //初始化后台,安装初始数据
 exports.install = function(req, res) {
     if(req.session.user) {
