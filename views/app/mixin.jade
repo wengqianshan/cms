@@ -51,9 +51,9 @@ mixin commentItem(comment, comments)
             .media-meta(data-id='#{comment._id}', data-reply='#{comment.reply || ""}')
                 span.text-muted #{moment(comment.created).fromNow()} 
                 a.J_reply(href='javascript:') 回复
-            ul.media-list.J_list
-                if(comments)
-                    if (comment.comments && comment.comments.length > 0)
+            if(comments)
+                if (comment.comments && comment.comments.length > 0)
+                    ul.media-list.J_list
                         each cid in comment.comments
                             - var c = comments.filter(function(item) {return (item._id + '') === (cid + '')})
                             +commentItem(c[0], comments)

@@ -39,22 +39,21 @@ mixin pagination(pageInfo)
         - query.page = nextPage
         li(class=(currentPage === totalPage) ? 'disabled' : '')
             a(href='?#{core.param(query)}') &raquo;
-
 //- 评论条目
 mixin commentItem(comment, comments)
     li.media
         a.pull-left
-            - var avatar = gravatar.url((comment.author && comment.author.email) || comment.email || '', {s: '40',r: 'x',d: 'retro'}, true)
+            - var avatar = gravatar.url((comment.author &&comment.author.email) || comment.email || '', {s: '40',r: 'x',d: 'retro'}, true)
             img.media-object(src='#{avatar}')
         .media-body
-            //h4.media-heading 标题
+            h4.media-heading #{comment.name}
             p #{comment.content}
             .media-meta(data-id='#{comment._id}', data-reply='#{comment.reply || ""}')
                 span.text-muted #{moment(comment.created).fromNow()} 
                 a.J_reply(href='javascript:') 回复
-            ul.media-list.J_list
-                if(comments)
-                    if (comment.comments && comment.comments.length > 0)
+            if(comments)
+                if (comment.comments && comment.comments.length > 0)
+                    ul.media-list.J_list
                         each cid in comment.comments
                             - var c = comments.filter(function(item) {return (item._id + '') === (cid + '')})
                             +commentItem(c[0], comments)
