@@ -20,7 +20,6 @@ exports.index = function(req, res) {
         var k = '[^\s]*' + key + '[^\s]*';
         var reg = new RegExp(k, 'gi');
         condition.title = reg;
-        
     }
     Content.count(condition, function(err, total) {
         var query = Content.find(condition).populate('author', 'username name email').populate('comments').populate('gallery');
@@ -36,7 +35,9 @@ exports.index = function(req, res) {
                 //title: '列表',
                 title: '网站首页',
                 contents: results,
-                pageInfo: pageInfo
+                pageInfo: pageInfo,
+                key: key,
+                total: total
             });
         });
     });

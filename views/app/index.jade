@@ -3,6 +3,14 @@ extends layout
 block content
     .container(style='margin-top:10px;')
         .row
+            if (key) 
+                .col-md-12
+                    .well
+                        | 搜索 
+                        strong "#{key}" 
+                        | 共有 
+                        strong #{total} 
+                        | 条结果
             .col-md-9
                 each content in contents
                     article.post.well
