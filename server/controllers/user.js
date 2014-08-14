@@ -435,10 +435,10 @@ exports.forget = function(req, res) {
                     });
                 }
                 //发邮件操作
-                var transporter = nodemailer.createTransport(config.mail);
+                var transporter = nodemailer.createTransport(config.mail.options);
                 var url = req.headers.origin + req.originalUrl + '?hash=' + hash;
                 transporter.sendMail({
-                    from: config.mail.auth.user,
+                    from: config.mail.from,
                     to: user.email,
                     subject: '找回密码',
                     html: '你好，请点击<a href="' + url + '">此处</a>找回密码<br/>' + url

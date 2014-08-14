@@ -25,12 +25,16 @@ var config = {
         acceptFileTypes:  /.+/i
     },
     mail: {
+        from: 'username<username@domain.com>',
         //service: '',
-        host: 'smtp.163.com',
-        auth: {
-            user: 'abc@163.com',
-            pass: 'defg'
+        options: {
+            host: '10.1.1.1',
+            auth: {
+                user: 'username',
+                pass: 'password'
+            }    
         }
+        
     }
 };
 

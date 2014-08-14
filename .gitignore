@@ -6,3 +6,6 @@ node_modules/
 
 #上传目录
 public/uploaded/
+
+#配置文件
+config.js
