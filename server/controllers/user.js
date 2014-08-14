@@ -5,6 +5,8 @@ var mongoose = require('mongoose'),
     config = require('../../config'),
     core = require('../../libs/core'),
     crypto = require('../../libs/crypto'),
+    nodemailer = require('nodemailer'),
+    smtpTransport = require('nodemailer-smtp-transport'),
     _ = require('underscore');
 
 // 这个最好移到app.js里面，每次开启服务时检查，
@@ -433,6 +435,16 @@ exports.forget = function(req, res) {
                     });
                 }
                 //TODO： 发邮件操作
+                var transporter = nodemailer.createTransport(config.mail);
+                var url = req.headers.origin + req.originalUrl + '?hash=' + hash;
+                transporter.sendMail({
+                    from: config.mail.auth.user,
+                    to: user.email,
+                    subject: '找回密码',
+                    html: '你好，请点击<a href="' + url + '">此处</a>找回密码<br/>' + url
+                }, function(err, info) {
+                    console.log(err, info)
+                });
                 res.render('server/message', {
                     message: '已邮件发到您的邮箱 ' + user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, '$1****$3$4')
                 });

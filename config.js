@@ -23,6 +23,14 @@ var config = {
         minFileSize:  1,
         maxFileSize:  50000000, // 50M
         acceptFileTypes:  /.+/i
+    },
+    mail: {
+        //service: '',
+        host: 'smtp.163.com',
+        auth: {
+            user: 'abc@163.com',
+            pass: 'defg'
+        }
     }
 };
 
