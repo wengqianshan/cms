@@ -434,7 +434,7 @@ exports.forget = function(req, res) {
                         message: '出错了 '
                     });
                 }
-                //TODO： 发邮件操作
+                //发邮件操作
                 var transporter = nodemailer.createTransport(config.mail);
                 var url = req.headers.origin + req.originalUrl + '?hash=' + hash;
                 transporter.sendMail({
