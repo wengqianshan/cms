@@ -94,6 +94,9 @@ UserSchema.path('email').validate(function(email) {
 UserSchema.path('username').validate(function(username) {
     return (typeof username === 'string' && username.length >= 4 && username.length <= 20);
 }, '用户名为4-20个字符');
+UserSchema.path('username').validate(function(username) {
+    return /^\w+$/.test(username);
+}, '用户名只能为a-zA-Z0-9_');
 
 
 /**

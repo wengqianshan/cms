@@ -1,6 +1,10 @@
 'use strict';
 var mongoose = require('mongoose'),
     User = mongoose.model('User'),
+    Content = mongoose.model('Content'),
+    Category = mongoose.model('Category'),
+    Comment = mongoose.model('Comment'),
+    File = mongoose.model('File'),
     Role = mongoose.model('Role'),
     userController = require('./user'),
     config = require('../../config'),
@@ -9,7 +13,33 @@ var mongoose = require('mongoose'),
 //后台首页
 exports.index = function(req, res) {
     if(req.session.user) {
-        res.render('server/index', { title: '管理后台' });
+        
+        var obj = {}
+        Content.count().exec().then(function(result) {
+            //console.log(result)
+            obj.content = result;
+            return Category.count().exec();
+        }).then(function(result) {
+            //console.log(result);
+            obj.category = result;
+            return Comment.count().exec();
+        }).then(function(result) {
+            //console.log(result);
+            obj.comment = result;
+            return User.count().exec();
+        }).then(function(result) {
+            //console.log(result);
+            obj.user = result;
+            return Role.count().exec();
+        }).then(function(result) {
+            //console.log(result);
+            obj.role = result;
+            return File.count().exec();
+        }).then(function(result) {
+            obj.file = result;
+            console.log(obj);
+            res.render('server/index', { title: '管理后台', data: obj});
+        });
     } else {
         var path = core.translateAdminDir('/user/login');
         return res.redirect(path);

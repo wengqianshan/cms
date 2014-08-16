@@ -99,8 +99,13 @@ exports.register = function(req, res) {
                 console.log(result);
                 if (err) {
                     console.log(err);
+                    var errors = err.errors;
+                    var message = [];
+                    for (var i in errors) {
+                        message.push(errors[i].message);
+                    }
                     return res.render('server/message', {
-                        message: '注册失败'
+                        message: '注册失败' + message.join('<br/>')
                     });
                 }
                 res.render('server/message', {
