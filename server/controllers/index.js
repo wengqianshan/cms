@@ -13,7 +13,6 @@ var mongoose = require('mongoose'),
 //后台首页
 exports.index = function(req, res) {
     if(req.session.user) {
-        
         var obj = {}
         Content.count().exec().then(function(result) {
             //console.log(result)
