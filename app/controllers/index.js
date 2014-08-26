@@ -32,6 +32,16 @@ exports.index = function(req, res) {
         query.exec(function(err, results) {
             //console.log(err, results);
             //console.timeEnd('content-list');
+            if(req.xhr) {
+                res.json({
+                    title: '网站首页',
+                    contents: results,
+                    pageInfo: pageInfo,
+                    key: key,
+                    total: total
+                });
+                return;
+            }
             res.render('app/index', {
                 //title: '列表',
                 title: '网站首页',

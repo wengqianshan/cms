@@ -9,6 +9,7 @@ block content
                         th 内容
                         th 作者
                         th 来自
+                        th IP
                         th 时间
                         th 操作
                 tbody
@@ -24,6 +25,7 @@ block content
                             td
                                 if comment.from
                                     a(href='#{adminDir}/content/#{comment.from._id}/') #{comment.from.title}
+                            td #{comment.ip}
                             td
                                 | #{moment(comment.created).format('LLL')}
                             td
