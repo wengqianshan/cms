@@ -22,10 +22,18 @@ exports.index = function(req, res) {
         var reg = new RegExp(k, 'gi');
         condition.title = reg;
     }
-    Content.count(condition).exec().then(function(total) {
+    var obj = {};
+    Content.count(condition).exec().then(function(total){
+        obj.total = total;
+        return Content.find().limit(10).sort({created: -1}).exec();
+    }).then(function(newest) {
+        obj.newest = newest;
+        return Content.find().limit(10).sort({visits: -1}).exec();
+    }).then(function(hotest) {
+        obj.hotest = hotest;
         var query = Content.find(condition).populate('author', 'username name email').populate('comments').populate('gallery');
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        var pageInfo = core.createPage(req, obj.total, 10);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});
@@ -38,7 +46,9 @@ exports.index = function(req, res) {
                     contents: results,
                     pageInfo: pageInfo,
                     key: key,
-                    total: total
+                    total: obj.total,
+                    newest: obj.newest,
+                    hotest: obj.hotest
                 });
                 return;
             }
@@ -48,7 +58,9 @@ exports.index = function(req, res) {
                 contents: results,
                 pageInfo: pageInfo,
                 key: key,
-                total: total
+                total: obj.total,
+                newest: obj.newest,
+                hotest: obj.hotest
             });
         });
     });

@@ -53,8 +53,16 @@ block content
                                 button(type="submit").btn.btn-info 搜索
                 .well
                     h3 最新内容
+                    ul.list-unstyled
+                        each item in newest
+                            li
+                                a(href='/content/#{item.id}') #{item.title}
                 .well
                     h3 最热内容
+                    ul.list-unstyled
+                        each item in hotest
+                            li
+                                a(href='/content/#{item.id}') #{item.title}
 block foot-js
     script.
         var token = '#{token}';
