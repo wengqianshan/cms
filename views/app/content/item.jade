@@ -19,8 +19,9 @@ block content
                     .gallery
                         if (content.gallery)
                             each image in content.gallery
-                                a(href='#{image.url}')
-                                    img(src='#{image.url}')
+                                .gallery-item
+                                    a(href='#{image.url}')
+                                        img(src='#{image.url}')
                     .content 
                         //- if (content.author && content.author.status === -1)
                         //-     | !{content.content}
