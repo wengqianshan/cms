@@ -8,4 +8,4 @@ node_modules/
 public/uploaded/
 
 #配置文件
-config.js
+/config.js

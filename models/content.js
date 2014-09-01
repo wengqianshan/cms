@@ -50,8 +50,13 @@ var ContentSchema = new Schema({
         type: Number,
         default: 0
     },
-    //置顶,权重由数值决定
-    ding: {
+    //点赞,权重由数值决定
+    zan: {
+        type: Number,
+        default: 0
+    },
+    //踩
+    cai: {
         type: Number,
         default: 0
     }
