@@ -46,11 +46,17 @@ var ContentSchema = new Schema({
         type: Number,
         default: 0
     },
+    //喜欢
     like: {
         type: Number,
         default: 0
     },
-    //点赞,权重由数值决定
+    //置顶，权重由数值决定
+    ding: {
+        type: Number,
+        default: 0
+    },
+    //点赞
     zan: {
         type: Number,
         default: 0
