@@ -19,7 +19,7 @@ var strip = require('strip');
 var appPath = process.cwd();
 var config = require('./config');
 //设置moment语言
-moment.lang('zh-cn');
+moment.locale('zh-cn');
 
 
 var app = express();
@@ -60,6 +60,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(session({
+    resave: true,
+    saveUninitialized: true,
     secret: 'ruoguan'/*,
     store: new RedisStore*/
 }));
