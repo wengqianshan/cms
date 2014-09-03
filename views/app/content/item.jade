@@ -6,7 +6,7 @@ block content
     .container
         .row
             .col-md-12
-                .lists
+                div
                     h2 #{content.title}
                     p 
                         if (content.category)
@@ -58,11 +58,11 @@ block content
                                 .col-md-4
                                     input.form-control.J_input_email(name='email', placeholder='email')
                             .row.form-group
-                                .col-md-4
+                                .col-md-6
                                     textarea.form-control.J_textarea(name='content', placeholder='评论内容')
                             .row
                                 .col-md-4
-                                    button.btn.btn-info.btn-xs.J_submit(value='提交') 提交
+                                    button.btn.btn-primary.J_submit(value='提交') 提交
     script#J_tmpl_comment_item(type='x-tmpl-mustache')
         li.media
             a.pull-left
@@ -78,16 +78,16 @@ block content
         .comment-form(data-reply='{{reply}}')
             .row.form-group
                 .col-md-4
-                    input.form-control.J_input_name(name='name', placeholder='name')
+                    input.form-control.J_input_name(name='name', placeholder='name', value='{{name}}')
             .row.form-group
                 .col-md-4
-                    input.form-control.J_input_email(name='email', placeholder='email')
+                    input.form-control.J_input_email(name='email', placeholder='email', value='{{email}}')
             .row.form-group
-                .col-md-4
+                .col-md-6
                     textarea.form-control.J_textarea(name='content', placeholder='评论内容')
             .row
                 .col-md-4
-                    button.btn.btn-info.btn-xs.J_submit(value='提交') 提交
+                    button.btn.btn-primary.J_submit(value='提交') 提交
     #blueimp-gallery.blueimp-gallery
         .slides
         h3.title
@@ -154,9 +154,18 @@ block foot-js
                     var tmpl = $('#J_tmpl_comment_item').html();
                     //json.data.avatar = json.data.avatar || 'https://secure.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=40&r=x&d=retro';
                     json.data.created = moment(json.data.created).fromNow();
-                    var html = Mustache.render(tmpl, json.data)
+                    console.log($list.length)
+                    if($list.length < 1) {
+                        $list = $form.after('<ul class="media-list J_list"/>');
+                    }
+                    var html = Mustache.render(tmpl, json.data);
                     $list.append(html);
                     $textarea.val('');
+                    var commentUser = {
+                        name: name,
+                        email: email
+                    };
+                    localStorage.setItem('comment_user', JSON.stringify(commentUser));
                 }else{
                     alert(json.message);
                 }
@@ -168,9 +177,12 @@ block foot-js
             var id = $meta.attr('data-id');
             var tmpl = $('#J_tmpl_comment_form').html();
             if($meta.siblings('.comment-form').length > 0) {
+                $meta.siblings('.comment-form').toggle();
                 return;
             }
-            $meta.after(Mustache.render(tmpl, {reply: id}));
+            var commentUser = JSON.parse(localStorage.getItem('comment_user'));
+            var data = $.extend({reply: id}, commentUser)
+            $meta.after(Mustache.render(tmpl, data));
         });
         //- $('.J_toggle_comment').on('mousedown', function(e) {
         //-     e.preventDefault();

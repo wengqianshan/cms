@@ -101,3 +101,12 @@ a.btn-danger{
     display: table;
     clear: both;
 }
+.comments{
+    margin: 15px 0;
+}
+.comment-form{
+
+}
+.comment-form textarea{
+    min-height: 200px;
+}
