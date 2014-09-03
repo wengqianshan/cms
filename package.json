@@ -23,7 +23,7 @@
     "morgan": "~1.0.0",
     "nodemailer": "^1.1.1",
     "nodemailer-smtp-transport": "^0.1.12",
-    "static-favicon": "~1.0.0",
+    "serve-favicon": "^2.1.1",
     "strip": "0.0.7",
     "underscore": "^1.6.0"
   }
