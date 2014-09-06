@@ -49,18 +49,6 @@ exports.one = function(req, res) {
         });
     });
 };
-//七牛 TODO
-/*var qn = require('qn');
-var client = qn.create({
-  accessKey: 'key',
-  secretKey: 'secret',
-  bucket: 'wenglou',
-  domain: 'http://wenglou.qiniudn.com',
-  // timeout: 3600000, // default rpc timeout: one hour, optional
-});
-client.uploadFile(file.path, {key: file.name}, function (err, result) {
-  console.log(result);
-});*/
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {

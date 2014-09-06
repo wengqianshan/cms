@@ -22,7 +22,17 @@ var config = {
         maxPostSize: 100000000, // 100M
         minFileSize:  1,
         maxFileSize:  50000000, // 50M
-        acceptFileTypes:  /.+/i
+        acceptFileTypes:  /.+/i,
+        storage: {
+            type: 'qn',
+            options: {
+                accessKey: 'your key',
+                secretKey: 'your secret',
+                bucket: 'your bucket',
+                domain: 'your domain',
+                timeout: 3600000, // default rpc timeout: one hour, optional
+            }
+        }
     },
     mail: {
         from: 'username<username@domain.com>',

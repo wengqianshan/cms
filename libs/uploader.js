@@ -6,6 +6,7 @@
 // upload.post(req, res, callback);
 var _ = require('underscore');
 var config = require('../config');
+var qn = require('qn');
 module.exports = function (opts) {
     var path = require('path'),
         fs = require('fs'),
@@ -63,31 +64,61 @@ module.exports = function (opts) {
         res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
         res.setHeader('Content-Disposition', 'inline; filename="files.json"');
     };
+    //七牛云存储
+    var client = null;
+    if(options.storage.type === 'qn') {
+        client = qn.create(options.storage.options);
+    }
     var Uploader = {};
     Uploader.post = function(req, res, callback) {
         var files = req.files.files;
-        if(files.length < 1) {
+        var len = files.length;
+        if(len < 1) {
             return;
         }
         var result = [];
-        files.forEach(function(file) {
-            if (!validate(file)) {
-                fs.unlink(file.path);
-                return;
-            }
-            var sName = safeName(file.name);
-            fs.renameSync(file.path, options.uploadDir + '/' + sName);
-            result.push({
-                url: initUrls(req.headers.host, sName),
-                name: sName,
-                size: file.size,
-                type: file.type
-            })
-        });
-        //return result;
-        callback.call(null, {
-            files: result
-        });
+        //七牛
+        if(options.storage.type === 'qn') {
+            files.forEach(function(file) {
+                if (!validate(file)) {
+                    fs.unlink(file.path);
+                    return;
+                }
+                client.uploadFile(file.path, function (err, qf) {
+                    //console.log(qf);
+                    result.push({
+                        url: qf.url,
+                        name: file.name,
+                        size: file.size,
+                        type: file.type
+                    });
+                    len --;
+                    if(len <= 0) {
+                        callback.call(null, {
+                            files: result
+                        });
+                    }
+                });
+            });
+        } else {
+            files.forEach(function(file) {
+                if (!validate(file)) {
+                    fs.unlink(file.path);
+                    return;
+                }
+                var sName = safeName(file.name);
+                fs.renameSync(file.path, options.uploadDir + '/' + sName);
+                result.push({
+                    url: initUrls(req.headers.host, sName),
+                    name: sName,
+                    size: file.size,
+                    type: file.type
+                })
+            });
+            callback.call(null, {
+                files: result
+            });
+        }
     };
     return Uploader;
 };
