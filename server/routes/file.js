@@ -3,9 +3,9 @@ var router = express.Router();
 var core = require('../../libs/core');
 var file = require('../controllers/file');
 
-//权限判断
+//文件
 router.use(function(req, res, next) {
-    console.log('角色页: ' + Date.now());
+    console.log('文件页: ' + Date.now());
     res.locals.Path = 'file';
     if(!req.session.user) {
         var path = core.translateAdminDir('/user/login');

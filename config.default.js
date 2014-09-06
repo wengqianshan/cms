@@ -24,7 +24,7 @@ var config = {
         maxFileSize:  50000000, // 50M
         acceptFileTypes:  /.+/i,
         storage: {
-            type: 'qn',
+            type: 'qiniu',//保存类型，如果保存到本地可省略或local
             options: {
                 accessKey: 'your key',
                 secretKey: 'your secret',

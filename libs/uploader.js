@@ -66,7 +66,7 @@ module.exports = function (opts) {
     };
     //七牛云存储
     var client = null;
-    if(options.storage.type === 'qn') {
+    if(options.storage.type === 'qiniu') {
         client = qn.create(options.storage.options);
     }
     var Uploader = {};
@@ -78,7 +78,7 @@ module.exports = function (opts) {
         }
         var result = [];
         //七牛
-        if(options.storage.type === 'qn') {
+        if(options.storage.type === 'qiniu') {
             files.forEach(function(file) {
                 if (!validate(file)) {
                     fs.unlink(file.path);
