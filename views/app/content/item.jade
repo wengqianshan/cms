@@ -21,7 +21,7 @@ block content
                             each image in content.gallery
                                 .gallery-item
                                     a(href='#{image.url}')
-                                        img(src='#{image.url}')
+                                        img(src='#{image.md_url || image.url}')
                     .content 
                         //- if (content.author && content.author.status === -1)
                         //-     | !{content.content}

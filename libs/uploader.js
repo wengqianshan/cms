@@ -88,6 +88,8 @@ module.exports = function (opts) {
                     //console.log(qf);
                     result.push({
                         url: qf.url,
+                        md_url: qf.url + '?imageView/1/w/300',
+                        sm_url: qf.url + '?imageView/1/w/100',
                         name: file.name,
                         size: file.size,
                         type: file.type
