@@ -70,6 +70,11 @@ module.exports = function (opts) {
         client = qn.create(options.storage.options);
     }
     var Uploader = {};
+    Uploader.delete = function(url, callback) {
+        client.delete(url, function(err) {
+            callback && callback.call(null, err);
+        })
+    };
     Uploader.post = function(req, res, callback) {
         var files = req.files.files;
         var len = files.length;

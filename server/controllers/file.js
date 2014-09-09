@@ -155,10 +155,18 @@ exports.del = function(req, res) {
                 message: '没有权限'
             });
         }
-        console.log(result);
+        //console.log(result);
         var url = result.url;
         var fileName = path.basename(decodeURIComponent(url));
+        console.log('删除文件', url, fileName);
         if (fileName[0] !== '.') {
+            if(url.indexOf(config.upload.storage.options.domain) > -1) {
+                try {
+                    uploader.delete(fileName)
+                } catch(e) {
+                    console.log('删除7牛图片失败', e);
+                }
+            }
             fs.unlink(config.upload.uploadDir + '/' + fileName, function (err) {
                 result.remove(function(err) {
                     if(req.xhr) {
