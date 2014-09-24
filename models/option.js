@@ -7,9 +7,9 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 /**
- * 配置信息模型
+ * 选项模型
  */
-var ConfigSchema = new Schema({
+var OptionSchema = new Schema({
     name: {
         type: String,
         unique: true
@@ -34,8 +34,8 @@ var ConfigSchema = new Schema({
         default: 0
     }
 });
-ConfigSchema.methods = {
+OptionSchema.methods = {
 
 };
 
-mongoose.model('Config', ConfigSchema);
+mongoose.model('Option', OptionSchema);
