@@ -29,7 +29,39 @@ block content
                             td
                                 | #{moment(comment.created).format('LLL')}
                             td
-                                a.btn.btn-danger.btn-xs(href='#{adminDir}/comment/#{comment.id}/del') 删除
+                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/comment/#{comment.id}/del') 删除
             if (pageInfo && pageInfo.totalPage > 1)
                 include ../mixin
                 +pagination(pageInfo)
+
+block foot-js
+    script.
+        var token = '#{token}';
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(document).on('click', '.J_del', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $tr = $this.closest('tr');
+            var url = $this.attr('href');
+            $.post(url, {_csrf: token}, function(json) {
+                console.log(json);
+                var status = json.status;
+                if(status === true) {
+                    Messenger().post({
+                        message: '删除成功',
+                        hideAfter: 3,
+                        type: 'success'
+                    });
+                    $tr.remove();
+                } else {
+                    Messenger().post({
+                        message: '删除失败',
+                        hideAfter: 3,
+                        type: 'error'
+                    });
+                }
+            })
+        });

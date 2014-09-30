@@ -59,6 +59,11 @@ exports.del = function(req, res) {
         }
         console.log(result)
         result.remove(function(err) {
+            if (req.xhr) {
+                return res.json({
+                    status: !err
+                });
+            }
             if(err) {
                 return res.render('server/message', {
                     message: '删除失败222'
