@@ -46,18 +46,29 @@ block foot-js
             var $this = $(this);
             var $tr = $this.closest('tr');
             var url = $this.attr('href');
+            var messenger = Messenger().post("处理中...");
             $.post(url, {_csrf: token}, function(json) {
                 console.log(json);
                 var status = json.status;
                 if(status === true) {
-                    Messenger().post({
+                    //- Messenger().post({
+                    //-     message: '删除成功',
+                    //-     hideAfter: 3,
+                    //-     type: 'success'
+                    //- });
+                    messenger.update({
                         message: '删除成功',
                         hideAfter: 3,
                         type: 'success'
                     });
                     $tr.remove();
                 } else {
-                    Messenger().post({
+                    //- Messenger().post({
+                    //-     message: '删除失败',
+                    //-     hideAfter: 3,
+                    //-     type: 'error'
+                    //- });
+                    messenger.update({
                         message: '删除失败',
                         hideAfter: 3,
                         type: 'error'
