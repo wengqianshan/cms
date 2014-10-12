@@ -7,35 +7,35 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 /**
- * 选项模型
+ * 客户留言模型
  */
-var OptionSchema = new Schema({
+var MessageSchema = new Schema({
     name: {
         type: String,
-        unique: true
+        required: true
     },
-    value: {
+    email: {
+        type: String,
+        required: true
+    },
+    mobile: {
         type: String
     },
-    type: {
-        type: String //user global system ...
+    address: {
+        type: String
     },
     description: String,
     created: {
         type: Date,
         default: Date.now
     },
-    author: {
-        type: Schema.ObjectId,
-        ref: 'User'
-    },
     status: {
         type: Number,
         default: 0
     }
 });
-OptionSchema.methods = {
+MessageSchema.methods = {
 
 };
 
-mongoose.model('Option', OptionSchema);
+mongoose.model('Message', MessageSchema);

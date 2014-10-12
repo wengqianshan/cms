@@ -37,6 +37,9 @@ var UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    address: {
+        type: String
+    },
     //以上是普通信息
     roles: [{
         type: Schema.ObjectId,
