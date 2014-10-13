@@ -19,7 +19,7 @@ block content
                                 .gallery-item
                                     a(href='#{file.url}', target='_blank')
                                         if (file.type.indexOf('image') > -1)
-                                            img(src='#{file.url}', title='#{file.name}')
+                                            img(src='#{file.md_url || file.url}', title='#{file.name}')
                                         else
                                             span.fa.file-holder(class='#{core.fileToIcon(file.type)}', title='#{file.name}')
 
