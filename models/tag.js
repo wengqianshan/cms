@@ -7,35 +7,28 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 /**
- * 客户留言模型
+ * 标签模型
  */
-var MessageSchema = new Schema({
+var TagSchema = new Schema({
     name: {
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        required: true
-    },
-    mobile: {
-        type: String
-    },
-    address: {
-        type: String
-    },
-    content: String,
     created: {
         type: Date,
         default: Date.now
+    },
+    author: {
+        type: Schema.ObjectId,
+        ref: 'User'
     },
     status: {
         type: Number,
         default: 0
     }
 });
-MessageSchema.methods = {
+TagSchema.methods = {
 
 };
 
-mongoose.model('Message', MessageSchema);
+mongoose.model('Tag', TagSchema);
