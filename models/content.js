@@ -30,6 +30,10 @@ var ContentSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Category'
     },
+    tags: [{
+        type: Schema.ObjectId,
+        ref: 'Tag'
+    }],
     created: {
         type: Date,
         default: Date.now
