@@ -188,6 +188,39 @@ html.no-js
                                         a(href='#{adminDir}/file') 文件列表
                                     li(class=Menu === 'add' ? 'active' : '')
                                         a(href='#{adminDir}/file/add') 添加文件
+                        if (User && Roles.indexOf('admin') > -1)
+                            li.sub-menu(class=Path === 'message' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-envelope
+                                    span 消息
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/message') 收到的消息
+                                    li(class=Menu === 'sent' ? 'active' : '')
+                                        a(href='#{adminDir}/message/sent') 发送的消息
+                        if (User && Roles.indexOf('admin') > -1)
+                            li.sub-menu(class=Path === 'page' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-file
+                                    span 页面
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/page') 页面列表
+                                    li(class=Menu === 'add' ? 'active' : '')
+                                        a(href='#{adminDir}/page/add') 添加页面
+                        if (User && Roles.indexOf('admin') > -1)
+                            li.sub-menu(class=Path === 'tag' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-tags
+                                    span 标签
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/tag') 标签列表
+                                    li(class=Menu === 'add' ? 'active' : '')
+                                        a(href='#{adminDir}/tag/add') 添加标签
                                 
             // sidebar left end
             // main content start
