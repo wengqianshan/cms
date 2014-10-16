@@ -66,7 +66,7 @@ exports.one = function(req, res) {
     Content.findById(id).populate('author').populate('category').populate('comments').populate('gallery').exec(function(err, result) {
         console.log(result);
         if(!result) {
-            return res.render('server/message', {
+            return res.render('server/info', {
                 message: '该内容不存在'
             });
         }
@@ -104,11 +104,11 @@ exports.add = function(req, res) {
         content.save(function(err, content) {
             if (err) {
                 console.log(err);
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '创建失败'
                 });
             }
-            res.render('server/message', {
+            res.render('server/info', {
                 message: '创建成功'
             });
         });
@@ -122,7 +122,7 @@ exports.edit = function(req, res) {
                 console.log('加载内容失败');
             }
             if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '没有权限'
                 });
             }
@@ -152,18 +152,18 @@ exports.edit = function(req, res) {
         Content.findById(id).populate('author').exec(function(err, result) {
             //console.log(result);
             if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '没有权限'
                 });
             }
             _.extend(result, obj);
             result.save(function(err, content) {
                 if(err || !content) {
-                    return res.render('server/message', {
+                    return res.render('server/info', {
                         message: '修改失败'
                     });
                 }
-                res.render('server/message', {
+                res.render('server/info', {
                     message: '更新成功'
                 });
             });
@@ -175,23 +175,23 @@ exports.del = function(req, res) {
     var id = req.params.id;
     Content.findById(id).populate('author').exec(function(err, result) {
         if(err || !result) {
-            return res.render('server/message', {
+            return res.render('server/info', {
                 message: '内容不存在'
             });
         }
         if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
-            return res.render('server/message', {
+            return res.render('server/info', {
                 message: '没有权限'
             });
         }
         //
         result.remove(function(err) {
             if(err) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '删除失败'
                 });
             }
-            res.render('server/message', {
+            res.render('server/info', {
                 message: '删除成功'
             })
         });

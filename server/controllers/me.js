@@ -38,13 +38,13 @@ exports.edit = function(req, res) {
             user.save(function(err, result) {
                 console.log(err, result);
                 if(err || !result) {
-                    return res.render('server/message', {
+                    return res.render('server/info', {
                         message: '修改失败'
                     });    
                 }
                 req.session.user = result;
                 res.locals.User = user;
-                res.render('server/message', {
+                res.render('server/info', {
                     message: '修改成功'
                 });
             })
@@ -68,18 +68,18 @@ exports.updatePassword = function(req, res) {
                     userController.reload(result._id, function(err, user) {
                         req.session.user = user;
                         res.locals.User = user;
-                        res.render('server/message', {
+                        res.render('server/info', {
                             message: '密码修改成功'
                         });
                     });
                     /*req.session.user = result;
                     res.locals.User = result;
-                    res.render('server/message', {
+                    res.render('server/info', {
                         message: '密码修改成功'
                     });*/
                 });
             } else {
-                res.render('server/message', {
+                res.render('server/info', {
                     message: '原密码不正确'
                 });
             }

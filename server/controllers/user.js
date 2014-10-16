@@ -85,7 +85,7 @@ exports.register = function(req, res) {
         Role.findOne({status: 202}, function(err, role) {
             console.log('role', role);
             if(err || !role) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '注册失败, 未开放角色:' + config.admin.role.user
                 });
             }
@@ -104,11 +104,11 @@ exports.register = function(req, res) {
                     for (var i in errors) {
                         message.push(errors[i].message);
                     }
-                    return res.render('server/message', {
+                    return res.render('server/info', {
                         message: '注册失败' + message.join('<br/>')
                     });
                 }
-                res.render('server/message', {
+                res.render('server/info', {
                     message: '注册成功'
                 });
             });
@@ -129,7 +129,7 @@ exports.add = function(req, res) {
         Role.findOne({status: 202}, function(err, role) {
             console.log('role', role);
             if(err || !role) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '添加失败, 未开放角色:' + config.admin.role.user
                 });
             }
@@ -142,11 +142,11 @@ exports.add = function(req, res) {
                 console.log(result);
                 if (err) {
                     console.log(err);
-                    return res.render('server/message', {
+                    return res.render('server/info', {
                         message: '添加失败'
                     });
                 }
-                res.render('server/message', {
+                res.render('server/info', {
                     message: '添加成功'
                 });
             });
@@ -161,7 +161,7 @@ exports.edit = function(req, res) {
         user.save(function(err, user) {
             if(err || !user) {
                 console.log(err);
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '更新失败'
                 });
             }
@@ -169,7 +169,7 @@ exports.edit = function(req, res) {
                 req.session.user = user;
                 res.locals.User = user;
             }
-            res.render('server/message', {
+            res.render('server/info', {
                 message: '更新成功'
             });
         })
@@ -177,12 +177,12 @@ exports.edit = function(req, res) {
     if(req.method === 'GET') {
         User.findById(id).populate('author').exec(function(err, result) {
             if(err || !result) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '出错了'
                 });
             }
             if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '没有权限'
                 });
             }
@@ -210,7 +210,7 @@ exports.edit = function(req, res) {
         //判断是否允许编辑
         User.findById(id).populate('roles').populate('author').exec(function(err, user) {
             if(req.Roles.indexOf('admin') === -1 && (!user.author || (user.author._id + '') !== req.session.user._id)) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '没有权限'
                 });
             }
@@ -231,7 +231,7 @@ exports.edit = function(req, res) {
                 if(user.status === 101) {
                     var statuses = _.pluck(roles, 'status');
                     if(statuses.indexOf(201) === -1) {
-                        return res.render('server/message', {
+                        return res.render('server/info', {
                             message: '系统管理员角色不正确'
                         });
                     }
@@ -249,11 +249,11 @@ exports.del = function(req, res) {
     var deleteHandle = function(user) {
         user.remove(function(err) {
             if(err) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '删除失败222'
                 });
             }
-            res.render('server/message', {
+            res.render('server/info', {
                 message: '删除成功'
             })
         });
@@ -261,26 +261,26 @@ exports.del = function(req, res) {
     var id = req.params.id;
     User.findById(id).populate('roles').populate('author').exec(function(err, result) {
         if(!result) {
-            return res.render('server/message', {
+            return res.render('server/info', {
                 message: '用户不存在'
             });
         }
         
         if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
-            return res.render('server/message', {
+            return res.render('server/info', {
                 message: '没有权限'
             });
         }
         //系统默认用户不能删除
         if(result.status === 101) {
-            return res.render('server/message', {
+            return res.render('server/info', {
                 message: '不能删除系统默认管理员'
             });
         }
         
         result.remove(function(err) {
             if(err) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '删除失败222'
                 });
             }
@@ -292,7 +292,7 @@ exports.del = function(req, res) {
                 var path = core.translateAdminDir('/index');
                 return res.redirect(path);
             }
-            res.render('server/message', {
+            res.render('server/info', {
                 message: '删除成功'
             })
         });
@@ -310,7 +310,7 @@ exports.login = function(req, res) {
             username: username
         }).populate('roles').exec(function(err, user) {
             if (!user) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '登录失败, 查无此人'
                 });
             }
@@ -325,7 +325,7 @@ exports.login = function(req, res) {
                 var path = core.translateAdminDir('/index');
                 res.redirect(path);
             } else {
-                res.render('server/message', {
+                res.render('server/info', {
                     message: '密码不正确'
                 });
             }
@@ -346,13 +346,13 @@ exports.logout = function(req, res) {
         req.session.destroy();
         res.locals.User = null;
         console.log('注销成功');
-        /*res.render('server/message', {
+        /*res.render('server/info', {
             message: '注销成功'
         });*/
         var path = core.translateAdminDir('/index');
         res.redirect(path);
     } else {
-        res.render('server/message', {
+        res.render('server/info', {
             message: '注销失败'
         });
     }
@@ -367,14 +367,14 @@ exports.forget = function(req, res) {
         User.findOne({'forget.hash': hash}, function(err, user) {
             console.log(err, user);
             if(err || !user) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: 'hash错误'
                 });
             }
             var till = user.forget.till;
             //检查hash有没有过期
             if(!till || till.getTime() + config.findPasswordTill < Date.now()) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: 'hash已过期，请重新找回密码'
                 });
             }else {
@@ -395,14 +395,14 @@ exports.forget = function(req, res) {
             User.findOne({'forget.hash': hash}, function(err, user) {
                 console.log(err, user);
                 if(err || !user) {
-                    return res.render('server/message', {
+                    return res.render('server/info', {
                         message: '初始后：token已过期，请重新找回密码'
                     });
                 }
                 var till = user.forget.till;
                 //console.log(till.getTime(), Date.now());
                 if(!till || till.getTime() + config.findPasswordTill < Date.now()) {
-                    return res.render('server/message', {
+                    return res.render('server/info', {
                         message: 'token已过期，请重新找回密码'
                     });
                 }else {
@@ -411,7 +411,7 @@ exports.forget = function(req, res) {
                     user.forget.hash = '';
                     user.forget.till = 0;
                     user.save(function(err, result) {
-                        res.render('server/message', {
+                        res.render('server/info', {
                             message: '重置密码成功'
                         });
                     });
@@ -423,7 +423,7 @@ exports.forget = function(req, res) {
         User.findOne({username: obj.username}, function(err, user) {
             console.log(user);
             if(err || !user) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '没有这个用户'
                 });
             }
@@ -435,7 +435,7 @@ exports.forget = function(req, res) {
             user.save(function(err, result) {
                 console.log(result);
                 if(err || !result) {
-                    return res.render('server/message', {
+                    return res.render('server/info', {
                         message: '出错了 '
                     });
                 }
@@ -450,7 +450,7 @@ exports.forget = function(req, res) {
                 }, function(err, info) {
                     console.log(err, info)
                 });
-                res.render('server/message', {
+                res.render('server/info', {
                     message: '已邮件发到您的邮箱 ' + user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, '$1****$3$4')
                 });
             });
@@ -466,7 +466,7 @@ exports.changePassword = function(req, res) {
     User.findById(obj.id, function(err, user) {
         user.password = obj.password;
         user.save(function(err, result) {
-            res.render('server/message', {
+            res.render('server/info', {
                 message: '修改密码成功'
             });
             console.log('修改密码成功', result);

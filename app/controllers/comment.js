@@ -39,10 +39,6 @@ exports.add = function(req, res) {
                         comment.save();
                     });
                 }
-                /*res.render('app/message', {
-                    message: '添加成功',
-                    data: result
-                });*/
                 var json = _.extend({}, _.pick(result, 'id', 'content', 'created', 'name', 'email', 'reply', 'from', 'ip'), {
                     avatar: gravatar.url(result.email || '', {s: '40',r: 'x',d: 'retro'}, true)
                 });
@@ -59,7 +55,7 @@ exports.add = function(req, res) {
 //删除
 exports.del = function(req, res) {
     if(!req.session.user) {
-        return res.render('message', {
+        return res.render('app/info', {
             message: '请先登录'
         });
     }
@@ -68,7 +64,7 @@ exports.del = function(req, res) {
 //删除
 exports.one = function(req, res) {
     if(!req.session.user) {
-        return res.render('message', {
+        return res.render('app/info', {
             message: '请先登录'
         });
     }

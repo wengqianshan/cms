@@ -39,7 +39,7 @@ exports.one = function(req, res) {
     File.findById(id).populate('author').exec(function(err, result) {
         console.log(result);
         if(!result) {
-            return res.render('server/message', {
+            return res.render('server/info', {
                 message: '该文件不存在'
             });
         }
@@ -69,7 +69,7 @@ exports.add = function(req, res) {
                 console.log('修改文件');
                 File.findById(id).populate('author').exec(function(err, file) {
                     if(req.Roles.indexOf('admin') === -1 && (!file.author || (file.author._id + '') !== req.session.user._id)) {
-                        return res.render('server/message', {
+                        return res.render('server/info', {
                             message: '没有权限'
                         });
                     }
@@ -115,7 +115,7 @@ exports.edit = function(req, res) {
         var id = req.param('id');
         File.findById(id).populate('author').exec(function(err, result) {
             if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '没有权限'
                 });
             }
@@ -128,13 +128,13 @@ exports.edit = function(req, res) {
         var obj = req.body;
         File.findById(id).populate('author').exec(function(err, result) {
             if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '没有权限'
                 });
             }
             _.extend(result, obj);
             result.save(function(err, role) {
-                res.render('server/message', {
+                res.render('server/info', {
                     message: '更新成功'
                 });
             });
@@ -146,12 +146,12 @@ exports.del = function(req, res) {
     var id = req.params.id;
     File.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
-            return res.render('server/message', {
+            return res.render('server/info', {
                 message: '文件不存在'
             });
         }
         if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
-            return res.render('server/message', {
+            return res.render('server/info', {
                 message: '没有权限'
             });
         }
@@ -176,11 +176,11 @@ exports.del = function(req, res) {
                         });
                     }
                     if(err) {
-                        return res.render('server/message', {
+                        return res.render('server/info', {
                             message: '删除失败222'
                         });
                     }
-                    res.render('server/message', {
+                    res.render('server/info', {
                         message: '删除成功'
                     });
                 })

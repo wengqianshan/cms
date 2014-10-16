@@ -33,7 +33,7 @@ exports.one = function(req, res) {
     Comment.findById(id).populate('author', 'username name email').populate('from').exec(function(err, result) {
         console.log(result);
         if(!result) {
-            return res.render('server/message', {
+            return res.render('server/info', {
                 message: '该评论不存在'
             });
         }
@@ -48,12 +48,12 @@ exports.del = function(req, res) {
     var id = req.params.id;
     Comment.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
-            return res.render('server/message', {
+            return res.render('server/info', {
                 message: '评论不存在'
             });
         }
         if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
-            return res.render('server/message', {
+            return res.render('server/info', {
                 message: '没有权限'
             });
         }
@@ -65,11 +65,11 @@ exports.del = function(req, res) {
                 });
             }
             if(err) {
-                return res.render('server/message', {
+                return res.render('server/info', {
                     message: '删除失败222'
                 });
             }
-            res.render('server/message', {
+            res.render('server/info', {
                 message: '删除成功'
             })
         });
