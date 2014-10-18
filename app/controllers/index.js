@@ -1,6 +1,7 @@
 'use strict';
 var mongoose = require('mongoose'),
     Content = mongoose.model('Content'),
+    Message = mongoose.model('Message'),
     Category = mongoose.model('Category'),
     File = mongoose.model('File'),
     config = require('../../config'),
@@ -66,3 +67,26 @@ exports.index = function(req, res) {
     });
     //
 };
+
+exports.contact = function(req, res) {
+    if(req.method === 'GET') {
+        res.render('app/contact', {});
+    } else if (req.method === 'POST') {
+        var obj = req.body;
+        var contact = new Message(obj);
+        contact.save(function(err, result) {
+            console.log(err, result);
+            if (err) {
+                return res.render('app/info', {
+                    message: err
+                });
+            } else {
+                res.render('app/info', {
+                    message: '提交成功'
+                });
+            }
+        })
+        
+    }
+    
+}

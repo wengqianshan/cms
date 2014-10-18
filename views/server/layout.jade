@@ -189,16 +189,25 @@ html.no-js
                                     li(class=Menu === 'add' ? 'active' : '')
                                         a(href='#{adminDir}/file/add') 添加文件
                         if (User && Roles.indexOf('admin') > -1)
-                            li.sub-menu(class=Path === 'message' ? 'active' : '')
+                            li.sub-menu(class=Path === 'notification' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-envelope
-                                    span 消息
+                                    span 站内信
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
                                     li(class=Menu === 'list' ? 'active' : '')
-                                        a(href='#{adminDir}/message') 收到的消息
+                                        a(href='#{adminDir}/notification') 已收到
                                     li(class=Menu === 'sent' ? 'active' : '')
-                                        a(href='#{adminDir}/message/sent') 发送的消息
+                                        a(href='#{adminDir}/notification/sent') 已发出
+                        if (User && Roles.indexOf('admin') > -1)
+                            li.sub-menu(class=Path === 'message' ? 'active' : '')
+                                a(href='javascript:void(0);')
+                                    i.fa.fa-comment
+                                    span 访客留言
+                                    i.arrow.fa.fa-angle-right.pull-right
+                                ul
+                                    li(class=Menu === 'list' ? 'active' : '')
+                                        a(href='#{adminDir}/message') 留言列表
                         if (User && Roles.indexOf('admin') > -1)
                             li.sub-menu(class=Path === 'page' ? 'active' : '')
                                 a(href='javascript:void(0);')

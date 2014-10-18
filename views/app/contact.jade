@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    .container(style='margin-top:10px;')
+        form(action='', method='POST', role='form')
+            legend 联系我们
+            .form-group
+                label(for='') 姓名
+                input.form-control(type='text', placeholder='', name='name')
+            .form-group
+                label(for='') 手机
+                input.form-control(type='text', placeholder='', name='mobile')
+            .form-group
+                label(for='') 邮箱
+                input.form-control(type='text', placeholder='', name='email')
+            .form-group
+                label(for='') 通讯地址
+                input.form-control(type='text', placeholder='', name='address')
+            .form-group
+                label(for='') 留言
+                textarea.form-control(placeholder='', name='content')
+            input(type='hidden', name='_csrf', value='#{token}')
+            button.btn.btn-primary(type='submit') 提交 
+            
+            
+block foot-js
+    script.
+        var token = '#{token}';
+        
+        
+        
+                
