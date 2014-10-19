@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            form(action='', method='post')
+                .form-group
+                    label 名称
+                    input.form-control(name='name')
+                .form-group
+                    label 描述
+                    textarea.form-control(name='description', rows='8')
+                input(type='hidden', name='_csrf', value='#{token}')
+                button.btn.btn-primary(type='submit') 提交
+

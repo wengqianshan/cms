@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            a.btn.btn-info(href='#{adminDir}/tag/add') 添加标签
+            table.table.table-striped
+                thead
+                    tr
+                        th 名称
+                        th 创建者
+                        th 创建时间
+                        th 操作
+                tbody
+                    - each tag in tags
+                        tr
+                            td
+                                a(href='#{adminDir}/tag/#{tag.id}') #{tag.name}
+                            td
+                                if (tag.author)
+                                    | #{tag.author.name}
+                            td
+                                | #{moment(tag.created).format('LLL')}
+                            td
+                                a.btn.btn-default.btn-xs(href='#{adminDir}/tag/#{tag.id}/edit') 编辑
+                                | &nbsp;
+                                a.btn.btn-danger.btn-xs(href='#{adminDir}/tag/#{tag.id}/del') 删除
+            if (pageInfo && pageInfo.totalPage > 1)
+                include ../mixin
+                +pagination(pageInfo)

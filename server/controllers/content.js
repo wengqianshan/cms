@@ -2,6 +2,7 @@
 var mongoose = require('mongoose'),
     Content = mongoose.model('Content'),
     Category = mongoose.model('Category'),
+    Tag = mongoose.model('Tag'),
     _ = require('underscore'),
     core = require('../../libs/core');
 
@@ -86,12 +87,23 @@ exports.add = function(req, res) {
         if(req.Roles && req.Roles.indexOf('admin') < 0) {
             condition.author = req.session.user._id;
         }
-        Category.find(condition, function(err, results) {
+        /*Category.find(condition, function(err, results) {
             res.render('server/content/add', {
                 categorys: results,
                 Menu: 'add'
             });
-        });
+        });*/
+        Category.find(condition).exec().then(function(categorys) {
+            //console.log(categorys);
+            Tag.find(condition).exec().then(function(tags) {
+                //console.log(tags)
+                res.render('server/content/add', {
+                    categorys: categorys,
+                    tags: tags,
+                    Menu: 'add'
+                });
+            });
+        })
     } else if (req.method === 'POST') {
         var obj = req.body;
         if (req.session.user) {

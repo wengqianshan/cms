@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            .lists
+                p 名称：#{tag.name}
+                p 日期：#{tag.created}
+                p 描述：!{tag.description}

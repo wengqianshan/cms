@@ -29,15 +29,14 @@ block content
                 .form-group
                     label 内容
                     textarea.form-control(name='content', rows='20')
-                //- .form-group
-                //-     label 标签
-                //-     div(style='border: 1px solid #080; padding: 5px;')
-                //-         | 请选择标签
-                //- .center-box(style='margin-bottom: 15px;')
-                //-     label.label.label-primary 美式
-                //-     label.label.label-primary 现代简约
-                //- .help-block
-                //-     span.btn.btn-info.btn-xs 新增标签
+                .form-group
+                    label 标签
+                    div
+                        each tag in tags
+                            label.label.label-primary #{tag.name}
+                                input(type='checkbox', name='tags[]', value='#{tag.id}')
+                .help-block
+                    span.btn.btn-info.btn-xs 新增标签
                 input(type='hidden', name='_csrf', value='#{token}')
                 button.btn.btn-primary(type='submit') 提交
     script#J_tmpl_gallery_item(type='x-tmpl-mustache')

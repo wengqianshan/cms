@@ -14,6 +14,9 @@ var TagSchema = new Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String
+    },
     created: {
         type: Date,
         default: Date.now
