@@ -29,14 +29,15 @@ block content
                 .form-group
                     label 内容
                     textarea.form-control(name='content', rows='20')
-                //- .form-group
-                //-     label 标签
-                //-     div
-                //-         each tag in tags
-                //-             label.label.label-primary #{tag.name}
-                //-                 input(type='checkbox', name='tags[]', value='#{tag.id}')
-                //- .help-block
-                //-     span.btn.btn-info.btn-xs 新增标签
+                .form-group
+                    label 标签
+                    div
+                        if (tags && tags.length > 0)
+                            select#J_select_tags(data-placeholder='请选择标签', name='tags[]', multiple, style='width: 500px;')
+                                each tag in tags
+                                    option(value='#{tag.id}') #{tag.name}
+                .help-block
+                    span.btn.btn-info.btn-xs 新增标签
                 input(type='hidden', name='_csrf', value='#{token}')
                 button.btn.btn-primary(type='submit') 提交
     script#J_tmpl_gallery_item(type='x-tmpl-mustache')
@@ -60,6 +61,7 @@ block foot-js
 
     script.
         $(function () {
+            $('#J_select_tags').chosen({max_selected_options: 5, no_results_text: '没有匹配到'})
             $('#fileupload').fileupload({
                 //url: '/upload',
                 url: '/admin/file/add',
