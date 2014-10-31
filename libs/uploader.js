@@ -91,6 +91,11 @@ module.exports = function (opts) {
                 }
                 client.uploadFile(file.path, function (err, qf) {
                     //console.log(qf);
+                    try{
+                        fs.unlink(file.path);
+                    }catch(e) {
+                        console.log(e);
+                    }
                     result.push({
                         url: qf.url,
                         md_url: qf.url + '?imageView/1/w/300',

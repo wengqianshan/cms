@@ -3,7 +3,7 @@ html
     head
         title #{title}
         link(rel='stylesheet', href='/assets/plugins/bootstrap/css/bootstrap.min.css')
-        link(rel='stylesheet', href='/assets/css/style.css')
+        link(rel='stylesheet', href='/assets/app/css/style.css')
         block head-css
         block head-js
     body
@@ -22,11 +22,11 @@ html
                     //a.cms-nav-item(class=Path === 'content' ? 'active' : '',href='/content') 内容
                     //a.cms-nav-item(class=Path === 'comment' ? 'active' : '',href='/comment') 评论
         block content
-        script(src='/assets/js/vendor/jquery-2.1.1.min.js')
+        script(src='/assets/app/js/vendor/jquery-2.1.1.min.js')
         script(src='/assets/plugins/bootstrap/js/bootstrap.min.js')
-        script(src='/assets-admin/plugins/bootstrap3-dialog/js/bootstrap-dialog.min.js')
-        script(src='/assets/js/vendor/mustache.js')
-        script(src='/assets/js/vendor/moment-with-langs.js')
+        script(src='/assets/plugins/bootstrap3-dialog/js/bootstrap-dialog.min.js')
+        script(src='/assets/app/js/vendor/mustache.js')
+        script(src='/assets/app/js/vendor/moment-with-langs.js')
         block foot-js
         //script.
             var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
