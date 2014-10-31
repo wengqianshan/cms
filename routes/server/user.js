@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var core = require('../../libs/core');
-var user = require('../controllers/user');
+var user = require('../../controllers/server/user');
 
 //权限判断
 router.use(function(req, res, next) {

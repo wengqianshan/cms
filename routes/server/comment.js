@@ -1,35 +1,30 @@
 var express = require('express');
 var router = express.Router();
 var core = require('../../libs/core');
-var role = require('../controllers/role');
+var comment = require('../../controllers/server/comment');
 
 //权限判断
 router.use(function(req, res, next) {
-    console.log('角色页: ' + Date.now());
-    res.locals.Path = 'role';
+    console.log('评论页: ' + Date.now());
+    res.locals.Path = 'comment';
     if(!req.session.user) {
         var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
-    if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('role') < 0)) {
+    if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('comment') < 0)) {
         var path = core.translateAdminDir('/index');
         return res.redirect(path);
     }
     next();
 });
 //内容列表
-router.route('/').get(role.list);
-//添加内容
-router.route('/add').all(role.add);
+router.route('/').get(comment.list);
 //单条信息
-router.route('/:id').get(role.one);
-//更新信息
-router.route('/:id/edit').all(role.edit);
+router.route('/:id').get(comment.one);
 //删除信息
-router.route('/:id/del').all(role.del);
-
+router.route('/:id/del').all(comment.del);
 
 module.exports = function(app) {
-    var path = core.translateAdminDir('/role');
+    var path = core.translateAdminDir('/comment');
     app.use(path, router);
 };

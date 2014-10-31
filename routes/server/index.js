@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var core = require('../../libs/core');
-var index = require('../controllers/index');
+var index = require('../../controllers/server/index');
 
 //首页
 router.use(function(req, res, next) {

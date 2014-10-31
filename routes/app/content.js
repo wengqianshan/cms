@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var content = require('../../app/controllers/content');
+var content = require('../../controllers/app/content');
 
 //
 router.use(function(req, res, next) {

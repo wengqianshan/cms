@@ -93,10 +93,14 @@ app.use(function(req, res, next) {
 });
 
 //引入路由控制
-core.walk(appPath + '/server/routes', 'middlewares', function(path) {
+/*core.walk(appPath + '/server/routes', 'middlewares', function(path) {
     require(path)(app);
 });
 core.walk(appPath + '/app/routes', 'middlewares', function(path) {
+    require(path)(app);
+});*/
+
+core.walk(appPath + '/routes', 'middlewares', function(path) {
     require(path)(app);
 });
 
