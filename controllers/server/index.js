@@ -44,57 +44,6 @@ exports.index = function(req, res) {
         return res.redirect(path);
     }
 };
-//管理员资料
-exports.me = function(req, res) {
-    if(!req.session.user) {
-        var path = core.translateAdminDir('/user/login');
-        return res.redirect(path);
-    }
-    var id = req.session.user._id;
-    User.findById(id).populate('roles').exec(function(err, user) {
-        user._roles = req.Roles;
-        user._actions = req.Actions;
-        res.render('server/me', {
-            title: '我的资料',
-            user: user
-        });
-    }); 
-};
-//修改密码
-exports.updatePassword = function(req, res) {
-    if(req.method === 'GET') {
-
-    } else if(req.method === 'POST') {
-        var obj = req.body;
-        var oldPassword = obj.oldpassword;
-        var password = obj.password;
-        var id = req.session.user._id;
-        User.findById(id).exec(function(err, user) {
-            if (user.authenticate(oldPassword)) {
-                user.password = password;
-                user.save(function(err, result) {
-                    //console.log('fffffffffffff', result);
-                    userController.reload(result._id, function(err, user) {
-                        req.session.user = user;
-                        res.locals.User = user;
-                        res.render('server/info', {
-                            message: '密码修改成功'
-                        });
-                    });
-                    /*req.session.user = result;
-                    res.locals.User = result;
-                    res.render('server/info', {
-                        message: '密码修改成功'
-                    });*/
-                });
-            } else {
-                res.render('server/info', {
-                    message: '原密码不正确'
-                });
-            }
-        });
-    }
-};
 
 //初始化后台,安装初始数据
 exports.install = function(req, res) {
