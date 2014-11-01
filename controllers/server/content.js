@@ -129,7 +129,7 @@ exports.add = function(req, res) {
 exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.param('id');
-        Content.findById(id).populate('author').populate('gallery').exec(function(err, result) {
+        Content.findById(id).populate('author gallery tags').exec(function(err, result) {
             if(err) {
                 console.log('加载内容失败');
             }
@@ -143,10 +143,16 @@ exports.edit = function(req, res) {
                 condition.author = req.session.user._id;
             }
             Category.find(condition, function(err, categorys) {
-                res.render('server/content/edit', {
-                    content: result,
-                    categorys: categorys
+                Tag.find(condition).exec().then(function(tags) {
+                    //console.log(tags)
+                    res.render('server/content/edit', {
+                        content: result,
+                        categorys: categorys,
+                        tags: tags,
+                        Menu: 'edit'
+                    });
                 });
+                
             });
         });
     } else if(req.method === 'POST') {
