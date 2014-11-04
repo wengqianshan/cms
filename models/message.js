@@ -15,8 +15,7 @@ var MessageSchema = new Schema({
         required: true
     },
     email: {
-        type: String,
-        required: true
+        type: String
     },
     mobile: {
         type: String
@@ -28,6 +27,9 @@ var MessageSchema = new Schema({
     created: {
         type: Date,
         default: Date.now
+    },
+    ip: {//用户ip
+        type: String
     },
     status: {
         type: Number,

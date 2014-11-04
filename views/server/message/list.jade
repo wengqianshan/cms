@@ -1,0 +1,77 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            table.table.table-striped
+                thead
+                    tr
+                        th 内容
+                        th 姓名
+                        th 手机
+                        th IP
+                        th 时间
+                        th 操作
+                tbody
+                    - each message in messages
+                        tr
+                            td
+                                a(href='#{adminDir}/message/#{message.id}') #{message.content}
+                            td
+                                if (message.name)
+                                    | #{message.name}
+                                else
+                                    | 匿名
+                            td
+                                | #{message.mobile}
+                            td #{message.ip}
+                            td
+                                | #{moment(message.created).format('LLL')}
+                            td
+                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/message/#{message.id}/del') 删除
+            if (pageInfo && pageInfo.totalPage > 1)
+                include ../mixin
+                +pagination(pageInfo)
+
+block foot-js
+    script.
+        var token = '#{token}';
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(document).on('click', '.J_del', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $tr = $this.closest('tr');
+            var url = $this.attr('href');
+            var messenger = Messenger().post("处理中...");
+            $.post(url, {_csrf: token}, function(json) {
+                console.log(json);
+                var status = json.status;
+                if(status === true) {
+                    //- Messenger().post({
+                    //-     message: '删除成功',
+                    //-     hideAfter: 3,
+                    //-     type: 'success'
+                    //- });
+                    messenger.update({
+                        message: '删除成功',
+                        hideAfter: 3,
+                        type: 'success'
+                    });
+                    $tr.remove();
+                } else {
+                    //- Messenger().post({
+                    //-     message: '删除失败',
+                    //-     hideAfter: 3,
+                    //-     type: 'error'
+                    //- });
+                    messenger.update({
+                        message: '删除失败',
+                        hideAfter: 3,
+                        type: 'error'
+                    });
+                }
+            })
+        });
