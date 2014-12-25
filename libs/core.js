@@ -3,6 +3,7 @@
 var fs = require('fs'),
     path = require('path'),
     config = require('../config'),
+    qs = require('qs'),
     _ = require('underscore');
 
 // recursively walk modules path and callback for each file
@@ -20,12 +21,13 @@ var walk = function(modulesPath, excludeDir, callback) {
 exports.walk = walk;
 
 //obj to params TODO: 换成qs
-exports.param = function(obj) {
-    var arr = [];
+exports.stringify = function(obj) {
+    /*var arr = [];
     for(var i in obj) {
         arr.push(i + '=' + obj[i]);
     }
-    return arr.join('&');
+    return arr.join('&');*/
+    return qs.stringify(obj);
 };
 //包装admin路径
 exports.translateAdminDir = function(path) {

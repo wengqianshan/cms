@@ -18,27 +18,27 @@ mixin pagination(pageInfo)
         - var query = pageInfo.query || {}
         - query.page = prevPage
         li(class=(currentPage === 1) ? 'disabled' : '')
-            a(href='?#{core.param(query)}') &laquo;
+            a(href='?#{core.stringify(query)}') &laquo;
         if (currentPage - range >= 2)
             - query.page = 1
             li(class=(currentPage === 1) ? 'active' : '') 
-                a(href='?#{core.param(query)}') 1
+                a(href='?#{core.stringify(query)}') 1
             li 
                 a ...
         - for (var i = 1; i <= totalPage; i ++)
             - query.page = i
             if(i >= Math.min(Math.max(currentPage - range, 1), totalPage - 2 * range) && i <= Math.max(Math.min(range + currentPage, totalPage), 2 * range))
                 li(class=(currentPage === i) ? 'active' : '') 
-                    a(href='?#{core.param(query)}') #{i}
+                    a(href='?#{core.stringify(query)}') #{i}
         if (currentPage + range <= totalPage - 1 )
             li 
                 a ...
             - query.page = totalPage
             li(class=(currentPage === totalPage) ? 'active' : '') 
-                a(href='?#{core.param(query)}') #{totalPage}
+                a(href='?#{core.stringify(query)}') #{totalPage}
         - query.page = nextPage
         li(class=(currentPage === totalPage) ? 'disabled' : '')
-            a(href='?#{core.param(query)}') &raquo;
+            a(href='?#{core.stringify(query)}') &raquo;
 //- 评论条目
 mixin commentItem(comment, comments)
     if (comment)

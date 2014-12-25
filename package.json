@@ -24,6 +24,7 @@
     "nodemailer": "^1.1.1",
     "nodemailer-smtp-transport": "^0.1.12",
     "qn": "^0.2.2",
+    "qs": "^2.3.3",
     "serve-favicon": "^2.1.1",
     "strip": "0.0.7",
     "underscore": "^1.6.0"
