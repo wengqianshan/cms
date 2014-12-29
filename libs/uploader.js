@@ -7,48 +7,47 @@
 var _ = require('underscore');
 var config = require('../config');
 var qn = require('qn');
-module.exports = function (opts) {
+module.exports = function(opts) {
     var path = require('path'),
         fs = require('fs'),
         _existsSync = fs.existsSync || path.existsSync,
         mkdirp = require('mkdirp'),
         nameCountRegexp = /(?:(?: \(([\d]+)\))?(\.[^.]+))?$/,
         options = _.extend({}, config.upload, opts);
-    // check if upload folders exists
-    function checkExists(dir){
-        fs.exists(dir, function(exists){
-            if(!exists)
-            {
-                mkdirp(dir, function (err) {
+    // 检查上传目录是否存在
+    function checkExists(dir) {
+        fs.exists(dir, function(exists) {
+            if (!exists) {
+                mkdirp(dir, function(err) {
                     if (err) console.error(err)
-                    else console.log("The uploads folder was not present, we have created it for you ["+dir+"]");
+                    else console.log("默认目录不存在，已自动创建： [" + dir + "]");
                 });
-                 //throw new Error(dir + ' does not exists. Please create the folder');
             }
         });
     }
     checkExists(options.tmpDir);
     checkExists(options.uploadDir);
-    var nameCountFunc = function (s, index, ext) {
+    //已上传的文件防重名
+    var nameCountFunc = function(s, index, ext) {
         return ' (' + ((parseInt(index, 10) || 0) + 1) + ')' + (ext || '');
     };
-    var safeName = function (name) {
+    var safeName = function(name) {
         // Prevent directory traversal and creating hidden system files:
         var name = path.basename(name).replace(/^\.+/, '');
         // Prevent overwriting existing files:
-        while(_existsSync(options.uploadDir + '/' + name)) {
+        while (_existsSync(options.uploadDir + '/' + name)) {
             name = name.replace(nameCountRegexp, nameCountFunc);
         }
         return name;
     };
-
-    var initUrls = function (host, name) {
-            var baseUrl = (options.useSSL ? 'https:' : 'http:') +
-                '//' + host + options.uploadUrl;
-            var url =  baseUrl + encodeURIComponent(name);
-            return url;
+    //构造文件url
+    var initUrls = function(host, name) {
+        var baseUrl = (options.useSSL ? 'https:' : 'http:') +
+            '//' + host + options.uploadUrl;
+        var url = baseUrl + encodeURIComponent(name);
+        return url;
     };
-    var validate = function (file) {
+    var validate = function(file) {
         var error = '';
         if (options.minFileSize && options.minFileSize > file.size) {
             error = 'File is too small';
@@ -59,14 +58,14 @@ module.exports = function (opts) {
         }
         return !error;
     };
-    var setNoCacheHeaders = function (res) {
+    var setNoCacheHeaders = function(res) {
         res.setHeader('Pragma', 'no-cache');
         res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
         res.setHeader('Content-Disposition', 'inline; filename="files.json"');
     };
     //七牛云存储
     var client = null;
-    if(options.storage.type === 'qiniu') {
+    if (options.storage.type === 'qiniu') {
         client = qn.create(options.storage.options);
     }
     var Uploader = {};
@@ -78,22 +77,22 @@ module.exports = function (opts) {
     Uploader.post = function(req, res, callback) {
         var files = req.files.files;
         var len = files.length;
-        if(len < 1) {
+        if (len < 1) {
             return;
         }
         var result = [];
         //七牛
-        if(options.storage.type === 'qiniu') {
+        if (options.storage.type === 'qiniu') {
             files.forEach(function(file) {
                 if (!validate(file)) {
                     fs.unlink(file.path);
                     return;
                 }
-                client.uploadFile(file.path, function (err, qf) {
+                client.uploadFile(file.path, function(err, qf) {
                     //console.log(qf);
-                    try{
+                    try {
                         fs.unlink(file.path);
-                    }catch(e) {
+                    } catch (e) {
                         console.log(e);
                     }
                     result.push({
@@ -104,8 +103,8 @@ module.exports = function (opts) {
                         size: file.size,
                         type: file.type
                     });
-                    len --;
-                    if(len <= 0) {
+                    len--;
+                    if (len <= 0) {
                         callback.call(null, {
                             files: result
                         });
@@ -113,6 +112,7 @@ module.exports = function (opts) {
                 });
             });
         } else {
+            //本地上传
             files.forEach(function(file) {
                 if (!validate(file)) {
                     fs.unlink(file.path);
@@ -134,6 +134,3 @@ module.exports = function (opts) {
     };
     return Uploader;
 };
-
-
-
