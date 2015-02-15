@@ -63,6 +63,9 @@ block foot-js
                             type: 'success'
                         });
                         $item.remove();
+                        if ($('tbody tr').length < 1) {
+                            location.reload();
+                        }
                     } else{
                         messenger.update({
                             message: '删除失败',

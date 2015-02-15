@@ -1,6 +1,6 @@
 'use strict';
 var mongoose = require('mongoose'),
-    Message = mongoose.model('Message'),
+    Notification = mongoose.model('Notification'),
     core = require('../../libs/core');
 //列表
 exports.list = function(req, res) {
@@ -8,8 +8,8 @@ exports.list = function(req, res) {
     /*if(req.Roles && req.Roles.indexOf('admin') < 0) {
         condition.author = req.session.user._id;
     }*/
-    Message.count(condition, function(err, total) {
-        var query = Message.find(condition);
+    Notification.count(condition, function(err, total) {
+        var query = Notification.find(condition);
         //分页
         var pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
@@ -18,36 +18,60 @@ exports.list = function(req, res) {
         query.sort({created: -1});
         query.exec(function(err, results) {
             //console.log(err, results);
-            res.render('server/message/list', {
+            res.render('server/notification/list', {
                 //title: '列表',
                 Menu: 'list',
-                messages: results,
+                notifications: results,
                 pageInfo: pageInfo
             });
         })
     })
-    
+};
+//列表
+exports.sent = function(req, res) {
+    var condition = {};
+    /*if(req.Roles && req.Roles.indexOf('admin') < 0) {
+        condition.author = req.session.user._id;
+    }*/
+    Notification.count(condition, function(err, total) {
+        var query = Notification.find(condition);
+        //分页
+        var pageInfo = core.createPage(req, total, 10);
+        //console.log(pageInfo);
+        query.skip(pageInfo.start);
+        query.limit(pageInfo.pageSize);
+        query.sort({created: -1});
+        query.exec(function(err, results) {
+            //console.log(err, results);
+            res.render('server/notification/list', {
+                //title: '列表',
+                Menu: 'sent',
+                notifications: results,
+                pageInfo: pageInfo
+            });
+        })
+    })
 };
 //单条
 exports.one = function(req, res) {
     var id = req.param('id');
-    Message.findById(id).exec(function(err, result) {
+    Notification.findById(id).exec(function(err, result) {
         console.log(result);
         if(!result) {
             return res.render('server/info', {
                 message: '该留言不存在'
             });
         }
-        res.render('server/message/item', {
+        res.render('server/notification/item', {
             title: result.name + '的留言',
-            message: result
+            notification: result
         });
     });
 };
 //删除
 exports.del = function(req, res) {
     var id = req.params.id;
-    Message.findById(id).exec(function(err, result) {
+    Notification.findById(id).exec(function(err, result) {
         if(!result) {
             return res.render('server/info', {
                 message: '留言不存在'

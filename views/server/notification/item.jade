@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            .lists
+                p 内容：#{notification.content}
+                p 来自：#{notification.from}
+                p 发给：#{notification.to}
+                p 日期：#{notification.created}
