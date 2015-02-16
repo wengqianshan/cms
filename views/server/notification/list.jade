@@ -3,6 +3,7 @@ extends ../layout
 block content
     .row
         .col-md-12
+            a.btn.btn-info.J_post(href='#{adminDir}/notification/add') 发私信
             table.table.table-striped
                 thead
                     tr
@@ -16,8 +17,8 @@ block content
                         tr
                             td
                                 | #{notification.content}
-                            td #{notification.from}
-                            td #{notification.to}
+                            td #{notification.from.username}
+                            td #{notification.to.username}
                             td
                                 | #{moment(notification.created).format('LLL')}
                             td
@@ -33,6 +34,19 @@ block foot-js
             extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
             theme: 'flat'
         };
+        $(document).on('click', '.J_post', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var url = $this.attr('href');
+            $.post(url, {
+                _csrf: token,
+                from: '53b6ca419dfe0cf41ccbaf96',
+                to: '53b6d3cbcb1ee9480d560d04',
+                content: 'fewajfoewajo'
+            }, function(json) {
+                console.log(json);
+            })
+        });
         $(document).on('click', '.J_del', function(e) {
             e.preventDefault();
             var $this = $(this);

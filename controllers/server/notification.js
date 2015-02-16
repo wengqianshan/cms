@@ -9,7 +9,7 @@ exports.list = function(req, res) {
         condition.author = req.session.user._id;
     }*/
     Notification.count(condition, function(err, total) {
-        var query = Notification.find(condition);
+        var query = Notification.find(condition).populate('from to');
         //分页
         var pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
@@ -98,5 +98,29 @@ exports.del = function(req, res) {
                 message: '删除成功'
             })
         });
+    });
+};
+
+//发送
+exports.add = function(req, res) {
+    var obj = req.body;
+    obj.from = obj.from ? mongoose.Types.ObjectId(obj.from) : '';
+    obj.to = obj.from ? mongoose.Types.ObjectId(obj.to) : '';
+    var notification = new Notification(obj);
+    notification.save(function(err) {
+        if (err) {
+            /*return res.render('server/info', {
+                message: '发送失败'
+            });*/
+            return res.json({
+                message: '发送失败'
+            })
+        }
+        /*return res.render('server/info', {
+            message: '发送成功'
+        });*/
+        return res.json({
+            message: '发送成功'
+        })
     });
 };

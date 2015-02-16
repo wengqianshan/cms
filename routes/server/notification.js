@@ -20,6 +20,8 @@ router.use(function(req, res, next) {
 
 //已发出
 router.route('/sent').get(notification.sent);
+//发信
+router.route('/add').all(notification.add);
 //单条信息
 router.route('/:id').get(notification.one);
 //删除信息
