@@ -4,36 +4,35 @@ block head-css
 block content
     .row
         .col-md-12
-            a.btn.btn-info.J_post(href='#{adminDir}/notification/add') 发私信
+            a.btn.btn-info.J_post(href='#{adminDir}/page/add') 新增页面
             table.table.table-striped
                 thead
                     tr
+                        th 标题
                         th 内容
-                        th 来自
-                        th 发给
                         th 时间
                         th 操作
                 tbody
-                    - each notification in notifications
+                    - each page in pages
                         tr
+                            td 
+                                a(href='#{adminDir}/page/#{page.id}')
+                                    | #{page.name}
                             td
-                                | #{notification.content}
-                            td #{notification.from.username}
-                            td #{notification.to.username}
+                                | #{page.content}
+                            td #{moment(page.created).format('LLL')}
                             td
-                                | #{moment(notification.created).format('LLL')}
-                            td
-                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/notification/#{notification.id}/del') 删除
+                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/page/#{page.id}/del') 删除
             if (pageInfo && pageInfo.totalPage > 1)
                 include ../mixin
                 +pagination(pageInfo)
     script#J_tmpl_add(type='x-tmpl-mustache')
         .form-group
-            label 收信人
-            input.form-control(name='kw')
+            label 标题
+            input.form-control(name='name')
         .form-group
             label 内容
-            textarea.form-control(rows='4')
+            textarea.form-control(rows='4', name='content')
 block foot-js
     script(src='/assets/plugins/autocomplete/jquery.autocomplete.js')
     script.
@@ -47,11 +46,10 @@ block foot-js
             e.preventDefault();
             var $this = $(this);
             var url = $this.attr('href');
-            var request = function(to, content, dialog) {
+            var request = function(name, content, dialog) {
                 $.post(url, {
                     _csrf: token,
-                    from: user._id,
-                    to: to,
+                    name: name,
                     content: content
                 }, function(json) {
                     console.log(json);
@@ -61,7 +59,7 @@ block foot-js
             };
             
             var $dialog = BootstrapDialog.show({
-                title: '发送私信',
+                title: '新增页面',
                 message: $('<div/>').append($('#J_tmpl_add').html()),
                 buttons: [
                     {
@@ -69,9 +67,9 @@ block foot-js
                         cssClass: 'btn-primary',
                         action: function(dialog) {
                             console.log(dialog)
-                            var to = dialog.$modalBody.find('input').val();
+                            var name = dialog.$modalBody.find('input').val();
                             var content = dialog.$modalBody.find('textarea').val();
-                            request(to, content, dialog);
+                            request(name, content, dialog);
                         }
                     },
                     {

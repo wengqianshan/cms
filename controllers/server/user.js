@@ -73,6 +73,27 @@ exports.one = function(req, res) {
         });
     });
 };
+//查询
+exports.query = function(req, res) {
+    var kw = req.query.keyword;
+    User.find({username: new RegExp(kw, 'gi')}).exec(function(err, result) {
+        console.log(err, result)
+        if (err) {
+            return res.json({
+                status: false,
+                message: '查询失败'
+            });
+        }
+        var _result = result.map(function(item) {
+            console.log(item.id)
+            return {
+                label: item.username,
+                value: item.id
+            };
+        });
+        return res.json(_result);
+    });
+};
 //注册
 exports.register = function(req, res) {
     var method = req.method;
