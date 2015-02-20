@@ -62,8 +62,8 @@ app.use(cookieParser());
 app.use(session({
     resave: true,
     saveUninitialized: true,
-    secret: 'ruoguan',
-    store: new RedisStore
+    secret: 'ruoguan'/*,
+    store: new RedisStore*/
 }));
 app.use(multipart({
     uploadDir: config.upload.tmpDir
