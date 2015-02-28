@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
     config = require('../../config'),
     _ = require('underscore'),
     core = require('../../libs/core');
-exports.file = function(req, res) {
+exports.list = function(req, res) {
     console.log('前台')
     //console.time('content-list');
     var condition = {};

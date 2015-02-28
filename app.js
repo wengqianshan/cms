@@ -53,6 +53,7 @@ app.locals = {
     strip: strip
 };
 app.set('config', config);
+app.set('env', config.env || 'development');
 
 app.use(favicon(__dirname + '/public/assets/app/images/favicon.ico'));
 app.use(logger('dev'));
@@ -113,7 +114,7 @@ app.use(adminPath, function(req, res, next) {
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('找不到页面了');
     err.status = 404;
     next(err);
 });
@@ -137,8 +138,7 @@ if (app.get('env') === 'development') {
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('app/error', {
-        message: err.message,
-        error: {}
+        message: err.message
     });
 });
 
