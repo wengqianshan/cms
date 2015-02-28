@@ -1,5 +1,6 @@
 var appPath = process.cwd();
 var config = {
+    port: 7000,
     //mongodb配置信息
     mongodb: {
         uri: 'mongodb://localhost/cms',
