@@ -212,15 +212,7 @@ html.no-js
                                         a(href='#{adminDir}/message') 留言列表
                         if (User && Roles.indexOf('admin') > -1)
                             li.sub-menu(class=Path === 'page' ? 'active' : '')
-                                a(href='javascript:void(0);')
-                                    i.fa.fa-file
-                                    span 页面
-                                    i.arrow.fa.fa-angle-right.pull-right
-                                ul
-                                    li(class=Menu === 'list' ? 'active' : '')
-                                        a(href='#{adminDir}/page') 页面列表
-                                    li(class=Menu === 'add' ? 'active' : '')
-                                        a(href='#{adminDir}/page/add') 添加页面
+                                a(href='#{adminDir}/page') 页面列表
                         if (User && Roles.indexOf('admin') > -1)
                             li.sub-menu(class=Path === 'tag' ? 'active' : '')
                                 a(href='javascript:void(0);')

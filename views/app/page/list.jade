@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-md-12
+                table.table.table-striped
+                    thead
+                        tr
+                            th 标题
+                            th 作者
+                            th 发布时间
+                    tbody
+                        - each page in pages
+                            tr
+                                td
+                                    a(href='page/#{page.id}') #{page.name}
+                                td
+                                    if (page.author)
+                                        strong #{page.author.name}
+                                td
+                                    | #{moment(page.created).format('LLL')}
+                .text-center
+                    if (pageInfo && pageInfo.totalPage > 1)
+                        include ../mixin
+                        +pagination(pageInfo)

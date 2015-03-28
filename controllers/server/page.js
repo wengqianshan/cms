@@ -20,7 +20,6 @@ exports.list = function(req, res) {
             //console.log(err, results);
             res.render('server/page/list', {
                 //title: '列表',
-                Menu: 'list',
                 pages: results,
                 pageInfo: pageInfo
             });
