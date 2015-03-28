@@ -30,15 +30,15 @@ exports.list = function(req, res) {
 //单条
 exports.one = function(req, res) {
     var id = req.param('id');
-    Page.findById(id).exec(function(err, result) {
+    Page.findById(id).populate('author').exec(function(err, result) {
         console.log(result);
         if(!result) {
             return res.render('server/info', {
-                message: '该留言不存在'
+                message: '该页面不存在'
             });
         }
         res.render('server/page/item', {
-            title: result.name,
+            title: result.title,
             page: result
         });
     });
@@ -85,6 +85,7 @@ exports.add = function(req, res) {
             /*return res.render('server/info', {
                 message: '发送失败'
             });*/
+            console.log(err);
             return res.json({
                 message: '发送失败'
             })

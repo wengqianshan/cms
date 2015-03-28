@@ -11,7 +11,7 @@ exports.list = function(req, res) {
         condition.author = req.session.user._id;
     }*/
     Page.count(condition, function(err, total) {
-        var query = Page.find(condition);
+        var query = Page.find(condition).populate('author');
         //分页
         var pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
@@ -32,7 +32,7 @@ exports.list = function(req, res) {
 //单条
 exports.one = function(req, res) {
     var id = req.param('id');
-    Page.findById(id).exec(function(err, result) {
+    Page.findById(id).populate('author').exec(function(err, result) {
         console.log(result);
         if(!result) {
             return res.render('app/info', {
@@ -40,7 +40,7 @@ exports.one = function(req, res) {
             });
         }
         res.render('app/page/item', {
-            title: result.name,
+            title: result.title,
             page: result
         });
     });

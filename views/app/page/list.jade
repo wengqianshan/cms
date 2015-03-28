@@ -14,7 +14,7 @@ block content
                         - each page in pages
                             tr
                                 td
-                                    a(href='page/#{page.id}') #{page.name}
+                                    a(href='page/#{page.id}') #{page.title}
                                 td
                                     if (page.author)
                                         strong #{page.author.name}

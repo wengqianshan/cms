@@ -17,7 +17,7 @@ block content
                         tr
                             td 
                                 a(href='#{adminDir}/page/#{page.id}')
-                                    | #{page.name}
+                                    | #{page.title}
                             td
                                 | #{page.content}
                             td #{moment(page.created).format('LLL')}
@@ -29,7 +29,7 @@ block content
     script#J_tmpl_add(type='x-tmpl-mustache')
         .form-group
             label 标题
-            input.form-control(name='name')
+            input.form-control(name='title')
         .form-group
             label 内容
             textarea.form-control(rows='4', name='content')
@@ -46,15 +46,15 @@ block foot-js
             e.preventDefault();
             var $this = $(this);
             var url = $this.attr('href');
-            var request = function(name, content, dialog) {
+            var request = function(title, content, dialog) {
                 $.post(url, {
                     _csrf: token,
-                    name: name,
+                    title: title,
                     content: content
                 }, function(json) {
                     console.log(json);
                     dialog.close();
-                    BootstrapDialog.alert('发送成功');
+                    BootstrapDialog.alert(json.message);
                 });
             };
             
@@ -67,9 +67,9 @@ block foot-js
                         cssClass: 'btn-primary',
                         action: function(dialog) {
                             console.log(dialog)
-                            var name = dialog.$modalBody.find('input').val();
+                            var title = dialog.$modalBody.find('input').val();
                             var content = dialog.$modalBody.find('textarea').val();
-                            request(name, content, dialog);
+                            request(title, content, dialog);
                         }
                     },
                     {

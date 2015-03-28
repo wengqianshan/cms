@@ -10,10 +10,13 @@ var mongoose = require('mongoose'),
  * 页面模型
  */
 var PageSchema = new Schema({
-    name: {
+    title: {
         type: String,
         required: true,
         unique: true
+    },
+    flag: {
+        type: String
     },
     description: {
         type: String
