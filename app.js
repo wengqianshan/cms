@@ -105,6 +105,29 @@ core.walk(appPath + '/routes', 'middlewares', function(path) {
     require(path)(app);
 });
 
+//for pi
+var piSwitch = 'false';
+app.use('/pi/switch/1', function(req, res, next) {
+    piSwitch = 'true';
+    res.json({
+        success: true,
+        value: piSwitch
+    });
+});
+app.use('/pi/switch/0', function(req, res, next) {
+    piSwitch = 'false';
+    res.json({
+        success: true,
+        value: piSwitch
+    });
+});
+app.use('/pi/switch', function(req, res, next) {
+    res.json({
+        value: piSwitch
+    });
+});
+
+
 //后台管理路由
 var adminPath = core.translateAdminDir('');
 app.use(adminPath, function(req, res, next) {
