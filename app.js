@@ -121,10 +121,14 @@ app.use('/pi/switch/0', function(req, res, next) {
         value: piSwitch
     });
 });
+
 app.use('/pi/switch', function(req, res, next) {
     res.json({
         value: piSwitch
     });
+});
+app.use('/pi', function(req, res, next) {
+    res.render('app/pi');
 });
 
 
