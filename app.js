@@ -107,8 +107,11 @@ core.walk(appPath + '/routes', 'middlewares', function(path) {
 
 //for pi
 var piSwitch = 'false';
+var piOpenTime = null;
+var piCloseTime = null;
 app.use('/pi/switch/1', function(req, res, next) {
     piSwitch = 'true';
+    piOpenTime = Date.now();
     res.json({
         success: true,
         value: piSwitch
@@ -116,6 +119,7 @@ app.use('/pi/switch/1', function(req, res, next) {
 });
 app.use('/pi/switch/0', function(req, res, next) {
     piSwitch = 'false';
+    piCloseTime = Date.now();
     res.json({
         success: true,
         value: piSwitch
@@ -124,7 +128,9 @@ app.use('/pi/switch/0', function(req, res, next) {
 
 app.use('/pi/switch', function(req, res, next) {
     res.json({
-        value: piSwitch
+        value: piSwitch,
+        openTime: piOpenTime,
+        closeTime: piCloseTime
     });
 });
 app.use('/pi', function(req, res, next) {
