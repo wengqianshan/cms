@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    .container(style='margin-top:10px;')
+    .container.content
         .row
             if (key) 
                 .col-md-12
@@ -11,58 +11,61 @@ block content
                         | 共有 
                         strong #{total} 
                         | 条结果
-            .col-md-9
+            .col-md-8
                 each content in contents
-                    article.post.well
+                    article.post
                         header.entry-header
+                            .entry-thumbnail
+                                if (content.gallery && content.gallery.length > 0)
+                                    img.img-responsive(src='#{content.gallery[0].url}')
+                            
+                            
+                        .post-content
                             h2.entry-title
                                 a(href='/content/#{content._id}') #{content.title}
                             .entry-meta
-                                if (content.author)
-                                    span.post-author
-                                        span #{content.author.name}
-                                span.posted-on
-                                    i.fa.fa-calendar
-                                    time #{moment(content.created).format('YYYY-MM-DD')}
-                                span.comments-link
-                                    i.fa.fa-comment-o
-                                    span 评论:#{content.comments && content.comments.length}
-                                span.visits
-                                    span 访问:#{content.visits}
-                        .entry-content.clear
-                            - var text = strip(content.content).substr(0, 100);
-                            if (content.gallery && content.gallery.length > 0)
-                                a(href='/content/#{content._id}')
-                                    img.thumbnail.col-sm-4(src='#{content.gallery[0].url}')
-                                .col-sm-8
-                                    | #{text}
-                            else
-                                | #{text}
+                                ul
+                                    if (content.author)
+                                        li.author
+                                            i.fa.fa-user
+                                            | #{content.author.name}
+                                    li.publish-date
+                                        i.fa.fa-calendar
+                                        time 发表时间：#{moment(content.created).format('YYYY-MM-DD')}
+                                    //li.tag
+                                    li
+                                        i.fa.fa-comment-o
+                                        span 评论:#{content.comments && content.comments.length}
+                                    li
+                                        span 访问:#{content.visits}
+                            .entry-summary
+                                - var text = strip(content.content).substr(0, 100);
+                                p #{text}
 
                 .text-center
                     if (pageInfo && pageInfo.totalPage > 1)
                         include ./mixin
                         +pagination(pageInfo)
-            .col-md-3
-                .well
-                    form(action='/', method='get')
-                        //input(type='hidden', name='_csrf', value='#{token}')
-                        .input-group
-                            input(type="text", name="key", id="key", value="", required="required").form-control
-                            .input-group-btn
+            .col-md-4
+                .widget-area
+                    .widget.widget-search
+                        form.form-group(action='/', method='get')
+                            //input(type='hidden', name='_csrf', value='#{token}')
+                            .form-group
+                                input.form-control(type="text", name="key", id="key", value="", required="required")
                                 button(type="submit").btn.btn-info 搜索
-                .well
-                    h3 最新内容
-                    ul.list-unstyled
-                        each item in newest
-                            li
-                                a(href='/content/#{item.id}') #{item.title}
-                .well
-                    h3 最热内容
-                    ul.list-unstyled
-                        each item in hotest
-                            li
-                                a(href='/content/#{item.id}') #{item.title}
+                    .widget
+                        h3.widget_title 最新内容
+                        ul.latest-posts
+                            each item in newest
+                                li
+                                    a(href='/content/#{item.id}') #{item.title}
+                    .widget
+                        h3.widget_title 最热内容
+                        ul.latest-posts
+                            each item in hotest
+                                li
+                                    a(href='/content/#{item.id}') #{item.title}
 block foot-js
     script.
         var token = '#{token}';

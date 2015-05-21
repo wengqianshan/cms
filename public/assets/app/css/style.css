@@ -1,5 +1,20 @@
 body{
     font-family: '微软雅黑' Monaco;
+    background-color: #f5f5f5;
+}
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+a:link,
+a:visited{
+    text-decoration: none;
+    color: #000;
+}
+a:hover,
+a:active{
+    color: #428bca;
 }
 .gallery{
     padding: 10px;
@@ -17,6 +32,7 @@ body{
 .gallery-item{
     width: 200px;
     height: 200px;
+    overflow: hidden;
     background-color: #f0f0f0;
     border: 1px solid #fff;
     background-size: cover;
@@ -109,4 +125,85 @@ a.btn-danger{
 }
 .comment-form textarea{
     min-height: 200px;
+}
+
+.content{
+    margin-top: 35px;
+}
+/*博客列表*/
+.post{
+    background-color: #fff;
+    margin-bottom: 30px;
+}
+.post-content{
+    padding: 20px;
+}
+.img-responsive{
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+.post .entry-thumbnail img{
+    width: 100%;
+    /*max-height: 350px;*/
+}
+.entry-title{
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+.entry-meta{
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.entry-meta ul li{
+    display: inline-block;
+    margin-right: 10px;
+}
+.entry-meta ul li,
+.entry-meta ul li i,
+.entry-meta ul li a{
+    color: #898989;
+}
+.entry-summary{
+    line-height: 26px;
+}
+
+.widget{
+    background-color: #fff;
+    margin-bottom: 30px;
+}
+.widget_title{
+    padding: 16px 20px;
+    margin-bottom: 0;
+    font-size: 20px;
+    font-weight: 400;
+    color: #000;
+    border-bottom: 1px solid #d8d8d8;
+}
+.latest-posts{
+
+}
+.latest-posts li{
+
+}
+.latest-posts li a{
+    display: block;
+    padding: 6px 15px;
+}
+.widget-search{
+    position: relative;
+}
+.widget-search .form-control{
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+    height: 48px;
+}
+.widget-search .btn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 0;
 }

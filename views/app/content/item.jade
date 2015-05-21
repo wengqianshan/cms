@@ -3,66 +3,67 @@ block head-css
     <link rel="stylesheet" href="/assets/plugins/blueimp-gallery/css/blueimp-gallery.css">
     <link rel="stylesheet" href="/assets/plugins/blueimp-gallery/css/blueimp-gallery-indicator.css">
 block content
-    .container
+    .container.content
         .row
             .col-md-12
-                div
-                    h2 #{content.title}
-                    p 
-                        if (content.category)
-                            span.label.label-default #{content.category.name}
-                        | 
-                        if (content.author)
-                            strong #{content.author.name}
-                        | 发布于：#{moment(content.created).format('LL')} 
-                        | 访问量：#{content.visits}
-                    .gallery
-                        if (content.gallery)
-                            each image in content.gallery
-                                .gallery-item
-                                    a(href='#{image.url}')
-                                        img(src='#{image.md_url || image.url}')
-                    .content 
-                        //- if (content.author && content.author.status === -1)
-                        //-     | !{content.content}
-                        //- else 
-                        //-     | #{content.content}
-                        | !{md(content.content)}
-                    
-                    .comments(data-from='#{content.id}')
-                        h3 评论(#{content.comments.length}) 
-                            //label.J_toggle_comment(style='font-size: 12px;')
-                                if (comment_list !== '1')
-                                    input.J_toggle_comment_input(data-href='?comment_list=1', type='checkbox', checked)
-                                    | 嵌套模式
-                                else
-                                    input.J_toggle_comment_input(data-href='?', type='checkbox')
-                                    | 嵌套模式
-                                    
-                        if(content.comments)
-                            ul.media-list.J_list
-                                each comment in content.comments
-                                    - var listComment = !!comment_list
-                                    if(!listComment)
-                                        if (!comment.reply)
+                .post
+                    .post-content
+                        h2.entry-title #{content.title}
+                        .entry-meta
+                            if (content.category)
+                                span.label.label-default #{content.category.name}
+                            | 
+                            if (content.author)
+                                strong #{content.author.name}
+                            | 发布于：#{moment(content.created).format('LL')} 
+                            | 访问量：#{content.visits}
+                            .gallery
+                                if (content.gallery)
+                                    each image in content.gallery
+                                        .gallery-item
+                                            a(href='#{image.url}')
+                                                img(src='#{image.md_url || image.url}')
+                        .entry-summary 
+                            //- if (content.author && content.author.status === -1)
+                            //-     | !{content.content}
+                            //- else 
+                            //-     | #{content.content}
+                            | !{md(content.content)}
+                        
+                        .comments(data-from='#{content.id}')
+                            h3 评论(#{content.comments.length}) 
+                                //label.J_toggle_comment(style='font-size: 12px;')
+                                    if (comment_list !== '1')
+                                        input.J_toggle_comment_input(data-href='?comment_list=1', type='checkbox', checked)
+                                        | 嵌套模式
+                                    else
+                                        input.J_toggle_comment_input(data-href='?', type='checkbox')
+                                        | 嵌套模式
+                                        
+                            if(content.comments)
+                                ul.media-list.J_list
+                                    each comment in content.comments
+                                        - var listComment = !!comment_list
+                                        if(!listComment)
+                                            if (!comment.reply)
+                                                include ../mixin
+                                                +commentItem(comment, content.comments)
+                                        else 
                                             include ../mixin
-                                            +commentItem(comment, content.comments)
-                                    else 
-                                        include ../mixin
-                                        +commentItem(comment)
-                        .comment-form
-                            .row.form-group
-                                .col-md-4
-                                    input.form-control.J_input_name(name='name', placeholder='name')
-                            .row.form-group
-                                .col-md-4
-                                    input.form-control.J_input_email(name='email', placeholder='email')
-                            .row.form-group
-                                .col-md-6
-                                    textarea.form-control.J_textarea(name='content', placeholder='评论内容')
-                            .row
-                                .col-md-4
-                                    button.btn.btn-primary.J_submit(value='提交') 提交
+                                            +commentItem(comment)
+                            .comment-form
+                                .row.form-group
+                                    .col-md-4
+                                        input.form-control.J_input_name(name='name', placeholder='name')
+                                .row.form-group
+                                    .col-md-4
+                                        input.form-control.J_input_email(name='email', placeholder='email')
+                                .row.form-group
+                                    .col-md-6
+                                        textarea.form-control.J_textarea(name='content', placeholder='评论内容')
+                                .row
+                                    .col-md-4
+                                        button.btn.btn-primary.J_submit(value='提交') 提交
     script#J_tmpl_comment_item(type='x-tmpl-mustache')
         li.media
             a.pull-left
