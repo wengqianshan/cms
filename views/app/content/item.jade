@@ -26,7 +26,7 @@ block content
                         if (images.length === 1)
                             .text-center
                                 a(href='#{images[0].url}', target='_blank')
-                                    img.img-responsive(src='#{images[0].md_url || images[0].url}')
+                                    img.img-responsive(src='#{images[0].url}')
                         else if (images.length > 1) 
                             .gallery
                                 if (content.gallery)
