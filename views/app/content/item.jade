@@ -24,8 +24,9 @@ block content
                                     | 访客：#{content.visits}
                         - var images = content.gallery
                         if (images.length === 1)
-                            a(href='#{images[0].url}')
-                                img(src='#{images[0].md_url || images[0].url}')
+                            .text-center
+                                a(href='#{images[0].url}', target='_blank')
+                                    img.img-responsive(src='#{images[0].md_url || images[0].url}')
                         else if (images.length > 1) 
                             .gallery
                                 if (content.gallery)

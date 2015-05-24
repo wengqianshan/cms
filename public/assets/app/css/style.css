@@ -138,11 +138,11 @@ a.btn-danger{
 .post-content{
     padding: 20px;
 }
-.img-responsive{
+/*.img-responsive{
     display: block;
     max-width: 100%;
     height: auto;
-}
+}*/
 .post .entry-thumbnail img{
     width: 100%;
     /*max-height: 350px;*/
