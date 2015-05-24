@@ -14,7 +14,7 @@ block content
                         if (content.gallery)
                             - each image in content.gallery
                                 .gallery-item
-                                    img.gallery-image(src='#{image.url}')
+                                    img.gallery-image(src='#{image.md_url || image.url}')
                                     input(type='hidden', name='gallery[]', value='#{image._id}')
                                     a.gallery-remove.J_del(href='#{adminDir}/file/#{image._id}/del')
                                         span.fa.fa-times-circle

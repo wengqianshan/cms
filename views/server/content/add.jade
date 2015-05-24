@@ -86,7 +86,7 @@ block foot-js
                     $.each(data.result.files, function (index, file) {
                         var tmpl = $('#J_tmpl_gallery_item').html();
                         var html = Mustache.render(tmpl, {
-                            url: file.url,
+                            url: file.md_url || file.url,
                             id: file._id
                         });
                         $('#J_gallery').append(html);
