@@ -10,19 +10,30 @@ block content
                     .post-content
                         h2.entry-title #{content.title}
                         .entry-meta
-                            if (content.category)
-                                span.label.label-default #{content.category.name}
-                            | 
-                            if (content.author)
-                                strong #{content.author.name}
-                            | 发布于：#{moment(content.created).format('LL')} 
-                            | 访问量：#{content.visits}
+                            ul
+                                if (content.category)
+                                    li
+                                        span.label.label-default #{content.category.name}
+                                | 
+                                if (content.author)
+                                    li
+                                        strong #{content.author.name}
+                                li
+                                    | 发表于：#{moment(content.created).format('YYYY-MM-DD HH:mm:ss')} 
+                                li
+                                    | 访客：#{content.visits}
+                        - var images = content.gallery
+                        if (images.length === 1)
+                            a(href='#{images[0].url}')
+                                img(src='#{images[0].md_url || images[0].url}')
+                        else if (images.length > 1) 
                             .gallery
                                 if (content.gallery)
                                     each image in content.gallery
                                         .gallery-item
                                             a(href='#{image.url}')
                                                 img(src='#{image.md_url || image.url}')
+                        
                         .entry-summary 
                             //- if (content.author && content.author.status === -1)
                             //-     | !{content.content}

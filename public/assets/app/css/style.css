@@ -207,3 +207,8 @@ a.btn-danger{
     height: 100%;
     border-radius: 0;
 }
+.search-area{
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 30px;
+}
