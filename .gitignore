@@ -1,5 +1,6 @@
 #忽略组件文件
 node_modules/
+bower_components/
 
 #特殊文件
 .DS_Store
