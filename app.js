@@ -20,7 +20,7 @@ marked.setOptions({
   tables: true,
   breaks: false,
   pedantic: false,
-  sanitize: true,
+  //sanitize: true,// 不解析html标签
   smartLists: true,
   smartypants: false
 });
