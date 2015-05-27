@@ -34,7 +34,7 @@ exports.sent = function(req, res) {
         condition.author = req.session.user._id;
     }*/
     Notification.count(condition, function(err, total) {
-        var query = Notification.find(condition);
+        var query = Notification.find(condition).populate('from to');
         //分页
         var pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
