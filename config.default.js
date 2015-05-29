@@ -11,7 +11,7 @@ var config = {
     findPasswordTill: 24 * 60 * 60 * 1000,
     //后台相关配置
     admin: {
-        dir: 'admin',
+        dir: 'admin', //后台方位路径，如http://localhost/admin配置为admin
         role: {//默认角色名,后期可修改
             admin: 'admin',
             user: 'user'
@@ -21,9 +21,9 @@ var config = {
         tmpDir:  appPath + '/public/uploaded/tmp',
         uploadDir: appPath + '/public/uploaded/files',
         uploadUrl:  '/uploaded/files/',
-        maxPostSize: 100000000, // 100M
+        maxPostSize: 100 * 1024 * 1024, // 100M
         minFileSize:  1,
-        maxFileSize:  50000000, // 50M
+        maxFileSize:  50 * 1024 * 1024, // 50M
         acceptFileTypes:  /.+/i,
         storage: {
             type: 'local',//保存类型，如果保存到本地可省略或local, 目前支持7牛：qiniu

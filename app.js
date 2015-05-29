@@ -190,6 +190,3 @@ app.set('port', process.env.PORT || config.port || 7000);
 var server = app.listen(app.get('port'), function() {
   console.log('网站服务已启动，端口号： ' + server.address().port);
 });
-
-
-module.exports = app;
