@@ -149,11 +149,11 @@ app.use('/pi', function(req, res, next) {
 
 
 //后台管理路由
-var adminPath = core.translateAdminDir('');
+/*var adminPath = core.translateAdminDir('');
 app.use(adminPath, function(req, res, next) {
     var path = core.translateAdminDir('/index');
     return res.redirect(path);
-});
+});*/
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

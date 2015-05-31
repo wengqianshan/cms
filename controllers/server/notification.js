@@ -29,6 +29,7 @@ exports.list = function(req, res) {
 };
 //列表
 exports.sent = function(req, res) {
+    console.log(req.headers)
     //console.log('id', req.session.user)
     var condition = {
         from: req.session.user

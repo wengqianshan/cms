@@ -12,7 +12,7 @@ var mongoose = require('mongoose'),
 // 这个最好移到app.js里面，每次开启服务时检查，
 exports.checkInstall = function(req, res, next) {
     if(req.session.user) {
-        var path = core.translateAdminDir('/index');
+        var path = core.translateAdminDir('/');
         return res.redirect(path);
     }
     User.find({}, function(err, results) {
@@ -24,9 +24,9 @@ exports.checkInstall = function(req, res, next) {
             // return res.redirect(path);
             return next();
         } else {
-            //var path = core.translateAdminDir('/index/install');
+            //var path = core.translateAdminDir('/install');
             //return res.redirect(path);
-            var path = core.translateAdminDir('/index/install')
+            var path = core.translateAdminDir('/install')
             return res.send('请先<a href="' + path + '">安装应用</a>');
         }
     })
@@ -310,7 +310,7 @@ exports.del = function(req, res) {
                 req.session.destroy();
                 res.locals.User = null;
                 console.log('自杀成功');
-                var path = core.translateAdminDir('/index');
+                var path = core.translateAdminDir('');
                 return res.redirect(path);
             }
             res.render('server/info', {
@@ -320,9 +320,16 @@ exports.del = function(req, res) {
     });
 }
 
+
+var noRedirect = [
+    'user/login',
+    'user/forget',
+    'user/register'
+]
 //登录
 exports.login = function(req, res) {
     if (req.method === 'GET') {
+        req.session.loginReferer = req.headers.referer; 
         res.render('server/user/login');
     } else if (req.method === 'POST') {
         var username = req.body.username;
@@ -343,8 +350,16 @@ exports.login = function(req, res) {
                 user.last_login_ip = req.ip;
                 user.save();
                 req.session.user = user;
-                var path = core.translateAdminDir('/index');
-                res.redirect(path);
+                var path = core.translateAdminDir('/');
+                
+                var ref = req.session.loginReferer || path;
+                for (var i =0, len = noRedirect.length; i < len; i ++) {
+                    if (ref.indexOf(noRedirect[i]) > -1) {
+                        ref = path;
+                        break;
+                    }
+                }
+                res.redirect(ref);
             } else {
                 res.render('server/info', {
                     message: '密码不正确'
@@ -370,7 +385,7 @@ exports.logout = function(req, res) {
         /*res.render('server/info', {
             message: '注销成功'
         });*/
-        var path = core.translateAdminDir('/index');
+        var path = core.translateAdminDir('/');
         res.redirect(path);
     } else {
         res.render('server/info', {

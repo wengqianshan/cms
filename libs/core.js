@@ -30,9 +30,8 @@ exports.stringify = function(obj) {
     return qs.stringify(obj);
 };
 //包装admin路径
-exports.translateAdminDir = function(path) {
-    var newPath = (config.admin.dir ? '/' + config.admin.dir : '') + (path || '');
-    //TODO:  path.join
+exports.translateAdminDir = function(p) {
+    var newPath = (config.admin.dir ? '/' + config.admin.dir : '') + (p || '');
     return newPath;
 };
 //分页  params: 当前页, 总条数, 每页条数

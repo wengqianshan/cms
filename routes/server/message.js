@@ -12,7 +12,7 @@ router.use(function(req, res, next) {
         return res.redirect(path);
     }
     if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('message') < 0)) {
-        var path = core.translateAdminDir('/index');
+        var path = core.translateAdminDir('/');
         return res.redirect(path);
     }
     next();
