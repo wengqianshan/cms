@@ -29,7 +29,10 @@ exports.list = function(req, res) {
 };
 //列表
 exports.sent = function(req, res) {
-    var condition = {};
+    //console.log('id', req.session.user)
+    var condition = {
+        from: req.session.user
+    };
     /*if(req.Roles && req.Roles.indexOf('admin') < 0) {
         condition.author = req.session.user._id;
     }*/
