@@ -11,7 +11,7 @@ var config = {
     findPasswordTill: 24 * 60 * 60 * 1000,
     //后台相关配置
     admin: {
-        dir: 'admin', //后台方位路径，如http://localhost/admin配置为admin
+        dir: 'admin', //后台访问路径，如http://localhost/admin配置为admin
         role: {//默认角色名,后期可修改
             admin: 'admin',
             user: 'user'
