@@ -1,7 +1,8 @@
 'use strict';
 var mongoose = require('mongoose'),
     Notification = mongoose.model('Notification'),
-    core = require('../../libs/core');
+    core = require('../../libs/core'),
+    _ = require('underscore');
 //列表
 exports.list = function(req, res) {
     var condition = {};
@@ -108,6 +109,10 @@ exports.del = function(req, res) {
 //发送
 exports.add = function(req, res) {
     var obj = req.body;
+    if (_.isArray(obj.to)) {
+        //TODO:多人
+        obj.to = obj.to[0];
+    }
     obj.from = obj.from ? mongoose.Types.ObjectId(obj.from) : '';
     obj.to = obj.from ? mongoose.Types.ObjectId(obj.to) : '';
     var notification = new Notification(obj);

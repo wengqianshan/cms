@@ -75,7 +75,7 @@ exports.one = function(req, res) {
 };
 //查询
 exports.query = function(req, res) {
-    var kw = req.query.keyword;
+    var kw = req.query.q;
     User.find({username: new RegExp(kw, 'gi')}).exec(function(err, result) {
         console.log(err, result)
         if (err) {
@@ -84,14 +84,17 @@ exports.query = function(req, res) {
                 message: '查询失败'
             });
         }
-        var _result = result.map(function(item) {
+        /*var _result = result.map(function(item) {
             console.log(item.id)
             return {
                 label: item.username,
                 value: item.id
             };
+        });*/
+        return res.json({
+            status: true,
+            items: result
         });
-        return res.json(_result);
     });
 };
 //注册

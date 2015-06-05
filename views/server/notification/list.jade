@@ -1,6 +1,6 @@
 extends ../layout
 block head-css
-    link(rel='stylesheet', href='/assets/plugins/autocomplete/jquery.autocomplete.css')
+    link(rel='stylesheet', href='/bower_components/select2/dist/css/select2.min.css')
 block content
     .row
         .col-md-12
@@ -30,12 +30,14 @@ block content
     script#J_tmpl_add(type='x-tmpl-mustache')
         .form-group
             label 收信人
-            input.form-control(name='kw')
+            //input.form-control(name='kw')
+            select.form-control.J_to_users(name='kw', style='width: 60%', multiple='multiple')
+                
         .form-group
             label 内容
             textarea.form-control(rows='4')
 block foot-js
-    script(src='/assets/plugins/autocomplete/jquery.autocomplete.js')
+    script(src='/bower_components/select2/dist/js/select2.js')
     script.
         var user = !{JSON.stringify(User)};
         var token = '#{token}';
@@ -69,7 +71,7 @@ block foot-js
                         cssClass: 'btn-primary',
                         action: function(dialog) {
                             console.log(dialog)
-                            var to = dialog.$modalBody.find('input').val();
+                            var to = dialog.$modalBody.find('.J_to_users').val();
                             var content = dialog.$modalBody.find('textarea').val();
                             request(to, content, dialog);
                         }
@@ -82,17 +84,114 @@ block foot-js
                     }
                 ]
             });
-            $dialog.$modalBody.find('input').AutoComplete({
-                'data': '#{core.translateAdminDir("/user/query"))',
-                //'async': true,
-                'ajaxType': 'GET',
-                'ajaxDataType': 'json',
-                'width': 'auto',
-                afterSelectedHandler: function(data) {
-                    console.log(data)
+            //- $dialog.$modalBody.find('input').AutoComplete({
+            //-     'data': '#{core.translateAdminDir("/user/query"))',
+            //-     'ajaxType': 'GET',
+            //-     'ajaxDataType': 'json',
+            //-     'width': 'auto',
+            //-     afterSelectedHandler: function(data) {
+            //-         console.log(data)
+            //-     },
+            //-     'onerror': function(msg){alert(msg);}
+            //- });
+            $dialog.$modalBody.find(".J_to_users").select2({
+                ajax: {
+                    //url: "https://api.github.com/search/repositories",
+                    url: '#{core.translateAdminDir("/user/query"))',
+                    //dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term, // search term
+                            page: params.page
+                        };
+                    },
+                    processResults: function(data, params) {
+                        // parse the results into the format expected by Select2
+                        // since we are using custom formatting functions we do not need to
+                        // alter the remote JSON data, except to indicate that infinite
+                        // scrolling can be used
+                        params.page = params.page || 1;
+                        data.items.map(function(item) {
+                            item.id = item._id;
+                            return item;
+                        });
+                        console.log(data.items);
+                        return {
+                            results: data.items,
+                            pagination: {
+                                more: (params.page * 30) < data.total_count
+                            }
+                        };
+                    },
+                    cache: true
                 },
-                'onerror': function(msg){alert(msg);}
+                escapeMarkup: function(markup) {
+                    return markup;
+                },
+                minimumInputLength: 1,
+                templateResult: function (repo) {
+                    if (repo.loading) return repo.text;
+
+                    var markup = '<div class="clearfix">' +
+                        '<div clas="col-sm-10">' +
+                        '<div class="clearfix">' +
+                        '<div class="col-sm-6">' + repo.username + '</div>' +
+                        '</div>';
+
+                    markup += '</div></div>';
+
+                    return markup;
+                },
+                templateSelection: function (repo) {
+                    return repo.username || repo.text;
+                }
             });
+            //- $dialog.$modalBody.find(".J_to_users").select2({
+            //-     ajax: {
+            //-         url: '#{core.translateAdminDir("/user/query"))',
+            //-         //dataType: 'json',
+            //-         delay: 250,
+            //-         data: function(params) {
+            //-             return {
+            //-                 q: params.term, // search term
+            //-                 page: params.page
+            //-             };
+            //-         },
+            //-         processResults: function(data, page) {
+            //-             params.page = params.page || 1;
+            //-             data.items.map(function(item) {
+            //-                 item.id = item._id;
+            //-                 return item;
+            //-             });
+            //-             return {
+            //-                 results: data.items,
+            //-                 pagination: {
+            //-                     more: (params.page * 30) < data.total_count
+            //-                 }
+            //-             };
+            //-         },
+            //-         cache: true
+            //-     },
+            //-     escapeMarkup: function(markup) {
+            //-         return markup;
+            //-     },
+            //-     minimumInputLength: 1,
+            //-     templateResult: function(repo) {
+            //-         if (repo.loading) return repo.text;
+            //-         var markup = '<div class="clearfix">' +
+            //-             '<div clas="col-sm-10">' +
+            //-             '<div class="col-sm-3">' + repo.name + '</div>' +
+            //-             '<div class="col-sm-6"><i class="fa fa-code-fork"></i> ' + repo.email + '</div>' +
+            //-             '<div class="col-sm-2"><i class="fa fa-star"></i> ' + repo.gender + '</div>' +
+            //-             '</div>';
+            //-         markup += '</div>';
+            //-         return markup;
+            //-     },
+            //-     templateSelection: function(repo) { // omitted for brevity, see the source of this page
+            //-         return repo._id || repo.username;
+            //-     }
+            //- });
         });
 
         $(document).on('click', '.J_del', function(e) {
