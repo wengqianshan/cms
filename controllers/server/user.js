@@ -84,13 +84,6 @@ exports.query = function(req, res) {
                 message: '查询失败'
             });
         }
-        /*var _result = result.map(function(item) {
-            console.log(item.id)
-            return {
-                label: item.username,
-                value: item.id
-            };
-        });*/
         return res.json({
             status: true,
             items: result

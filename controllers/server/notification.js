@@ -109,27 +109,39 @@ exports.del = function(req, res) {
 //发送
 exports.add = function(req, res) {
     var obj = req.body;
-    if (_.isArray(obj.to)) {
-        //TODO:多人
-        obj.to = obj.to[0];
+    if (!obj.to || !_.isArray(obj.to)) {
+        return res.json({
+            status: false,
+            message: '参数不正确'
+        });
     }
-    obj.from = obj.from ? mongoose.Types.ObjectId(obj.from) : '';
+    obj.to.forEach(function(toId) {
+        obj.from = mongoose.Types.ObjectId(obj.from) || '';
+        obj.to = mongoose.Types.ObjectId(toId) || '';
+        var notification = new Notification(obj);
+        notification.save(function(err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+    });
+    return res.json({
+        status: true,
+        message: '发送成功'
+    })
+    /*obj.from = obj.from ? mongoose.Types.ObjectId(obj.from) : '';
     obj.to = obj.from ? mongoose.Types.ObjectId(obj.to) : '';
     var notification = new Notification(obj);
     notification.save(function(err) {
         if (err) {
-            /*return res.render('server/info', {
-                message: '发送失败'
-            });*/
             return res.json({
+                status: false,
                 message: '发送失败'
             })
         }
-        /*return res.render('server/info', {
-            message: '发送成功'
-        });*/
         return res.json({
+            status: true,
             message: '发送成功'
         })
-    });
+    });*/
 };
