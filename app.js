@@ -144,7 +144,9 @@ app.use('/pi/switch', function(req, res, next) {
     });
 });
 app.use('/pi', function(req, res, next) {
-    res.render('app/pi');
+    res.render('app/pi', {
+        title: '阳台水培开关'
+    });
 });
 
 
