@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var file = require('../../controllers/api/file');
+var user = require('../../controllers/api/user');
 
 //
 router.use(function(req, res, next) {
@@ -10,8 +10,8 @@ router.use(function(req, res, next) {
     });
     next();
 });
-router.route('/files').all(file.list);
-router.route('/files/:id').all(file.item);
+router.route('/users').all(user.list);
+router.route('/users/:id').all(user.item);
 
 module.exports = function(app) {
     app.use('/api', router);

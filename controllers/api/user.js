@@ -1,21 +1,18 @@
 'use strict';
 var mongoose = require('mongoose'),
-    Content = mongoose.model('Content'),
-    Message = mongoose.model('Message'),
-    Category = mongoose.model('Category'),
-    File = mongoose.model('File'),
+    User = mongoose.model('User'),
     config = require('../../config'),
     _ = require('underscore'),
     core = require('../../libs/core');
 exports.list = function(req, res) {
-    console.log('前台')
+    console.log('用户')
     //console.time('content-list');
     var condition = {};
     var obj = {};
-    File.count(condition).exec().then(function(total){
+    User.count(condition).exec().then(function(total){
         return total;
     }).then(function(total) {
-        var query = File.find(condition);
+        var query = User.find(condition).populate('author').populate('roles');
         //分页
         var pageInfo = core.createPage(req, total, 10);
         query.skip(pageInfo.start);
@@ -33,9 +30,10 @@ exports.list = function(req, res) {
     //
 };
 exports.item = function(req, res) {
-    File.findById(req.param('id'), function(err, result) {
+    var id = req.param('id');
+    User.findById(id).populate('author').populate('roles').exec(function(err, result) {
         res.jsonp({
             data: result
         });
-    })
+    });
 }
