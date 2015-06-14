@@ -116,9 +116,40 @@ core.walk(appPath + '/routes', 'middlewares', function(path) {
 });
 
 //for pi
-var piSwitch = 'false';
+var piSwitch = 'false'; //默认关闭
 var piOpenTime = null;
-var piCloseTime = null;
+var piCloseTime = Date.now(); //默认关闭时间
+
+var openedTime = 30 * 60 * 1000; //自动打开持续时间
+var closedTime = 1 * 60 * 60 * 1000; //自动关闭持续时间
+
+
+var autoControl = setInterval(function() {
+    var openingTime = 0;
+    var closingTime = 0;
+    var now = Date.now();
+    //如果当前开关是关的状态，计算关闭多久了
+    if (piSwitch === 'false') {
+        closingTime = now - piCloseTime;
+    }
+    //如果当前开关是开灯状态，计算打开多久了
+    if (piSwitch === 'true') {
+        openingTime = now - piOpenTime;
+    }
+    //如果打开时间达到或超出预置时间，则关闭
+    if (openingTime >= openedTime) {
+        console.log('已打开时间', openingTime, '可以关闭了')
+        piSwitch = 'false';
+        piCloseTime = Date.now();
+    }
+    //如果关闭时间达到或超出预置时间，则打开
+    if (closingTime >= closedTime) {
+        console.log('已关闭时间', closingTime, '打开吧')
+        piSwitch = 'true';
+        piOpenTime = Date.now();
+    }
+    console.log(openingTime, closingTime)
+}, 5000);
 app.use('/pi/switch/1', function(req, res, next) {
     piSwitch = 'true';
     piOpenTime = Date.now();
