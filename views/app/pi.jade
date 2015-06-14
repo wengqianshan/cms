@@ -77,7 +77,8 @@ block content
             .panel-body
                 .row
                     .col-md-3
-                        | 阳台水培开关
+                        | 阳台水培  
+                        span.text-muted#J_tip
                     .col-md-9
                         input.i-switch.J_switch(type='checkbox')
                 .row
@@ -91,6 +92,17 @@ block foot-js
             console.log(data)
             var val = data.value === 'true';
             $checkbox[0].checked = val;
+
+            var txt = '';
+            if (val) {
+                var t = Math.round((Date.now() - data.openTime)/60000);
+                txt = '已浇水' + t + '分钟';
+            } else {
+                var t = Math.round((Date.now() - data.closeTime)/60000);
+                txt = '距离上次浇水' + t + '分钟'
+            }
+            //console.log(txt)
+            $('#J_tip').text(txt);
         });
         $checkbox.on('change', function() {
             console.log(this.checked)
