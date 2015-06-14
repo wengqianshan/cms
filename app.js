@@ -148,7 +148,7 @@ var autoControl = setInterval(function() {
         piSwitch = 'true';
         piOpenTime = Date.now();
     }
-    console.log(openingTime, closingTime)
+    //console.log(openingTime, closingTime)
 }, 5000);
 app.use('/pi/switch/1', function(req, res, next) {
     piSwitch = 'true';
