@@ -121,7 +121,7 @@ var piOpenTime = null;
 var piCloseTime = Date.now(); //默认关闭时间
 
 var openedTime = 30 * 60 * 1000; //自动打开持续时间
-var closedTime = 1 * 60 * 60 * 1000; //自动关闭持续时间
+var closedTime = 2 * 60 * 60 * 1000; //自动关闭持续时间
 
 
 var autoControl = setInterval(function() {
