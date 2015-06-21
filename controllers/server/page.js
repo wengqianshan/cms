@@ -87,14 +87,14 @@ exports.add = function(req, res) {
             });*/
             console.log(err);
             return res.json({
-                message: '发送失败'
+                message: '创建失败'
             })
         }
         /*return res.render('server/info', {
             message: '发送成功'
         });*/
         return res.json({
-            message: '发送成功'
+            message: '创建成功'
         })
     });
 };

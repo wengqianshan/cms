@@ -47,11 +47,13 @@ mixin commentItem(comment, comments)
                 - var avatar = gravatar.url((comment.author &&comment.author.email) || comment.email || '', {s: '40',r: 'x',d: 'retro'}, true)
                 img.media-object(src='#{avatar}')
             .media-body
-                h4.media-heading #{comment.name}
+                .media-heading #{comment.name} 在 
+                    span.text-muted #{moment(comment.created).fromNow()} 
+                    | 说
                 p #{comment.content}
                 .media-meta(data-id='#{comment._id}', data-reply='#{comment.reply || ""}')
-                    span.text-muted #{moment(comment.created).fromNow()} 
-                    a.J_reply(href='javascript:') 回复
+                    //span.text-muted #{moment(comment.created).fromNow()} 
+                    a.text-primary.J_reply(href='javascript:') 回复
                 if(comments)
                     if (comment.comments && comment.comments.length > 0)
                         ul.media-list.J_list

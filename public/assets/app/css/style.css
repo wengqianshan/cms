@@ -237,3 +237,7 @@ a.btn-danger{
     padding: 20px;
     margin-bottom: 30px;
 }
+.media-meta a:link,
+.media-meta a:visited{
+    color: #428bca;
+}
