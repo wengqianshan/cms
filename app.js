@@ -103,14 +103,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-//引入路由控制
-/*core.walk(appPath + '/server/routes', 'middlewares', function(path) {
-    require(path)(app);
-});
-core.walk(appPath + '/app/routes', 'middlewares', function(path) {
-    require(path)(app);
-});*/
-
+//路由控制
 core.walk(appPath + '/routes', 'middlewares', function(path) {
     require(path)(app);
 });
