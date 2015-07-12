@@ -14,7 +14,7 @@ var walk = function(modulesPath, excludeDir, callback) {
         if (stat.isFile() && /(.*)\.(js|coffee)$/.test(file)) {
             callback(newPath);
         } else if (stat.isDirectory() && file !== excludeDir) {
-	    walk(newPath, excludeDir, callback);
+            walk(newPath, excludeDir, callback);
         }
     });
 };
@@ -42,10 +42,10 @@ exports.createPage = function(req, total, pageSize) {
         return;
     }
     var query = req.query || {};
-    var page = query.page|0;//强制转化整型
-    var totalPage = Math.max(Math.ceil(total/pageSize), 1);//获取总页数,容错
-    var currentPage = page < 1 ? 1 : page > totalPage ? totalPage : page;//获取当前页数
-    var start = pageSize * (currentPage - 1);//计算开始位置
+    var page = query.page | 0; //强制转化整型
+    var totalPage = Math.max(Math.ceil(total / pageSize), 1); //获取总页数,容错
+    var currentPage = page < 1 ? 1 : page > totalPage ? totalPage : page; //获取当前页数
+    var start = pageSize * (currentPage - 1); //计算开始位置
     return {
         start: start,
         pageSize: pageSize,
@@ -58,7 +58,7 @@ exports.createPage = function(req, total, pageSize) {
 //获取用户的所有角色,去重
 exports.getRoles = function(user) {
     var result = [];
-    if(user && user.roles) {
+    if (user && user.roles) {
         user.roles.forEach(function(role) {
             result.push(role.name);
         });
@@ -68,7 +68,7 @@ exports.getRoles = function(user) {
 //获取用户的所有权限,去重
 exports.getActions = function(user) {
     var result = [];
-    if(user && user.roles) {
+    if (user && user.roles) {
         user.roles.forEach(function(role) {
             result = result.concat(role.actions);
         });
@@ -79,7 +79,7 @@ exports.getActions = function(user) {
 //获取用户的所有权限,去重
 exports.getRoleStatus = function(user) {
     var result = [];
-    if(user && user.roles) {
+    if (user && user.roles) {
         user.roles.forEach(function(role) {
             result.push(role.status);
         });
@@ -94,7 +94,7 @@ exports.prettySlash = function(str) {
 //根据文件类型输出icon
 exports.fileToIcon = function(type) {
     var suffix = '';
-    switch(type) {
+    switch (type) {
         case 'text/html':
         case 'text/javascript':
             suffix = '-code-o';
