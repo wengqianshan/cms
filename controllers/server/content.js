@@ -114,12 +114,18 @@ exports.add = function(req, res) {
         }
         var content = new Content(obj);
         content.save(function(err, content) {
+            if (req.xhr) {
+                return res.json({
+                    status: !err
+                })
+            }
             if (err) {
                 console.log(err);
                 return res.render('server/info', {
                     message: '创建失败'
                 });
             }
+
             res.render('server/info', {
                 message: '创建成功'
             });
@@ -176,6 +182,11 @@ exports.edit = function(req, res) {
             }
             _.extend(result, obj);
             result.save(function(err, content) {
+                if (req.xhr) {
+                    return res.json({
+                        status: !err
+                    })
+                }
                 if(err || !content) {
                     return res.render('server/info', {
                         message: '修改失败'
