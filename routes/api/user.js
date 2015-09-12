@@ -14,5 +14,5 @@ router.route('/users').all(user.list);
 router.route('/users/:id').all(user.item);
 
 module.exports = function(app) {
-    app.use('/api', router);
+    //app.use('/api', router);
 };

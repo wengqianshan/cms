@@ -14,5 +14,5 @@ router.route('/files').all(file.list);
 router.route('/files/:id').all(file.item);
 
 module.exports = function(app) {
-    app.use('/api', router);
+    //app.use('/api', router);
 };
