@@ -43,7 +43,7 @@ exports.index = function(req, res) {
             //console.timeEnd('content-list');
             if(req.xhr) {
                 res.json({
-                    title: '网站首页',
+                    //title: '网站首页',
                     contents: results,
                     pageInfo: pageInfo,
                     key: key,
@@ -55,7 +55,7 @@ exports.index = function(req, res) {
             }
             res.render('app/index', {
                 //title: '列表',
-                title: '网站首页',
+                //title: '网站首页',
                 contents: results,
                 pageInfo: pageInfo,
                 key: key,
