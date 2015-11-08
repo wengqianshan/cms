@@ -37,7 +37,7 @@ var config = {
         }
     },
     mail: {
-        from: 'username<username@domain.com>',
+        from: 'username@domain.com',
         //service: '',
         options: {
             host: '10.1.1.1',
