@@ -32,6 +32,31 @@ exports.checkInstall = function(req, res, next) {
         }
     })
 }
+
+/*var user = new User({
+    username: 'geo5',
+    password: '123456',
+    name: '测试位置5',
+    email: 'geo_5@wenglou.com',
+    last_login_geo: [113.323571, 23.146439]
+});
+user.save(function(err, result) {
+    console.log(result);
+    
+});*/
+/*User.find({'last_login_geo': {$near: [113.323571, 23.146439]}}).exec(function(err, res) {
+    console.log(res);
+})*/
+/*User.find({'last_login_geo': {
+    $geoWithin: {
+        $centerSphere: [
+            [113.323571, 23.146439], .0000000000000005
+        ]
+    }
+}}).exec(function(err, res) {
+    console.log(res);
+})*/
+
 //用户登录校验
 exports.authenticate = function(req, res, next) {
     if (!req.session.user) {

@@ -47,7 +47,10 @@ var UserSchema = new Schema({
     }],
     last_login_date: Date,
     last_login_ip: String,
-    last_login_geo: String,
+    position: {
+        type: Array,
+        index: '2dsphere'
+    },
     reg_ip: String,//注册ip
     created: {
         type: Date,
