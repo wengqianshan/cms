@@ -41,7 +41,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
   console.log('mongodb连接成功');
 });
-//引入数据模型
+//载入数据模型
 core.walk(appPath + '/models', null, function(path) {
     require(path);
 });
@@ -76,6 +76,7 @@ app.use(session({
     secret: 'ruoguan'/*,
     store: new RedisStore*/
 }));
+//上传中间件，todo：换成multer, no global middleware
 app.use(multipart({
     uploadDir: config.upload.tmpDir
 }));
@@ -83,7 +84,7 @@ app.use(csrf());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
     res.header('X-Powered-By', 'wengqianshan');
-    res.locals.token = req.csrfToken();
+    res.locals.token = req.csrfToken && req.csrfToken();
     if(req.session.user) {
         res.locals.User = req.session.user;
         //角色信息
@@ -107,72 +108,6 @@ app.use(function(req, res, next) {
 core.walk(appPath + '/routes', 'middlewares', function(path) {
     require(path)(app);
 });
-
-//for pi
-var piSwitch = 'false'; //默认关闭
-var piOpenTime = null;
-var piCloseTime = Date.now(); //默认关闭时间
-
-var openedTime = 30 * 60 * 1000; //自动打开持续时间
-var closedTime = 2 * 60 * 60 * 1000; //自动关闭持续时间
-
-
-var autoControl = setInterval(function() {
-    var openingTime = 0;
-    var closingTime = 0;
-    var now = Date.now();
-    //如果当前开关是关的状态，计算关闭多久了
-    if (piSwitch === 'false') {
-        closingTime = now - piCloseTime;
-    }
-    //如果当前开关是开灯状态，计算打开多久了
-    if (piSwitch === 'true') {
-        openingTime = now - piOpenTime;
-    }
-    //如果打开时间达到或超出预置时间，则关闭
-    if (openingTime >= openedTime) {
-        console.log('已打开时间', openingTime, '可以关闭了')
-        piSwitch = 'false';
-        piCloseTime = Date.now();
-    }
-    //如果关闭时间达到或超出预置时间，则打开
-    if (closingTime >= closedTime) {
-        console.log('已关闭时间', closingTime, '打开吧')
-        piSwitch = 'true';
-        piOpenTime = Date.now();
-    }
-    //console.log(openingTime, closingTime)
-}, 5000);
-app.use('/pi/switch/1', function(req, res, next) {
-    piSwitch = 'true';
-    piOpenTime = Date.now();
-    res.json({
-        success: true,
-        value: piSwitch
-    });
-});
-app.use('/pi/switch/0', function(req, res, next) {
-    piSwitch = 'false';
-    piCloseTime = Date.now();
-    res.json({
-        success: true,
-        value: piSwitch
-    });
-});
-
-app.use('/pi/switch', function(req, res, next) {
-    res.json({
-        value: piSwitch,
-        openTime: piOpenTime,
-        closeTime: piCloseTime
-    });
-});
-app.use('/pi', function(req, res, next) {
-    res.render('app/pi', {
-        title: '阳台水培开关'
-    });
-});
-
 
 //后台管理路由
 /*var adminPath = core.translateAdminDir('');

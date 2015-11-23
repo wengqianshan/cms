@@ -38,16 +38,16 @@ exports.checkInstall = function(req, res, next) {
     password: '123456',
     name: '测试位置5',
     email: 'geo_5@wenglou.com',
-    last_login_geo: [113.323571, 23.146439]
+    position: [113.323571, 23.146439]
 });
 user.save(function(err, result) {
     console.log(result);
     
 });*/
-/*User.find({'last_login_geo': {$near: [113.323571, 23.146439]}}).exec(function(err, res) {
+/*User.find({'position': {$near: [113.323571, 23.146439]}}).exec(function(err, res) {
     console.log(res);
 })*/
-/*User.find({'last_login_geo': {
+/*User.find({'position': {
     $geoWithin: {
         $centerSphere: [
             [113.323571, 23.146439], .0000000000000005

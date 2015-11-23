@@ -10,7 +10,7 @@
     "connect-multiparty": "^1.0.5",
     "connect-redis": "^2.0.0",
     "cookie-parser": "~1.0.1",
-    "csurf": "^1.2.1",
+    "csurf": "^1.8.3",
     "debug": "~0.7.4",
     "express": "~4.2.0",
     "express-session": "^1.2.0",
