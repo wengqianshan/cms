@@ -2,7 +2,7 @@ extends layout
 
 block content
     .console
-        h2 你好！#{(Roles.indexOf('admin') > -1) ? '管理员' : '普通用户'}
+        h2 你好！当前角色: #{Roles}
         //- if(User && User.roles)
                 each role in User.roles
                     ul.list-group

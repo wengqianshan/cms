@@ -14,26 +14,30 @@ var mongoose = require('mongoose'),
 exports.index = function(req, res) {
     if(req.session.user) {
         var obj = {}
-        Content.count().exec().then(function(result) {
+        var filter = {};
+        if(req.Roles && req.Roles.indexOf('admin') < 0) {
+            filter = {author: req.session.user._id};
+        }
+        Content.find(filter).count().exec().then(function(result) {
             //console.log(result)
             obj.content = result;
-            return Category.count().exec();
+            return Category.find(filter).count().exec();
         }).then(function(result) {
             //console.log(result);
             obj.category = result;
-            return Comment.count().exec();
+            return Comment.find(filter).count().exec();
         }).then(function(result) {
             //console.log(result);
             obj.comment = result;
-            return User.count().exec();
+            return User.find(filter).count().exec();
         }).then(function(result) {
             //console.log(result);
             obj.user = result;
-            return Role.count().exec();
+            return Role.find(filter).count().exec();
         }).then(function(result) {
             //console.log(result);
             obj.role = result;
-            return File.count().exec();
+            return File.find(filter).count().exec();
         }).then(function(result) {
             obj.file = result;
             console.log(obj);
