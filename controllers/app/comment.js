@@ -12,7 +12,7 @@ exports.add = function(req, res) {
         
     } else if (req.method === 'POST') {
         var obj = req.body;
-        obj.ip = req.ip;
+        obj.ip = core.getIp(req);
         if (req.session.user) {
             obj.author = req.session.user._id;
         }
