@@ -25,31 +25,6 @@ module.exports = [
             }
         ]
     },{
-        name: '用户管理',
-        actions: [
-            {
-                name: '用户访问',
-                value: 'USER_INDEX',
-                description: '用户访问'
-            },{
-                name: '创建用户',
-                value: 'USER_CREATE',
-                description: '创建用户'
-            },{
-                name: '查看用户信息',
-                value: 'USER_DETAIL',
-                description: '查看用户信息'
-            },{
-                name: '编辑用户',
-                value: 'USER_UPDATE',
-                description: '编辑用户'
-            },{
-                name: '删除用户',
-                value: 'USER_DELETE',
-                description: '删除用户'
-            }
-        ]
-    },{
         name: '分类管理',
         actions: [
             {
@@ -125,7 +100,7 @@ module.exports = [
             }
         ]
     },{
-        name: '消息管理-message',
+        name: '消息管理',
         actions: [
             {
                 name: '消息访问',
@@ -150,7 +125,7 @@ module.exports = [
             }
         ]
     },{
-        name: '通知管理-notification',
+        name: '通知管理',
         actions: [
             {
                 name: '通知访问',
@@ -200,6 +175,31 @@ module.exports = [
             }
         ]
     },{
+        name: '标签管理',
+        actions: [
+            {
+                name: '标签访问',
+                value: 'TAG_INDEX',
+                description: '标签访问'
+            },{
+                name: '创建标签',
+                value: 'TAG_CREATE',
+                description: '创建标签'
+            },{
+                name: '查看标签信息',
+                value: 'TAG_DETAIL',
+                description: '查看标签信息'
+            },{
+                name: '编辑标签',
+                value: 'TAG_UPDATE',
+                description: '编辑标签'
+            },{
+                name: '删除标签',
+                value: 'TAG_DELETE',
+                description: '删除标签'
+            }
+        ]
+    },{
         name: '角色管理',
         actions: [
             {
@@ -225,28 +225,28 @@ module.exports = [
             }
         ]
     },{
-        name: '标签管理',
+        name: '用户管理',
         actions: [
             {
-                name: '标签访问',
-                value: 'TAG_INDEX',
-                description: '标签访问'
+                name: '用户访问',
+                value: 'USER_INDEX',
+                description: '用户访问'
             },{
-                name: '创建标签',
-                value: 'TAG_CREATE',
-                description: '创建标签'
+                name: '创建用户',
+                value: 'USER_CREATE',
+                description: '创建用户'
             },{
-                name: '查看标签信息',
-                value: 'TAG_DETAIL',
-                description: '查看标签信息'
+                name: '查看用户信息',
+                value: 'USER_DETAIL',
+                description: '查看用户信息'
             },{
-                name: '编辑标签',
-                value: 'TAG_UPDATE',
-                description: '编辑标签'
+                name: '编辑用户',
+                value: 'USER_UPDATE',
+                description: '编辑用户'
             },{
-                name: '删除标签',
-                value: 'TAG_DELETE',
-                description: '删除标签'
+                name: '删除用户',
+                value: 'USER_DELETE',
+                description: '删除用户'
             }
         ]
     }
