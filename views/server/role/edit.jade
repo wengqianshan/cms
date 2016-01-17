@@ -13,9 +13,9 @@ block content
                     h4 选择权限
                     - each action in ACTIONS
                         | #{action.name}
-                        ul
+                        ul.list-group
                             - each item in action.actions
-                                li 
+                                li.list-group-item
                                     - var checked = data.actions.indexOf(item.value) > -1 ? 'checked' : undefined;
                                     label
                                         input(name='actions', type='checkbox', value='#{item.value}', checked=checked)

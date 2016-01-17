@@ -13,9 +13,9 @@ block content
                     h4 选择权限
                     - each action in ACTIONS
                         | #{action.name}
-                        ul
+                        ul.list-group
                             - each item in action.actions
-                                li 
+                                li.list-group-item
                                     label
                                         input(name='actions', type='checkbox', value='#{item.value}')
                                         | #{item.name} (#{item.description})
