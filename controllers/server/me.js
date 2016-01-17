@@ -5,7 +5,8 @@ var mongoose = require('mongoose'),
     userController = require('./user'),
     _ = require('underscore'),
     config = require('../../config'),
-    core = require('../../libs/core');
+    core = require('../../libs/core'),
+    ACTIONS = require('../../actions');
 
 //管理员资料
 exports.init = function(req, res) {
@@ -15,7 +16,8 @@ exports.init = function(req, res) {
         user._actions = req.Actions;
         res.render('server/me/item', {
             title: '我的资料',
-            user: user
+            user: user,
+            ACTIONS: ACTIONS
         });
     });
 };

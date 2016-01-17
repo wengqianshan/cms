@@ -11,22 +11,22 @@ router.use(function(req, res, next) {
         var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
-    if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('role') < 0)) {
+    /*if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('role') < 0)) {
         var path = core.translateAdminDir('/');
         return res.redirect(path);
-    }
+    }*/
     next();
 });
 //内容列表
-router.route('/').get(role.list);
+router.route('/').get(core.checkAction('ROLE_INDEX'), role.list);
 //添加内容
-router.route('/add').all(role.add);
+router.route('/add').all(core.checkAction('ROLE_CREATE'), role.add);
 //单条信息
-router.route('/:id').get(role.one);
+router.route('/:id').get(core.checkAction('ROLE_DETAIL'), role.one);
 //更新信息
-router.route('/:id/edit').all(role.edit);
+router.route('/:id/edit').all(core.checkAction('ROLE_UPDATE'), role.edit);
 //删除信息
-router.route('/:id/del').all(role.del);
+router.route('/:id/del').all(core.checkAction('ROLE_DELETE'), role.del);
 
 
 module.exports = function(app) {

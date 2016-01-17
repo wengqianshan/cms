@@ -11,18 +11,18 @@ router.use(function(req, res, next) {
         var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
-    if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('comment') < 0)) {
+    /*if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('comment') < 0)) {
         var path = core.translateAdminDir('/');
         return res.redirect(path);
-    }
+    }*/
     next();
 });
 //内容列表
-router.route('/').get(comment.list);
+router.route('/').get(core.checkAction('COMMENT_INDEX'), comment.list);
 //单条信息
-router.route('/:id').get(comment.one);
+router.route('/:id').get(core.checkAction('COMMENT_DETAIL'), comment.one);
 //删除信息
-router.route('/:id/del').all(comment.del);
+router.route('/:id/del').all(core.checkAction('COMMENT_DELETE'), comment.del);
 
 module.exports = function(app) {
     var path = core.translateAdminDir('/comment');

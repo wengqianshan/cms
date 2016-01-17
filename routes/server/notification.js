@@ -11,23 +11,23 @@ router.use(function(req, res, next) {
         var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
-    if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('notification') < 0)) {
+   /* if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('notification') < 0)) {
         var path = core.translateAdminDir('/');
         return res.redirect(path);
-    }
+    }*/
     next();
 });
 
 //已发出
-router.route('/sent').get(notification.sent);
+router.route('/sent').get(core.checkAction('NOTIFICATION_INDEX'), notification.sent);
 //发信
-router.route('/add').all(notification.add);
+router.route('/add').all(core.checkAction('NOTIFICATION_CREATE'), notification.add);
 //单条信息
-router.route('/:id').get(notification.one);
+router.route('/:id').get(core.checkAction('NOTIFICATION_DETAIL'), notification.one);
 //删除信息
-router.route('/:id/del').all(notification.del);
+router.route('/:id/del').all(core.checkAction('NOTIFICATION_DELETE'), notification.del);
 //内容列表
-router.route('/').get(notification.list);
+router.route('/').get(core.checkAction('NOTIFICATION_INDEX'), notification.list);
 
 module.exports = function(app) {
     var path = core.translateAdminDir('/notification');

@@ -11,22 +11,22 @@ router.use(function(req, res, next) {
         var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
-    if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('file') < 0)) {
+    /*if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('file') < 0)) {
         var path = core.translateAdminDir('/');
         return res.redirect(path);
-    }
+    }*/
     next();
 });
 //内容列表
-router.route('/').get(file.list);
+router.route('/').get(core.checkAction('FILE_INDEX'), file.list);
 //添加内容
-router.route('/add').all(file.add);
+router.route('/add').all(core.checkAction('FILE_CREATE'), file.add);
 //单条信息
-router.route('/:id').get(file.one);
+router.route('/:id').get(core.checkAction('FILE_DETAIL'), file.one);
 //更新信息
-router.route('/:id/edit').all(file.edit);
+router.route('/:id/edit').all(core.checkAction('FILE_UPDATE'), file.edit);
 //删除信息
-router.route('/:id/del').all(file.del);
+router.route('/:id/del').all(core.checkAction('FILE_DELETE'), file.del);
 
 
 module.exports = function(app) {

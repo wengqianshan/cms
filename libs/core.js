@@ -76,6 +76,37 @@ exports.getActions = function(user) {
     return _.uniq(result);
 };
 
+// 检查权限中间件
+exports.checkAction = function(actionName) {
+    console.log(actionName)
+    return function (req, res, next) {
+        console.log(req.Actions)
+        if (req.Roles.indexOf('admin') > -1) {
+            return next();
+        }
+        var result = false;
+
+        if (_.isArray(actionName)) {
+            result = _.intersection(req.Actions, actionName).length === actionName.length;
+        } else if(_.isString(actionName)) {
+            result = req.Actions.indexOf(actionName) > -1;
+        }
+
+        if (result) {
+            return next();
+        } else {
+            if (req.xhr) {
+                res.json({
+                    success: false,
+                    msg: '无权访问'
+                })
+            } else {
+                res.send('无权访问');
+            }
+        }
+    };
+}
+
 //获取用户的所有权限,去重
 exports.getRoleStatus = function(user) {
     var result = [];
@@ -87,7 +118,7 @@ exports.getRoleStatus = function(user) {
     return result;
 };
 
-//给字符组后面加上反斜杠，主要应用在目录拼接
+//给字符组后面加上斜杠，主要应用在目录拼接
 exports.prettySlash = function(str) {
     return str.substr(-1) === '/' ? str : str + '/';
 };

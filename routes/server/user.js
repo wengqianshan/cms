@@ -28,22 +28,22 @@ router.use(function(req, res, next) {
         var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
-    if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('user') < 0)) {
+    /*if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('user') < 0)) {
         var path = core.translateAdminDir('/');
         return res.redirect(path);
-    }
+    }*/
     next();
 });
 //用户列表
-router.route('/').get(user.list);
+router.route('/').get(core.checkAction('USER_INDEX'), user.list);
 //添加
-router.route('/add').all(user.add);
+router.route('/add').all(core.checkAction('USER_CREATE'), user.add);
 //单个用户
-router.route('/:id').get(user.one);
+router.route('/:id').get(core.checkAction('USER_DETAIL'), user.one);
 //编辑用户信息
-router.route('/:id/edit').all(user.edit);
+router.route('/:id/edit').all(core.checkAction('USER_UPDATE'), user.edit);
 //删除用户
-router.route('/:id/del').all(user.del);
+router.route('/:id/del').all(core.checkAction('USER_DELETE'), user.del);
 
 
 

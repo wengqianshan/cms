@@ -11,22 +11,22 @@ router.use(function(req, res, next) {
         var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
-    if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('tag') < 0)) {
+    /*if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('tag') < 0)) {
         var path = core.translateAdminDir('/');
         return res.redirect(path);
-    }
+    }*/
     next();
 });
 //标签列表
-router.route('/').get(tag.list);
+router.route('/').get(core.checkAction('TAG_INDEX'), tag.list);
 //添加标签
-router.route('/add').all(tag.add);
+router.route('/add').all(core.checkAction('TAG_CREATE'), tag.add);
 //单条信息
-router.route('/:id').get(tag.one);
+router.route('/:id').get(core.checkAction('TAG_DETAIL'), tag.one);
 //更新信息
-router.route('/:id/edit').all(tag.edit);
+router.route('/:id/edit').all(core.checkAction('TAG_UPDATE'), tag.edit);
 //删除信息
-router.route('/:id/del').all(tag.del);
+router.route('/:id/del').all(core.checkAction('TAG_DELETE'), tag.del);
 
 module.exports = function(app) {
     var path = core.translateAdminDir('/tag');

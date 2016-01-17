@@ -11,10 +11,9 @@ router.use(function(req, res, next) {
         var path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
-    if(!req.Roles || (req.Roles.indexOf('admin') < 0)) {
-        //var path = core.translateAdminDir('/');
-        //return res.redirect(path);
-    }
+    /*if(!req.Roles || (req.Roles.indexOf('admin') < 0)) {
+        
+    }*/
     next();
 });
 router.get('/', me.init);
