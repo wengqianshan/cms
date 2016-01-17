@@ -47,9 +47,22 @@ exports.one = function(req, res) {
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
+        var actions = [];
+        if (req.Roles.indexOf('admin') > -1) {
+            actions = ACTIONS;
+        } else {
+            actions = ACTIONS.filter(function(item) {
+                var items = item.actions.filter(function(act) {
+                    return req.Actions.indexOf(act.value) > -1;
+                });
+                if (items.length > 0) {
+                    return item;
+                }
+            })
+        }
         res.render('server/role/add', {
             Menu: 'add',
-            ACTIONS: ACTIONS
+            ACTIONS: actions
         });
     } else if (req.method === 'POST') {
         var obj = req.body;
@@ -95,10 +108,23 @@ exports.edit = function(req, res) {
                     message: '系统默认管理员角色不可修改'
                 });   
             }
-            console.log(result)
+            //console.log(result)
+            var actions = [];
+            if (req.Roles.indexOf('admin') > -1) {
+                actions = ACTIONS;
+            } else {
+                actions = ACTIONS.filter(function(item) {
+                    var items = item.actions.filter(function(act) {
+                        return req.Actions.indexOf(act.value) > -1;
+                    });
+                    if (items.length > 0) {
+                        return item;
+                    }
+                })
+            }
             res.render('server/role/edit', {
                 data: result,
-                ACTIONS: ACTIONS
+                ACTIONS: actions
             });
         });
     } else if(req.method === 'POST') {

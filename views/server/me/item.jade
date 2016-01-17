@@ -63,17 +63,12 @@ block content
                                 strong 权限
                             .col-md-10
                                 - each action in ACTIONS
-                                    - var result = [];
-                                    - each item in action.actions
-                                        if (user._actions.indexOf(item.value) > -1)
-                                            - result.push(item);
-                                    if (result.length > 0)
                                         | #{action.name}
                                         ul
-                                            - each obj in result
+                                            - each item in action.actions
                                                 li 
                                                     label
-                                                        | #{obj.name} (#{obj.description})
+                                                        | #{item.name} (#{item.description})
                     li.list-group-item
                         .row
                             .col-md-2

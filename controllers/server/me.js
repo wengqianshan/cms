@@ -14,10 +14,24 @@ exports.init = function(req, res) {
     User.findById(id).populate('roles').exec(function(err, user) {
         user._roles = req.Roles;
         user._actions = req.Actions;
+        
+        var actions = [];
+        if (req.Roles.indexOf('admin') > -1) {
+            actions = ACTIONS;
+        } else {
+            actions = ACTIONS.filter(function(item) {
+                var items = item.actions.filter(function(act) {
+                    return req.Actions.indexOf(act.value) > -1;
+                });
+                if (items.length > 0) {
+                    return item;
+                }
+            })
+        }
         res.render('server/me/item', {
             title: '我的资料',
             user: user,
-            ACTIONS: ACTIONS
+            ACTIONS: actions
         });
     });
 };

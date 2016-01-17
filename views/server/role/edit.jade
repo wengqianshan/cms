@@ -9,7 +9,6 @@ block content
                     input.form-control(name='name', value='#{data.name}')
                 .form-group
                     label 权限
-                    //input.form-control(name='actions', placeholder='逗号分割', value='#{data.actions}')
                     h4 选择权限
                     - each action in ACTIONS
                         | #{action.name}
@@ -18,7 +17,7 @@ block content
                                 li.list-group-item
                                     - var checked = data.actions.indexOf(item.value) > -1 ? 'checked' : undefined;
                                     label
-                                        input(name='actions', type='checkbox', value='#{item.value}', checked=checked)
+                                        input(name='actions[]', type='checkbox', value='#{item.value}', checked=checked)
                                         | #{item.name} (#{item.description})
                 .form-group
                     label 描述
