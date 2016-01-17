@@ -78,7 +78,7 @@ exports.getActions = function(user) {
 
 // 检查权限中间件
 exports.checkAction = function(actionName) {
-    console.log(actionName)
+    //console.log(actionName)
     return function (req, res, next) {
         console.log(req.Actions)
         if (req.Roles.indexOf('admin') > -1) {
