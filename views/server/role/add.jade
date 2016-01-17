@@ -9,14 +9,16 @@ block content
                     input.form-control(name='name')
                 .form-group
                     label 权限
-                    input.form-control(name='actions', placeholder='逗号分割')
-                    //- .row
-                    //-     .col-md-1
-                    //-         input.form-control(name='actions')
-                    //-     .col-md-1
-                    //-         input.form-control(name='actions')
-                    //-     .col-md-1
-                    //-         input.form-control(name='actions')
+                    //input.form-control(name='actions', placeholder='逗号分割')
+                    h4 选择权限
+                    - each action in ACTIONS
+                        | #{action.name}
+                        ul
+                            - each item in action.actions
+                                li 
+                                    label
+                                        input(name='actions', type='checkbox', value='#{item.value}')
+                                        | #{item.name} (#{item.description})
                 | #{core.getActions(User)}
                 .form-group
                     label 描述

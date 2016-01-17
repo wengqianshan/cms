@@ -3,7 +3,8 @@ var mongoose = require('mongoose'),
     Role = mongoose.model('Role'),
     userController = require('./user'),
     _ = require('underscore'),
-    core = require('../../libs/core');
+    core = require('../../libs/core'),
+    ACTIONS = require('../../actions');
 //列表
 exports.list = function(req, res) {
     var condition = {};
@@ -47,19 +48,14 @@ exports.one = function(req, res) {
 exports.add = function(req, res) {
     if (req.method === 'GET') {
         res.render('server/role/add', {
-            Menu: 'add'
+            Menu: 'add',
+            ACTIONS: ACTIONS
         });
     } else if (req.method === 'POST') {
         var obj = req.body;
         //转为数组格式
-        var actions = obj.actions.split(',');
-        //去空
-        actions = _.without(actions, '');
-        //去头尾空格
-        actions = _.map(actions, function(action) {
-            return action.trim();
-        })
-        obj.actions = actions;
+        var actions = obj.actions;
+        obj.actions = _.uniq(actions);
         //如果不是管理员，检查是否超出权限
         if(req.Roles.indexOf('admin') === -1) {
             var overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
@@ -99,25 +95,18 @@ exports.edit = function(req, res) {
                     message: '系统默认管理员角色不可修改'
                 });   
             }
-            if(result.actions) {
-                result.actions = result.actions.join(',');    
-            }
+            console.log(result)
             res.render('server/role/edit', {
-                role: result
+                data: result,
+                ACTIONS: ACTIONS
             });
         });
     } else if(req.method === 'POST') {
         var id = req.param('id');
         var obj = req.body;
         //转为数组格式
-        var actions = obj.actions.split(',');
-        //去空
-        actions = _.without(actions, '');
-        //去头尾空格
-        actions = _.map(actions, function(action) {
-            return action.trim();
-        })
-        obj.actions = actions;
+        var actions = obj.actions;
+        obj.actions = _.uniq(actions);
         Role.findById(id).populate('author').exec(function(err, result) {
             if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
                 return res.render('server/info', {

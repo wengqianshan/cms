@@ -6,17 +6,23 @@ block content
             form(action='', method='post')
                 .form-group
                     label 名称
-                    input.form-control(name='name', value='#{role.name}')
+                    input.form-control(name='name', value='#{data.name}')
                 .form-group
                     label 权限
-                    input.form-control(name='actions', placeholder='逗号分割', value='#{role.actions}')
-                    //- .row
-                    //-     - each action in role.actions
-                    //-         .col-md-1
-                    //-             input.form-control(name='actions', value='#{action}')
+                    //input.form-control(name='actions', placeholder='逗号分割', value='#{data.actions}')
+                    h4 选择权限
+                    - each action in ACTIONS
+                        | #{action.name}
+                        ul
+                            - each item in action.actions
+                                li 
+                                    - var checked = data.actions.indexOf(item.value) > -1 ? 'checked' : undefined;
+                                    label
+                                        input(name='actions', type='checkbox', value='#{item.value}', checked=checked)
+                                        | #{item.name} (#{item.description})
                 .form-group
                     label 描述
-                    textarea.form-control(name='description', rows='8') #{role.description}
+                    textarea.form-control(name='description', rows='8') #{data.description}
                 input(type='hidden', name='_csrf', value='#{token}')
                 button.btn.btn-primary(type='submit') 提交
 
