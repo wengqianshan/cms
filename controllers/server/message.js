@@ -53,11 +53,11 @@ exports.del = function(req, res) {
                 message: '留言不存在'
             });
         }
-        if(req.Roles && req.Roles.indexOf('admin') === -1) {
+        /*if(req.Roles && req.Roles.indexOf('admin') === -1) {
             return res.render('server/info', {
                 message: '没有权限'
             });
-        }
+        }*/
         console.log(result)
         result.remove(function(err) {
             if (req.xhr) {
