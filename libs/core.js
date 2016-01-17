@@ -101,7 +101,9 @@ exports.checkAction = function(actionName) {
                     msg: '无权访问'
                 })
             } else {
-                res.send('无权访问');
+                res.render('server/info', {
+                    message: '无权访问'
+                });
             }
         }
     };
