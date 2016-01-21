@@ -5,7 +5,7 @@ CMS
 
 ## 环境
 
-需要安装[nodejs](https://nodejs.org/)、[mongodb](https://www.mongodb.com/)
+需要安装[nodejs](https://nodejs.org/)、[mongodb](https://www.mongodb.org/)
 
 ## 安装依赖
 
