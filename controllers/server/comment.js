@@ -52,7 +52,7 @@ exports.del = function(req, res) {
                 message: '评论不存在'
             });
         }
-        if(req.Roles && req.Roles.indexOf('admin') === -1 && result.author && (result.author._id + '') !== req.session.user._id) {
+        if(!req.Roles || req.Roles.indexOf('admin') === -1 || !result.author || (result.author._id + '') !== req.session.user._id) {
             return res.render('server/info', {
                 message: '没有权限'
             });

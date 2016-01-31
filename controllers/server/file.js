@@ -68,7 +68,7 @@ exports.add = function(req, res) {
             if(id) {
                 console.log('修改文件');
                 File.findById(id).populate('author').exec(function(err, file) {
-                    if(req.Roles.indexOf('admin') === -1 && (!file.author || (file.author._id + '') !== req.session.user._id)) {
+                    if(!req.Roles || req.Roles.indexOf('admin') === -1 || !file.author || (file.author._id + '') !== req.session.user._id) {
                         return res.render('server/info', {
                             message: '没有权限'
                         });
@@ -114,7 +114,7 @@ exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.param('id');
         File.findById(id).populate('author').exec(function(err, result) {
-            if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
+            if(!req.Roles || req.Roles.indexOf('admin') === -1 || !result.author || (result.author._id + '') !== req.session.user._id) {
                 return res.render('server/info', {
                     message: '没有权限'
                 });
@@ -127,7 +127,7 @@ exports.edit = function(req, res) {
         var id = req.param('id');
         var obj = req.body;
         File.findById(id).populate('author').exec(function(err, result) {
-            if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
+            if(!req.Roles || req.Roles.indexOf('admin') === -1 || !result.author || (result.author._id + '') !== req.session.user._id) {
                 return res.render('server/info', {
                     message: '没有权限'
                 });
@@ -150,7 +150,7 @@ exports.del = function(req, res) {
                 message: '文件不存在'
             });
         }
-        if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
+        if(!req.Roles || req.Roles.indexOf('admin') === -1 || !result.author || (result.author._id + '') !== req.session.user._id) {
             return res.render('server/info', {
                 message: '没有权限'
             });

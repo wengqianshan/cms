@@ -224,7 +224,7 @@ exports.edit = function(req, res) {
                     message: '出错了'
                 });
             }
-            if(req.Roles.indexOf('admin') === -1 && (!result.author || (result.author._id + '') !== req.session.user._id)) {
+            if(!req.Roles || req.Roles.indexOf('admin') === -1 || !result.author || (result.author._id + '') !== req.session.user._id) {
                 return res.render('server/info', {
                     message: '没有权限'
                 });
@@ -252,7 +252,7 @@ exports.edit = function(req, res) {
         var obj = req.body;
         //判断是否允许编辑
         User.findById(id).populate('roles').populate('author').exec(function(err, user) {
-            if(req.Roles.indexOf('admin') === -1 && (!user.author || (user.author._id + '') !== req.session.user._id)) {
+            if(!req.Roles || req.Roles.indexOf('admin') === -1 || !user.author || (user.author._id + '') !== req.session.user._id) {
                 return res.render('server/info', {
                     message: '没有权限'
                 });
