@@ -139,7 +139,10 @@ exports.edit = function(req, res) {
             if(err) {
                 console.log('加载内容失败');
             }
-            if(!req.Roles || req.Roles.indexOf('admin') === -1 || !result.author || (result.author._id + '') !== req.session.user._id) {
+            var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+            var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+
+            if(!isAdmin && !isAuthor) {
                 return res.render('server/info', {
                     message: '没有权限'
                 });
@@ -175,7 +178,10 @@ exports.edit = function(req, res) {
         
         Content.findById(id).populate('author').exec(function(err, result) {
             //console.log(result);
-            if(!req.Roles || req.Roles.indexOf('admin') === -1 || !result.author || (result.author._id + '') !== req.session.user._id) {
+            var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+            var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+
+            if(!isAdmin && !isAuthor) {
                 return res.render('server/info', {
                     message: '没有权限'
                 });
@@ -208,7 +214,10 @@ exports.del = function(req, res) {
                 message: '内容不存在'
             });
         }
-        if(!req.Roles || req.Roles.indexOf('admin') === -1 || !result.author || (result.author._id + '') !== req.session.user._id) {
+        var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+        var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+
+        if(!isAdmin && !isAuthor) {
             return res.render('server/info', {
                 message: '没有权限'
             });

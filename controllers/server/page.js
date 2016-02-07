@@ -52,7 +52,10 @@ exports.del = function(req, res) {
                 message: '留言不存在'
             });
         }
-        if(!req.Roles || req.Roles.indexOf('admin') === -1 || !result.author || (result.author._id + '') !== req.session.user._id) {
+        var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+        var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+
+        if(!isAdmin && !isAuthor) {
             return res.render('server/info', {
                 message: '没有权限'
             });

@@ -46,13 +46,17 @@ exports.one = function(req, res) {
 //删除
 exports.del = function(req, res) {
     var id = req.params.id;
-    Comment.findById(id).populate('author').exec(function(err, result) {
+    Comment.findById(id).populate('author').populate('from').exec(function(err, result) {
         if(!result) {
             return res.render('server/info', {
                 message: '评论不存在'
             });
         }
-        if(!req.Roles || req.Roles.indexOf('admin') === -1 || !result.author || (result.author._id + '') !== req.session.user._id) {
+
+        var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+        var isOwner = result.from && ((result.from.author + '') === req.session.user._id);
+
+        if(!isAdmin && !isOwner) {
             return res.render('server/info', {
                 message: '没有权限'
             });

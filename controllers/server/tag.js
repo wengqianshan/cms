@@ -73,7 +73,10 @@ exports.edit = function(req, res) {
     if(req.method === 'GET') {
         var id = req.param('id');
         Tag.findById(id).populate('author').exec(function(err, result) {
-            if(!req.Roles || req.Roles.indexOf('admin') === -1 || !result.author || (result.author._id + '') !== req.session.user._id) {
+            var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+            var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+
+            if(!isAdmin && !isAuthor) {
                 return res.render('server/info', {
                     message: '没有权限'
                 });
@@ -86,7 +89,10 @@ exports.edit = function(req, res) {
         var id = req.param('id');
         var obj = req.body;
         Tag.findById(id).populate('author').exec(function(err, result) {
-            if(!req.Roles || req.Roles.indexOf('admin') === -1 || !result.author || (result.author._id + '') !== req.session.user._id) {
+            var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+            var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+
+            if(!isAdmin && !isAuthor) {
                 return res.render('server/info', {
                     message: '没有权限'
                 });
@@ -111,7 +117,10 @@ exports.del = function(req, res) {
                 message: '分类不存在'
             });
         }
-        if(!req.Roles || req.Roles.indexOf('admin') === -1 || !result.author || (result.author._id + '') !== req.session.user._id) {
+        var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+        var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+
+        if(!isAdmin && !isAuthor) {
             return res.render('server/info', {
                 message: '没有权限'
             });
