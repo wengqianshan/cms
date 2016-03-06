@@ -13,3 +13,48 @@ block content
                 input(type='hidden', name='_csrf', value='#{token}')
                 button.btn.btn-primary(type='submit') 提交
 
+block foot-js
+    script(src='/assets/plugins/jquery.form/jquery.form.js')
+    script.
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(function() {
+            var messenger;
+            $('form').ajaxForm({
+                beforeSerialize: function() {
+                    console.log('beforeSerialize')
+                },
+                beforeSubmit: function() {
+                    console.log('beforeSubmit')
+                    messenger = Messenger().post("处理中...");
+                },
+                success: function(data, status, xhr, $form) {
+                    console.log(data)
+                    var status = data.status;
+                    if (status) {
+                        messenger.update({
+                            message: '添加成功',
+                            hideAfter: 3,
+                            type: 'success'
+                        });
+                        $form[0].reset();
+                    } else {
+                        messenger.update({
+                            message: '添加失败',
+                            hideAfter: 3,
+                            type: 'success'
+                        });
+                    }
+                },
+                err: function() {
+                    console.log('error')
+                    messenger.update({
+                        message: '系统繁忙',
+                        hideAfter: 3,
+                        type: 'success'
+                    });
+                }
+            })
+        })
