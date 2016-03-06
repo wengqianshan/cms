@@ -27,7 +27,44 @@ block content
                             td
                                 a.btn.btn-default.btn-xs(href='#{adminDir}/category/#{category.id}/edit') 编辑
                                 | &nbsp;
-                                a.btn.btn-danger.btn-xs(href='#{adminDir}/category/#{category.id}/del') 删除
+                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/category/#{category.id}/del') 删除
             if (pageInfo && pageInfo.totalPage > 1)
                 include ../mixin
                 +pagination(pageInfo)
+block foot-js
+    script(src='/assets/plugins/jquery.form/jquery.form.js')
+    script.
+        var token = '#{token}';
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(function() {
+            $(document).on('click', '.J_del', function(e) {
+                e.preventDefault();
+                var $this = $(this);
+                var url = $this.attr('href');
+                var messenger = Messenger().post("处理中...");
+                $.post(url, {_csrf: token}, function(res) {
+                    console.log(res);
+                    var status = res.status;
+                    if (status) {
+                        messenger.update({
+                            message: '删除成功',
+                            hideAfter: 3,
+                            type: 'success'
+                        });
+                        setTimeout(function() {
+                            $this.closest('tr').remove();
+                        }, 1000)
+                        
+                    } else {
+                        messenger.update({
+                            message: '删除失败',
+                            hideAfter: 3,
+                            type: 'error'
+                        });
+                    }
+                })
+            })
+        })
