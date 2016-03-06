@@ -183,6 +183,11 @@ exports.add = function(req, res) {
             var user = new User(obj);
             user.save(function(err, result) {
                 console.log(result);
+                if (req.xhr) {
+                    return res.json({
+                        status: !err
+                    })
+                }
                 if (err) {
                     console.log(err);
                     return res.render('server/info', {
@@ -202,6 +207,11 @@ exports.edit = function(req, res) {
     var id = req.params.id;
     var editHandler = function(user) {
         user.save(function(err, user) {
+            if (req.xhr) {
+                return res.json({
+                    status: !err
+                })
+            }
             if(err || !user) {
                 console.log(err);
                 return res.render('server/info', {
@@ -273,7 +283,9 @@ exports.edit = function(req, res) {
                 query = Role.find({_id: {$in: obj.roles}})    
             }
             if(!query) {
-                return;
+                return res.render('server/info', {
+                    message: '请至少选择一个角色'
+                });
             }
             query.exec(function(err, roles) {
                 //系统默认管理员
@@ -330,6 +342,11 @@ exports.del = function(req, res) {
         }
         
         result.remove(function(err) {
+            if (req.xhr) {
+                return res.json({
+                    status: !err
+                })
+            }
             if(err) {
                 return res.render('server/info', {
                     message: '删除失败222'
