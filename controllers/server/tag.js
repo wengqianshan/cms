@@ -58,6 +58,11 @@ exports.add = function(req, res) {
         }
         var tag = new Tag(obj);
         tag.save(function(err, tag) {
+            if (req.xhr) {
+                return res.json({
+                    status: !err
+                })
+            }
             if (err) {
                 return res.render('server/info', {
                     message: '创建失败'
@@ -99,6 +104,11 @@ exports.edit = function(req, res) {
             }
             _.extend(result, obj);
             result.save(function(err, tag) {
+                if (req.xhr) {
+                    return res.json({
+                        status: !err
+                    })
+                }
                 if(!err) {
                     res.render('server/info', {
                         message: '更新成功'
@@ -126,9 +136,14 @@ exports.del = function(req, res) {
             });
         }
         result.remove(function(err) {
+            if (req.xhr) {
+                return res.json({
+                    status: !err
+                })
+            }
             if(err) {
                 return res.render('server/info', {
-                    message: '删除失败222'
+                    message: '删除失败'
                 });
             }
             res.render('server/info', {

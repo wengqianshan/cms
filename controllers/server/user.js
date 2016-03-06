@@ -311,7 +311,7 @@ exports.del = function(req, res) {
         user.remove(function(err) {
             if(err) {
                 return res.render('server/info', {
-                    message: '删除失败222'
+                    message: '删除失败'
                 });
             }
             res.render('server/info', {
@@ -349,7 +349,7 @@ exports.del = function(req, res) {
             }
             if(err) {
                 return res.render('server/info', {
-                    message: '删除失败222'
+                    message: '删除失败'
                 });
             }
             //自杀的节奏啊

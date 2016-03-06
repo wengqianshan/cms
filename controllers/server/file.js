@@ -189,7 +189,7 @@ exports.del = function(req, res) {
                     }
                     if(err) {
                         return res.render('server/info', {
-                            message: '删除失败222'
+                            message: '删除失败'
                         });
                     }
                     res.render('server/info', {
