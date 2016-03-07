@@ -38,7 +38,7 @@ block content
                                 p.form-control-static
                                     if (user.roles)
                                         - each role in user.roles
-                                            span.label.label-info
+                                            span.label.label-info(data-href='#{adminDir}/role/#{role._id}')
                                                 | #{role.name}
                         .form-group
                             label.col-sm-2.control-label 创建人
