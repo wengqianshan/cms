@@ -136,7 +136,7 @@ exports.register = function(req, res) {
             if (req.session.user) {
                 obj.author = req.session.user._id;
             }
-            obj.reg_ip = req.ip;
+            obj.reg_ip = core.getIp(req);
             var user = new User(obj);
             user.save(function(err, result) {
                 console.log(result);
@@ -394,7 +394,7 @@ exports.login = function(req, res) {
                 console.log(user);
                 //记录登录信息
                 user.last_login_date = new Date();
-                user.last_login_ip = req.ip;
+                user.last_login_ip = core.getIp(req);
                 user.save();
                 req.session.user = user;
                 var path = core.translateAdminDir('/');

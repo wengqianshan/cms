@@ -73,7 +73,7 @@ exports.contact = function(req, res) {
         res.render('app/contact', {});
     } else if (req.method === 'POST') {
         var obj = req.body;
-        obj.ip = req.ip;
+        obj.ip = core.getIp(req);
         var contact = new Message(obj);
         contact.save(function(err, result) {
             console.log(err, result);
