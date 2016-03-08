@@ -28,7 +28,8 @@ exports.checkInstall = function(req, res, next) {
             //var path = core.translateAdminDir('/install');
             //return res.redirect(path);
             var path = core.translateAdminDir('/install')
-            return res.send('请先<a href="' + path + '">安装应用</a>');
+            return res.render('server/install')
+            //return res.send('请先<a href="' + path + '">安装应用</a>');
         }
     })
 }

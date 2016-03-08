@@ -9,10 +9,10 @@ block content
                         h3.panel-title
                             | 后台初始化
                     .panel-body
-                        form(role='form', action='', method='post')
+                        form(role='form', action='#{adminDir}/install', method='post')
                             .form-group
-                                label(for='exampleInputEmail1') 用户名
-                                input#exampleInputEmail1.form-control(type='text', name='username', placeholder='请输入用户名', autofocus)
+                                label(for='exampleInputEmail1') 超级管理员
+                                input#exampleInputEmail1.form-control(type='text', name='username', placeholder='请输入管理员用户名', autofocus)
                             .form-group
                                 label(for='exampleInputPassword1') 密码
                                 input#exampleInputPassword1.form-control(type='password', name='password', placeholder='请输入密码')
