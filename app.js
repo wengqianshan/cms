@@ -6,23 +6,23 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-var RedisStore = require('connect-redis')(session);//存储session,防止服务重启后session丢失
+var RedisStore = require('connect-redis')(session); //存储session,防止服务重启后session丢失
 var bodyParser = require('body-parser');
 var csrf = require('csurf');
 var moment = require('moment');
 var underscore = require('underscore');
-var multipart = require('connect-multiparty');//解析文件
+var multipart = require('connect-multiparty'); //解析文件
 var core = require('./libs/core');
 var marked = require('marked');
 marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: false,
-  pedantic: false,
-  //sanitize: true,// 不解析html标签
-  smartLists: true,
-  smartypants: false
+    renderer: new marked.Renderer(),
+    gfm: true,
+    tables: true,
+    breaks: false,
+    pedantic: false,
+    //sanitize: true,// 不解析html标签
+    smartLists: true,
+    smartypants: false
 });
 var strip = require('strip');
 
@@ -38,8 +38,8 @@ var app = express();
 mongoose.connect(config.mongodb.uri);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function callback () {
-  console.log('mongodb连接成功');
+db.once('open', function callback() {
+    console.log('mongodb连接成功');
 });
 //载入数据模型
 core.walk(appPath + '/models', null, function(path) {
@@ -73,8 +73,9 @@ app.use(cookieParser());
 app.use(session({
     resave: true,
     saveUninitialized: true,
-    secret: 'ruoguan'/*,
-    store: new RedisStore*/
+    secret: 'ruoguan'
+        /*,
+            store: new RedisStore*/
 }));
 //上传中间件，todo：换成multer, no global middleware
 app.use(multipart({
@@ -85,7 +86,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
     res.header('X-Powered-By', 'wengqianshan');
     res.locals.token = req.csrfToken && req.csrfToken();
-    if(req.session.user) {
+    if (req.session.user) {
         res.locals.User = req.session.user;
         //角色信息
         var roles = core.getRoles(req.session.user);
@@ -94,7 +95,7 @@ app.use(function(req, res, next) {
         req.Actions = actions;
         res.locals.Roles = roles;
         res.locals.Actions = actions;
-    }else{
+    } else {
         res.locals.User = null;
         req.Roles = null;
         req.Actions = null;
@@ -149,5 +150,5 @@ app.use(function(err, req, res, next) {
 var debug = require('debug')('cms');
 app.set('port', process.env.PORT || config.port || 7000);
 var server = app.listen(app.get('port'), function() {
-  console.log('网站服务已启动，端口号： ' + server.address().port);
+    console.log('网站服务已启动，端口号： ' + server.address().port);
 });
