@@ -10,6 +10,13 @@ var mongoose = require('mongoose'),
     //smtpTransport = require('nodemailer-smtp-transport'),
     _ = require('underscore');
 
+
+var userService = require('../../services/user')
+userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(function(res) {
+    console.log(res)
+}, function(err) {
+    console.log(err)
+})
 // 这个最好移到app.js里面，每次开启服务时检查，
 exports.checkInstall = function(req, res, next) {
     if(req.session.user) {
