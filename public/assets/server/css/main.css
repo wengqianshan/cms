@@ -38,11 +38,9 @@ img {
 }
 
 ::selection {
-    background: #fff7dd
 }
 
 ::-moz-selection {
-    background: #fff7dd
 }
 
 #container {
