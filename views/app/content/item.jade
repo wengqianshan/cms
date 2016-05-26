@@ -33,7 +33,7 @@ block content
                                     each image in content.gallery
                                         .gallery-item
                                             a(href='#{image.url}')
-                                                img(src='#{image.md_url || image.url}')
+                                                img.lazy(data-original='#{image.md_url || image.url}')
                         
                         .entry-summary 
                             //- if (content.author && content.author.status === -1)
@@ -111,6 +111,7 @@ block content
         ol.indicator
 block foot-js
     script(src='/assets/plugins/blueimp-gallery/js/jquery.blueimp-gallery.min.js')
+    script(src='/assets/app/js/vendor/lazyload.min.js')
     script.
         moment.lang('zh-cn');
         var token = '#{token}';
@@ -121,6 +122,7 @@ block foot-js
                 event: e
             })
         });
+        $(".lazy").lazyload();
         $(document).on('click', '.J_submit', function() {
             var $this = $(this);
             var $item = $this.closest('.comments');

@@ -42,7 +42,9 @@ a:active{
     color: #fff;
 }
 .gallery{
-    padding: 10px;
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
 }
 .gallery img{
     max-width: 200px;
@@ -55,13 +57,12 @@ a:active{
     display: table;
 }
 .gallery-item{
-    width: 200px;
+    width: 20%;
     height: 200px;
     overflow: hidden;
     background-color: #f0f0f0;
     border: 1px solid #fff;
     background-size: cover;
-    float: left;
     text-align: center;
     position: relative;
     display: -webkit-flex;
