@@ -68,6 +68,10 @@ var UserSchema = new Schema({
         hash: String,
         till: Date
     },
+    questions: [{
+        q: String,
+        a: String
+    }],
     salt: String,
     hashed_password: String
 });
