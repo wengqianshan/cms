@@ -70,7 +70,9 @@ exports.index = function(req, res) {
 
 exports.contact = function(req, res) {
     if(req.method === 'GET') {
-        res.render('app/contact', {});
+        res.render('app/contact', {
+            Path: 'contact'
+        });
     } else if (req.method === 'POST') {
         var obj = req.body;
         obj.ip = core.getIp(req);

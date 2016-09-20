@@ -241,3 +241,6 @@ a.btn-danger{
 .media-meta a:visited{
     color: #428bca;
 }
+.form-control{
+    border-radius: 0;
+}
