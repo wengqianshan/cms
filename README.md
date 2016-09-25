@@ -19,12 +19,27 @@ npm install
 拷贝config.default.js并改名为config.js
 ````
 
-## 启动
+## 开发环境
 
 ````
-node app
+node start
+````
+
+## 生产环境
+
+````
+npm run server
 ````
 
 ## 创建管理员账号
 
 访问 http://localhost:7000/admin/ ，按提示安装，创建超级管理员帐号
+
+
+## webpack
+
+### 编译
+
+````
+npm run build
+````

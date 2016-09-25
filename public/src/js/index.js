@@ -14,7 +14,6 @@ class People {
     //name = 'ming'
 
     constructor(props) {
-      //super(props);
       this.name = 'ming'
     }
 

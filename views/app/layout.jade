@@ -3,6 +3,10 @@ html
     head
         title #{title}
         meta(name="viewport",content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0")
+        if (NODE_ENV === 'development')
+            link(rel='stylesheet', href='//localhost:8080/public/main.css')
+        else
+            link(rel='stylesheet', href='/build/main.css')
         link(rel='stylesheet', href='/assets/plugins/bootstrap/css/bootstrap.min.css')
         link(rel='stylesheet', href='/assets/app/css/style.css')
         block head-css
@@ -46,9 +50,9 @@ html
         script(src='/assets/app/js/vendor/mustache.js')
         script(src='/assets/app/js/vendor/moment-with-langs.js')
         if (NODE_ENV === 'development')
-            script(src='//localhost:8080/public/bundle.js')
+            script(src='//localhost:8080/public/main.js')
         else
-            script(src='/build/bundle.js')
+            script(src='/build/main.js')
         block foot-js
         //script.
             var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
