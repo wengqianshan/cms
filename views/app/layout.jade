@@ -45,6 +45,10 @@ html
         script(src='/assets/plugins/bootstrap3-dialog/js/bootstrap-dialog.min.js')
         script(src='/assets/app/js/vendor/mustache.js')
         script(src='/assets/app/js/vendor/moment-with-langs.js')
+        if (NODE_ENV === 'development')
+            script(src='//localhost:8080/public/bundle.js')
+        else
+            script(src='/build/bundle.js')
         block foot-js
         //script.
             var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");

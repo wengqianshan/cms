@@ -8,5 +8,8 @@ bower_components/
 #上传目录
 public/uploaded/
 
+# 静态资源
+public/build/
+
 #配置文件
 /config.js

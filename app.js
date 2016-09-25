@@ -31,7 +31,6 @@ var config = require('./config');
 //设置moment语言
 moment.locale('zh-cn');
 
-
 var app = express();
 
 //连接数据库
@@ -60,7 +59,8 @@ app.locals = {
     adminDir: config.admin.dir ? ('/' + config.admin.dir) : '',
     gravatar: gravatar,
     md: marked,
-    strip: strip
+    strip: strip,
+    NODE_ENV: process.env.NODE_ENV
 };
 app.set('config', config);
 app.set('env', config.env || 'development');
