@@ -11,7 +11,6 @@ users = users.map((user) => {
 console.log(users)
 
 class People {
-    //name = 'ming'
 
     constructor(props) {
       this.name = 'ming'
