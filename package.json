@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "npm run dev & NODE_ENV=development node app",
-    "build": "webpack --config ./public/webpack.config.js",
+    "build": "webpack -p --config ./public/webpack.config.js",
     "dev": "webpack-dev-server --progress --colors --hot --inline --content-base public/ --config ./public/webpack.config.js",
     "server": "npm run build & node app",
     "test": "echo \"Error: no test specified\" && exit 1"
