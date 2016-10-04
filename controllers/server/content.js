@@ -6,6 +6,21 @@ var mongoose = require('mongoose'),
     _ = require('underscore'),
     core = require('../../libs/core');
 
+/*var userService = require('../../services/user')
+userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(function(res) {
+    console.log(res)
+}, function(err) {
+    console.log(err)
+})*/
+
+//var contentService = require('../../services/content');
+
+//console.log(contentService, 111);
+
+/*contentService.findBySome('5741aeb9e5ba3ff9025dfdec').then(function(res) {
+    console.log(res, 222);
+})*/
+
 
 //同步mysql
 //先安装mysql模块 npm install mysql

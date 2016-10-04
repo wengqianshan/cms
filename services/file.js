@@ -1,10 +1,32 @@
 /**
  * 文件服务
  **/
-
 'use strict';
-var mongoose = require('mongoose'),
-    _ = require('underscore'),
-    config = require('../config'),
-    core = require('../libs/core'),
-    File = mongoose.model('File');
+var mongoose = require('mongoose');
+var _ = require('underscore');
+var File = mongoose.model('File');
+
+
+var baseServices = require('./base')(File);
+
+var services = {
+    findBySome: function(id, populates) {
+        return new Promise(function(resolve, reject) {
+            var query = File.findById(id)
+            if (populates && populates.length > 0) {
+                populates.forEach(function(item) {
+                    query = query.populate(item);
+                })
+            }
+            query.exec(function(err, result) {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result)
+                }
+            });
+        })
+    }
+};
+
+module.exports = _.extend({}, baseServices, services);

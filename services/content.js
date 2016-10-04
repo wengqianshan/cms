@@ -3,8 +3,32 @@
  **/
 
 'use strict';
-var mongoose = require('mongoose'),
-    _ = require('underscore'),
-    config = require('../config'),
-    core = require('../libs/core'),
-    Content = mongoose.model('Content');
+var mongoose = require('mongoose');
+var _ = require('underscore');
+var Content = mongoose.model('Content');
+
+
+var baseServices = require('./base')(Content);
+
+var services = {
+    findBySome: function(id, populates) {
+        return new Promise(function(resolve, reject) {
+            var query = Content.findById(id)
+            if (populates && populates.length > 0) {
+                populates.forEach(function(item) {
+                    query = query.populate(item);
+                })
+            }
+            query.exec(function(err, result) {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result)
+                }
+            });
+        })
+    }
+};
+
+module.exports = _.extend({}, baseServices, services);
+

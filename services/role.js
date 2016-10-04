@@ -1,10 +1,32 @@
 /**
  * 角色服务
  **/
-
 'use strict';
-var mongoose = require('mongoose'),
-    _ = require('underscore'),
-    config = require('../config'),
-    core = require('../libs/core'),
-    Role = mongoose.model('Role');
+var mongoose = require('mongoose');
+var _ = require('underscore');
+var Role = mongoose.model('Role');
+
+
+var baseServices = require('./base')(Role);
+
+var services = {
+    findBySome: function(id, populates) {
+        return new Promise(function(resolve, reject) {
+            var query = Role.findById(id)
+            if (populates && populates.length > 0) {
+                populates.forEach(function(item) {
+                    query = query.populate(item);
+                })
+            }
+            query.exec(function(err, result) {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result)
+                }
+            });
+        })
+    }
+};
+
+module.exports = _.extend({}, baseServices, services);
