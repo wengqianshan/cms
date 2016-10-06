@@ -3,27 +3,48 @@
  **/
 var services = function(Model) {
     return {
+        count: function(condition) {
+            var condition = condition || {};
+            return new Promise(function(resolve, reject) {
+                Model.count(condition, function(err, total) {
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(total)
+                    }
+                })
+            })
+        },
         find: function(condition, populates) {
             var condition = condition || {};
-                return new Promise(function(resolve, reject) {
-                    var query = Model.find(condition)
-                    if (populates && populates.length > 0) {
-                        populates.forEach(function(item) {
-                            query = query.populate(item);
-                        })
+            return new Promise(function(resolve, reject) {
+                var query = Model.find(condition)
+                if (populates && populates.length > 0) {
+                    populates.forEach(function(item) {
+                        query = query.populate(item);
+                    })
+                }
+                query.exec(function(err, result) {
+                    console.log(err, result)
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(result)
                     }
-                    query.exec(function(err, result) {
-                        console.log(err, result)
-                        if (err) {
-                            reject(err)
-                        } else {
-                            resolve(result)
-                        }
-                    });
                 });
+            });
         },
-        findOne: function() {
-
+        findOne: function(condition, projection, options) {
+            var condition = condition || {};
+            return new Promise(function(resolve, reject) {
+                Model.findOne(condition, projection, options, function(err, result) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(result)
+                    }
+                })
+            })
         },
         findById: function(id, populates) {
             return new Promise(function(resolve, reject) {

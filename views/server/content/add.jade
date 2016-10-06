@@ -36,7 +36,7 @@ block content
                             select#J_select_tags(data-placeholder='请选择标签', name='tags[]', multiple, style='width: 500px;')
                                 each tag in tags
                                     option(value='#{tag.id}') #{tag.name}
-                .help-block
+                //.help-block
                     span.btn.btn-info.btn-xs 新增标签
                 input(type='hidden', name='_csrf', value='#{token}')
                 button.btn.btn-primary(type='submit') 提交
@@ -67,6 +67,9 @@ block foot-js
         };
         $(function () {
             $('#J_select_tags').chosen({max_selected_options: 5, no_results_text: '没有匹配到'})
+            $('#J_select_tags').on('change', function(event, params) {
+                console.log(event, params)
+            })
             $('#fileupload').fileupload({
                 //url: '/upload',
                 url: '/admin/file/add',
