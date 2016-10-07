@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var core = require('../../libs/core');
+var action = require('../../middlewares/action');
 var category = require('../../controllers/server/category');
 
 //权限判断
@@ -18,15 +19,15 @@ router.use(function(req, res, next) {
     next();
 });
 //内容列表
-router.route('/').get(core.checkAction('CATEGORY_INDEX'), category.list);
+router.route('/').get(action.checkAction('CATEGORY_INDEX'), category.list);
 //添加内容
-router.route('/add').all(core.checkAction('CATEGORY_CREATE'), category.add);
+router.route('/add').all(action.checkAction('CATEGORY_CREATE'), category.add);
 //单条信息
-router.route('/:id').get(core.checkAction('CATEGORY_DETAIL'), category.one);
+router.route('/:id').get(action.checkAction('CATEGORY_DETAIL'), category.one);
 //更新信息
-router.route('/:id/edit').all(core.checkAction('CATEGORY_UPDATE'), category.edit);
+router.route('/:id/edit').all(action.checkAction('CATEGORY_UPDATE'), category.edit);
 //删除信息
-router.route('/:id/del').all(core.checkAction('CATEGORY_DELETE'), category.del);
+router.route('/:id/del').all(action.checkAction('CATEGORY_DELETE'), category.del);
 
 module.exports = function(app) {
     var path = core.translateAdminDir('/category');

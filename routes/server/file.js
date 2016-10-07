@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var core = require('../../libs/core');
+var action = require('../../middlewares/action');
 var file = require('../../controllers/server/file');
 
 //文件
@@ -18,15 +19,15 @@ router.use(function(req, res, next) {
     next();
 });
 //内容列表
-router.route('/').get(core.checkAction('FILE_INDEX'), file.list);
+router.route('/').get(action.checkAction('FILE_INDEX'), file.list);
 //添加内容
-router.route('/add').all(core.checkAction('FILE_CREATE'), file.add);
+router.route('/add').all(action.checkAction('FILE_CREATE'), file.add);
 //单条信息
-router.route('/:id').get(core.checkAction('FILE_DETAIL'), file.one);
+router.route('/:id').get(action.checkAction('FILE_DETAIL'), file.one);
 //更新信息
-router.route('/:id/edit').all(core.checkAction('FILE_UPDATE'), file.edit);
+router.route('/:id/edit').all(action.checkAction('FILE_UPDATE'), file.edit);
 //删除信息
-router.route('/:id/del').all(core.checkAction('FILE_DELETE'), file.del);
+router.route('/:id/del').all(action.checkAction('FILE_DELETE'), file.del);
 
 
 module.exports = function(app) {

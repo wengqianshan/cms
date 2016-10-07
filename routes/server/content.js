@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var core = require('../../libs/core');
+var action = require('../../middlewares/action');
 var content = require('../../controllers/server/content');
 
 //权限判断
@@ -19,15 +20,15 @@ router.use(function(req, res, next) {
 });
 
 //内容列表
-router.route('/').get(core.checkAction('CONTENT_INDEX'), content.list);
+router.route('/').get(action.checkAction('CONTENT_INDEX'), content.list);
 //添加内容
-router.route('/add').all(core.checkAction('CONTENT_CREATE'), content.add);
+router.route('/add').all(action.checkAction('CONTENT_CREATE'), content.add);
 //单条信息
-router.route('/:id').get(core.checkAction('CONTENT_DETAIL'), content.one);
+router.route('/:id').get(action.checkAction('CONTENT_DETAIL'), content.one);
 //更新信息
-router.route('/:id/edit').all(core.checkAction('CONTENT_UPDATE'), content.edit);
+router.route('/:id/edit').all(action.checkAction('CONTENT_UPDATE'), content.edit);
 //删除信息
-router.route('/:id/del').all(core.checkAction('CONTENT_DELETE'), content.del);
+router.route('/:id/del').all(action.checkAction('CONTENT_DELETE'), content.del);
 
 
 module.exports = function(app) {

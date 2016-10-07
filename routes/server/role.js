@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var core = require('../../libs/core');
+var action = require('../../middlewares/action');
 var role = require('../../controllers/server/role');
 
 //权限判断
@@ -18,15 +19,15 @@ router.use(function(req, res, next) {
     next();
 });
 //内容列表
-router.route('/').get(core.checkAction('ROLE_INDEX'), role.list);
+router.route('/').get(action.checkAction('ROLE_INDEX'), role.list);
 //添加内容
-router.route('/add').all(core.checkAction('ROLE_CREATE'), role.add);
+router.route('/add').all(action.checkAction('ROLE_CREATE'), role.add);
 //单条信息
-router.route('/:id').get(core.checkAction('ROLE_DETAIL'), role.one);
+router.route('/:id').get(action.checkAction('ROLE_DETAIL'), role.one);
 //更新信息
-router.route('/:id/edit').all(core.checkAction('ROLE_UPDATE'), role.edit);
+router.route('/:id/edit').all(action.checkAction('ROLE_UPDATE'), role.edit);
 //删除信息
-router.route('/:id/del').all(core.checkAction('ROLE_DELETE'), role.del);
+router.route('/:id/del').all(action.checkAction('ROLE_DELETE'), role.del);
 
 
 module.exports = function(app) {

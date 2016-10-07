@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var core = require('../../libs/core');
+var action = require('../../middlewares/action');
 var comment = require('../../controllers/server/comment');
 
 //权限判断
@@ -18,11 +19,11 @@ router.use(function(req, res, next) {
     next();
 });
 //内容列表
-router.route('/').get(core.checkAction('COMMENT_INDEX'), comment.list);
+router.route('/').get(action.checkAction('COMMENT_INDEX'), comment.list);
 //单条信息
-router.route('/:id').get(core.checkAction('COMMENT_DETAIL'), comment.one);
+router.route('/:id').get(action.checkAction('COMMENT_DETAIL'), comment.one);
 //删除信息
-router.route('/:id/del').all(core.checkAction('COMMENT_DELETE'), comment.del);
+router.route('/:id/del').all(action.checkAction('COMMENT_DELETE'), comment.del);
 
 module.exports = function(app) {
     var path = core.translateAdminDir('/comment');

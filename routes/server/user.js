@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var core = require('../../libs/core');
+var action = require('../../middlewares/action');
 var user = require('../../controllers/server/user');
 
 //权限判断
@@ -35,15 +36,15 @@ router.use(function(req, res, next) {
     next();
 });
 //用户列表
-router.route('/').get(core.checkAction('USER_INDEX'), user.list);
+router.route('/').get(action.checkAction('USER_INDEX'), user.list);
 //添加
-router.route('/add').all(core.checkAction('USER_CREATE'), user.add);
+router.route('/add').all(action.checkAction('USER_CREATE'), user.add);
 //单个用户
-router.route('/:id').get(core.checkAction('USER_DETAIL'), user.one);
+router.route('/:id').get(action.checkAction('USER_DETAIL'), user.one);
 //编辑用户信息
-router.route('/:id/edit').all(core.checkAction('USER_UPDATE'), user.edit);
+router.route('/:id/edit').all(action.checkAction('USER_UPDATE'), user.edit);
 //删除用户
-router.route('/:id/del').all(core.checkAction('USER_DELETE'), user.del);
+router.route('/:id/del').all(action.checkAction('USER_DELETE'), user.del);
 
 
 

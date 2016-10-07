@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var core = require('../../libs/core');
+var action = require('../../middlewares/action');
 var page = require('../../controllers/server/page');
 
 //权限判断
@@ -19,13 +20,13 @@ router.use(function(req, res, next) {
 });
 
 //发信
-router.route('/add').all(core.checkAction('PAGE_CREATE'), page.add);
+router.route('/add').all(action.checkAction('PAGE_CREATE'), page.add);
 //单条信息
-router.route('/:id').get(core.checkAction('PAGE_DETAIL'), page.one);
+router.route('/:id').get(action.checkAction('PAGE_DETAIL'), page.one);
 //删除信息
-router.route('/:id/del').all(core.checkAction('PAGE_DELETE'), page.del);
+router.route('/:id/del').all(action.checkAction('PAGE_DELETE'), page.del);
 //内容列表
-router.route('/').get(core.checkAction('PAGE_INDEX'), page.list);
+router.route('/').get(action.checkAction('PAGE_INDEX'), page.list);
 
 module.exports = function(app) {
     var path = core.translateAdminDir('/page');
