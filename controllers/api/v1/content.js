@@ -28,7 +28,8 @@ exports.list = function(req, res) {
     //
 };
 exports.item = function(req, res) {
-    Content.findById(req.param('id'), function(err, result) {
+    var query = Content.findById(req.param('id')).populate('author', 'name').populate('category', 'name').populate('gallery', 'url name size type created');
+    query.exec(function(err, result) {
         res.jsonp({
             data: result
         });
