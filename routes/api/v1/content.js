@@ -1,18 +1,17 @@
 var express = require('express');
 var router = express.Router();
-var file = require('../../controllers/api/file');
+var content = require('../../../controllers/api/v1/content');
 
 //
 router.use(function(req, res, next) {
-    console.log('api: ' + Date.now());
     res.set({
         'Access-Control-Allow-Origin': '*'
     });
     next();
 });
-router.route('/files').all(file.list);
-router.route('/files/:id').all(file.item);
+router.route('/contents').all(content.list);
+router.route('/contents/:id').all(content.item);
 
 module.exports = function(app) {
-    //app.use('/api', router);
+    app.use('/api/v1', router);
 };

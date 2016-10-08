@@ -1,15 +1,9 @@
 'use strict';
 var mongoose = require('mongoose'),
-    Content = mongoose.model('Content'),
-    Message = mongoose.model('Message'),
-    Category = mongoose.model('Category'),
     File = mongoose.model('File'),
-    config = require('../../config'),
     _ = require('underscore'),
-    core = require('../../libs/core');
+    core = require('../../../libs/core');
 exports.list = function(req, res) {
-    console.log('前台')
-    //console.time('content-list');
     var condition = {};
     var obj = {};
     File.count(condition).exec().then(function(total){
@@ -23,7 +17,6 @@ exports.list = function(req, res) {
         query.sort({created: -1});
         query.exec(function(err, results) {
             //console.log(err, results);
-            //console.timeEnd('content-list');
             res.jsonp({
                 data: results,
                 pageInfo: pageInfo

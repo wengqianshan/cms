@@ -1,18 +1,15 @@
 'use strict';
 var mongoose = require('mongoose'),
     User = mongoose.model('User'),
-    config = require('../../config'),
     _ = require('underscore'),
-    core = require('../../libs/core');
+    core = require('../../../libs/core');
 exports.list = function(req, res) {
-    console.log('用户')
-    //console.time('content-list');
     var condition = {};
     var obj = {};
     User.count(condition).exec().then(function(total){
         return total;
     }).then(function(total) {
-        var query = User.find(condition).populate('author').populate('roles');
+        var query = User.find(condition);
         //分页
         var pageInfo = core.createPage(req, total, 10);
         query.skip(pageInfo.start);
@@ -20,9 +17,11 @@ exports.list = function(req, res) {
         query.sort({created: -1});
         query.exec(function(err, results) {
             //console.log(err, results);
-            //console.timeEnd('content-list');
+            var data = results.map(function(item) {
+                return _.pick(item, '_id', 'name', 'created', 'birthday')
+            });
             res.jsonp({
-                data: results,
+                data: data,
                 pageInfo: pageInfo
             });
         });
@@ -31,9 +30,10 @@ exports.list = function(req, res) {
 };
 exports.item = function(req, res) {
     var id = req.param('id');
-    User.findById(id).populate('author').populate('roles').exec(function(err, result) {
+    User.findById(id).populate('author', 'name created birthday').populate('roles', 'name').exec(function(err, result) {
+        var data = _.pick(result, '_id', 'name', 'author', 'created', 'roles', 'birthday')
         res.jsonp({
-            data: result
+            data: data
         });
     });
 }
