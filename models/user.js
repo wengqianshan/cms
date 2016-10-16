@@ -40,6 +40,9 @@ var UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    description: {
+        type: String
+    },
     address: {
         type: String
     },
