@@ -22,7 +22,7 @@ npm install
 ## 开发环境
 
 ````
-node start
+npm start
 ````
 
 ## 生产环境
