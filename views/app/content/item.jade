@@ -31,9 +31,13 @@ block content
                             .gallery
                                 if (content.gallery)
                                     each image in content.gallery
-                                        .gallery-item
-                                            a(href='#{image.url}')
-                                                img.lazy(data-original='#{image.md_url || image.url}')
+                                        .gallery-item(data-obj='#{image}')
+                                            if (image.type.indexOf('video') > -1)
+                                                a(href='#{image.url}', type='#{image.type}')
+                                                    video(controls src='#{image.url}')
+                                            else if (image.type.indexOf('image') > -1)
+                                                a(href='#{image.url}')
+                                                    img.lazy(data-original='#{image.md_url || image.url}')
                         
                         .entry-summary 
                             //- if (content.author && content.author.status === -1)
@@ -120,6 +124,7 @@ block foot-js
             blueimp.Gallery($('.gallery a'), {
                 index: this,
                 event: e
+                
             })
         });
         $(".lazy").lazyload();
