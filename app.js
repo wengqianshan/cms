@@ -60,7 +60,7 @@ app.locals = {
     gravatar: gravatar,
     md: marked,
     strip: strip,
-    NODE_ENV: process.env.NODE_ENV
+    env: config.env
 };
 app.set('config', config);
 app.set('env', config.env || 'development');
@@ -119,7 +119,7 @@ app.use(adminPath, function(req, res, next) {
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('找不到页面了');
+    var err = new Error('页面不存在');
     err.status = 404;
     next(err);
 });
@@ -136,16 +136,14 @@ if (app.get('env') === 'development') {
             error: err
         });
     });
+} else {
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('app/error', {
+            message: err.message
+        });
+    });    
 }
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('app/error', {
-        message: err.message
-    });
-});
 
 var debug = require('debug')('cms');
 app.set('port', process.env.PORT || config.port || 7000);
