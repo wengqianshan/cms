@@ -28,16 +28,11 @@ exports.list = function(req, res) {
         })
     })
 };
-//列表
-exports.sent = function(req, res) {
-    console.log(req.headers)
-    //console.log('id', req.session.user)
+//已收到
+exports.received = function(req, res) {
     var condition = {
-        from: req.session.user
+        to: req.session.user._id
     };
-    /*if(req.Roles && req.Roles.indexOf('admin') < 0) {
-        condition.author = req.session.user._id;
-    }*/
     Notification.count(condition, function(err, total) {
         var query = Notification.find(condition).populate('from to');
         //分页
@@ -48,6 +43,32 @@ exports.sent = function(req, res) {
         query.sort({created: -1});
         query.exec(function(err, results) {
             //console.log(err, results);
+            res.render('server/notification/list', {
+                //title: '列表',
+                Menu: 'list',
+                notifications: results,
+                pageInfo: pageInfo
+            });
+        })
+    })
+};
+//已发出
+exports.sent = function(req, res) {
+    //console.log(req.headers, req.session.user)
+    //console.log('id', req.session.user._id)
+    var condition = {
+        from: req.session.user._id
+    };
+    Notification.count(condition, function(err, total) {
+        var query = Notification.find(condition).populate('from to');
+        //分页
+        var pageInfo = core.createPage(req, total, 10);
+        //console.log(pageInfo);
+        query.skip(pageInfo.start);
+        query.limit(pageInfo.pageSize);
+        query.sort({created: -1});
+        query.exec(function(err, results) {
+            console.log(err, results);
             res.render('server/notification/list', {
                 //title: '列表',
                 Menu: 'sent',
@@ -82,11 +103,6 @@ exports.del = function(req, res) {
                 message: '留言不存在'
             });
         }
-        /*if(req.Roles && req.Roles.indexOf('admin') === -1) {
-            return res.render('server/info', {
-                message: '没有权限'
-            });
-        }*/
         console.log(result)
         result.remove(function(err) {
             if (req.xhr) {

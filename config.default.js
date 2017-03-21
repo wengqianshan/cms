@@ -7,6 +7,12 @@ var config = {
         uri: 'mongodb://localhost/cms',
         options: {}
     },
+    //redis服务，用来session维持，当不需要redis服务时注释此项
+    // redis: {
+    //     host: '127.0.0.1',
+    //     port: 6379,
+    //     pass: ''
+    // },
     //找回密码hash过期时间
     findPasswordTill: 24 * 60 * 60 * 1000,
     //后台相关配置

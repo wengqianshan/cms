@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "npm run dev & NODE_ENV=development nodemon app",
+    "start": "npm run dev & NODE_ENV=development nodemon app --ignore public/ --ignore views/",
     "build": "webpack -p --config ./public/webpack.config.js",
     "dev": "webpack-dev-server --progress --colors --hot --inline --content-base public/ --config ./public/webpack.config.js",
     "server": "npm run build & node app",

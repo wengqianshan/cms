@@ -74,9 +74,8 @@ app.use(cookieParser());
 app.use(session({
     resave: true,
     saveUninitialized: true,
-    secret: 'ruoguan'
-        /*,
-            store: new RedisStore*/
+    secret: 'ruoguan',
+    store: (config.redis ? new RedisStore(config.redis) : null)
 }));
 //上传中间件，todo：换成multer, no global middleware
 app.use(multipart({
