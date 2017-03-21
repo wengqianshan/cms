@@ -34,6 +34,7 @@ moment.locale('zh-cn');
 var app = express();
 
 //连接数据库
+mongoose.Promise = global.Promise;
 mongoose.connect(config.mongodb.uri);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

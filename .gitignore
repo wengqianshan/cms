@@ -4,6 +4,7 @@ bower_components/
 
 #特殊文件
 .DS_Store
+*.log
 
 #上传目录
 public/uploaded/

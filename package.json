@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "npm run dev & NODE_ENV=development node app",
+    "start": "npm run dev & NODE_ENV=development nodemon app",
     "build": "webpack -p --config ./public/webpack.config.js",
     "dev": "webpack-dev-server --progress --colors --hot --inline --content-base public/ --config ./public/webpack.config.js",
     "server": "npm run build & node app",
@@ -41,6 +41,7 @@
     "babel-preset-stage-1": "^6.13.0",
     "css-loader": "^0.25.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "nodemon": "^1.11.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.15.2"
