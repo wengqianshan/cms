@@ -64,7 +64,6 @@ app.locals = {
     env: config.env
 };
 app.set('config', config);
-app.set('env', config.env || 'development');
 
 app.use(favicon(__dirname + '/public/assets/app/images/favicon.ico'));
 app.use(logger('dev'));
@@ -128,7 +127,7 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+if (config.env === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render('server/error', {
