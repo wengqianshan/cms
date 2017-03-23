@@ -1,7 +1,7 @@
 var appPath = process.cwd();
 var config = {
     port: 7000,
-    env: 'development', // development   production
+    env: process.env.NODE_ENV || 'development', // development   production
     //mongodb配置信息
     mongodb: {
         uri: 'mongodb://localhost/cms',

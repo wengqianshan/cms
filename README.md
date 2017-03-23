@@ -35,11 +35,3 @@ npm run server
 
 访问 http://localhost:7000/admin/ ，按提示安装，创建超级管理员帐号
 
-
-## webpack
-
-### 编译
-
-````
-npm run build
-````
