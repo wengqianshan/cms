@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "npm run dev",
-    "dev": "NODE_ENV=development nodemon app --ignore public/ --ignore views/",
+    "dev": "NODE_ENV=development nodemon ./app.js --ignore public/ --ignore views/",
     "server": "NODE_ENV=production node app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
