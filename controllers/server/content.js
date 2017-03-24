@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
     Tag = mongoose.model('Tag'),
     _ = require('underscore'),
     core = require('../../libs/core');
-
+var xss = require('xss');
 /*var userService = require('../../services/user')
 userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(function(res) {
     console.log(res)
@@ -127,6 +127,8 @@ exports.add = function(req, res) {
         if(obj.category === '') {
             obj.category = null;
         }
+        obj.content = xss(obj.content);
+        
         var content = new Content(obj);
         content.save(function(err, content) {
             if (req.xhr) {

@@ -37,7 +37,7 @@ block content
                                     li
                                         span 访客:#{content.visits}
                             .entry-summary
-                                - var text = strip(content.content).substr(0, 100);
+                                - var text = strip(md(content.content)).substr(0, 100);
                                 p #{text}
 
                 .text-center
