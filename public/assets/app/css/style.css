@@ -16,6 +16,16 @@ a:hover,
 a:active{
     color: #428bca;
 }
+pre{
+    border-radius: 0;
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    line-height: inherit;
+    font-size: inherit;
+    margin: inherit;
+    padding: inherit;
+}
 
 #header{
     padding-top: 65px;
