@@ -1,60 +1,9 @@
-body{
-    font-family: '微软雅黑' Monaco;
-    background-color: #f5f5f5;
-}
-ul{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-a:link,
-a:visited{
-    text-decoration: none;
-    color: #000;
-}
-a:hover,
-a:active{
-    color: #428bca;
-}
-pre{
-    border-radius: 0;
-    border: none;
-    background-color: transparent;
-    color: inherit;
-    line-height: inherit;
-    font-size: inherit;
-    margin: inherit;
-    padding: inherit;
-}
-
-#header{
-    padding-top: 65px;
-    padding-bottom: 40px;
-    background-color: #f5f5f5;
-    background-repeat: no-repeat;
-    background-position: center top;
-
-
-}
-#header .navbar-brand{
-    font-size: 36px;
-    line-height: 30px;
-    color: #fff;
-}
-.header-section{
-    background-color: #9d5468;
-    min-height: 70px;
-    padding-right: 15px;
-    padding-left: 15px;
-}
-#header .navbar-collapse ul li a{
-    padding: 25px 20px;
-    color: #fff;
-}
 .gallery{
     display: flex;
     display: -webkit-flex;
     flex-wrap: wrap;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 .gallery img{
     max-width: 200px;
@@ -103,166 +52,49 @@ pre{
     max-width: 200px;
     max-height: 200px;
 }
-a.btn-danger{
-    color: #fff;
-}
-.cms-masthead{
-    background-color: #428bca;
-}
-.cms-nav{
 
-}
-.cms-nav a{
-    color: #cdddeb;
-}
-.admin-link{
-    color: #fff;
-    padding-top: 20px;
-}
-.admin-link a{
-
-}
-.cms-nav-item{
-    position: relative;
-    display: inline-block;
-    padding: 20px 30px;
-    font-weight: 500;
-    color: #cdddeb;
-}
-.cms-nav-item.active{
-    color: #fff;
-}
-.cms-nav-item.active:after{
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 0;
-    margin-left: -5px;
-    vertical-align: middle;
-    content: " ";
-    border-right: 5px solid transparent;
-    border-bottom: 5px solid;
-    border-left: 5px solid transparent;
-}
-.media-list{
-    border-left: 4px solid #eee;
-    padding: 0px 15px;
-    margin: 10px 0;
-}
-.clear:before,
-.clear:after{
-    content: '';
-    display: table;
-    clear: both;
-}
-.comments{
-    margin: 15px 0;
-}
-.comment-form{
-
-}
-.comment-form textarea{
-    min-height: 200px;
-}
-
-.content{
-    margin-top: 35px;
-}
-/*博客列表*/
-.post{
-    background-color: #fff;
-    margin-bottom: 30px;
-}
-.post-content{
-    padding: 20px;
-}
-.post-content img{
-    max-width: 100%;
-}
-/*.img-responsive{
-    display: block;
-    max-width: 100%;
-    height: auto;
-}*/
-.post .entry-thumbnail img{
-    width: 100%;
-    /*max-height: 350px;*/
-}
-.entry-title{
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 24px;
-}
-.entry-meta{
-    margin-top: 0;
-    margin-bottom: 10px;
-}
-.entry-meta ul li{
-    display: inline-block;
-    margin-right: 10px;
-}
-.entry-meta ul li,
-.entry-meta ul li i,
-.entry-meta ul li a{
-    color: #898989;
-}
-.entry-summary{
-    line-height: 26px;
-}
-
-.widget{
-    background-color: #fff;
-    margin-bottom: 30px;
-}
-.widget_title{
-    padding: 16px 20px;
-    margin-bottom: 0;
-    font-size: 20px;
-    font-weight: 400;
-    color: #000;
-    border-bottom: 1px solid #d8d8d8;
-}
-.latest-posts{
-
-}
-.latest-posts li{
-
-}
-.latest-posts li a{
-    display: block;
-    padding: 6px 15px;
-}
-.widget-search{
-    position: relative;
-}
-.widget-search .form-control{
-    border-radius: 0;
-    box-shadow: none;
-    outline: none;
-    height: 48px;
-}
-.widget-search .btn{
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    border-radius: 0;
-}
-.search-area{
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 30px;
-}
-.media-meta a:link,
-.media-meta a:visited{
-    color: #428bca;
-}
-.form-control{
-    border-radius: 0;
-}
 .video-content{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.ui.body{
+    padding: 8rem 0;
+}
+
+.comment .reply.form{
+    margin-left: 3.5rem;
+}
+.post-comments{
+
+}
+
+.page-index .content .header{
+
+}
+body{
+    font-size: 16px;
+}
+.welcome{
+    min-height: 350px;
+}
+.welcome h1.ui.header {
+  margin-top: 3em;
+  margin-bottom: 0em;
+  font-size: 4em;
+  font-weight: normal;
+}
+.masthead h2 {
+  font-size: 1.7em;
+  font-weight: normal;
+}
+.masthead .ui.menu .ui.button{
+    margin-left: .5rem;
+}
+.page{
+    min-height: 80rem;
+}
+.right-search{
+    margin-bottom: 1rem;
 }

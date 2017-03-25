@@ -1,69 +1,73 @@
 extends layout
 
+block welcome
+    .welcome
+        .ui.text.container
+            h1.ui.inverted.header 等待也是一种美...
+            h2 
+            .ui.huge.primary.button
+                | quick start
+                i.right.arrow.icon
 block content
-    .container.content
-        .row
-            if (key) 
-                .col-md-12
-                    .search-area
-                        | 搜索 
-                        strong "#{key}" 
-                        | 共有 
-                        strong #{total} 
-                        | 条结果
-            .col-md-8
-                each content in contents
-                    article.post
-                        header.entry-header
-                            .entry-thumbnail
+    .ui.body
+        .ui.grid.container
+            if (key)
+                .search-area
+                    | 搜索 
+                    strong "#{key}" 
+                    | 共有 
+                    strong #{total} 
+                    | 条结果
+            .row
+                .twelve.wide.column
+                    .ui.divided.items
+                        each content in contents
+                            .item
                                 if (content.gallery && content.gallery.length > 0)
-                                    img.img-responsive(src='#{content.gallery[0].url}')
-                        .post-content
-                            h2.entry-title
-                                a(href='/content/#{content._id}') #{content.title}
-                            .entry-meta
-                                ul
-                                    if (content.author)
-                                        li.author
-                                            i.fa.fa-user
-                                            | #{content.author.name}
-                                    li.publish-date
-                                        i.fa.fa-calendar
-                                        time 发表于：#{moment(content.created).format('YYYY-MM-DD HH:mm:ss')}
-                                    //li.tag
-                                    li
-                                        i.fa.fa-comment-o
-                                        span 评论:#{content.comments && content.comments.length}
-                                    li
-                                        span 访客:#{content.visits}
-                            .entry-summary
-                                - var text = strip(md(content.content)).substr(0, 100);
-                                p #{text}
-
-                .text-center
-                    if (pageInfo && pageInfo.totalPage > 1)
-                        include ./mixin
-                        +pagination(pageInfo)
-            .col-md-4
-                .widget-area
-                    .widget.widget-search
-                        form.form-group(action='/', method='get')
-                            //input(type='hidden', name='_csrf', value='#{token}')
-                            .form-group
-                                input.form-control(type="text", name="key", id="key", value="", required="required")
-                                button(type="submit").btn.btn-info 搜索
-                    .widget
-                        h3.widget_title 最新内容
-                        ul.latest-posts
-                            each item in newest
-                                li
-                                    a(href='/content/#{item.id}') #{item.title}
-                    .widget
-                        h3.widget_title 最热内容
-                        ul.latest-posts
-                            each item in hotest
-                                li
-                                    a(href='/content/#{item.id}') #{item.title}
+                                    .image
+                                        img(src='#{content.gallery[0].url}')
+                                .content
+                                    a.ui.large.header(href='/content/#{content._id}') #{content.title}
+                                    .meta
+                                        .cinema 
+                                    .description
+                                        - var text = strip(md(content.content)).substr(0, 100);
+                                        p #{text}
+                                    .extra
+                                        if (content.author)
+                                            .ui.label #{content.author.name}
+                                        .ui.label
+                                            | 发表于：#{moment(content.created).fromNow()}
+                                        .ui.label
+                                            | 评论:#{content.comments && content.comments.length}
+                                        .ui.label 访客:#{content.visits}
+                    .ui.center.aligned
+                        if (pageInfo && pageInfo.totalPage > 1)
+                            include ./mixin
+                            +pagination(pageInfo)
+                .four.wide.right.floated.column
+                    .ui.right-search
+                        form(action='/', method='get')
+                            .ui.action.input
+                                input(type="text", name="key", id="key", value="", required="required")
+                                button.ui.button(type="submit") 搜索
+                    .sixteen.wide
+                        .ui.segment
+                            .ui.header 最新内容
+                            .ui.middle.aligned.selection.list
+                                each item in newest
+                                    .item
+                                        .content
+                                            a.header(href='/content/#{item.id}') #{item.title}
+                                            .description
+                        .ui.segment
+                            .ui.header 最热内容
+                            .ui.middle.aligned.selection.list
+                                each item in hotest
+                                    .item
+                                        .content
+                                            a.header(href='/content/#{item.id}') #{item.title}
+                                            .description
 block foot-js
     script.
-        var token = '#{token}';
+        

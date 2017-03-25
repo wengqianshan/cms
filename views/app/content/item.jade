@@ -4,108 +4,95 @@ block head-css
     <link rel="stylesheet" href="/assets/plugins/blueimp-gallery/css/blueimp-gallery.css">
     <link rel="stylesheet" href="/assets/plugins/blueimp-gallery/css/blueimp-gallery-indicator.css">
 block content
-    .container.content
-        .row
-            .col-md-12
-                .post
-                    .post-content
-                        h2.entry-title #{content.title}
-                        .entry-meta
-                            ul
-                                if (content.category)
-                                    li
-                                        span.label.label-default #{content.category.name}
-                                | 
-                                if (content.author)
-                                    li
-                                        strong #{content.author.name}
-                                li
-                                    | 发表于：#{moment(content.created).format('YYYY-MM-DD HH:mm:ss')} 
-                                li
-                                    | 访客：#{content.visits}
-                        - var images = content.gallery
-                        if (images.length === 1)
-                            .text-center
-                                a(href='#{images[0].url}', target='_blank')
-                                    img.img-responsive(src='#{images[0].url}')
-                        else if (images.length > 1) 
-                            .gallery
-                                if (content.gallery)
-                                    each image in content.gallery
-                                        .gallery-item(data-obj='#{image}')
-                                            if (image.type.indexOf('video') > -1)
-                                                a(href='#{image.url}', type='#{image.type}')
-                                                    video(controls src='#{image.url}')
-                                            else if (image.type.indexOf('image') > -1)
-                                                a(href='#{image.url}')
-                                                    img.lazy(data-original='#{image.md_url || image.url}')
-                        
-                        .entry-summary 
-                            //- if (content.author && content.author.status === -1)
-                            //-     | !{content.content}
-                            //- else 
-                            //-     | #{content.content}
-                            | !{md(content.content)}
-                        
-                        .comments(data-from='#{content.id}')
-                            h3 评论(#{content.comments.length}) 
-                                //label.J_toggle_comment(style='font-size: 12px;')
-                                    if (comment_list !== '1')
-                                        input.J_toggle_comment_input(data-href='?comment_list=1', type='checkbox', checked)
-                                        | 嵌套模式
-                                    else
-                                        input.J_toggle_comment_input(data-href='?', type='checkbox')
-                                        | 嵌套模式
-                                        
-                            if(content.comments)
-                                ul.media-list.J_list
-                                    each comment in content.comments
-                                        - var listComment = !!comment_list
-                                        if(!listComment)
-                                            if (!comment.reply)
-                                                include ../mixin
-                                                +commentItem(comment, content.comments)
-                                        else 
+    .ui.container
+        .ui.body
+                    h1.ui.header #{content.title}
+                    .ui
+                        if (content.category)
+                            .ui.label
+                                span.label.label-default #{content.category.name}
+                        | 
+                        if (content.author)
+                            .ui.label
+                                strong #{content.author.name}
+                        .ui.label
+                            | 发表于：#{moment(content.created).format('YYYY-MM-DD HH:mm:ss')} 
+                        .ui.label
+                            | 访客：#{content.visits}
+                    - var images = content.gallery
+                    if (images.length === 1)
+                        .ui.center.aligned
+                            a(href='#{images[0].url}', target='_blank')
+                                img.ui.fluid.image(src='#{images[0].url}')
+                    else if (images.length > 1) 
+                        .gallery
+                            if (content.gallery)
+                                each image in content.gallery
+                                    .gallery-item(data-obj='#{image}')
+                                        if (image.type.indexOf('video') > -1)
+                                            a(href='#{image.url}', type='#{image.type}')
+                                                video(controls src='#{image.url}')
+                                        else if (image.type.indexOf('image') > -1)
+                                            a(href='#{image.url}')
+                                                img.lazy(data-original='#{image.md_url || image.url}')
+                    
+                    .ui.basic.segment
+                        //- if (content.author && content.author.status === -1)
+                        //-     | !{content.content}
+                        //- else 
+                        //-     | #{content.content}
+                        | !{md(content.content)}
+                    
+                    .post-comments
+                        h3 评论(#{content.comments.length}) 
+                                    
+                        if(content.comments)
+                            .ui.threaded.comments.J_list
+                                each comment in content.comments
+                                    - var listComment = !!comment_list
+                                    if(!listComment)
+                                        if (!comment.reply)
                                             include ../mixin
-                                            +commentItem(comment)
-                            .comment-form
-                                .row.form-group
-                                    .col-md-4
-                                        input.form-control.J_input_name(name='name', placeholder='name')
-                                .row.form-group
-                                    .col-md-4
-                                        input.form-control.J_input_email(name='email', placeholder='email')
-                                .row.form-group
-                                    .col-md-6
-                                        textarea.form-control.J_textarea(name='content', placeholder='评论内容')
-                                .row
-                                    .col-md-4
-                                        button.btn.btn-primary.J_submit(value='提交') 提交
+                                            +commentItem(comment, content.comments)
+                                    else 
+                                        include ../mixin
+                                        +commentItem(comment)
+
+                        .ui.reply.form.J_commentForm
+                            .field
+                                input.J_input_name(name='name', placeholder='your name')
+                            .field
+                                input.J_input_email(name='email', placeholder='your email')
+                            .field
+                                textarea.J_textarea(name='content', placeholder='small talk')
+                            .ui.primary.submit.labeled.icon.button.J_submit
+                                i.icon.edit
+                                | 发送
     script#J_tmpl_comment_item(type='x-tmpl-mustache')
-        li.media
-            a.pull-left
-                img.media-object(src='{{avatar}}')
-            .media-body
-                h4.media-heading {{name}}
-                p {{content}}
-                .media-meta(data-id='{{id}}', data-reply='{{reply}}')
-                    span.text-muted {{created}} 
-                    a.J_reply(href='javascript:') 回复
-                ul.media-list.J_list
+        .comment.J_comment(data-id='{{id}}', data-reply='{{reply}}')
+            a.avatar
+                img(src='{{avatar}}')
+            .content
+                a.author {{name}}
+                .metadata
+                    .date {{created}}
+                .text
+                    p {{content}}
+                .actions
+                    a.reply.J_reply(href='javascript:') 回复
+
     script#J_tmpl_comment_form(type='x-tmpl-mustache')
-        .comment-form(data-reply='{{reply}}')
-            .row.form-group
-                .col-md-4
-                    input.form-control.J_input_name(name='name', placeholder='name', value='{{name}}')
-            .row.form-group
-                .col-md-4
-                    input.form-control.J_input_email(name='email', placeholder='email', value='{{email}}')
-            .row.form-group
-                .col-md-6
-                    textarea.form-control.J_textarea(name='content', placeholder='评论内容')
-            .row
-                .col-md-4
-                    button.btn.btn-primary.J_submit(value='提交') 提交
+        .ui.reply.form.J_commentForm(data-reply='{{reply}}')
+            .field(style='{{#name}}display: none;{{/name}}')
+                input.J_input_name(name='name', placeholder='your name', value='{{name}}')
+            .field(style='{{#email}}display: none;{{/email}}')
+                input.J_input_email(name='email', placeholder='your email', value='{{email}}')
+            .field
+                textarea.J_textarea(name='content', placeholder='small talk')
+            .ui.primary.submit.labeled.icon.button.J_submit
+                i.icon.edit
+                | 发送
+
     #blueimp-gallery.blueimp-gallery
         .slides
         h3.title
@@ -122,6 +109,7 @@ block foot-js
     script.
         moment.lang('zh-cn');
         var token = '#{token}';
+        var cid = '#{content.id}';
         $(document).ready(function() {
           $('pre code').each(function(i, block) {
             hljs.highlightBlock(block);
@@ -136,34 +124,28 @@ block foot-js
             })
         });
         $(".lazy").lazyload();
+
+        var commentUser = JSON.parse(localStorage.getItem('comment_user'));
+        $('.J_input_name').val(commentUser.name);
+        $('.J_input_email').val(commentUser.email);
         $(document).on('click', '.J_submit', function() {
             var $this = $(this);
-            var $item = $this.closest('.comments');
-            var $form = $this.closest('.comment-form')
+            var $form = $this.closest('.J_commentForm')
             var $list = $form.siblings('.J_list');
             var $name = $form.find('.J_input_name');
             var $email = $form.find('.J_input_email');
             var $textarea = $form.find('.J_textarea');
-            var cid = $item.attr('data-from');
             var reply = $form.attr('data-reply');
             var name = $name.val();
             var email = $email.val();
             var content = $textarea.val();
             //console.log(cid, content, reply);
             if(!email) {
-                BootstrapDialog.alert({
-                    type: BootstrapDialog.TYPE_WARNING,
-                    title: '提示',
-                    message: '请输入email'
-                });
+                alert('请输入email');
                 return;
             }
             if(!content) {
-                BootstrapDialog.alert({
-                    type: BootstrapDialog.TYPE_WARNING,
-                    title: '提示',
-                    message: '请输入评论内容'
-                });
+                alert('请输入评论内容');
                 return;
             }
             var data = {
@@ -183,11 +165,17 @@ block foot-js
                     //json.data.avatar = json.data.avatar || 'https://secure.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=40&r=x&d=retro';
                     json.data.created = moment(json.data.created).fromNow();
                     console.log($list.length)
-                    if($list.length < 1) {
-                        $list = $form.after('<ul class="media-list J_list"/>');
-                    }
                     var html = Mustache.render(tmpl, json.data);
-                    $list.append(html);
+                    if($list.length < 1) {
+
+                        html = '<div class="ui comments J_list">' + html + '</div>'
+                        console.log(html, '++++++++++++')
+                        $form.after(html);
+                    } else {
+                        $list.append(html);
+                    }
+
+                    // 清空输入
                     $textarea.val('');
                     var commentUser = {
                         name: name,
@@ -201,23 +189,23 @@ block foot-js
         });
         $(document).on('click', '.J_reply', function() {
             var $this = $(this);
-            var $meta = $this.closest('.media-meta');
-            var id = $meta.attr('data-id');
+            var $comment = $this.closest('.J_comment');
+            var $content = $comment.find('.content')
+            var $list = $comment.children('.J_list');
+            //var $form = $comment.find('.J_commentForm');
+            var $form = $comment.children('.J_commentForm');
+            var id = $comment.attr('data-id');
             var tmpl = $('#J_tmpl_comment_form').html();
-            if($meta.siblings('.comment-form').length > 0) {
-                $meta.siblings('.comment-form').toggle();
+            if($form.length > 0) {
+                $form.toggle();
                 return;
             }
             var commentUser = JSON.parse(localStorage.getItem('comment_user'));
             var data = $.extend({reply: id}, commentUser)
-            $meta.after(Mustache.render(tmpl, data));
+            if ($list.length > 0) {
+                $list.before(Mustache.render(tmpl, data));
+            } else {
+                $content.after(Mustache.render(tmpl, data));
+            }
+            
         });
-        //- $('.J_toggle_comment').on('mousedown', function(e) {
-        //-     e.preventDefault();
-        //-     var $this = $(this);
-        //-     var $input = $this.find('.J_toggle_comment_input');
-        //-     var checked = $input[0].checked;
-        //-     var url = $input.attr('data-href');
-        //-     location.href = url;
-        //-     console.log($this[0].checked)
-        //- })

@@ -3,49 +3,78 @@ html
     head
         title #{title}
         meta(name="viewport",content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0")
-        link(rel='stylesheet', href='/assets/plugins/bootstrap/css/bootstrap.min.css')
+        //link(rel='stylesheet', href='/assets/plugins/bootstrap/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/assets/plugins/semantic/dist/semantic.min.css')
         link(rel='stylesheet', href='/assets/app/css/style.css')
         block head-css
         block head-js
     body
-        //header#header
-            .navbar.navbar-static-top(role='banner')
-                .container
-                    .header-section
-                        .navbar-header
-                            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-                                span.icon-bar
-                                span.icon-bar
-                                span.icon-bar
-                            a.navbar-brand(href='/') wenglou
-                        .navbar-collapse.collapse
-                            ul.nav.navbar-nav.navbar-right
-                                li
-                                    a(href='/admin') 管理后台
-                            
-        .cms-masthead
-            .container
-                .cms-nav
-                    .pull-right.admin-link
-                        if (User)
-                            a(href='#{adminDir}')
-                                | #{User.name}
-                            | 
-                            a(href='#{adminDir}/user/logout') 注销
-                        else
-                            //a(href='#{adminDir}') 后台管理
-                    a.cms-nav-item(class=!Path ? 'active' : '',href='/') 首页
-                    //a.cms-nav-item(class='',href='/?key=css') CSS
-                    //a.cms-nav-item(class=Path === 'content' ? 'active' : '',href='/content') 内容
-                    //a.cms-nav-item(class=Path === 'comment' ? 'active' : '',href='/comment') 评论
-                    a.cms-nav-item(class=Path === 'contact' ? 'active' : '',href='/contact') 留言
-        block content
-        script(src='/assets/app/js/vendor/jquery-2.1.1.min.js')
-        script(src='/assets/plugins/bootstrap/js/bootstrap.min.js')
-        script(src='/assets/plugins/bootstrap3-dialog/js/bootstrap-dialog.min.js')
+        .ui.large.top.fixed.menu.transition.hidden
+            .ui.container
+                a.item(class=!Path ? 'active' : '',href='/') 首页
+                a.item(class=Path === 'contact' ? 'active' : '',href='/contact') 留言
+                .right.menu
+                    if (User)
+                        a.item(href='#{adminDir}')
+                            | #{User.name}
+                        a.item(href='#{adminDir}/user/logout') 注销
+                    else
+                        .item
+                            a.ui.button(href='#{adminDir}/user/login') 登录
+                        .item
+                            a.ui.primary.button(href='#{adminDir}/user/register') 注册
+        .pusher
+            .ui.inverted.vertical.masthead.center.aligned.segment
+                .ui.container
+                    .ui.large.secondary.inverted.pointing.menu
+                        a.item(class=!Path ? 'active' : '',href='/') 首页
+                        a.item(class=Path === 'contact' ? 'active' : '',href='/contact') 留言
+                        .right.item
+                            if (User)
+                                a.item(href='#{adminDir}') #{User.name}
+                                a.item(href='#{adminDir}/user/logout') 注销
+                            else
+                                a.ui.inverted.button(href='#{adminDir}/user/login') 登录
+                                a.ui.inverted.button(href='#{adminDir}/user/register') 注册
+                block welcome
+            
+        .page
+            block content
+        .ui.inverted.vertical.footer.segment
+            .ui.container
+                .ui.stackable.inverted.divided.equal.height.grid
+                    //.three.wide.column
+                        h4.ui.inverted.header about
+                        .ui.interved.link.list
+                            a.item
+                            a.item
+                    //.three.wide.column
+                        h4.ui.inverted.header
+                        .ui.interved.link.list
+                            a.item
+                            a.item
+                    .ten.wide.column
+                        h3.ui.inverted.large.header wenglou
+                        p 基于nodejs的cms系统，nodejs + mongodb
+                        a.item(target='_blank', href='https://github.com/xiaoshan5733/cms') github
+        script(src='/assets/app/js/vendor/jquery-3.2.0.min.js')
+        script(src='/assets/plugins/semantic/dist/semantic.min.js')
+        //script(src='/assets/plugins/bootstrap/js/bootstrap.min.js')
+        //script(src='/assets/plugins/bootstrap3-dialog/js/bootstrap-dialog.min.js')
         script(src='/assets/app/js/vendor/mustache.js')
         script(src='/assets/app/js/vendor/moment-with-langs.js')
         block foot-js
+        script.
+            $('.masthead')
+                .visibility({
+                    once: false,
+                    onBottomPassed: function() {
+                        $('.fixed.menu').transition('fade in');
+                    },
+                    onBottomPassedReverse: function() {
+                        $('.fixed.menu').transition('fade out');
+                    }
+                })
         if (env !== 'development')
             span(style='display: none;')
                 script.

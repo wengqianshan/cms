@@ -28,6 +28,7 @@
     "nodemailer-smtp-transport": "^0.1.12",
     "qn": "^0.2.2",
     "qs": "^2.3.3",
+    "semantic-ui": "^2.2.9",
     "sendmail": "^0.2.1",
     "serve-favicon": "^2.1.1",
     "strip": "0.0.7",

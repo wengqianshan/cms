@@ -8,7 +8,7 @@
 //-     }
 //- }
 mixin pagination(pageInfo)
-    ul.pagination
+    .ui.pagination.menu
         - var page = pageInfo
         - var totalPage = page.totalPage
         - var range = 3
@@ -17,46 +17,48 @@ mixin pagination(pageInfo)
         - var nextPage = currentPage >= page.totalPage ? page.totalPage : (currentPage + 1)
         - var query = pageInfo.query || {}
         - query.page = prevPage
-        li(class=(currentPage === 1) ? 'disabled' : '')
-            a(href='?#{core.stringify(query)}') &laquo;
+        a.item(class=(currentPage === 1) ? 'disabled' : '', href='?#{core.stringify(query)}') &laquo;
         if (currentPage - range >= 2)
             - query.page = 1
-            li(class=(currentPage === 1) ? 'active' : '') 
-                a(href='?#{core.stringify(query)}') 1
-            li 
-                a ...
+            a.item(class=(currentPage === 1) ? 'active' : '', href='?#{core.stringify(query)}') 1
+            a.item ...
         - for (var i = 1; i <= totalPage; i ++)
             - query.page = i
             if(i >= Math.min(Math.max(currentPage - range, 1), totalPage - 2 * range) && i <= Math.max(Math.min(range + currentPage, totalPage), 2 * range))
-                li(class=(currentPage === i) ? 'active' : '') 
-                    a(href='?#{core.stringify(query)}') #{i}
+                a.item(class=(currentPage === i) ? 'active' : '', href='?#{core.stringify(query)}') #{i}
         if (currentPage + range <= totalPage - 1 )
-            li 
-                a ...
+            a.item ...
             - query.page = totalPage
-            li(class=(currentPage === totalPage) ? 'active' : '') 
-                a(href='?#{core.stringify(query)}') #{totalPage}
+            a.item(class=(currentPage === totalPage) ? 'active' : '', href='?#{core.stringify(query)}') #{totalPage}
         - query.page = nextPage
-        li(class=(currentPage === totalPage) ? 'disabled' : '')
-            a(href='?#{core.stringify(query)}') &raquo;
+        a.item(class=(currentPage === totalPage) ? 'disabled' : '', href='?#{core.stringify(query)}') &raquo;
 //- 评论条目
 mixin commentItem(comment, comments)
     if (comment)
-        li.media
-            a.pull-left
+        .comment.J_comment(data-id='#{comment._id}', data-reply='#{comment.reply || ""}')
+            a.avatar
                 - var avatar = gravatar.url((comment.author &&comment.author.email) || comment.email || '', {s: '40',r: 'x',d: 'retro'}, true)
-                img.media-object(src='#{avatar}')
-            .media-body
-                .media-heading #{comment.name} 在 
-                    span.text-muted #{moment(comment.created).fromNow()} 
-                    | 说
-                p #{comment.content}
-                .media-meta(data-id='#{comment._id}', data-reply='#{comment.reply || ""}')
-                    //span.text-muted #{moment(comment.created).fromNow()} 
-                    a.text-primary.J_reply(href='javascript:') 回复
-                if(comments)
-                    if (comment.comments && comment.comments.length > 0)
-                        ul.media-list.J_list
-                            each cid in comment.comments
-                                - var c = comments.filter(function(item) {return (item._id + '') === (cid + '')})
-                                +commentItem(c[0], comments)
+                img(src='#{avatar}')
+            .content
+                a.author #{comment.name}
+                .metadata
+                    .date #{moment(comment.created).fromNow()}
+                .text
+                    p #{comment.content}
+                .actions
+                    a.reply.J_reply(href='javascript:') 回复
+
+            if (comments)
+                if (comment.comments && comment.comments.length > 0)
+                    .ui.comments.J_list
+                        each cid in comment.comments
+                            - var c = comments.filter(function(item) {return (item._id + '') === (cid + '')})
+                            +commentItem(c[0], comments)
+
+
+
+
+
+
+
+
