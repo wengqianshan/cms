@@ -1,13 +1,14 @@
 extends layout
 
 block welcome
-    .welcome
-        .ui.text.container
-            h1.ui.inverted.header 等待也是一种美...
-            h2 
-            .ui.huge.primary.button
-                | quick start
-                i.right.arrow.icon
+    if (!key)
+        .welcome
+            .ui.text.container
+                h1.ui.inverted.header 等待也是一种美...
+                h2 
+                .ui.huge.primary.button
+                    | quick start
+                    i.right.arrow.icon
 block content
     .ui.body
         .ui.grid.container
@@ -34,13 +35,16 @@ block content
                                         - var text = strip(md(content.content)).substr(0, 100);
                                         p #{text}
                                     .extra
-                                        if (content.author)
-                                            .ui.label #{content.author.name}
                                         .ui.label
-                                            | 发表于：#{moment(content.created).fromNow()}
+                                            | #{moment(content.created).fromNow()}发布
+                                            if (content.author)
+                                                .detail @#{content.author.name}
                                         .ui.label
-                                            | 评论:#{content.comments && content.comments.length}
-                                        .ui.label 访客:#{content.visits}
+                                            | 评论:
+                                            .detail #{content.comments && content.comments.length}
+                                        .ui.label 
+                                            | 访客:
+                                            .detail #{content.visits}
                     .ui.center.aligned
                         if (pageInfo && pageInfo.totalPage > 1)
                             include ./mixin
@@ -48,9 +52,10 @@ block content
                 .four.wide.right.floated.column
                     .ui.right-search
                         form(action='/', method='get')
-                            .ui.action.input
+                            .ui.icon.input(style='width: 100%;')
                                 input(type="text", name="key", id="key", value="", required="required")
-                                button.ui.button(type="submit") 搜索
+                                i.search.icon
+                                //button.ui.button(type="submit") 搜索
                     .sixteen.wide
                         .ui.segment
                             .ui.header 最新内容

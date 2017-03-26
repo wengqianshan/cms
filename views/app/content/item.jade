@@ -8,16 +8,18 @@ block content
         .ui.body.post
             h1.ui.header #{content.title}
             .ui
-                if (content.category)
-                    .ui.label
-                        span.label.label-default #{content.category.name}
-                | 
                 if (content.author)
                     .ui.label
-                        strong #{content.author.name}
+                        | 作者
+                        .detail #{content.author.name}
                 .ui.label
-                    | 发表于：#{moment(content.created).format('YYYY-MM-DD HH:mm:ss')} 
-                .ui.label
+                    | 发布时间
+                    .detail #{moment(content.created).format('YYYY-MM-DD HH:mm')}
+                if (content.category)
+                    .ui.label
+                        | 分类
+                        .detail #{content.category.name}    
+                //.ui.label
                     | 访客：#{content.visits}
             
             
