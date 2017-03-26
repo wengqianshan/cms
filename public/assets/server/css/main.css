@@ -36,6 +36,10 @@ hr {
 img {
     max-width: 100%
 }
+pre{
+    border: none;
+    background-color: inherit;
+}
 
 ::selection {
 }
