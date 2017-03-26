@@ -58,21 +58,22 @@ block content
                                 //button.ui.button(type="submit") 搜索
                     .sixteen.wide
                         .ui.segment
-                            .ui.header 最新内容
-                            .ui.middle.aligned.selection.list
+                            .ui.header 最新Top10
+                            .ui.selection.list
                                 each item in newest
                                     .item
                                         .content
                                             a.header(href='/content/#{item.id}') #{item.title}
                                             .description
+                                                | 发布时间 #{moment(item.created).fromNow()}
                         .ui.segment
-                            .ui.header 最热内容
-                            .ui.middle.aligned.selection.list
+                            .ui.header 最热Top10
+                            .ui.selection.list
                                 each item in hotest
                                     .item
                                         .content
                                             a.header(href='/content/#{item.id}') #{item.title}
-                                            .description
+                                            .description 热度 #{item.visits}
 block foot-js
     script.
         
