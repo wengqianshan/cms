@@ -108,7 +108,15 @@ block foot-js
 
     script(src='/assets/plugins/blueimp-gallery/js/jquery.blueimp-gallery.min.js')
     script(src='/assets/app/js/vendor/lazyload.min.js')
+    if (User)
+        script.
+            var userInfo = {
+                name: '#{User.name}',
+                email: '#{User.email}'
+            };
+            localStorage.setItem('comment_user', JSON.stringify(userInfo));
     script.
+        
         moment.lang('zh-cn');
         var token = '#{token}';
         var cid = '#{content.id}';
@@ -128,8 +136,11 @@ block foot-js
         $(".lazy").lazyload();
 
         var commentUser = JSON.parse(localStorage.getItem('comment_user'));
-        $('.J_input_name').val(commentUser.name);
-        $('.J_input_email').val(commentUser.email);
+        if (commentUser) {
+            $('.J_input_name').val(commentUser.name).hide();
+            $('.J_input_email').val(commentUser.email).hide();
+        }
+        
         $(document).on('click', '.J_submit', function() {
             var $this = $(this);
             var $form = $this.closest('.J_commentForm')
