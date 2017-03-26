@@ -1,5 +1,6 @@
 extends ../layout
 block head-css
+    link(rel='stylesheet', href='/assets/plugins/mditor/mditor.min.css')
     link(rel='stylesheet', href='/assets/plugins/upload/css/jquery.fileupload.css')
 block content
     .row
@@ -41,7 +42,7 @@ block content
                        
                 .form-group
                     label 内容
-                    textarea.form-control(name='content', rows='20') #{content.content}
+                    textarea.form-control#J_editor(name='content', rows='20', style='background-color: #fff; border: none;') #{content.content}
                 .form-group
                     label 标签
                     div
@@ -53,7 +54,7 @@ block content
                                         option(value='#{tag.id}', selected) #{tag.name}
                                     else 
                                         option(value='#{tag.id}') #{tag.name}
-                .help-block
+                //.help-block
                     span.btn.btn-info.btn-xs 新增标签
                 input(type='hidden', name='_csrf', value='#{token}')
                 button.btn.btn-primary(type='submit') 提交
@@ -66,6 +67,8 @@ block content
 
 
 block foot-js
+    script(src='/assets/plugins/mditor/mditor.min.js')
+
     script(src='/assets/plugins/jquery.form/jquery.form.js')
     script(src='/assets/plugins/upload/js/vendor/jquery.ui.widget.js')
     script(src='/assets/plugins/load-image/js/load-image.min.js')
@@ -85,6 +88,9 @@ block foot-js
         };
         
         $(function () {
+            var mditor =  Mditor.fromTextarea(document.getElementById('J_editor'));
+            mditor.split = false;
+
             $('#J_select_tags').chosen({max_selected_options: 5, no_results_text: '没有匹配到'})
             $('#fileupload').fileupload({
                 //url: '/upload',
