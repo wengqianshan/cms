@@ -2,7 +2,6 @@
     display: flex;
     display: -webkit-flex;
     flex-wrap: wrap;
-    margin-top: 1rem;
     margin-bottom: 1rem;
 }
 .gallery img{
@@ -97,4 +96,12 @@ body{
 }
 .right-search{
     margin-bottom: 1rem;
+}
+
+.post{
+
+}
+.ui.segment.post-content{
+    padding-left: 0;
+    padding-right: 0;
 }

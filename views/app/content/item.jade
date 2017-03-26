@@ -5,69 +5,71 @@ block head-css
     <link rel="stylesheet" href="/assets/plugins/blueimp-gallery/css/blueimp-gallery-indicator.css">
 block content
     .ui.container
-        .ui.body
-                    h1.ui.header #{content.title}
-                    .ui
-                        if (content.category)
-                            .ui.label
-                                span.label.label-default #{content.category.name}
-                        | 
-                        if (content.author)
-                            .ui.label
-                                strong #{content.author.name}
-                        .ui.label
-                            | 发表于：#{moment(content.created).format('YYYY-MM-DD HH:mm:ss')} 
-                        .ui.label
-                            | 访客：#{content.visits}
-                    - var images = content.gallery
-                    if (images.length === 1)
-                        .ui.center.aligned
-                            a(href='#{images[0].url}', target='_blank')
-                                img.ui.fluid.image(src='#{images[0].url}')
-                    else if (images.length > 1) 
-                        .gallery
-                            if (content.gallery)
-                                each image in content.gallery
-                                    .gallery-item(data-obj='#{image}')
-                                        if (image.type.indexOf('video') > -1)
-                                            a(href='#{image.url}', type='#{image.type}')
-                                                video(controls src='#{image.url}')
-                                        else if (image.type.indexOf('image') > -1)
-                                            a(href='#{image.url}')
-                                                img.lazy(data-original='#{image.md_url || image.url}')
-                    
-                    .ui.basic.segment
-                        //- if (content.author && content.author.status === -1)
-                        //-     | !{content.content}
-                        //- else 
-                        //-     | #{content.content}
-                        | !{md(content.content)}
-                    
-                    .post-comments
-                        h3 评论(#{content.comments.length}) 
-                                    
-                        if(content.comments)
-                            .ui.threaded.comments.J_list
-                                each comment in content.comments
-                                    - var listComment = !!comment_list
-                                    if(!listComment)
-                                        if (!comment.reply)
-                                            include ../mixin
-                                            +commentItem(comment, content.comments)
-                                    else 
-                                        include ../mixin
-                                        +commentItem(comment)
+        .ui.body.post
+            h1.ui.header #{content.title}
+            .ui
+                if (content.category)
+                    .ui.label
+                        span.label.label-default #{content.category.name}
+                | 
+                if (content.author)
+                    .ui.label
+                        strong #{content.author.name}
+                .ui.label
+                    | 发表于：#{moment(content.created).format('YYYY-MM-DD HH:mm:ss')} 
+                .ui.label
+                    | 访客：#{content.visits}
+            
+            
+            .ui.basic.segment.post-content
+                - var images = content.gallery
+                if (images.length === 1)
+                    .ui.center.aligned
+                        a(href='#{images[0].url}', target='_blank')
+                            img.ui.fluid.image(src='#{images[0].url}')
+                else if (images.length > 1) 
+                    .gallery
+                        if (content.gallery)
+                            each image in content.gallery
+                                .gallery-item(data-obj='#{image}')
+                                    if (image.type.indexOf('video') > -1)
+                                        a(href='#{image.url}', type='#{image.type}')
+                                            video(controls src='#{image.url}')
+                                    else if (image.type.indexOf('image') > -1)
+                                        a(href='#{image.url}')
+                                            img.lazy(data-original='#{image.md_url || image.url}')
+                //- if (content.author && content.author.status === -1)
+                //-     | !{content.content}
+                //- else 
+                //-     | #{content.content}
+                div
+                    | !{md(content.content)}
+            
+            .post-comments
+                h3 评论(#{content.comments.length}) 
+                            
+                if(content.comments)
+                    .ui.threaded.comments.J_list
+                        each comment in content.comments
+                            - var listComment = !!comment_list
+                            if(!listComment)
+                                if (!comment.reply)
+                                    include ../mixin
+                                    +commentItem(comment, content.comments)
+                            else 
+                                include ../mixin
+                                +commentItem(comment)
 
-                        .ui.reply.form.J_commentForm
-                            .field
-                                input.J_input_name(name='name', placeholder='your name')
-                            .field
-                                input.J_input_email(name='email', placeholder='your email')
-                            .field
-                                textarea.J_textarea(name='content', placeholder='small talk')
-                            .ui.primary.submit.labeled.icon.button.J_submit
-                                i.icon.edit
-                                | 发送
+                .ui.reply.form.J_commentForm
+                    .field
+                        input.J_input_name(name='name', placeholder='your name')
+                    .field
+                        input.J_input_email(name='email', placeholder='your email')
+                    .field
+                        textarea.J_textarea(name='content', placeholder='small talk')
+                    .ui.primary.submit.labeled.icon.button.J_submit
+                        i.icon.edit
+                        | 发送
     script#J_tmpl_comment_item(type='x-tmpl-mustache')
         .comment.J_comment(data-id='{{id}}', data-reply='{{reply}}')
             a.avatar
