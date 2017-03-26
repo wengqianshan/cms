@@ -26,7 +26,7 @@ block content
                             .item
                                 if (content.gallery && content.gallery.length > 0)
                                     .image
-                                        img(src='#{content.gallery[0].url}')
+                                        img(src='#{content.gallery[0].sm_url || content.gallery[0].url}')
                                 .content
                                     a.ui.large.header(href='/content/#{content._id}') #{content.title}
                                     .meta
