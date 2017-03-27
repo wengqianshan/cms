@@ -1,10 +1,10 @@
 extends ../layout
 
 block content
-    .container
-        .row
-            .col-md-12
-                table.table.table-striped
+    .ui.body
+        .ui.container
+            .ui.items
+                table.ui.very.basic.padded.table
                     thead
                         tr
                             th 标题
@@ -14,13 +14,13 @@ block content
                         - each page in pages
                             tr
                                 td
-                                    a(href='page/#{page.id}') #{page.title}
+                                    a(href='/page/#{page.id}') #{page.title}
                                 td
                                     if (page.author)
                                         strong #{page.author.name}
                                 td
                                     | #{moment(page.created).format('LLL')}
-                .text-center
-                    if (pageInfo && pageInfo.totalPage > 1)
-                        include ../mixin
-                        +pagination(pageInfo)
+            .ui.center.aligned
+                if (pageInfo && pageInfo.totalPage > 1)
+                    include ../mixin
+                    +pagination(pageInfo)
