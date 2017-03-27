@@ -32,105 +32,10 @@ var app = function() {
         },
         s = function() {
             $(".timer").countTo()
-        },
-        r = function() {
-            $("#map").vectorMap({
-                map: "world_mill_en",
-                backgroundColor: "transparent",
-                regionStyle: {
-                    initial: {
-                        fill: "#1ABC9C"
-                    },
-                    hover: {
-                        "fill-opacity": .8
-                    }
-                },
-                markerStyle: {
-                    initial: {
-                        r: 10
-                    },
-                    hover: {
-                        r: 12,
-                        stroke: "rgba(255,255,255,0.8)",
-                        "stroke-width": 3
-                    }
-                },
-                markers: [{
-                    latLng: [27.9881, 86.9253],
-                    name: "36 Employees",
-                    style: {
-                        fill: "#E84C3D",
-                        stroke: "rgba(255,255,255,0.7)",
-                        "stroke-width": 3
-                    }
-                }, {
-                    latLng: [48.8582, 2.2945],
-                    name: "58 Employees",
-                    style: {
-                        fill: "#E84C3D",
-                        stroke: "rgba(255,255,255,0.7)",
-                        "stroke-width": 3
-                    }
-                }, {
-                    latLng: [-40.6892, -74.0444],
-                    name: "109 Employees",
-                    style: {
-                        fill: "#E84C3D",
-                        stroke: "rgba(255,255,255,0.7)",
-                        "stroke-width": 3
-                    }
-                }, {
-                    latLng: [34.05, -118.25],
-                    name: "85 Employees ",
-                    style: {
-                        fill: "#E84C3D",
-                        stroke: "rgba(255,255,255,0.7)",
-                        "stroke-width": 3
-                    }
-                }]
-            })
-        },
-        c = function() {
-            var e = new Skycons({
-                color: "white"
-            });
-            e.set("clear-day", Skycons.CLEAR_DAY), e.set("clear-night", Skycons.CLEAR_NIGHT), e.set("partly-cloudy-day", Skycons.PARTLY_CLOUDY_DAY), e.set("partly-cloudy-night", Skycons.PARTLY_CLOUDY_NIGHT), e.set("cloudy", Skycons.CLOUDY), e.set("rain", Skycons.RAIN), e.set("sleet", Skycons.SLEET), e.set("snow", Skycons.SNOW), e.set("wind", Skycons.WIND), e.set("fog", Skycons.FOG), e.play()
-        },
-        g = function() {
-            Morris.Donut({
-                element: "donut-example",
-                data: [{
-                    label: "Chrome",
-                    value: 73
-                }, {
-                    label: "Firefox",
-                    value: 71
-                }, {
-                    label: "Safari",
-                    value: 69
-                }, {
-                    label: "Internet Explorer",
-                    value: 40
-                }, {
-                    label: "Opera",
-                    value: 20
-                }, {
-                    label: "Android Browser",
-                    value: 10
-                }],
-                colors: ["#1abc9c", "#293949", "#e84c3d", "#3598db", "#2dcc70", "#f1c40f"]
-            })
-        },
-        d = function() {
-            $(".slider-span").slider()
         };
     return {
         init: e,
-        timer: s,
-        map: r,
-        sliders: d,
-        weather: c,
-        morrisPie: g
+        timer: s
     }
 }();
 $(document).ready(function() {

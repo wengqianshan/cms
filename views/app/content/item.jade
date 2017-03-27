@@ -1,8 +1,8 @@
 extends ../layout
 block head-css
     <link rel="stylesheet" href="/assets/plugins/highlight/styles/tomorrow-night.css">
-    <link rel="stylesheet" href="/assets/plugins/blueimp-gallery/css/blueimp-gallery.css">
-    <link rel="stylesheet" href="/assets/plugins/blueimp-gallery/css/blueimp-gallery-indicator.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/blueimp-gallery/2.15.0/css/blueimp-gallery.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/blueimp-gallery/2.15.0/js/blueimp-gallery-indicator.js">
 block content
     .ui.container
         .ui.body.post
@@ -108,8 +108,8 @@ block content
 block foot-js
     script(src='/assets/plugins/highlight/highlight.pack.js')
 
-    script(src='/assets/plugins/blueimp-gallery/js/jquery.blueimp-gallery.min.js')
-    script(src='/assets/app/js/vendor/lazyload.min.js')
+    script(src='//cdn.jsdelivr.net/blueimp-gallery/2.15.0/js/blueimp-gallery.min.js')
+    script(src='//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js')
     if (User)
         script.
             var userInfo = {
@@ -119,7 +119,7 @@ block foot-js
             localStorage.setItem('comment_user', JSON.stringify(userInfo));
     script.
         
-        moment.lang('zh-cn');
+        moment.locale('zh-cn');
         var token = '#{token}';
         var cid = '#{content.id}';
         $(document).ready(function() {

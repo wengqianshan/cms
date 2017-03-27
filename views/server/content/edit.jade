@@ -69,10 +69,8 @@ block content
 block foot-js
     script(src='/assets/plugins/mditor/js/mditor.min.js')
 
-    script(src='/assets/plugins/jquery.form/jquery.form.js')
     script(src='/assets/plugins/upload/js/vendor/jquery.ui.widget.js')
     script(src='/assets/plugins/load-image/js/load-image.min.js')
-    //script(src='/assets/server/js/vendor/canvas-to-blob.min.js')
     script(src='/assets/plugins/upload/js/jquery.iframe-transport.js')
     script(src='/assets/plugins/upload/js/jquery.fileupload.js')
     <script src="/assets/plugins/upload/js/jquery.fileupload-process.js"></script>
@@ -91,7 +89,6 @@ block foot-js
             var mditor =  Mditor.fromTextarea(document.getElementById('J_editor'));
             mditor.split = false;
 
-            $('#J_select_tags').chosen({max_selected_options: 5, no_results_text: '没有匹配到'})
             $('#fileupload').fileupload({
                 //url: '/upload',
                 url: '/admin/file/add',

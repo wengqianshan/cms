@@ -1,6 +1,6 @@
 extends ../layout
 block head-css
-    link(rel='stylesheet', href='/assets/plugins/select2/dist/css/select2.min.css')
+    link(rel='stylesheet', href='//cdn.jsdelivr.net/select2/4.0.3/css/select2.min.css')
 block content
     .row
         .col-md-12
@@ -37,7 +37,7 @@ block content
             label 内容
             textarea.form-control(rows='4')
 block foot-js
-    script(src='/assets/plugins/select2/dist/js/select2.js')
+    script(src='//cdn.jsdelivr.net/select2/4.0.3/js/select2.min.js')
     script.
         var user = !{JSON.stringify(User)};
         var token = '#{token}';
@@ -84,16 +84,7 @@ block foot-js
                     }
                 ]
             });
-            //- $dialog.$modalBody.find('input').AutoComplete({
-            //-     'data': '#{core.translateAdminDir("/user/query"))',
-            //-     'ajaxType': 'GET',
-            //-     'ajaxDataType': 'json',
-            //-     'width': 'auto',
-            //-     afterSelectedHandler: function(data) {
-            //-         console.log(data)
-            //-     },
-            //-     'onerror': function(msg){alert(msg);}
-            //- });
+            
             $dialog.$modalBody.find(".J_to_users").select2({
                 ajax: {
                     //url: "https://api.github.com/search/repositories",
@@ -147,51 +138,6 @@ block foot-js
                     return repo.username || repo.text;
                 }
             });
-            //- $dialog.$modalBody.find(".J_to_users").select2({
-            //-     ajax: {
-            //-         url: '#{core.translateAdminDir("/user/query"))',
-            //-         //dataType: 'json',
-            //-         delay: 250,
-            //-         data: function(params) {
-            //-             return {
-            //-                 q: params.term, // search term
-            //-                 page: params.page
-            //-             };
-            //-         },
-            //-         processResults: function(data, page) {
-            //-             params.page = params.page || 1;
-            //-             data.items.map(function(item) {
-            //-                 item.id = item._id;
-            //-                 return item;
-            //-             });
-            //-             return {
-            //-                 results: data.items,
-            //-                 pagination: {
-            //-                     more: (params.page * 30) < data.total_count
-            //-                 }
-            //-             };
-            //-         },
-            //-         cache: true
-            //-     },
-            //-     escapeMarkup: function(markup) {
-            //-         return markup;
-            //-     },
-            //-     minimumInputLength: 1,
-            //-     templateResult: function(repo) {
-            //-         if (repo.loading) return repo.text;
-            //-         var markup = '<div class="clearfix">' +
-            //-             '<div clas="col-sm-10">' +
-            //-             '<div class="col-sm-3">' + repo.name + '</div>' +
-            //-             '<div class="col-sm-6"><i class="fa fa-code-fork"></i> ' + repo.email + '</div>' +
-            //-             '<div class="col-sm-2"><i class="fa fa-star"></i> ' + repo.gender + '</div>' +
-            //-             '</div>';
-            //-         markup += '</div>';
-            //-         return markup;
-            //-     },
-            //-     templateSelection: function(repo) { // omitted for brevity, see the source of this page
-            //-         return repo._id || repo.username;
-            //-     }
-            //- });
         });
 
         $(document).on('click', '.J_del', function(e) {
@@ -204,11 +150,6 @@ block foot-js
                 console.log(json);
                 var status = json.status;
                 if(status === true) {
-                    //- Messenger().post({
-                    //-     message: '删除成功',
-                    //-     hideAfter: 3,
-                    //-     type: 'success'
-                    //- });
                     messenger.update({
                         message: '删除成功',
                         hideAfter: 3,
@@ -216,11 +157,6 @@ block foot-js
                     });
                     $tr.remove();
                 } else {
-                    //- Messenger().post({
-                    //-     message: '删除失败',
-                    //-     hideAfter: 3,
-                    //-     type: 'error'
-                    //- });
                     messenger.update({
                         message: '删除失败',
                         hideAfter: 3,

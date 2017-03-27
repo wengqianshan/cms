@@ -9,30 +9,24 @@ html.no-js
         // Favicon
         link(rel='shortcut icon', href='/assets/server/img/favicon.ico', type='image/x-icon')
         // Bootstrap core CSS
-        link(rel='stylesheet', href='/assets/plugins/bootstrap/css/bootstrap.min.css')
+        link(rel='stylesheet', href='//cdn.jsdelivr.net/bootstrap/3.3.7/css/bootstrap.min.css')
         // Bootstrap dialog
         link(rel='stylesheet', href='/assets/plugins/bootstrap3-dialog/css/bootstrap-dialog.min.css')
 
         link(rel='stylesheet', href='/assets/plugins/messenger/css/messenger.css')
         link(rel='stylesheet', href='/assets/plugins/messenger/css/messenger-theme-flat.css')
 
-        link(rel='stylesheet', href='/assets/plugins/chosen_v1.2.0/chosen.css')
 
         // Fonts from Font Awsome
-        link(rel='stylesheet', href='/assets/server/css/font-awesome.min.css')
+        link(rel='stylesheet', href='//cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min.css')
         // CSS Animate
-        link(rel='stylesheet', href='/assets/server/css/animate.css')
+        link(rel='stylesheet', href='//cdn.jsdelivr.net/animatecss/3.5.2/animate.min.css')
         // Custom styles for this theme
         link(rel='stylesheet', href='/assets/server/css/main.css')
         link(rel='stylesheet', href='/assets/server/css/style.css')
         block head-css
-        // Feature detection
-        script(src='/assets/server/js/modernizr-2.6.2.min.js')
         block head-js
-        // HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
-        //if lt IE 9
-            script(src='/assets/server/js/html5shiv.js')
-            script(src='/assets/server/js/respond.min.js')
+        
     body
         section#container
             header#header
@@ -48,60 +42,6 @@ html.no-js
 
                 .user-nav
                     ul
-                        //li.dropdown.messages
-                            span#new-messages.badge.badge-danager.animated.bounceIn 5
-                            button#toggle-mail.btn.btn-default.dropdown-toggle.options(type='button', data-toggle='dropdown')
-                                i.fa.fa-envelope
-                            ul.dropdown-menu.alert.animated.fadeInDown
-                                li
-                                    h1
-                                        | You have 
-                                        strong 5
-                                        |  new messages
-                                li
-                                    a(href='index.html#')
-                                        .profile-photo
-                                            img.img-circle(src='/assets/server/img/avatar.gif', alt='')
-                                        .message-info
-                                            span.sender James Bagian
-                                            span.time 30 mins
-                                            .message-content Lorem ipsum dolor sit amet, elit rutrum felis sed erat augue fusce...
-                                li
-                                    a(href='index.html#')
-                                        .profile-photo
-                                            img.img-circle(src='/assets/server/img/avatar1.gif', alt='')
-                                        .message-info
-                                            span.sender Jeffrey Ashby
-                                            span.time 2 hour
-                                            .message-content hendrerit pellentesque, iure tincidunt, faucibus vitae dolor aliquam...
-                                li
-                                    a(href='index.html#')
-                                        .profile-photo
-                                            img.img-circle(src='/assets/server/img/avatar2.gif', alt='')
-                                        .message-info
-                                            span.sender John Douey
-                                            span.time 3 hours
-                                            .message-content Penatibus suspendisse sit pellentesque eu accumsan condimentum nec...
-                                li
-                                    a(href='index.html#')
-                                        .profile-photo
-                                            img.img-circle(src='/assets/server/img/avatar3.gif', alt='')
-                                        .message-info
-                                            span.sender Ellen Baker
-                                            span.time 7 hours
-                                            .message-content Sem dapibus in, orci bibendum faucibus tellus, justo arcu...
-                                li
-                                    a(href='index.html#')
-                                        .profile-photo
-                                            img.img-circle(src='/assets/server/img/avatar4.gif', alt='')
-                                        .message-info
-                                            span.sender Ivan Bella
-                                            span.time 6 hours
-                                            .message-content Curabitur metus faucibus sapien elit, ante molestie sapien...
-                                li
-                                    a(href='index.html#')
-                                        | Check all messages 
-                                        i.fa.fa-angle-right
                         if (User)
                             li.profile-photo
                                 - var avatar = gravatar.url(User.email, {s: '40',r: 'x',d: 'retro'}, true)
@@ -235,13 +175,13 @@ html.no-js
             // main content end
             
         // Global JS
-        script(src='/assets/server/js/jquery-1.10.2.min.js')
-        script(src='/assets/plugins/bootstrap/js/bootstrap.min.js')
+        script(src='//cdn.jsdelivr.net/jquery/3.2.1/jquery.min.js')
+        script(src='//cdn.jsdelivr.net/jquery.form/4.2.0/jquery.form.min.js')
+        script(src='//cdn.jsdelivr.net/bootstrap/3.3.7/js/bootstrap.min.js')
         script(src='/assets/plugins/bootstrap3-dialog/js/bootstrap-dialog.min.js')
         script(src='/assets/plugins/messenger/js/messenger.min.js')
         script(src='/assets/plugins/messenger/js/messenger-theme-future.js')
-        script(src='/assets/plugins/chosen_v1.2.0/chosen.jquery.min.js')
-        script(src='/assets/server/js/vendor/mustache.js')
+        script(src='//cdn.jsdelivr.net/mustache.js/2.3.0/mustache.min.js')
         script(src='/assets/server/js/application.js')
         // Load these page level functions
         block foot-js
