@@ -1,7 +1,7 @@
 extends ../layout
 block head-css
     link(rel='stylesheet', href='/assets/plugins/mditor/css/mditor.min.css')
-    link(rel='stylesheet', href='/assets/plugins/upload/css/jquery.fileupload.css')
+    link(rel='stylesheet', href='//cdn.jsdelivr.net/jquery.fileupload/9.9.0/css/jquery.fileupload.css')
 block content
     .row
         .col-md-12
@@ -51,15 +51,14 @@ block content
 block foot-js
     script(src='/assets/plugins/mditor/js/mditor.min.js')
 
-    script(src='/assets/plugins/upload/js/vendor/jquery.ui.widget.js')
-    script(src='/assets/plugins/load-image/js/load-image.min.js')
-    script(src='/assets/plugins/upload/js/jquery.iframe-transport.js')
-    script(src='/assets/plugins/upload/js/jquery.fileupload.js')
-    <script src="/assets/plugins/upload/js/jquery.fileupload-process.js"></script>
-    <script src="/assets/plugins/upload/js/jquery.fileupload-image.js"></script>
-    <script src="/assets/plugins/upload/js/jquery.fileupload-audio.js"></script>
-    <script src="/assets/plugins/upload/js/jquery.fileupload-video.js"></script>
-    <script src="/assets/plugins/upload/js/jquery.fileupload-validate.js"></script>
+    script(src='//cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/vendor/jquery.ui.widget.js')
+    script(src='//cdn.jsdelivr.net/load-image/1.11.1/js/load-image.min.js')
+    script(src='//cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload.js')
+    script(src='//cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-process.js')
+    script(src='//cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-image.js')
+    script(src='//cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-audio.js')
+    script(src='//cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-video.js')
+    script(src='//cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/jquery.fileupload-validate.js')
 
     script.
         Messenger.options = {
