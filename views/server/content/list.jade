@@ -15,7 +15,9 @@ block content
                     - each content in contents
                         tr
                             td
-                                a(href='#{adminDir}/content/#{content.id}') #{content.title}
+                                a(href='/content/#{content.id}', target='_blank') #{content.title}
+                                    | 
+                                    i.fa.fa-external-link
                             td
                                 if (content.author)
                                     strong #{content.author.name}

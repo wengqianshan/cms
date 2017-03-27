@@ -23,8 +23,6 @@ router.use(function(req, res, next) {
 router.route('/').get(action.checkAction('CONTENT_INDEX'), content.list);
 //添加内容
 router.route('/add').all(action.checkAction('CONTENT_CREATE'), content.add);
-//单条信息
-router.route('/:id').get(action.checkAction('CONTENT_DETAIL'), content.one);
 //更新信息
 router.route('/:id/edit').all(action.checkAction('CONTENT_UPDATE'), content.edit);
 //删除信息

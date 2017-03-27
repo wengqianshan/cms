@@ -75,26 +75,6 @@ exports.list = function(req, res) {
         });
     });
 };
-//单条
-exports.one = function(req, res) {
-    var id = req.param('id');
-    var nested = req.query.comment_list;
-    Content.findById(id).populate('author').populate('category').populate('comments').populate('gallery').exec(function(err, result) {
-        console.log(result);
-        if(!result) {
-            return res.render('server/info', {
-                message: '该内容不存在'
-            });
-        }
-        result.visits = result.visits + 1;
-        result.save();
-        res.render('server/content/item', {
-            title: result.title,
-            content: result,
-            comment_list: nested
-        });
-    });
-};
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
