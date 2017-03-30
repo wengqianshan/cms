@@ -59,7 +59,7 @@ exports.add = function(req, res) {
         //console.log(req.files);
         //console.log(req.body);
         uploader.post(req, res, function (result) {
-            console.log(result);
+            console.log('上传结果', result);
             if(!result || !result.files) {
                 return;
             }
@@ -80,6 +80,8 @@ exports.add = function(req, res) {
                     fs.unlink(config.upload.uploadDir + '/' + file.name, function(err) {
                         console.log('删除成功', config.upload.uploadDir + '/' + file.name)
                     });
+                    // todo: 更新文件信息
+
                     res.json(result);
                 });
                 return;
