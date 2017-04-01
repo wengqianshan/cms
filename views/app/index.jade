@@ -4,14 +4,14 @@ block welcome
     if (!key)
         .welcome
             .ui.text.container
-                h1.ui.inverted.header 等待也是一种美...
+                h1.ui.inverted.header wenglou
                 h2 
-                .ui.huge.primary.button
-                    | quick start
+                a.ui.huge.primary.button(href='https://github.com/xiaoshan5733/cms', target='_blank')
+                    | got it
                     i.right.arrow.icon
 block content
     .ui.body
-        .ui.grid.container
+        .ui.stackable.grid.container
             if (key)
                 .search-area
                     | 搜索 
@@ -49,7 +49,7 @@ block content
                         if (pageInfo && pageInfo.totalPage > 1)
                             include ./mixin
                             +pagination(pageInfo)
-                .four.wide.right.floated.column
+                .four.wide.column
                     .ui.right-search
                         form(action='/', method='get')
                             .ui.icon.input(style='width: 100%;')
