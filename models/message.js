@@ -12,7 +12,7 @@ var mongoose = require('mongoose'),
 var MessageSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: '请输入姓名'
     },
     email: {
         type: String

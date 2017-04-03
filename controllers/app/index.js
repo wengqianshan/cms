@@ -81,7 +81,7 @@ exports.contact = function(req, res) {
             console.log(err, result);
             if (err) {
                 return res.render('app/info', {
-                    message: err
+                    message: err.message
                 });
             } else {
                 res.render('app/info', {

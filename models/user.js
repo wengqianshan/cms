@@ -12,19 +12,19 @@ var mongoose = require('mongoose'),
  * 用户模型
  */
 var UserSchema = new Schema({
-    name: {
+    username: {
         type: String,
-        required: true
+        required: '请输入用户名',
+        unique: true
     },
     email: {
         type: String,
-        required: true,
+        required: '请输入邮箱',
         unique: true
     },
-    username: {
+    name: {
         type: String,
-        required: true,
-        unique: true
+        required: '请输入姓名'
     },
     avatar: {
         type: String
@@ -103,9 +103,9 @@ UserSchema.path('name').validate(function(name) {
 UserSchema.path('email').validate(function(email) {
     return (typeof email === 'string' && email.length > 0);
 }, 'Email不能为空');
-/*UserSchema.path('email').validate(function(email) {
+UserSchema.path('email').validate(function(email) {
     return /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(email);
-}, 'Email格式不正确');*/
+}, 'Email格式不正确');
 
 UserSchema.path('username').validate(function(username) {
     return (typeof username === 'string' && username.length >= 4 && username.length <= 20);
