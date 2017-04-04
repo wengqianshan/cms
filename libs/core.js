@@ -21,11 +21,6 @@ let walk = function(modulesPath, excludeDir, callback) {
 exports.walk = walk;
 
 exports.stringify = function(obj) {
-    /*let arr = [];
-    for(let i in obj) {
-        arr.push(i + '=' + obj[i]);
-    }
-    return arr.join('&');*/
     return qs.stringify(obj);
 };
 //包装admin路径
