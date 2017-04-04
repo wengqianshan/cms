@@ -14,7 +14,7 @@ exports.list = function(req, res) {
     Notification.count(condition, function(err, total) {
         let query = Notification.find(condition).populate('from to');
         //分页
-        let pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req.query.page, total);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
@@ -38,7 +38,7 @@ exports.received = function(req, res) {
     Notification.count(condition, function(err, total) {
         let query = Notification.find(condition).populate('from to');
         //分页
-        let pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req.query.page, total);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
@@ -64,7 +64,7 @@ exports.sent = function(req, res) {
     Notification.count(condition, function(err, total) {
         let query = Notification.find(condition).populate('from to');
         //分页
-        let pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req.query.page, total);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);

@@ -18,6 +18,7 @@ block content
             
             .ui.center.aligned
                 if (pageInfo && pageInfo.totalPage > 1)
+                    - pageInfo.query = query
                     include ./mixin
                     +pagination(pageInfo)
 block foot-js

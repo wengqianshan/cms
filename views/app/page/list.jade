@@ -22,5 +22,6 @@ block content
                                     | #{moment(page.created).format('LLL')}
             .ui.center.aligned
                 if (pageInfo && pageInfo.totalPage > 1)
+                    - pageInfo.query = query
                     include ../mixin
                     +pagination(pageInfo)

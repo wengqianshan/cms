@@ -14,7 +14,7 @@ exports.list = function(req, res) {
     Category.count(condition, function(err, total) {
         let query = Category.find(condition).populate('author');
         //分页
-        let pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req.query.page, total);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);

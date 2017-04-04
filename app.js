@@ -91,6 +91,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
     res.header('X-Powered-By', 'wengqianshan');
     res.locals.token = req.csrfToken && req.csrfToken();
+    res.locals.query = req.query;
     if (req.session.user) {
         res.locals.User = req.session.user;
         //角色信息

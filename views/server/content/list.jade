@@ -29,6 +29,7 @@ block content
                                 a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/content/#{content.id}/del') 删除
             
             if (pageInfo && pageInfo.totalPage > 1)
+                - pageInfo.query = query
                 include ../mixin
                 +pagination(pageInfo)
 

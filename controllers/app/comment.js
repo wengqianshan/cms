@@ -78,7 +78,7 @@ exports.list = function(req, res) {
     Comment.count(condition, function(err, total) {
         let query = Comment.find({}).populate('author').populate('from');
         //分页
-        let pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req.query.page, total);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});

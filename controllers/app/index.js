@@ -35,7 +35,7 @@ exports.index = function(req, res) {
         obj.hotest = hotest;
         let query = Content.find(condition).populate('author', 'username name email').populate('comments').populate('gallery');
         //分页
-        let pageInfo = core.createPage(req, obj.total, 10);
+        let pageInfo = core.createPage(req.query.page, obj.total);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});

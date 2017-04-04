@@ -16,7 +16,7 @@ exports.list = function(req, res) {
     Role.count(condition, function(err, total) {
         let query = Role.find(condition).populate('author');
         //分页
-        let pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req.query.page, total);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});

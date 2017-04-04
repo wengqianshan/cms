@@ -13,7 +13,7 @@ exports.list = function(req, res) {
     }).then(function(total) {
         let query = Content.find(condition).populate('author', 'name').populate('category', 'name').populate('gallery', 'url name size type created');
         //分页
-        let pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req.query.page, total);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});

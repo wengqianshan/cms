@@ -47,6 +47,7 @@ block content
                                             .detail #{content.visits}
                     .ui.center.aligned
                         if (pageInfo && pageInfo.totalPage > 1)
+                            - pageInfo.query = query
                             include ./mixin
                             +pagination(pageInfo)
                 .four.wide.column

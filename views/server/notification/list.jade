@@ -25,6 +25,7 @@ block content
                             td
                                 a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/notification/#{notification.id}/del') 删除
             if (pageInfo && pageInfo.totalPage > 1)
+                - pageInfo.query = query
                 include ../mixin
                 +pagination(pageInfo)
     script#J_tmpl_add(type='x-tmpl-mustache')

@@ -60,7 +60,7 @@ exports.list = function(req, res) {
     Content.count(condition).exec().then(function(total) {
         let query = Content.find(condition).populate('author', 'username name email');
         //分页
-        let pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req.query.page, total);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);

@@ -20,7 +20,6 @@ let walk = function(modulesPath, excludeDir, callback) {
 };
 exports.walk = walk;
 
-//obj to params TODO: 换成qs
 exports.stringify = function(obj) {
     /*let arr = [];
     for(let i in obj) {
@@ -35,23 +34,17 @@ exports.translateAdminDir = function(p) {
     return newPath;
 };
 //分页  params: 当前页, 总条数, 每页条数
-exports.createPage = function(req, total, _pageSize) {
+exports.createPage = function(_page, total, _pageSize = 20) {
     let pageSize = _pageSize || 10;
-    if (!req) {
-        console.log('分页参数错误');
-        return;
-    }
-    let query = req.query || {};
-    let page = query.page | 0; //强制转化整型
-    let totalPage = Math.max(Math.ceil(total / pageSize), 1); //获取总页数,容错
+    let page = _page | 0; //强制转化整型
+    let totalPage = Math.max(Math.ceil(total / pageSize), 1); //获取总页数
     let currentPage = page < 1 ? 1 : page > totalPage ? totalPage : page; //获取当前页数
     let start = pageSize * (currentPage - 1); //计算开始位置
     return {
         start: start,
         pageSize: pageSize,
         totalPage: totalPage,
-        currentPage: currentPage,
-        query: query
+        currentPage: currentPage
     };
 };
 
