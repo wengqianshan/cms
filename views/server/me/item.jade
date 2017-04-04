@@ -48,6 +48,12 @@ block content
                     li.list-group-item
                         .row
                             .col-md-2
+                                strong 生日
+                            .col-md-10
+                                | #{moment(user.birthday || '').format('YYYY年MM月DD日')}
+                    li.list-group-item
+                        .row
+                            .col-md-2
                                 strong 性别
                             .col-md-10
                                 | #{user.gender}

@@ -16,7 +16,7 @@ block content
                             label.col-sm-2.control-label(for='inputPassword4') 姓名
                             .col-sm-10
                                 input#inputPassword4.form-control(type='text', name='name', value='#{user.name}', placeholder='姓名')
-                        .form-group
+                        //.form-group
                             label.col-sm-2.control-label(for='inputPassword5') Email
                             .col-sm-10
                                 input#inputPassword5.form-control(type='email', name='email', value='#{user.email}' placeholder='Email')
@@ -24,6 +24,10 @@ block content
                             label.col-sm-2.control-label(for='inputPassword6') 手机号
                             .col-sm-10
                                 input#inputPassword6.form-control(type='mobile', name='mobile', value='#{user.mobile || ""}' placeholder='手机号')
+                        .form-group
+                            label.col-sm-2.control-label(for='J_birthday') 生日
+                            .col-sm-10
+                                input#J_birthday.form-control(type='text', name='birthday', value='#{moment(user.birthday || "").format("YYYY-MM-DD")}' placeholder='生日')
 
                         .form-group
                             label.col-sm-2.control-label(for='inputPassword5') 性别

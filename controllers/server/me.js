@@ -42,15 +42,16 @@ exports.edit = function(req, res) {
         User.findById(id).populate('roles').exec(function(err, user) {
             user._roles = req.Roles;
             user._actions = req.Actions;
+            var data = _.pick(user, 'name', 'mobile', 'gender', 'birthday');
             res.render('server/me/edit', {
                 title: '修改资料',
-                user: user
+                user: data
             });
         });
     } else if(req.method === 'POST') {
         var obj = req.body;
         User.findById(id).populate('roles').exec(function(err, user) {
-            _.extend(user, _.pick(obj, 'name', 'email', 'mobile', 'gender', 'birthday'));
+            _.extend(user, _.pick(obj, 'name', 'mobile', 'gender', 'birthday'));
             user.save(function(err, result) {
                 console.log(err, result);
                 if(err || !result) {
