@@ -12,8 +12,13 @@ router.use(function(req, res, next) {
     });
     next();
 });
-router.route('/users').all(user.list);
-router.route('/users/:id').all(user.item);
+router.route('/users')
+    .get(user.list);
+router.route('/users/:id')
+    .get(user.item)
+    .put()
+    .post()
+    .delete();
 
 module.exports = function(app) {
     app.use('/api/v1', router);

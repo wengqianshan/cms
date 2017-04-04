@@ -11,8 +11,13 @@ router.use(function(req, res, next) {
     });
     next();
 });
-router.route('/contents').all(content.list);
-router.route('/contents/:id').all(content.item);
+router.route('/contents')
+    .get(content.list);
+router.route('/contents/:id')
+    .get(content.item)
+    .put()
+    .post()
+    .delete()
 
 module.exports = function(app) {
     app.use('/api/v1', router);
