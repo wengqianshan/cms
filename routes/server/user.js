@@ -31,10 +31,6 @@ router.use(function(req, res, next) {
         let path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
-    /*if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('user') < 0)) {
-        let path = core.translateAdminDir('/');
-        return res.redirect(path);
-    }*/
     next();
 });
 //用户列表
