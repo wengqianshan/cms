@@ -17,6 +17,7 @@ let config = {
     // },
     //找回密码hash过期时间
     findPasswordTill: 24 * 60 * 60 * 1000,
+    title: 'CMS',
     //后台相关配置
     admin: {
         dir: 'admin', //后台访问路径，如http://localhost/admin配置为admin
