@@ -2,7 +2,7 @@
 /**
  * 模块依赖
  */
- 
+
 let crypto = require('crypto')
 let _ = require('lodash')
 let mongoose = require('mongoose')
@@ -12,7 +12,7 @@ let Schema = mongoose.Schema
 /**
  * 用户模型
  */
-var UserSchema = new Schema({
+let UserSchema = new Schema({
     username: {
         type: String,
         required: '请输入用户名',
@@ -143,7 +143,7 @@ UserSchema.methods = {
      */
      //通过角色名判断权限
     hasRole: function(role) {
-        var roles = [];
+        let roles = [];
         this.roles.forEach(function(item) {
             roles = _.union(roles, item.name);
         });
@@ -151,15 +151,15 @@ UserSchema.methods = {
     },
     //通过动作判断权限
     hasAction: function(action) {
-        var actions = [];
+        let actions = [];
         this.roles.forEach(function(item) {
             actions = _.union(actions, item.actions);
         });
         return (actions.indexOf(action) !== -1);
     },
     roleToObj: function() {
-        var roles = [];
-        var actions = [];
+        let roles = [];
+        let actions = [];
         this.roles.forEach(function(item) {
             roles = _.union(roles, item.name);
             actions = _.union(actions, item.actions);
@@ -184,7 +184,7 @@ UserSchema.methods = {
     },
     hashPassword: function(password) {
         if (!password) return '';
-        var encrypred;
+        let encrypred;
         try {
             encrypred = crypto.createHmac('sha1', this.salt).update(password).digest('hex');
             return encrypred;

@@ -9,7 +9,7 @@ let Schema = mongoose.Schema
 /**
  * 选项模型
  */
-var OptionSchema = new Schema({
+let OptionSchema = new Schema({
     name: {
         type: String,
         unique: true

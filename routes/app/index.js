@@ -1,3 +1,5 @@
+'use strict';
+
 let express = require('express')
 let router = express.Router()
 let index = require('../../controllers/app/index')

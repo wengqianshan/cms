@@ -2,6 +2,7 @@
  * 用户服务
  **/
 'use strict';
+
 let mongoose = require('mongoose');
 let _ = require('lodash');
 let config = require('../config');

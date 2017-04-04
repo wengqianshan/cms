@@ -1,3 +1,5 @@
+'use strict';
+
 let express = require('express')
 let router = express.Router()
 let comment = require('../../controllers/app/comment')

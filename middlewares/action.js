@@ -1,3 +1,5 @@
+'use strict';
+
 let _ = require('lodash')
 
 // 检查权限中间件
@@ -8,7 +10,7 @@ exports.checkAction = function(actionName) {
         if (req.Roles.indexOf('admin') > -1) {
             return next();
         }
-        var result = false;
+        let result = false;
 
         if (_.isArray(actionName)) {
             result = _.intersection(req.Actions, actionName).length === actionName.length;

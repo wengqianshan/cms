@@ -1,4 +1,5 @@
 'use strict';
+
 let mongoose = require('mongoose')
 let Comment = mongoose.model('Comment')
 let Content = mongoose.model('Content')
@@ -7,16 +8,16 @@ let core = require('../../libs/core')
 
 //列表
 exports.list = function(req, res) {
-    var condition = {};
-    var category = req.query.category;
+    let condition = {};
+    let category = req.query.category;
     if(category) {
         condition.category = category;
     }
     //查数据总数
     Content.count(condition, function(err, total) {
-        var query = Content.find(condition).populate('author', 'username name email');
+        let query = Content.find(condition).populate('author', 'username name email');
         //分页
-        var pageInfo = core.createPage(req, total, 30);
+        let pageInfo = core.createPage(req, total, 30);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
@@ -34,8 +35,8 @@ exports.list = function(req, res) {
 };
 //单条
 exports.one = function(req, res) {
-    var id = req.param('id');
-    var nested = req.query.comment_list;
+    let id = req.param('id');
+    let nested = req.query.comment_list;
     Content.findById(id).populate('author').populate('category').populate('comments').populate('gallery').exec(function(err, result) {
         console.log(result);
         if(!result) {

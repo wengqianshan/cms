@@ -1,3 +1,4 @@
+'use strict';
 /**
  ** 这个页面文件名比较特殊，为了能在最后加载所以前面加了个z,对应controller是index.js
  **

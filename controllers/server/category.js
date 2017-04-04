@@ -1,4 +1,5 @@
 'use strict';
+
 let  mongoose = require('mongoose')
 let Category = mongoose.model('Category')
 let _ = require('lodash')
@@ -6,14 +7,14 @@ let core = require('../../libs/core')
 
 //列表
 exports.list = function(req, res) {
-    var condition = {};
+    let condition = {};
     if(req.Roles && req.Roles.indexOf('admin') < 0) {
         condition.author = req.session.user._id;
     }
     Category.count(condition, function(err, total) {
-        var query = Category.find(condition).populate('author');
+        let query = Category.find(condition).populate('author');
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
@@ -32,7 +33,7 @@ exports.list = function(req, res) {
 };
 //单条
 exports.one = function(req, res) {
-    var id = req.param('id');
+    let id = req.param('id');
     Category.findById(id).populate('author', 'username name email').exec(function(err, result) {
         console.log(result);
         if(!result) {
@@ -53,11 +54,11 @@ exports.add = function(req, res) {
             Menu: 'add'
         });
     } else if (req.method === 'POST') {
-        var obj = req.body;
+        let obj = req.body;
         if (req.session.user) {
             obj.author = req.session.user._id;
         }
-        var category = new Category(obj);
+        let category = new Category(obj);
         category.save(function(err, category) {
             if (req.xhr) {
                 return res.json({
@@ -77,10 +78,10 @@ exports.add = function(req, res) {
 };
 exports.edit = function(req, res) {
     if(req.method === 'GET') {
-        var id = req.param('id');
+        let id = req.param('id');
         Category.findById(id).populate('author').exec(function(err, result) {
-            var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-            var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+            let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+            let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info', {
@@ -92,11 +93,11 @@ exports.edit = function(req, res) {
             });
         });
     } else if(req.method === 'POST') {
-        var id = req.param('id');
-        var obj = req.body;
+        let id = req.param('id');
+        let obj = req.body;
         Category.findById(id).populate('author').exec(function(err, result) {
-            var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-            var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+            let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+            let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info', {
@@ -121,15 +122,15 @@ exports.edit = function(req, res) {
 };
 //删除
 exports.del = function(req, res) {
-    var id = req.params.id;
+    let id = req.params.id;
     Category.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/info', {
                 message: '分类不存在'
             });
         }
-        var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-        var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+        let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+        let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
         if(!isAdmin && !isAuthor) {
             return res.render('server/info', {

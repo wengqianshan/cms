@@ -2,6 +2,7 @@
  * 通知服务
  **/
 'use strict';
+
 let mongoose = require('mongoose');
 let _ = require('lodash');
 let Notification = mongoose.model('Notification');

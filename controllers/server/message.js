@@ -1,17 +1,18 @@
 'use strict';
+
 let mongoose = require('mongoose')
 let Message = mongoose.model('Message')
 let core = require('../../libs/core')
 //列表
 exports.list = function(req, res) {
-    var condition = {};
+    let condition = {};
     /*if(req.Roles && req.Roles.indexOf('admin') < 0) {
         condition.author = req.session.user._id;
     }*/
     Message.count(condition, function(err, total) {
-        var query = Message.find(condition);
+        let query = Message.find(condition);
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
@@ -30,7 +31,7 @@ exports.list = function(req, res) {
 };
 //单条
 exports.one = function(req, res) {
-    var id = req.param('id');
+    let id = req.param('id');
     Message.findById(id).exec(function(err, result) {
         console.log(result);
         if(!result) {
@@ -46,7 +47,7 @@ exports.one = function(req, res) {
 };
 //删除
 exports.del = function(req, res) {
-    var id = req.params.id;
+    let id = req.params.id;
     Message.findById(id).exec(function(err, result) {
         if(!result) {
             return res.render('server/info', {

@@ -9,7 +9,7 @@ let Schema = mongoose.Schema
 /**
  * 标签模型
  */
-var TagSchema = new Schema({
+let TagSchema = new Schema({
     name: {
         type: String,
         required: true

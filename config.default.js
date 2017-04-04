@@ -1,3 +1,5 @@
+'use strict';
+
 let appPath = process.cwd();
 let config = {
     port: 7000,

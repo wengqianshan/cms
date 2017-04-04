@@ -1,18 +1,19 @@
 'use strict';
+
 let mongoose = require('mongoose')
 let Content = mongoose.model('Content')
 let core = require('../../../libs/core')
 
 exports.list = function(req, res) {
     console.time('content-list');
-    var condition = {};
-    var obj = {};
+    let condition = {};
+    let obj = {};
     Content.count(condition).exec().then(function(total){
         return total;
     }).then(function(total) {
-        var query = Content.find(condition).populate('author', 'name').populate('category', 'name').populate('gallery', 'url name size type created');
+        let query = Content.find(condition).populate('author', 'name').populate('category', 'name').populate('gallery', 'url name size type created');
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req, total, 10);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});
@@ -28,7 +29,7 @@ exports.list = function(req, res) {
     //
 };
 exports.item = function(req, res) {
-    var query = Content.findById(req.param('id')).populate('author', 'name').populate('category', 'name').populate('gallery', 'url name size type created');
+    let query = Content.findById(req.param('id')).populate('author', 'name').populate('category', 'name').populate('gallery', 'url name size type created');
     query.exec(function(err, result) {
         res.jsonp({
             data: result

@@ -2,6 +2,7 @@
  * 标签服务
  **/
 'use strict';
+
 let mongoose = require('mongoose');
 let _ = require('lodash');
 let Tag = mongoose.model('Tag');

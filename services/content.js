@@ -1,8 +1,8 @@
 /**
  * 内容服务
  **/
-
 'use strict';
+
 let mongoose = require('mongoose');
 let _ = require('lodash');
 let Content = mongoose.model('Content');

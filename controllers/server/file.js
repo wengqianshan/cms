@@ -1,4 +1,5 @@
 'use strict';
+
 let  mongoose = require('mongoose')
 let fs = require('fs')
 let path = require('path')
@@ -11,14 +12,14 @@ let uploader = require('../../libs/uploader')(config.upload);
 //列表
 exports.list = function(req, res) {
     //console.log(req.cookies['XSRF-TOKEN'])
-    var condition = {};
+    let condition = {};
     if(req.Roles && req.Roles.indexOf('admin') < 0) {
         condition.author = req.session.user._id;
     }
     File.count(condition, function(err, total) {
-        var query = File.find(condition).populate('author');
+        let query = File.find(condition).populate('author');
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req, total, 10);
         console.log(pageInfo)
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
@@ -35,7 +36,7 @@ exports.list = function(req, res) {
 };
 //单条
 exports.one = function(req, res) {
-    var id = req.param('id');
+    let id = req.param('id');
     File.findById(id).populate('author').exec(function(err, result) {
         console.log(result);
         if(!result) {
@@ -63,13 +64,13 @@ exports.add = function(req, res) {
             if(!result || !result.files) {
                 return;
             }
-            var id = req.body.id;
+            let id = req.body.id;
             //如果是修改文件，则不保存到服务器
             if(id) {
                 console.log('修改文件');
                 File.findById(id).populate('author').exec(function(err, file) {
-                    var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-                    var isAuthor = file.author && ((file.author._id + '') === req.session.user._id);
+                    let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+                    let isAuthor = file.author && ((file.author._id + '') === req.session.user._id);
 
                     if(!isAdmin && !isAuthor) {
                         return res.render('server/info', {
@@ -86,8 +87,8 @@ exports.add = function(req, res) {
                 });
                 return;
             }
-            var len = result.files.length;
-            var json = {
+            let len = result.files.length;
+            let json = {
                 files: []
             };
             result.files.forEach(function(item) {
@@ -95,9 +96,9 @@ exports.add = function(req, res) {
                     item.author = req.session.user._id;
                 }
                 //这里还可以处理url
-                var fileObj = item;//_.pick(item, 'name', 'size', 'type', 'url');
+                let fileObj = item;//_.pick(item, 'name', 'size', 'type', 'url');
                 console.log(fileObj);
-                var file = new File(fileObj);
+                let file = new File(fileObj);
                 file.save(function(err, obj) {
                     if(err || !obj) {
                         console.log('保存file失败', err, obj);
@@ -117,10 +118,10 @@ exports.add = function(req, res) {
 };
 exports.edit = function(req, res) {
     if(req.method === 'GET') {
-        var id = req.param('id');
+        let id = req.param('id');
         File.findById(id).populate('author').exec(function(err, result) {
-            var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-            var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+            let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+            let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info', {
@@ -132,11 +133,11 @@ exports.edit = function(req, res) {
             });
         });
     } else if(req.method === 'POST') {
-        var id = req.param('id');
-        var obj = req.body;
+        let id = req.param('id');
+        let obj = req.body;
         File.findById(id).populate('author').exec(function(err, result) {
-            var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-            var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+            let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+            let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info', {
@@ -154,15 +155,15 @@ exports.edit = function(req, res) {
 };
 //删除
 exports.del = function(req, res) {
-    var id = req.params.id;
+    let id = req.params.id;
     File.findById(id).populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/info', {
                 message: '文件不存在'
             });
         }
-        var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-        var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+        let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+        let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
         if(!isAdmin && !isAuthor) {
             return res.render('server/info', {
@@ -170,8 +171,8 @@ exports.del = function(req, res) {
             });
         }
         //console.log(result);
-        var url = result.url;
-        var fileName = path.basename(decodeURIComponent(url));
+        let url = result.url;
+        let fileName = path.basename(decodeURIComponent(url));
         console.log('删除文件', url, fileName);
         if (fileName[0] !== '.') {
             if(url.indexOf(config.upload.storage.options.domain) > -1) {

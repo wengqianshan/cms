@@ -9,7 +9,7 @@ let Schema = mongoose.Schema
 /**
  * 通知模型
  */
-var NotificationSchema = new Schema({
+let NotificationSchema = new Schema({
     content: {
         type: String,
         required: true

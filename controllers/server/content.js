@@ -1,4 +1,5 @@
 'use strict';
+
 let mongoose = require('mongoose')
 let Content = mongoose.model('Content')
 let Category = mongoose.model('Category')
@@ -6,14 +7,14 @@ let Tag = mongoose.model('Tag')
 let _ = require('lodash')
 let core = require('../../libs/core')
 let xss = require('xss')
-/*var userService = require('../../services/user')
+/*let userService = require('../../services/user')
 userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(function(res) {
     console.log(res)
 }, function(err) {
     console.log(err)
 })*/
 
-//var contentService = require('../../services/content');
+//let contentService = require('../../services/content');
 
 //console.log(contentService, 111);
 
@@ -24,8 +25,8 @@ userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(funct
 
 //同步mysql
 //先安装mysql模块 npm install mysql
-/*var mysql = require('mysql');
-var connection = mysql.createConnection({
+/*let mysql = require('mysql');
+let connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : '',
@@ -34,7 +35,7 @@ var connection = mysql.createConnection({
 connection.connect();
 connection.query('select * from info', function(err, result) {
     result.forEach(function(item) {
-        var content = new Content({
+        let content = new Content({
             title: item.title,
             content: item.content,
             created: item.created
@@ -47,8 +48,8 @@ connection.query('select * from info', function(err, result) {
 //备份end
 //列表
 exports.list = function(req, res) {
-    var condition = {};
-    var category = req.query.category;
+    let condition = {};
+    let category = req.query.category;
     if(category) {
         condition.category = category;
     }
@@ -57,9 +58,9 @@ exports.list = function(req, res) {
     }
     //查数据总数
     Content.count(condition).exec().then(function(total) {
-        var query = Content.find(condition).populate('author', 'username name email');
+        let query = Content.find(condition).populate('author', 'username name email');
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
@@ -78,7 +79,7 @@ exports.list = function(req, res) {
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
-        var condition = {};
+        let condition = {};
         if(req.Roles && req.Roles.indexOf('admin') < 0) {
             condition.author = req.session.user._id;
         }
@@ -100,7 +101,7 @@ exports.add = function(req, res) {
             });
         })
     } else if (req.method === 'POST') {
-        var obj = req.body;
+        let obj = req.body;
         if (req.session.user) {
             obj.author = req.session.user._id;
         }
@@ -109,7 +110,7 @@ exports.add = function(req, res) {
         }
         obj.content = xss(obj.content);
         
-        var content = new Content(obj);
+        let content = new Content(obj);
         content.save(function(err, content) {
             if (req.xhr) {
                 return res.json({
@@ -131,20 +132,20 @@ exports.add = function(req, res) {
 };
 exports.edit = function(req, res) {
     if(req.method === 'GET') {
-        var id = req.param('id');
+        let id = req.param('id');
         Content.findById(id).populate('author gallery tags').exec(function(err, result) {
             if(err) {
                 console.log('加载内容失败');
             }
-            var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-            var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+            let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+            let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info', {
                     message: '没有权限'
                 });
             }
-            var condition = {};
+            let condition = {};
             if(req.Roles && req.Roles.indexOf('admin') < 0) {
                 condition.author = req.session.user._id;
             }
@@ -162,8 +163,8 @@ exports.edit = function(req, res) {
             });
         });
     } else if(req.method === 'POST') {
-        var id = req.param('id');
-        var obj = req.body;
+        let id = req.param('id');
+        let obj = req.body;
         console.log(obj);
         console.log(obj.gallery)
         if(obj.category === '') {
@@ -175,8 +176,8 @@ exports.edit = function(req, res) {
         
         Content.findById(id).populate('author').exec(function(err, result) {
             //console.log(result);
-            var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-            var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+            let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+            let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info', {
@@ -204,15 +205,15 @@ exports.edit = function(req, res) {
 };
 //删除
 exports.del = function(req, res) {
-    var id = req.params.id;
+    let id = req.params.id;
     Content.findById(id).populate('author').exec(function(err, result) {
         if(err || !result) {
             return res.render('server/info', {
                 message: '内容不存在'
             });
         }
-        var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-        var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+        let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+        let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
         if(!isAdmin && !isAuthor) {
             return res.render('server/info', {

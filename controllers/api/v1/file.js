@@ -1,17 +1,18 @@
 'use strict';
+
 let mongoose = require('mongoose')
 let File = mongoose.model('File')
 let core = require('../../../libs/core')
 
 exports.list = function(req, res) {
-    var condition = {};
-    var obj = {};
+    let condition = {};
+    let obj = {};
     File.count(condition).exec().then(function(total){
         return total;
     }).then(function(total) {
-        var query = File.find(condition);
+        let query = File.find(condition);
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req, total, 10);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});

@@ -2,6 +2,7 @@
  * 角色服务
  **/
 'use strict';
+
 let mongoose = require('mongoose');
 let _ = require('lodash');
 let Role = mongoose.model('Role');

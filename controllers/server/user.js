@@ -1,4 +1,5 @@
 'use strict';
+
 let mongoose = require('mongoose')
 let User = mongoose.model('User')
 let Role = mongoose.model('Role')
@@ -11,7 +12,7 @@ let sendmail = require('sendmail')()
 let _ = require('lodash');
 
 
-/*var userService = require('../../services/user')
+/*let userService = require('../../services/user')
 userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(function(res) {
     console.log(res)
 }, function(err) {
@@ -20,7 +21,7 @@ userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(funct
 // 这个最好移到app.js里面，每次开启服务时检查，
 exports.checkInstall = function(req, res, next) {
     if(req.session.user) {
-        var path = core.translateAdminDir('/');
+        let path = core.translateAdminDir('/');
         return res.redirect(path);
     }
     User.find({}, function(err, results) {
@@ -28,20 +29,20 @@ exports.checkInstall = function(req, res, next) {
             return;
         }
         if(results.length > 0) {
-            // var path = core.translateAdminDir('/user/login');
+            // let path = core.translateAdminDir('/user/login');
             // return res.redirect(path);
             return next();
         } else {
-            //var path = core.translateAdminDir('/install');
+            //let path = core.translateAdminDir('/install');
             //return res.redirect(path);
-            var path = core.translateAdminDir('/install')
+            let path = core.translateAdminDir('/install')
             return res.render('server/install')
             //return res.send('请先<a href="' + path + '">安装应用</a>');
         }
     })
 }
 
-/*var user = new User({
+/*let user = new User({
     username: 'geo5',
     password: '123456',
     name: '测试位置5',
@@ -68,7 +69,7 @@ user.save(function(err, result) {
 //用户登录校验
 exports.authenticate = function(req, res, next) {
     if (!req.session.user) {
-        var path = core.translateAdminDir('/user/login');
+        let path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     } else {
         next();
@@ -76,14 +77,14 @@ exports.authenticate = function(req, res, next) {
 };
 //用户列表
 exports.list = function(req, res) {
-    var condition = {};
+    let condition = {};
     if(req.Roles && req.Roles.indexOf('admin') < 0) {
         condition.author = req.session.user._id;
     }
     User.count(condition, function(err, total) {
-        var query = User.find(condition).populate('author').populate('roles');
+        let query = User.find(condition).populate('author').populate('roles');
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req, total, 10);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});
@@ -100,7 +101,7 @@ exports.list = function(req, res) {
 }
 //单个用户
 exports.one = function(req, res) {
-    var id = req.param('id');
+    let id = req.param('id');
     User.findById(id).populate('author').populate('roles').exec(function(err, result) {
         res.render('server/user/item', {
             user: result
@@ -109,7 +110,7 @@ exports.one = function(req, res) {
 };
 //查询
 exports.query = function(req, res) {
-    var kw = req.query.q;
+    let kw = req.query.q;
     User.find({username: new RegExp(kw, 'gi')}).exec(function(err, result) {
         console.log(err, result)
         if (err) {
@@ -126,11 +127,11 @@ exports.query = function(req, res) {
 };
 //注册
 exports.register = function(req, res) {
-    var method = req.method;
+    let method = req.method;
     if (method === 'GET') {
         res.render('server/user/register', {});
     } else if (method === 'POST') {
-        var obj = req.body;
+        let obj = req.body;
         console.log(obj);
         //默认角色
         Role.findOne({status: 202}, function(err, role) {
@@ -145,14 +146,14 @@ exports.register = function(req, res) {
                 obj.author = req.session.user._id;
             }
             obj.reg_ip = core.getIp(req);
-            var user = new User(obj);
+            let user = new User(obj);
             user.save(function(err, result) {
                 console.log(result);
                 if (err) {
                     console.log(err);
-                    var errors = err.errors;
-                    var message = [];
-                    for (var i in errors) {
+                    let errors = err.errors;
+                    let message = [];
+                    for (let i in errors) {
                         message.push(errors[i].message);
                     }
                     return res.render('server/info', {
@@ -168,13 +169,13 @@ exports.register = function(req, res) {
 };
 //添加
 exports.add = function(req, res) {
-    var method = req.method;
+    let method = req.method;
     if (method === 'GET') {
         res.render('server/user/add', {
             Menu: 'add'
         });
     } else if (method === 'POST') {
-        var obj = req.body;
+        let obj = req.body;
         console.log(obj);
         //默认角色
         Role.findOne({status: 202}, function(err, role) {
@@ -188,7 +189,7 @@ exports.add = function(req, res) {
             if (req.session.user) {
                 obj.author = req.session.user._id;
             }
-            var user = new User(obj);
+            let user = new User(obj);
             user.save(function(err, result) {
                 console.log(result);
                 if (req.xhr) {
@@ -212,8 +213,8 @@ exports.add = function(req, res) {
 
 //编辑
 exports.edit = function(req, res) {
-    var id = req.params.id;
-    var editHandler = function(user) {
+    let id = req.params.id;
+    let editHandler = function(user) {
         user.save(function(err, user) {
             if (req.xhr) {
                 return res.json({
@@ -242,8 +243,8 @@ exports.edit = function(req, res) {
                     message: '出错了'
                 });
             }
-            var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-            var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+            let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+            let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info', {
@@ -251,7 +252,7 @@ exports.edit = function(req, res) {
                 });
             }
             try{
-                var condition = {};
+                let condition = {};
                 if(req.Roles.indexOf('admin') < 0) {
                     condition.author = req.session.user._id;
                 }
@@ -270,21 +271,21 @@ exports.edit = function(req, res) {
             }
         })
     } else if(req.method === 'POST') {
-        var obj = req.body;
+        let obj = req.body;
         //判断是否允许编辑
         User.findById(id).populate('roles').populate('author').exec(function(err, user) {
-            var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-            var isAuthor = user.author && ((user.author._id + '') === req.session.user._id);
+            let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+            let isAuthor = user.author && ((user.author._id + '') === req.session.user._id);
 
             if(!isAdmin && !isAuthor) {
                 return res.render('server/info', {
                     message: '没有权限'
                 });
             }
-            //var roles = core.getRoles(user);
-            var oldRoles = core.getRoles(user);
+            //let roles = core.getRoles(user);
+            let oldRoles = core.getRoles(user);
             //啊 这个人是管你员
-            var query;
+            let query;
             if(typeof obj.roles === 'string') {
                 query = Role.find({_id: obj.roles});
             } else if(typeof obj.roles === 'object') {
@@ -299,7 +300,7 @@ exports.edit = function(req, res) {
                 //系统默认管理员
                 if(user.status === 101) {
                     // TODO: 验证
-                    var statuses = _.map(roles, 'status');
+                    let statuses = _.map(roles, 'status');
                     if(statuses.indexOf(201) === -1) {
                         return res.render('server/info', {
                             message: '系统管理员角色不正确'
@@ -316,7 +317,7 @@ exports.edit = function(req, res) {
 
 //删除
 exports.del = function(req, res) {
-    var deleteHandle = function(user) {
+    let deleteHandle = function(user) {
         user.remove(function(err) {
             if(err) {
                 return res.render('server/info', {
@@ -328,15 +329,15 @@ exports.del = function(req, res) {
             })
         });
     };
-    var id = req.params.id;
+    let id = req.params.id;
     User.findById(id).populate('roles').populate('author').exec(function(err, result) {
         if(!result) {
             return res.render('server/info', {
                 message: '用户不存在'
             });
         }
-        var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-        var isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
+        let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+        let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
         if(!isAdmin && !isAuthor) {
             return res.render('server/info', {
@@ -366,7 +367,7 @@ exports.del = function(req, res) {
                 req.session.destroy();
                 res.locals.User = null;
                 console.log('自杀成功');
-                var path = core.translateAdminDir('');
+                let path = core.translateAdminDir('');
                 return res.redirect(path);
             }
             res.render('server/info', {
@@ -377,7 +378,7 @@ exports.del = function(req, res) {
 }
 
 
-var noRedirect = [
+let noRedirect = [
     'user/login',
     'user/forget',
     'user/register'
@@ -388,8 +389,8 @@ exports.login = function(req, res) {
         req.session.loginReferer = req.headers.referer; 
         res.render('server/user/login');
     } else if (req.method === 'POST') {
-        var username = req.body.username;
-        var password = req.body.password;
+        let username = req.body.username;
+        let password = req.body.password;
         User.findOne({
             username: username
         }).populate('roles').exec(function(err, user) {
@@ -406,10 +407,10 @@ exports.login = function(req, res) {
                 user.last_login_ip = core.getIp(req);
                 user.save();
                 req.session.user = user;
-                var path = core.translateAdminDir('/');
+                let path = core.translateAdminDir('/');
                 
-                var ref = req.session.loginReferer || path;
-                for (var i =0, len = noRedirect.length; i < len; i ++) {
+                let ref = req.session.loginReferer || path;
+                for (let i =0, len = noRedirect.length; i < len; i ++) {
                     if (ref.indexOf(noRedirect[i]) > -1) {
                         ref = path;
                         break;
@@ -441,7 +442,7 @@ exports.logout = function(req, res) {
         /*res.render('server/info', {
             message: '注销成功'
         });*/
-        var path = core.translateAdminDir('/');
+        let path = core.translateAdminDir('/');
         res.redirect(path);
     } else {
         res.render('server/info', {
@@ -452,7 +453,7 @@ exports.logout = function(req, res) {
 //找回密码
 exports.forget = function(req, res) {
     if(req.method === 'GET') {
-        var hash = req.query.hash;
+        let hash = req.query.hash;
         if(!hash) {
             return res.render('server/user/forget');
         }
@@ -463,7 +464,7 @@ exports.forget = function(req, res) {
                     message: 'hash错误'
                 });
             }
-            var till = user.forget.till;
+            let till = user.forget.till;
             //检查hash有没有过期
             if(!till || till.getTime() + config.findPasswordTill < Date.now()) {
                 return res.render('server/info', {
@@ -481,8 +482,8 @@ exports.forget = function(req, res) {
     } else if(req.method === 'POST') {
         console.log(req.query);
         if(req.query.hash) {
-            var obj = req.body;
-            var hash = req.query.hash;
+            let obj = req.body;
+            let hash = req.query.hash;
             //处理更新密码操作，并重置hash
             User.findOne({'forget.hash': hash}, function(err, user) {
                 console.log(err, user);
@@ -491,7 +492,7 @@ exports.forget = function(req, res) {
                         message: '初始后：token已过期，请重新找回密码'
                     });
                 }
-                var till = user.forget.till;
+                let till = user.forget.till;
                 //console.log(till.getTime(), Date.now());
                 if(!till || till.getTime() + config.findPasswordTill < Date.now()) {
                     return res.render('server/info', {
@@ -511,7 +512,7 @@ exports.forget = function(req, res) {
             });
             return;
         }
-        var obj = req.body;
+        let obj = req.body;
         User.findOne({username: obj.username}, function(err, user) {
             console.log(user);
             if(err || !user) {
@@ -519,7 +520,7 @@ exports.forget = function(req, res) {
                     message: '没有这个用户'
                 });
             }
-            var hash = crypto.random();
+            let hash = crypto.random();
             user.forget = {
                 hash: hash,
                 till: new Date()
@@ -532,8 +533,8 @@ exports.forget = function(req, res) {
                     });
                 }
                 //发邮件操作
-                //var transporter = nodemailer.createTransport(config.mail.options);
-                var url = req.headers.origin + req.originalUrl + '?hash=' + hash;
+                //let transporter = nodemailer.createTransport(config.mail.options);
+                let url = req.headers.origin + req.originalUrl + '?hash=' + hash;
                 /*transporter.sendMail({
                     from: config.mail.from,
                     to: user.email,
@@ -550,7 +551,7 @@ exports.forget = function(req, res) {
                     subject: '找回密码',
                     content: '你好，请点击<a href="' + url + '">此处</a>找回密码<br/>' + url,
                   }, function(err, reply) {
-                    var message = '';
+                    let message = '';
                     if (err) {
                         message = '发送失败，请检查是否安装sendmail服务';
                     } else {
@@ -572,7 +573,7 @@ exports.forget = function(req, res) {
 
 //修改密码
 exports.changePassword = function(req, res) {
-    var obj = req.body;
+    let obj = req.body;
     User.findById(obj.id, function(err, user) {
         user.password = obj.password;
         user.save(function(err, result) {

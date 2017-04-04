@@ -1,4 +1,5 @@
 'use strict';
+
 let mongoose = require('mongoose')
 let Content = mongoose.model('Content')
 let Comment = mongoose.model('Comment')
@@ -12,13 +13,13 @@ exports.add = function(req, res) {
     if (req.method === 'GET') {
         
     } else if (req.method === 'POST') {
-        var obj = req.body;
+        let obj = req.body;
         obj.ip = core.getIp(req);
         if (req.session.user) {
             obj.author = req.session.user._id;
         }
         Content.findById(obj.from, function(err, content) {
-            var comment = new Comment(obj);
+            let comment = new Comment(obj);
             comment.save(function(err, result) {
                 if(err || !result) {
                     return res.json({
@@ -40,7 +41,7 @@ exports.add = function(req, res) {
                         comment.save();
                     });
                 }
-                var json = _.assign({}, _.pick(result, 'id', 'content', 'created', 'name', 'email', 'reply', 'from', 'ip'), {
+                let json = _.assign({}, _.pick(result, 'id', 'content', 'created', 'name', 'email', 'reply', 'from', 'ip'), {
                     avatar: gravatar.url(result.email || '', {s: '40',r: 'x',d: 'retro'}, true)
                 });
                 res.json({
@@ -73,11 +74,11 @@ exports.one = function(req, res) {
 };
 
 exports.list = function(req, res) {
-    var condition = {};
+    let condition = {};
     Comment.count(condition, function(err, total) {
-        var query = Comment.find({}).populate('author').populate('from');
+        let query = Comment.find({}).populate('author').populate('from');
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req, total, 10);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
         query.sort({created: -1});

@@ -9,7 +9,7 @@ let Schema = mongoose.Schema
 /**
  * 文件模型
  */
-var FileSchema = new Schema({
+let FileSchema = new Schema({
     name: {
         type: String
     },

@@ -9,7 +9,7 @@ let Schema = mongoose.Schema
 /**
  * 角色模型
  */
-var RoleSchema = new Schema({
+let RoleSchema = new Schema({
     name: {
         type: String,
         required: true,

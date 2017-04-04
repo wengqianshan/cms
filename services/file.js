@@ -2,6 +2,7 @@
  * 文件服务
  **/
 'use strict';
+
 let mongoose = require('mongoose');
 let _ = require('lodash');
 let File = mongoose.model('File');

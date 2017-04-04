@@ -9,7 +9,7 @@ let Schema = mongoose.Schema
 /**
  * 客户留言模型
  */
-var MessageSchema = new Schema({
+let MessageSchema = new Schema({
     name: {
         type: String,
         required: '请输入姓名'

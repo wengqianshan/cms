@@ -1,4 +1,5 @@
 'use strict';
+
 let mongoose = require('mongoose')
 let Notification = mongoose.model('Notification')
 let core = require('../../libs/core')
@@ -6,14 +7,14 @@ let _ = require('lodash')
 
 //列表
 exports.list = function(req, res) {
-    var condition = {};
+    let condition = {};
     /*if(req.Roles && req.Roles.indexOf('admin') < 0) {
         condition.author = req.session.user._id;
     }*/
     Notification.count(condition, function(err, total) {
-        var query = Notification.find(condition).populate('from to');
+        let query = Notification.find(condition).populate('from to');
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
@@ -31,13 +32,13 @@ exports.list = function(req, res) {
 };
 //已收到
 exports.received = function(req, res) {
-    var condition = {
+    let condition = {
         to: req.session.user._id
     };
     Notification.count(condition, function(err, total) {
-        var query = Notification.find(condition).populate('from to');
+        let query = Notification.find(condition).populate('from to');
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
@@ -57,13 +58,13 @@ exports.received = function(req, res) {
 exports.sent = function(req, res) {
     //console.log(req.headers, req.session.user)
     //console.log('id', req.session.user._id)
-    var condition = {
+    let condition = {
         from: req.session.user._id
     };
     Notification.count(condition, function(err, total) {
-        var query = Notification.find(condition).populate('from to');
+        let query = Notification.find(condition).populate('from to');
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
@@ -81,7 +82,7 @@ exports.sent = function(req, res) {
 };
 //单条
 exports.one = function(req, res) {
-    var id = req.param('id');
+    let id = req.param('id');
     Notification.findById(id).exec(function(err, result) {
         console.log(result);
         if(!result) {
@@ -97,7 +98,7 @@ exports.one = function(req, res) {
 };
 //删除
 exports.del = function(req, res) {
-    var id = req.params.id;
+    let id = req.params.id;
     Notification.findById(id).exec(function(err, result) {
         if(!result) {
             return res.render('server/info', {
@@ -125,7 +126,7 @@ exports.del = function(req, res) {
 
 //发送
 exports.add = function(req, res) {
-    var obj = req.body;
+    let obj = req.body;
     if (!obj.to || !_.isArray(obj.to)) {
         return res.json({
             status: false,
@@ -135,7 +136,7 @@ exports.add = function(req, res) {
     obj.to.forEach(function(toId) {
         obj.from = mongoose.Types.ObjectId(obj.from) || '';
         obj.to = mongoose.Types.ObjectId(toId) || '';
-        var notification = new Notification(obj);
+        let notification = new Notification(obj);
         notification.save(function(err) {
             if (err) {
                 console.log(err);
@@ -148,7 +149,7 @@ exports.add = function(req, res) {
     })
     /*obj.from = obj.from ? mongoose.Types.ObjectId(obj.from) : '';
     obj.to = obj.from ? mongoose.Types.ObjectId(obj.to) : '';
-    var notification = new Notification(obj);
+    let notification = new Notification(obj);
     notification.save(function(err) {
         if (err) {
             return res.json({

@@ -2,6 +2,7 @@
  * 留言服务
  **/
 'use strict';
+
 let mongoose = require('mongoose');
 let _ = require('lodash');
 let Message = mongoose.model('Message');

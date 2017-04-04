@@ -2,6 +2,7 @@
  * 分类服务
  **/
 'use strict';
+
 let mongoose = require('mongoose');
 let _ = require('lodash');
 let Category = mongoose.model('Category');

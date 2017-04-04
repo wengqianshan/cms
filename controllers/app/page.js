@@ -1,4 +1,5 @@
 'use strict';
+
 let  mongoose = require('mongoose')
 let Page = mongoose.model('Page')
 let config = require('../../config')
@@ -6,14 +7,14 @@ let core = require('../../libs/core')
 
 //列表
 exports.list = function(req, res) {
-    var condition = {};
+    let condition = {};
     /*if(req.Roles && req.Roles.indexOf('admin') < 0) {
         condition.author = req.session.user._id;
     }*/
     Page.count(condition, function(err, total) {
-        var query = Page.find(condition).populate('author');
+        let query = Page.find(condition).populate('author');
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
@@ -31,7 +32,7 @@ exports.list = function(req, res) {
 
 //单条
 exports.one = function(req, res) {
-    var id = req.param('id');
+    let id = req.param('id');
     Page.findById(id).populate('author').exec(function(err, result) {
         console.log(result);
         if(!result) {

@@ -1,3 +1,5 @@
+'use strict';
+
 let express = require('express')
 let router = express.Router()
 let core = require('../../libs/core')
@@ -9,11 +11,11 @@ router.use(function(req, res, next) {
     console.log('分类页: ' + Date.now());
     res.locals.Path = 'category';
     if(!req.session.user) {
-        var path = core.translateAdminDir('/user/login');
+        let path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
     /*if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('category') < 0)) {
-        var path = core.translateAdminDir('/');
+        let path = core.translateAdminDir('/');
         return res.redirect(path);
     }*/
     next();
@@ -30,6 +32,6 @@ router.route('/:id/edit').all(action.checkAction('CATEGORY_UPDATE'), category.ed
 router.route('/:id/del').all(action.checkAction('CATEGORY_DELETE'), category.del);
 
 module.exports = function(app) {
-    var path = core.translateAdminDir('/category');
+    let path = core.translateAdminDir('/category');
     app.use(path, router);
 };

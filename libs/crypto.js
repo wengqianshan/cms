@@ -1,5 +1,7 @@
+'use strict';
+
 //加密组件
-var crypto = require('crypto');
+let crypto = require('crypto');
 /**
  * md5 hash
  *
@@ -7,7 +9,7 @@ var crypto = require('crypto');
  * @returns md5 str
  */
 exports.md5 = function md5(str) {
-    var md5sum = crypto.createHash('md5');
+    let md5sum = crypto.createHash('md5');
     md5sum.update(str);
     str = md5sum.digest('hex');
     return str;
@@ -21,8 +23,8 @@ exports.md5 = function md5(str) {
  * @returns str
  */
 exports.encrypt = function encrypt(str, secret) {
-    var cipher = crypto.createCipher('aes192', secret);
-    var enc = cipher.update(str, 'utf8', 'hex');
+    let cipher = crypto.createCipher('aes192', secret);
+    let enc = cipher.update(str, 'utf8', 'hex');
     enc += cipher.final('hex');
     return enc;
 };
@@ -34,8 +36,8 @@ exports.encrypt = function encrypt(str, secret) {
  * @returns str
  */
 exports.decrypt = function decrypt(str, secret) {
-    var decipher = crypto.createDecipher('aes192', secret);
-    var dec = decipher.update(str, 'hex', 'utf8');
+    let decipher = crypto.createDecipher('aes192', secret);
+    let dec = decipher.update(str, 'hex', 'utf8');
     dec += decipher.final('utf8');
     return dec;
 };
@@ -46,7 +48,7 @@ exports.random = function(len) {
 
 exports.hashPassword = function(password, secret) {
     if (!password) return '';
-    var encrypred;
+    let encrypred;
     try {
         encrypred = crypto.createHmac('sha1', secret).update(password).digest('hex');
         return encrypred;

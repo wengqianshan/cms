@@ -9,7 +9,7 @@ let Schema = mongoose.Schema
 /**
  * 页面模型
  */
-var PageSchema = new Schema({
+let PageSchema = new Schema({
     title: {
         type: String,
         required: true,

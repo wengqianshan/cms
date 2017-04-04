@@ -1,18 +1,19 @@
 'use strict';
+
 let  mongoose = require('mongoose')
 let Comment = mongoose.model('Comment')
 let core = require('../../libs/core')
 
 //列表
 exports.list = function(req, res) {
-    var condition = {};
+    let condition = {};
     if(req.Roles && req.Roles.indexOf('admin') < 0) {
         condition.author = req.session.user._id;
     }
     Comment.count(condition, function(err, total) {
-        var query = Comment.find(condition).populate('author').populate('from');
+        let query = Comment.find(condition).populate('author').populate('from');
         //分页
-        var pageInfo = core.createPage(req, total, 10);
+        let pageInfo = core.createPage(req, total, 10);
         //console.log(pageInfo);
         query.skip(pageInfo.start);
         query.limit(pageInfo.pageSize);
@@ -30,7 +31,7 @@ exports.list = function(req, res) {
 };
 //单条
 exports.one = function(req, res) {
-    var id = req.param('id');
+    let id = req.param('id');
     Comment.findById(id).populate('author', 'username name email').populate('from').exec(function(err, result) {
         console.log(result);
         if(!result) {
@@ -46,7 +47,7 @@ exports.one = function(req, res) {
 };
 //删除
 exports.del = function(req, res) {
-    var id = req.params.id;
+    let id = req.params.id;
     Comment.findById(id).populate('author').populate('from').exec(function(err, result) {
         if(!result) {
             return res.render('server/info', {
@@ -54,8 +55,8 @@ exports.del = function(req, res) {
             });
         }
 
-        var isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-        var isOwner = result.from && ((result.from.author + '') === req.session.user._id);
+        let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+        let isOwner = result.from && ((result.from.author + '') === req.session.user._id);
 
         if(!isAdmin && !isOwner) {
             return res.render('server/info', {

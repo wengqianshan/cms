@@ -1,4 +1,5 @@
 'use strict';
+
 let mongoose = require('mongoose')
 let User = mongoose.model('User')
 let Role = mongoose.model('Role')
@@ -10,17 +11,17 @@ const ACTIONS = require('../../actions')
 
 //管理员资料
 exports.init = function(req, res) {
-    var id = req.session.user._id;
+    let id = req.session.user._id;
     User.findById(id).populate('roles').exec(function(err, user) {
         user._roles = req.Roles;
         user._actions = req.Actions;
         
-        var actions = [];
+        let actions = [];
         if (req.Roles.indexOf('admin') > -1) {
             actions = ACTIONS;
         } else {
             actions = ACTIONS.filter(function(item) {
-                var items = item.actions.filter(function(act) {
+                let items = item.actions.filter(function(act) {
                     return req.Actions.indexOf(act.value) > -1;
                 });
                 if (items.length > 0) {
@@ -37,19 +38,19 @@ exports.init = function(req, res) {
 };
 //修改管理员信息
 exports.edit = function(req, res) {
-    var id = req.session.user._id;
+    let id = req.session.user._id;
     if(req.method === 'GET') {
         User.findById(id).populate('roles').exec(function(err, user) {
             user._roles = req.Roles;
             user._actions = req.Actions;
-            var data = _.pick(user, 'name', 'mobile', 'gender', 'birthday');
+            let data = _.pick(user, 'name', 'mobile', 'gender', 'birthday');
             res.render('server/me/edit', {
                 title: '修改资料',
                 user: data
             });
         });
     } else if(req.method === 'POST') {
-        var obj = req.body;
+        let obj = req.body;
         User.findById(id).populate('roles').exec(function(err, user) {
             _.assign(user, _.pick(obj, 'name', 'mobile', 'gender', 'birthday'));
             user.save(function(err, result) {
@@ -73,10 +74,10 @@ exports.updatePassword = function(req, res) {
     if(req.method === 'GET') {
 
     } else if(req.method === 'POST') {
-        var obj = req.body;
-        var oldPassword = obj.oldpassword;
-        var password = obj.password;
-        var id = req.session.user._id;
+        let obj = req.body;
+        let oldPassword = obj.oldpassword;
+        let password = obj.password;
+        let id = req.session.user._id;
         User.findById(id).exec(function(err, user) {
             if (user.authenticate(oldPassword)) {
                 user.password = password;

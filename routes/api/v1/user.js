@@ -1,3 +1,5 @@
+'use strict';
+
 let express = require('express')
 let router = express.Router()
 let user = require('../../../controllers/api/v1/user')
