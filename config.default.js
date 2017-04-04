@@ -20,7 +20,7 @@ let config = {
     //后台相关配置
     admin: {
         dir: 'admin', //后台访问路径，如http://localhost/admin配置为admin
-        role: {//默认角色名,后期可修改
+        role: {//默认角色名
             admin: 'admin',
             user: 'user'
         }
@@ -44,17 +44,30 @@ let config = {
             }
         }
     },
+    // 是否启动用户注册校验TODO:
+    userVerify: {
+        enable: false,
+        type: 'admin' // mail | admin, 默认admin
+    }
+    // 邮箱配置，找回密码、用户注册使用
     mail: {
+        // 发信人邮箱
         from: 'username@domain.com',
-        //service: '',
         options: {
+            // 邮箱服务host
             host: '10.1.1.1',
             auth: {
+                // 发信人用户名
                 user: 'username',
+                // 发信人密码
                 pass: 'password'
             }    
         }
         
+    },
+    // 短信服务配置TODO:
+    sms: {
+
     }
 };
 

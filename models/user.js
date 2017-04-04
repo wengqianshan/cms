@@ -18,68 +18,90 @@ let UserSchema = new Schema({
         required: '请输入用户名',
         unique: true
     },
+    
     email: {
         type: String,
         required: '请输入邮箱',
         unique: true
     },
+    
+    mobile: {
+        type: String
+    },
+    
     name: {
         type: String,
         required: '请输入姓名'
     },
+    
     avatar: {
         type: String
     },
-    mobile: {
-        type: String
-    },
+    
     gender: {
         type: String,
         enum: ['男', '女', '保密']
     },
+    
     birthday: {
         type: Date,
         default: Date.now
     },
+    
     description: {
         type: String
     },
+    
     address: {
         type: String
     },
-    //以上是普通信息
+    
+
+
     roles: [{
         type: Schema.ObjectId,
         ref: 'Role'
     }],
+    
     last_login_date: Date,
+    
     last_login_ip: String,
+    
     position: {
         type: Array,
         index: '2dsphere'
     },
+    
     reg_ip: String,//注册ip
+    
     created: {
         type: Date,
         default: Date.now
     },
+
     author: {
         type: Schema.ObjectId,
         ref: 'User'
     },
+
     status: {
         type: Number,
         default: 0
     },
-    forget: {//找回密码
+
+    //找回密码
+    forget: {
         hash: String,
         till: Date
     },
+
     questions: [{
         q: String,
         a: String
     }],
+
     salt: String,
+
     hashed_password: String
 });
 
