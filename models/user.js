@@ -89,6 +89,11 @@ let UserSchema = new Schema({
         default: 0
     },
 
+    rank: {
+        type: Number,
+        default: 0
+    },
+
     //找回密码
     forget: {
         hash: String,

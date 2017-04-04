@@ -9,7 +9,7 @@ let Schema = mongoose.Schema
 /**
  * 内容模型
  */
-var ContentSchema = new Schema({
+let ContentSchema = new Schema({
     title: {
         type: String,
         required: true

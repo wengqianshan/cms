@@ -9,7 +9,7 @@ let Schema = mongoose.Schema
 /**
  * 评论模型
  */
-var CommentSchema = new Schema({
+let CommentSchema = new Schema({
     content: {
         type: String,
         required: true

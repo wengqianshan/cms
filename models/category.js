@@ -9,7 +9,7 @@ let Schema = mongoose.Schema
 /**
  * 分类模型
  */
-var CategorySchema = new Schema({
+let CategorySchema = new Schema({
     name: {
         type: String,
         required: true
@@ -45,7 +45,7 @@ mongoose.model('Category', CategorySchema);
 /*
  * 分类嵌套格式获取方法示例
  * 
-var items = [
+let items = [
     {
         id: 1,
         name: '顶级分类1'
@@ -83,16 +83,16 @@ var items = [
 ]
 
 function getItems(obj, items) {
-    var result =  items.filter(function(item) {
+    let result =  items.filter(function(item) {
         return item.parent === obj.id;
     })
     return result;
 }
 
 function nestedItem(items) {
-   var result = [];
+   let result = [];
     items.forEach(function(item) {
-        var res = getItems(item, items)
+        let res = getItems(item, items)
         console.log(res)
         if (res.length > 0) {
             item.items = res;
@@ -104,7 +104,7 @@ function nestedItem(items) {
     return result;
 }
 
-var res = nestedItem(items);
+let res = nestedItem(items);
 
 
 
