@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var core = require('../../libs/core');
-var action = require('../../middlewares/action');
-var user = require('../../controllers/server/user');
+let express = require('express')
+let router = express.Router()
+let core = require('../../libs/core')
+let action = require('../../middlewares/action')
+let user = require('../../controllers/server/user')
 
 //权限判断
 router.use(function(req, res, next) {
@@ -26,11 +26,11 @@ router.route('/forget').all(user.forget);
 //权限判断
 router.use(function(req, res, next) {
     if(!req.session.user) {
-        var path = core.translateAdminDir('/user/login');
+        let path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
     /*if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('user') < 0)) {
-        var path = core.translateAdminDir('/');
+        let path = core.translateAdminDir('/');
         return res.redirect(path);
     }*/
     next();
@@ -49,6 +49,6 @@ router.route('/:id/del').all(action.checkAction('USER_DELETE'), user.del);
 
 
 module.exports = function(app) {
-    var path = core.translateAdminDir('/user');
+    let path = core.translateAdminDir('/user');
     app.use(path, router);
 };

@@ -1,19 +1,19 @@
-var express = require('express');
-var router = express.Router();
-var core = require('../../libs/core');
-var action = require('../../middlewares/action');
-var notification = require('../../controllers/server/notification');
+let express = require('express')
+let router = express.Router()
+let core = require('../../libs/core')
+let action = require('../../middlewares/action')
+let notification = require('../../controllers/server/notification')
 
 //权限判断
 router.use(function(req, res, next) {
     console.log('通知页: ' + Date.now());
     res.locals.Path = 'notification';
     if(!req.session.user) {
-        var path = core.translateAdminDir('/user/login');
+        let path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
    /* if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('notification') < 0)) {
-        var path = core.translateAdminDir('/');
+        let path = core.translateAdminDir('/');
         return res.redirect(path);
     }*/
     next();
@@ -31,6 +31,6 @@ router.route('/:id/del').all(action.checkAction('NOTIFICATION_DELETE'), notifica
 router.route('/').get(action.checkAction('NOTIFICATION_INDEX'), notification.list);
 
 module.exports = function(app) {
-    var path = core.translateAdminDir('/notification');
+    let path = core.translateAdminDir('/notification');
     app.use(path, router);
 };

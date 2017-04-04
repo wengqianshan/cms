@@ -1,10 +1,10 @@
 'use strict';
 
-var fs = require('fs'),
-    path = require('path'),
-    config = require('../config'),
-    qs = require('qs'),
-    _ = require('underscore');
+let fs = require('fs')
+let path = require('path')
+let config = require('../config')
+let qs = require('qs')
+let _ = require('lodash')
 
 // recursively walk modules path and callback for each file
 var walk = function(modulesPath, excludeDir, callback) {

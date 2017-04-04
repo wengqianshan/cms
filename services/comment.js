@@ -2,17 +2,17 @@
  * 评论服务
  **/
 'use strict';
-var mongoose = require('mongoose');
-var _ = require('underscore');
-var Comment = mongoose.model('Comment');
+let mongoose = require('mongoose');
+let _ = require('lodash');
+let Comment = mongoose.model('Comment');
 
 
-var baseServices = require('./base')(Comment);
+let baseServices = require('./base')(Comment);
 
-var services = {
+let services = {
     findBySome: function(id, populates) {
         return new Promise(function(resolve, reject) {
-            var query = Comment.findById(id)
+            let query = Comment.findById(id)
             if (populates && populates.length > 0) {
                 populates.forEach(function(item) {
                     query = query.populate(item);
@@ -29,4 +29,4 @@ var services = {
     }
 };
 
-module.exports = _.extend({}, baseServices, services);
+module.exports = _.assign({}, baseServices, services);

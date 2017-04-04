@@ -1,19 +1,19 @@
-var express = require('express');
-var router = express.Router();
-var core = require('../../libs/core');
-var action = require('../../middlewares/action');
-var page = require('../../controllers/server/page');
+let express = require('express')
+let router = express.Router()
+let core = require('../../libs/core')
+let action = require('../../middlewares/action')
+let page = require('../../controllers/server/page')
 
 //权限判断
 router.use(function(req, res, next) {
     console.log('通知页: ' + Date.now());
     res.locals.Path = 'page';
     if(!req.session.user) {
-        var path = core.translateAdminDir('/user/login');
+        let path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
     /*if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('page') < 0)) {
-        var path = core.translateAdminDir('/');
+        let path = core.translateAdminDir('/');
         return res.redirect(path);
     }*/
     next();
@@ -29,6 +29,6 @@ router.route('/:id/del').all(action.checkAction('PAGE_DELETE'), page.del);
 router.route('/').get(action.checkAction('PAGE_INDEX'), page.list);
 
 module.exports = function(app) {
-    var path = core.translateAdminDir('/page');
+    let path = core.translateAdminDir('/page');
     app.use(path, router);
 };

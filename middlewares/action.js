@@ -1,4 +1,5 @@
-var _ = require('underscore');
+let _ = require('lodash')
+
 // 检查权限中间件
 exports.checkAction = function(actionName) {
     //console.log(actionName)

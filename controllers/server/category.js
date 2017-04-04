@@ -1,8 +1,9 @@
 'use strict';
-var mongoose = require('mongoose'),
-    Category = mongoose.model('Category'),
-    _ = require('underscore'),
-    core = require('../../libs/core');
+let  mongoose = require('mongoose')
+let Category = mongoose.model('Category')
+let _ = require('lodash')
+let core = require('../../libs/core')
+
 //列表
 exports.list = function(req, res) {
     var condition = {};
@@ -102,7 +103,7 @@ exports.edit = function(req, res) {
                     message: '没有权限'
                 });
             }
-            _.extend(result, obj);
+            _.assign(result, obj);
             result.save(function(err, category) {
                 if (req.xhr) {
                     return res.json({

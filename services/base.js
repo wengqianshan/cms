@@ -1,10 +1,10 @@
 /**
  * 基础服务
  **/
-var services = function(Model) {
+let services = function(Model) {
     return {
         count: function(condition) {
-            var condition = condition || {};
+            let condition = condition || {};
             return new Promise(function(resolve, reject) {
                 Model.count(condition, function(err, total) {
                     if (err) {
@@ -16,9 +16,9 @@ var services = function(Model) {
             })
         },
         find: function(condition, populates) {
-            var condition = condition || {};
+            let condition = condition || {};
             return new Promise(function(resolve, reject) {
-                var query = Model.find(condition)
+                let query = Model.find(condition)
                 if (populates && populates.length > 0) {
                     populates.forEach(function(item) {
                         query = query.populate(item);
@@ -35,7 +35,7 @@ var services = function(Model) {
             });
         },
         findOne: function(condition, projection, options) {
-            var condition = condition || {};
+            let condition = condition || {};
             return new Promise(function(resolve, reject) {
                 Model.findOne(condition, projection, options, function(err, result) {
                     if (err) {
@@ -48,7 +48,7 @@ var services = function(Model) {
         },
         findById: function(id, populates) {
             return new Promise(function(resolve, reject) {
-                var query = Model.findById(id)
+                let query = Model.findById(id)
                 if (populates && populates.length > 0) {
                     populates.forEach(function(item) {
                         query = query.populate(item);
@@ -65,7 +65,7 @@ var services = function(Model) {
         },
         create: function(obj) {
             return new Promise(function(resolve, reject) {
-                var user = new Model(obj);
+                let user = new Model(obj);
                 user.save(function(err, result) {
                     if (err) {
                         reject(err)

@@ -1,11 +1,12 @@
 'use strict';
-var crypto = require('crypto');
-var _ = require('underscore');
 /**
  * 模块依赖
  */
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+ 
+let crypto = require('crypto')
+let _ = require('lodash')
+let mongoose = require('mongoose')
+let Schema = mongoose.Schema
 
 
 /**

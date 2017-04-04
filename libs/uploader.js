@@ -5,16 +5,17 @@
 // });
 // upload.post(req, res, callback);
 //todo: use multer https://cnodejs.org/topic/564f32631986c7df7e92b0db
-var _ = require('underscore');
-var config = require('../config');
-var qn = require('qn');
+let _ = require('lodash')
+let config = require('../config')
+let qn = require('qn')
+
 module.exports = function(opts) {
     var path = require('path'),
         fs = require('fs'),
         _existsSync = fs.existsSync || path.existsSync,
         mkdirp = require('mkdirp'),
         nameCountRegexp = /(?:(?: \(([\d]+)\))?(\.[^.]+))?$/,
-        options = _.extend({}, config.upload, opts);
+        options = _.assign({}, config.upload, opts);
     // 检查上传目录是否存在
     function checkExists(dir) {
         fs.exists(dir, function(exists) {

@@ -1,10 +1,9 @@
 'use strict';
-var mongoose = require('mongoose'),
-    Comment = mongoose.model('Comment'),
-    Content = mongoose.model('Content'),
-    Category = mongoose.model('Category'),
-    _ = require('underscore'),
-    core = require('../../libs/core');
+let mongoose = require('mongoose')
+let Comment = mongoose.model('Comment')
+let Content = mongoose.model('Content')
+let Category = mongoose.model('Category')
+let core = require('../../libs/core')
 
 //列表
 exports.list = function(req, res) {

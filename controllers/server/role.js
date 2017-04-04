@@ -1,10 +1,11 @@
 'use strict';
-var mongoose = require('mongoose'),
-    Role = mongoose.model('Role'),
-    userController = require('./user'),
-    _ = require('underscore'),
-    core = require('../../libs/core'),
-    ACTIONS = require('../../actions');
+let mongoose = require('mongoose')
+let Role = mongoose.model('Role')
+let userController = require('./user')
+let _ = require('lodash')
+let core = require('../../libs/core')
+const ACTIONS = require('../../actions')
+
 //列表
 exports.list = function(req, res) {
     var condition = {};
@@ -164,7 +165,7 @@ exports.edit = function(req, res) {
                     });
                 }
             }
-            _.extend(result, obj);
+            _.assign(result, obj);
             result.save(function(err, role) {
                 if (req.xhr) {
                     return res.json({

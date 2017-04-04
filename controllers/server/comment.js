@@ -1,7 +1,8 @@
 'use strict';
-var mongoose = require('mongoose'),
-    Comment = mongoose.model('Comment'),
-    core = require('../../libs/core');
+let  mongoose = require('mongoose')
+let Comment = mongoose.model('Comment')
+let core = require('../../libs/core')
+
 //列表
 exports.list = function(req, res) {
     var condition = {};

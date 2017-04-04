@@ -1,12 +1,12 @@
 'use strict';
-var mongoose = require('mongoose'),
-    User = mongoose.model('User'),
-    Role = mongoose.model('Role'),
-    userController = require('./user'),
-    _ = require('underscore'),
-    config = require('../../config'),
-    core = require('../../libs/core'),
-    ACTIONS = require('../../actions');
+let mongoose = require('mongoose')
+let User = mongoose.model('User')
+let Role = mongoose.model('Role')
+let userController = require('./user')
+let _ = require('lodash')
+let config = require('../../config')
+let core = require('../../libs/core')
+const ACTIONS = require('../../actions')
 
 //管理员资料
 exports.init = function(req, res) {
@@ -51,7 +51,7 @@ exports.edit = function(req, res) {
     } else if(req.method === 'POST') {
         var obj = req.body;
         User.findById(id).populate('roles').exec(function(err, user) {
-            _.extend(user, _.pick(obj, 'name', 'mobile', 'gender', 'birthday'));
+            _.assign(user, _.pick(obj, 'name', 'mobile', 'gender', 'birthday'));
             user.save(function(err, result) {
                 console.log(err, result);
                 if(err || !result) {

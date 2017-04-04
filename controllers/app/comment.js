@@ -1,11 +1,12 @@
 'use strict';
-var mongoose = require('mongoose'),
-    Content = mongoose.model('Content'),
-    Comment = mongoose.model('Comment'),
-    gravatar = require('gravatar'),
-    config = require('../../config'),
-    _ = require('underscore'),
-    core = require('../../libs/core');
+let mongoose = require('mongoose')
+let Content = mongoose.model('Content')
+let Comment = mongoose.model('Comment')
+let gravatar = require('gravatar')
+let config = require('../../config')
+let _ = require('lodash')
+let core = require('../../libs/core')
+
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
@@ -39,7 +40,7 @@ exports.add = function(req, res) {
                         comment.save();
                     });
                 }
-                var json = _.extend({}, _.pick(result, 'id', 'content', 'created', 'name', 'email', 'reply', 'from', 'ip'), {
+                var json = _.assign({}, _.pick(result, 'id', 'content', 'created', 'name', 'email', 'reply', 'from', 'ip'), {
                     avatar: gravatar.url(result.email || '', {s: '40',r: 'x',d: 'retro'}, true)
                 });
                 res.json({

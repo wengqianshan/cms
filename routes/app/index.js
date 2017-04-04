@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var index = require('../../controllers/app/index');
+let express = require('express')
+let router = express.Router()
+let index = require('../../controllers/app/index')
 
 //首页
 router.route('/contact').all(index.contact);

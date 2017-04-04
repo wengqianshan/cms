@@ -2,17 +2,17 @@
  * 留言服务
  **/
 'use strict';
-var mongoose = require('mongoose');
-var _ = require('underscore');
-var Message = mongoose.model('Message');
+let mongoose = require('mongoose');
+let _ = require('lodash');
+let Message = mongoose.model('Message');
 
 
-var baseServices = require('./base')(Message);
+let baseServices = require('./base')(Message);
 
-var services = {
+let services = {
     findBySome: function(id, populates) {
         return new Promise(function(resolve, reject) {
-            var query = Message.findById(id)
+            let query = Message.findById(id)
             if (populates && populates.length > 0) {
                 populates.forEach(function(item) {
                     query = query.populate(item);
@@ -29,4 +29,4 @@ var services = {
     }
 };
 
-module.exports = _.extend({}, baseServices, services);
+module.exports = _.assign({}, baseServices, services);

@@ -1,8 +1,8 @@
 'use strict';
-var mongoose = require('mongoose'),
-    File = mongoose.model('File'),
-    _ = require('underscore'),
-    core = require('../../../libs/core');
+let mongoose = require('mongoose')
+let File = mongoose.model('File')
+let core = require('../../../libs/core')
+
 exports.list = function(req, res) {
     var condition = {};
     var obj = {};

@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var file = require('../../../controllers/api/v1/file');
+let express = require('express')
+let router = express.Router()
+let file = require('../../../controllers/api/v1/file')
 
 //
 router.use(function(req, res, next) {

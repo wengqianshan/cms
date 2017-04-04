@@ -3,8 +3,8 @@
 /**
  * 模块依赖
  */
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+let mongoose = require('mongoose')
+let Schema = mongoose.Schema
 
 /**
  * 页面模型

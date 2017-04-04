@@ -1,14 +1,14 @@
 'use strict';
-var mongoose = require('mongoose'),
-    User = mongoose.model('User'),
-    Role = mongoose.model('Role'),
-    config = require('../../config'),
-    core = require('../../libs/core'),
-    crypto = require('../../libs/crypto'),
-    sendmail = require('sendmail')(),
-    //nodemailer = require('nodemailer'),
-    //smtpTransport = require('nodemailer-smtp-transport'),
-    _ = require('underscore');
+let mongoose = require('mongoose')
+let User = mongoose.model('User')
+let Role = mongoose.model('Role')
+let config = require('../../config')
+let core = require('../../libs/core')
+let crypto = require('../../libs/crypto')
+let sendmail = require('sendmail')()
+    //nodemailer = require('nodemailer')
+    //smtpTransport = require('nodemailer-smtp-transport')
+let _ = require('lodash');
 
 
 /*var userService = require('../../services/user')
@@ -298,7 +298,8 @@ exports.edit = function(req, res) {
             query.exec(function(err, roles) {
                 //系统默认管理员
                 if(user.status === 101) {
-                    var statuses = _.pluck(roles, 'status');
+                    // TODO: 验证
+                    var statuses = _.map(roles, 'status');
                     if(statuses.indexOf(201) === -1) {
                         return res.render('server/info', {
                             message: '系统管理员角色不正确'
@@ -306,7 +307,7 @@ exports.edit = function(req, res) {
                     }
                 }
                 obj.roles = roles;
-                _.extend(user, obj);
+                _.assign(user, obj);
                 editHandler(user);
             });
         });

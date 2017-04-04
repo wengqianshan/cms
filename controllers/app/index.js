@@ -1,12 +1,12 @@
 'use strict';
-var mongoose = require('mongoose'),
-    Content = mongoose.model('Content'),
-    Message = mongoose.model('Message'),
-    Category = mongoose.model('Category'),
-    File = mongoose.model('File'),
-    config = require('../../config'),
-    _ = require('underscore'),
-    core = require('../../libs/core');
+let  mongoose = require('mongoose')
+let Content = mongoose.model('Content')
+let Message = mongoose.model('Message')
+let Category = mongoose.model('Category')
+let File = mongoose.model('File')
+let config = require('../../config')
+let core = require('../../libs/core')
+
 exports.index = function(req, res) {
     console.log('前台')
     //console.time('content-list');

@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var comment = require('../../controllers/app/comment');
+let express = require('express')
+let router = express.Router()
+let comment = require('../../controllers/app/comment')
 
 //评论
 router.use(function(req, res, next) {

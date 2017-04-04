@@ -1,8 +1,9 @@
 'use strict';
-var mongoose = require('mongoose'),
-    Notification = mongoose.model('Notification'),
-    core = require('../../libs/core'),
-    _ = require('underscore');
+let mongoose = require('mongoose')
+let Notification = mongoose.model('Notification')
+let core = require('../../libs/core')
+let _ = require('lodash')
+
 //列表
 exports.list = function(req, res) {
     var condition = {};

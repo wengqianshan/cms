@@ -2,17 +2,17 @@
  * 页面服务
  **/
 'use strict';
-var mongoose = require('mongoose');
-var _ = require('underscore');
-var Page = mongoose.model('Page');
+let mongoose = require('mongoose');
+let _ = require('lodash');
+let Page = mongoose.model('Page');
 
 
-var baseServices = require('./base')(Page);
+let baseServices = require('./base')(Page);
 
-var services = {
+let services = {
     findBySome: function(id, populates) {
         return new Promise(function(resolve, reject) {
-            var query = Page.findById(id)
+            let query = Page.findById(id)
             if (populates && populates.length > 0) {
                 populates.forEach(function(item) {
                     query = query.populate(item);
@@ -29,4 +29,4 @@ var services = {
     }
 };
 
-module.exports = _.extend({}, baseServices, services);
+module.exports = _.assign({}, baseServices, services);

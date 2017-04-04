@@ -1,19 +1,19 @@
-var express = require('express');
-var mongoose = require('mongoose');
-var gravatar = require('gravatar');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var RedisStore = require('connect-redis')(session); //存储session,防止服务重启后session丢失
-var bodyParser = require('body-parser');
-var csrf = require('csurf');
-var moment = require('moment');
-var underscore = require('underscore');
-var multipart = require('connect-multiparty'); //解析文件
-var core = require('./libs/core');
-var marked = require('marked');
+let express = require('express');
+let mongoose = require('mongoose');
+let gravatar = require('gravatar');
+let path = require('path');
+let favicon = require('serve-favicon');
+let logger = require('morgan');
+let cookieParser = require('cookie-parser');
+let session = require('express-session');
+let RedisStore = require('connect-redis')(session); //存储session,防止服务重启后session丢失
+let bodyParser = require('body-parser');
+let csrf = require('csurf');
+let moment = require('moment');
+let underscore = require('underscore');
+let multipart = require('connect-multiparty'); //解析文件
+let core = require('./libs/core');
+let marked = require('marked');
 marked.setOptions({
     renderer: new marked.Renderer(),
     gfm: true,
@@ -24,19 +24,19 @@ marked.setOptions({
     smartLists: true,
     smartypants: false
 });
-var strip = require('strip');
+let strip = require('strip');
 
-var appPath = process.cwd();
-var config = require('./config');
+let appPath = process.cwd();
+let config = require('./config');
 //设置moment语言
 moment.locale('zh-cn');
 
-var app = express();
+let app = express();
 
 //连接数据库
 mongoose.Promise = global.Promise;
 mongoose.connect(config.mongodb.uri);
-var db = mongoose.connection;
+let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback() {
     console.log('mongodb连接成功');
@@ -92,8 +92,8 @@ app.use(function(req, res, next) {
     if (req.session.user) {
         res.locals.User = req.session.user;
         //角色信息
-        var roles = core.getRoles(req.session.user);
-        var actions = core.getActions(req.session.user);
+        let roles = core.getRoles(req.session.user);
+        let actions = core.getActions(req.session.user);
         req.Roles = roles;
         req.Actions = actions;
         res.locals.Roles = roles;
@@ -114,15 +114,15 @@ core.walk(appPath + '/routes', 'middlewares', function(path) {
 });
 
 //后台管理路由
-/*var adminPath = core.translateAdminDir('');
+/*let adminPath = core.translateAdminDir('');
 app.use(adminPath, function(req, res, next) {
-    var path = core.translateAdminDir('/index');
+    let path = core.translateAdminDir('/index');
     return res.redirect(path);
 });*/
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('页面不存在');
+    let err = new Error('页面不存在');
     err.status = 404;
     next(err);
 });
@@ -148,8 +148,8 @@ if (config.env === 'development') {
     });    
 }
 
-var debug = require('debug')('cms');
+let debug = require('debug')('cms');
 app.set('port', process.env.PORT || config.port || 7000);
-var server = app.listen(app.get('port'), function() {
+let server = app.listen(app.get('port'), function() {
     console.log('网站服务已启动，端口号： ' + server.address().port);
 });

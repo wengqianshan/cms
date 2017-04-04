@@ -2,20 +2,20 @@
  * 用户服务
  **/
 'use strict';
-var mongoose = require('mongoose');
-var _ = require('underscore');
-var config = require('../config');
-var core = require('../libs/core');
-var User = mongoose.model('User');
-var RoleService = require('./role');
+let mongoose = require('mongoose');
+let _ = require('lodash');
+let config = require('../config');
+let core = require('../libs/core');
+let User = mongoose.model('User');
+let RoleService = require('./role');
 
 
-var baseServices = require('./base')(User);
+let baseServices = require('./base')(User);
 
-var services = {
+let services = {
     login: function(id, populates) {
         return new Promise(function(resolve, reject) {
-            /*var query = Content.findById(id)
+            /*let query = Content.findById(id)
             if (populates && populates.length > 0) {
                 populates.forEach(function(item) {
                     query = query.populate(item);
@@ -43,7 +43,7 @@ var services = {
                 }
                 obj.roles = [role._id];
                 obj.reg_ip = core.getIp(req);
-                var user = new User(obj);
+                let user = new User(obj);
                 user.save(function(err, result) {
                     console.log(result);
                     if (err) {
@@ -59,4 +59,4 @@ var services = {
     }
 };
 
-module.exports = _.extend({}, baseServices, services);
+module.exports = _.assign({}, baseServices, services);

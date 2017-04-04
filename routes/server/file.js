@@ -1,19 +1,19 @@
-var express = require('express');
-var router = express.Router();
-var core = require('../../libs/core');
-var action = require('../../middlewares/action');
-var file = require('../../controllers/server/file');
+let express = require('express')
+let router = express.Router()
+let core = require('../../libs/core')
+let action = require('../../middlewares/action')
+let file = require('../../controllers/server/file')
 
 //文件
 router.use(function(req, res, next) {
     console.log('文件页: ' + Date.now());
     res.locals.Path = 'file';
     if(!req.session.user) {
-        var path = core.translateAdminDir('/user/login');
+        let path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
     /*if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('file') < 0)) {
-        var path = core.translateAdminDir('/');
+        let path = core.translateAdminDir('/');
         return res.redirect(path);
     }*/
     next();
@@ -31,6 +31,6 @@ router.route('/:id/del').all(action.checkAction('FILE_DELETE'), file.del);
 
 
 module.exports = function(app) {
-    var path = core.translateAdminDir('/file');
+    let path = core.translateAdminDir('/file');
     app.use(path, router);
 };

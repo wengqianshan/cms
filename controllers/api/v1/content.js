@@ -1,8 +1,8 @@
 'use strict';
-var mongoose = require('mongoose'),
-    Content = mongoose.model('Content'),
-    _ = require('underscore'),
-    core = require('../../../libs/core');
+let mongoose = require('mongoose')
+let Content = mongoose.model('Content')
+let core = require('../../../libs/core')
+
 exports.list = function(req, res) {
     console.time('content-list');
     var condition = {};

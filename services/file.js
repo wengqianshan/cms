@@ -2,17 +2,17 @@
  * 文件服务
  **/
 'use strict';
-var mongoose = require('mongoose');
-var _ = require('underscore');
-var File = mongoose.model('File');
+let mongoose = require('mongoose');
+let _ = require('lodash');
+let File = mongoose.model('File');
 
 
-var baseServices = require('./base')(File);
+let baseServices = require('./base')(File);
 
-var services = {
+let services = {
     findBySome: function(id, populates) {
         return new Promise(function(resolve, reject) {
-            var query = File.findById(id)
+            let query = File.findById(id)
             if (populates && populates.length > 0) {
                 populates.forEach(function(item) {
                     query = query.populate(item);
@@ -29,4 +29,4 @@ var services = {
     }
 };
 
-module.exports = _.extend({}, baseServices, services);
+module.exports = _.assign({}, baseServices, services);

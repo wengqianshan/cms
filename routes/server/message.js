@@ -1,19 +1,19 @@
-var express = require('express');
-var router = express.Router();
-var core = require('../../libs/core');
-var action = require('../../middlewares/action');
-var message = require('../../controllers/server/message');
+let express = require('express')
+let router = express.Router()
+let core = require('../../libs/core')
+let action = require('../../middlewares/action')
+let message = require('../../controllers/server/message')
 
 //权限判断
 router.use(function(req, res, next) {
     console.log('评论页: ' + Date.now());
     res.locals.Path = 'message';
     if(!req.session.user) {
-        var path = core.translateAdminDir('/user/login');
+        let path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
     /*if(!req.Roles || (req.Roles.indexOf('admin') < 0 && req.Actions && req.Actions.indexOf('message') < 0)) {
-        var path = core.translateAdminDir('/');
+        let path = core.translateAdminDir('/');
         return res.redirect(path);
     }*/
     next();
@@ -26,6 +26,6 @@ router.route('/:id').get(action.checkAction('MESSAGE_DETAIL'), message.one);
 router.route('/:id/del').all(action.checkAction('MESSAGE_DELETE'), message.del);
 
 module.exports = function(app) {
-    var path = core.translateAdminDir('/message');
+    let path = core.translateAdminDir('/message');
     app.use(path, router);
 };

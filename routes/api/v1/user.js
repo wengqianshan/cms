@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var user = require('../../../controllers/api/v1/user');
+let express = require('express')
+let router = express.Router()
+let user = require('../../../controllers/api/v1/user')
 
 //
 router.use(function(req, res, next) {

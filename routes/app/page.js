@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var page = require('../../controllers/app/page');
+let express = require('express')
+let router = express.Router()
+let page = require('../../controllers/app/page')
 
 //首页
 router.route('/:id').all(page.one);

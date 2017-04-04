@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var core = require('../../libs/core');
-var action = require('../../middlewares/action');
-var category = require('../../controllers/server/category');
+let express = require('express')
+let router = express.Router()
+let core = require('../../libs/core')
+let action = require('../../middlewares/action')
+let category = require('../../controllers/server/category')
 
 //权限判断
 router.use(function(req, res, next) {

@@ -2,17 +2,17 @@
  * 角色服务
  **/
 'use strict';
-var mongoose = require('mongoose');
-var _ = require('underscore');
-var Role = mongoose.model('Role');
+let mongoose = require('mongoose');
+let _ = require('lodash');
+let Role = mongoose.model('Role');
 
 
-var baseServices = require('./base')(Role);
+let baseServices = require('./base')(Role);
 
-var services = {
+let services = {
     findBySome: function(id, populates) {
         return new Promise(function(resolve, reject) {
-            var query = Role.findById(id)
+            let query = Role.findById(id)
             if (populates && populates.length > 0) {
                 populates.forEach(function(item) {
                     query = query.populate(item);
@@ -29,4 +29,4 @@ var services = {
     }
 };
 
-module.exports = _.extend({}, baseServices, services);
+module.exports = _.assign({}, baseServices, services);

@@ -2,17 +2,17 @@
  * 分类服务
  **/
 'use strict';
-var mongoose = require('mongoose');
-var _ = require('underscore');
-var Category = mongoose.model('Category');
+let mongoose = require('mongoose');
+let _ = require('lodash');
+let Category = mongoose.model('Category');
 
 
-var baseServices = require('./base')(Category);
+let baseServices = require('./base')(Category);
 
-var services = {
+let services = {
     findBySome: function(id, populates) {
         return new Promise(function(resolve, reject) {
-            var query = Category.findById(id)
+            let query = Category.findById(id)
             if (populates && populates.length > 0) {
                 populates.forEach(function(item) {
                     query = query.populate(item);
@@ -29,4 +29,4 @@ var services = {
     }
 };
 
-module.exports = _.extend({}, baseServices, services);
+module.exports = _.assign({}, baseServices, services);

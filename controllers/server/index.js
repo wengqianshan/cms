@@ -1,14 +1,14 @@
 'use strict';
-var mongoose = require('mongoose'),
-    User = mongoose.model('User'),
-    Content = mongoose.model('Content'),
-    Category = mongoose.model('Category'),
-    Comment = mongoose.model('Comment'),
-    File = mongoose.model('File'),
-    Role = mongoose.model('Role'),
-    userController = require('./user'),
-    config = require('../../config'),
-    core = require('../../libs/core');
+let  mongoose = require('mongoose')
+let User = mongoose.model('User')
+let Content = mongoose.model('Content')
+let Category = mongoose.model('Category')
+let Comment = mongoose.model('Comment')
+let File = mongoose.model('File')
+let Role = mongoose.model('Role')
+let userController = require('./user')
+let config = require('../../config')
+let core = require('../../libs/core')
 
 //后台首页
 exports.index = function(req, res) {

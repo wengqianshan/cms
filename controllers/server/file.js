@@ -1,13 +1,13 @@
 'use strict';
-var mongoose = require('mongoose'),
-    fs = require('fs'),
-    path = require('path'),
-    File = mongoose.model('File'),
-    _ = require('underscore'),
-    config = require('../../config'),
-    core = require('../../libs/core');
+let  mongoose = require('mongoose')
+let fs = require('fs')
+let path = require('path')
+let File = mongoose.model('File')
+let _ = require('lodash')
+let config = require('../../config')
+let core = require('../../libs/core')
 
-var uploader = require('../../libs/uploader')(config.upload);
+let uploader = require('../../libs/uploader')(config.upload);
 //列表
 exports.list = function(req, res) {
     //console.log(req.cookies['XSRF-TOKEN'])
@@ -143,7 +143,7 @@ exports.edit = function(req, res) {
                     message: '没有权限'
                 });
             }
-            _.extend(result, obj);
+            _.assign(result, obj);
             result.save(function(err, role) {
                 res.render('server/info', {
                     message: '更新成功'

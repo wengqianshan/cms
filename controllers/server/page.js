@@ -1,7 +1,8 @@
 'use strict';
-var mongoose = require('mongoose'),
-    Page = mongoose.model('Page'),
-    core = require('../../libs/core');
+let mongoose = require('mongoose')
+let Page = mongoose.model('Page')
+let core = require('../../libs/core')
+
 //列表
 exports.list = function(req, res) {
     var condition = {};

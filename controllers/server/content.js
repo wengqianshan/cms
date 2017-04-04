@@ -1,11 +1,11 @@
 'use strict';
-var mongoose = require('mongoose'),
-    Content = mongoose.model('Content'),
-    Category = mongoose.model('Category'),
-    Tag = mongoose.model('Tag'),
-    _ = require('underscore'),
-    core = require('../../libs/core');
-var xss = require('xss');
+let mongoose = require('mongoose')
+let Content = mongoose.model('Content')
+let Category = mongoose.model('Category')
+let Tag = mongoose.model('Tag')
+let _ = require('lodash')
+let core = require('../../libs/core')
+let xss = require('xss')
 /*var userService = require('../../services/user')
 userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(function(res) {
     console.log(res)
@@ -183,7 +183,7 @@ exports.edit = function(req, res) {
                     message: '没有权限'
                 });
             }
-            _.extend(result, obj);
+            _.assign(result, obj);
             result.save(function(err, content) {
                 if (req.xhr) {
                     return res.json({

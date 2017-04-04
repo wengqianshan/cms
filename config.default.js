@@ -1,5 +1,5 @@
-var appPath = process.cwd();
-var config = {
+let appPath = process.cwd();
+let config = {
     port: 7000,
     env: process.env.NODE_ENV || 'development', // development   production
     //mongodb配置信息
