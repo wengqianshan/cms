@@ -133,6 +133,7 @@ exports.register = function(req, res) {
         res.render('server/user/register', {});
     } else if (method === 'POST') {
         let obj = req.body;
+        obj.reg_ip = core.getIp(req);
         console.log(obj);
         let operator = function() {
             //默认角色
@@ -147,7 +148,7 @@ exports.register = function(req, res) {
                 if (req.session.user) {
                     obj.author = req.session.user._id;
                 }
-                obj.reg_ip = core.getIp(req);
+                
                 let user = new User(obj);
                 user.save(function(err, result) {
                     console.log(result);
@@ -159,7 +160,6 @@ exports.register = function(req, res) {
                             message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n' + err
                         }).save()
                     } catch (e) {}
-
                     if (err) {
                         console.log(err);
                         let errors = err.errors;
@@ -188,6 +188,14 @@ exports.register = function(req, res) {
                     res.render('server/info', {
                         message: '该邮箱已被标记垃圾邮箱，不允许注册'
                     });
+                    // 日志
+                    try {
+                        new Log({
+                            type: 'user',
+                            action: 'register',
+                            message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n stopforumspam'
+                        }).save()
+                    } catch (e) {}
                 } else {
                     operator()
                 }
@@ -198,6 +206,7 @@ exports.register = function(req, res) {
         } else {
             operator()
         }
+
     }
 };
 //添加
