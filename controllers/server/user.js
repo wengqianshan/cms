@@ -3,6 +3,7 @@
 let mongoose = require('mongoose')
 let User = mongoose.model('User')
 let Role = mongoose.model('Role')
+let Log = mongoose.model('Log')
 let config = require('../../config')
 let core = require('../../libs/core')
 let crypto = require('../../libs/crypto')
@@ -150,6 +151,15 @@ exports.register = function(req, res) {
                 let user = new User(obj);
                 user.save(function(err, result) {
                     console.log(result);
+                    // 日志
+                    try {
+                        new Log({
+                            type: 'user',
+                            action: 'register',
+                            message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n' + err
+                        }).save()
+                    } catch (e) {}
+
                     if (err) {
                         console.log(err);
                         let errors = err.errors;
@@ -164,6 +174,7 @@ exports.register = function(req, res) {
                     res.render('server/info', {
                         message: '注册成功'
                     });
+
                 });
             });
         }
@@ -416,9 +427,18 @@ exports.login = function(req, res) {
         User.findOne({
             username: username
         }).populate('roles').exec(function(err, user) {
+
+            try{
+                new Log({
+                    type: 'user',
+                    action: 'login',
+                    message: JSON.stringify(username) + '\n' + err
+                }).save()
+            } catch(e) {}
+            
             if (!user) {
                 return res.render('server/info', {
-                    message: '登录失败, 查无此人'
+                    message: '登录失败'
                 });
             }
             if (user.authenticate(password)) {
@@ -441,7 +461,7 @@ exports.login = function(req, res) {
                 res.redirect(ref);
             } else {
                 res.render('server/info', {
-                    message: '密码不正确'
+                    message: '密码错误'
                 });
             }
         });
