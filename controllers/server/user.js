@@ -133,38 +133,60 @@ exports.register = function(req, res) {
     } else if (method === 'POST') {
         let obj = req.body;
         console.log(obj);
-        //默认角色
-        Role.findOne({status: 202}, function(err, role) {
-            console.log('role', role);
-            if(err || !role) {
-                return res.render('server/info', {
-                    message: '注册失败, 未开放角色:' + config.admin.role.user
-                });
-            }
-            obj.roles = [role._id];
-            if (req.session.user) {
-                obj.author = req.session.user._id;
-            }
-            obj.reg_ip = core.getIp(req);
-            let user = new User(obj);
-            user.save(function(err, result) {
-                console.log(result);
-                if (err) {
-                    console.log(err);
-                    let errors = err.errors;
-                    let message = [];
-                    for (let i in errors) {
-                        message.push(errors[i].message);
-                    }
+        let operator = function() {
+            //默认角色
+            Role.findOne({status: 202}, function(err, role) {
+                console.log('role', role);
+                if(err || !role) {
                     return res.render('server/info', {
-                        message: '注册失败' + message.join('<br/>')
+                        message: '注册失败, 未开放角色:' + config.admin.role.user
                     });
                 }
-                res.render('server/info', {
-                    message: '注册成功'
+                obj.roles = [role._id];
+                if (req.session.user) {
+                    obj.author = req.session.user._id;
+                }
+                obj.reg_ip = core.getIp(req);
+                let user = new User(obj);
+                user.save(function(err, result) {
+                    console.log(result);
+                    if (err) {
+                        console.log(err);
+                        let errors = err.errors;
+                        let message = [];
+                        for (let i in errors) {
+                            message.push(errors[i].message);
+                        }
+                        return res.render('server/info', {
+                            message: '注册失败' + message.join('<br/>')
+                        });
+                    }
+                    res.render('server/info', {
+                        message: '注册成功'
+                    });
                 });
             });
-        });
+        }
+
+        if (config.stopForumSpam) {
+            core.stopForumSpam({
+                email: obj.email
+            }).then((data) => {
+                console.log(data, 'res')
+                if (data && data.email && data.email.frequency > 5) {
+                    res.render('server/info', {
+                        message: '该邮箱已被标记垃圾邮箱，不允许注册'
+                    });
+                } else {
+                    operator()
+                }
+            }, (err) => {
+                //console.log(err, 'err')
+                operator()
+            })
+        } else {
+            operator()
+        }
     }
 };
 //添加

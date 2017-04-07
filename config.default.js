@@ -45,6 +45,7 @@ let config = {
             }
         }
     },
+    stopForumSpam: false,
     // 是否启动用户注册校验TODO:
     userVerify: {
         enable: false,

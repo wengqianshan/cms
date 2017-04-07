@@ -5,6 +5,7 @@ let path = require('path')
 let config = require('../config')
 let qs = require('qs')
 let _ = require('lodash')
+let axios = require('axios')
 
 // recursively walk modules path and callback for each file
 let walk = function(modulesPath, excludeDir, callback) {
@@ -112,3 +113,20 @@ exports.fileToIcon = function(type) {
 exports.getIp = function(req) {
     return req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress || req.ip;
 };
+
+exports.stopForumSpam = function(obj = {}) {
+    return new Promise((resolve, reject) => {
+        axios('http://api.stopforumspam.org/api?json', {
+            params: {
+                username: obj.username,
+                email: obj.email,
+                ip: obj.ip
+            }
+        }).then((res) => {
+            resolve(res.data)
+        }).catch((error) => {
+            reject(error)
+        })
+    })
+    
+}
