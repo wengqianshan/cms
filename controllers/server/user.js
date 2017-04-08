@@ -157,6 +157,7 @@ exports.register = function(req, res) {
                         new Log({
                             type: 'user',
                             action: 'register',
+                            status: !err ? 'success' : 'failed',
                             message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n' + err
                         }).save()
                     } catch (e) {}
@@ -193,6 +194,7 @@ exports.register = function(req, res) {
                         new Log({
                             type: 'user',
                             action: 'register',
+                            status: 'spam',
                             message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n stopforumspam'
                         }).save()
                     } catch (e) {}

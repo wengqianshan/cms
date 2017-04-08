@@ -16,6 +16,9 @@ let LogSchema = new Schema({
     action: {
         type: String
     },
+    status: {
+        type: String
+    },
     message: {
         type: String
     },
