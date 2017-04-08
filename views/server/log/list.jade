@@ -1,0 +1,84 @@
+extends ../layout
+block head-css
+block content
+    .row
+        .col-md-12
+            table.table.table-striped
+                thead
+                    tr
+                        th 类型
+                        th 动作
+                        th 状态
+                        th 信息
+                        th 时间
+                        th 操作
+                tbody
+                    - each item in data
+                        tr
+                            td 
+                                a(href='#{adminDir}/log/#{item.id}')
+                                    | #{item.type}
+                            td
+                                | #{item.action}
+                            td
+                                | #{item.status}
+                            td
+                                | #{item.message}
+                            td #{moment(item.created).format('LLL')}
+                            td
+                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/log/#{item.id}/del') 删除
+            if (pageInfo && pageInfo.totalPage > 1)
+                - pageInfo.query = query
+                include ../mixin
+                +pagination(pageInfo)
+    script#J_tmpl_add(type='x-tmpl-mustache')
+        .form-group
+            label 标题
+            input.form-control(name='title')
+        .form-group
+            label 内容
+            textarea.form-control(rows='4', name='content')
+block foot-js
+    script.
+        var user = !{JSON.stringify(User)};
+        var token = '#{token}';
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+
+        $(document).on('click', '.J_del', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $tr = $this.closest('tr');
+            var url = $this.attr('href');
+            var messenger = Messenger().post("处理中...");
+            $.post(url, {_csrf: token}, function(json) {
+                console.log(json);
+                var status = json.status;
+                if(status === true) {
+                    //- Messenger().post({
+                    //-     message: '删除成功',
+                    //-     hideAfter: 3,
+                    //-     type: 'success'
+                    //- });
+                    messenger.update({
+                        message: '删除成功',
+                        hideAfter: 3,
+                        type: 'success'
+                    });
+                    $tr.remove();
+                } else {
+                    //- Messenger().post({
+                    //-     message: '删除失败',
+                    //-     hideAfter: 3,
+                    //-     type: 'error'
+                    //- });
+                    messenger.update({
+                        message: '删除失败',
+                        hideAfter: 3,
+                        type: 'error'
+                    });
+                }
+            })
+        });

@@ -249,5 +249,22 @@ module.exports = [
                 description: '删除用户'
             }
         ]
+    },{
+        name: '日志管理',
+        actions: [
+            {
+                name: '日志访问',
+                value: 'LOG_INDEX',
+                description: '日志访问'
+            },{
+                name: '查看日志信息',
+                value: 'LOG_DETAIL',
+                description: '查看日志信息'
+            },{
+                name: '删除日志',
+                value: 'LOG_DELETE',
+                description: '删除日志'
+            }
+        ]
     }
 ];

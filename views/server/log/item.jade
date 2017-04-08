@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            .lists
+                p 类型：#{data.type}
+                p 动作：#{data.action}
+                p 状态：#{data.status}
+                p 内容：#{data.message}
+                p 日期：#{data.created}

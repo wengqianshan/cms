@@ -166,6 +166,11 @@ html.no-js
                                         a(href='#{adminDir}/tag') 标签列表
                                     li(class=Menu === 'add' ? 'active' : '')
                                         a(href='#{adminDir}/tag/add') 添加标签
+                        if (User && Roles.indexOf('admin') > -1 || Actions.indexOf('LOG_INDEX') > -1)
+                            li.sub-menu(class=Path === 'log' ? 'active' : '')
+                                a(href='#{adminDir}/log')
+                                    i.fa.fa-file
+                                    span 日志
                                 
             // sidebar left end
             // main content start
