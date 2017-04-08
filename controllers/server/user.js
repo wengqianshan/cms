@@ -435,21 +435,26 @@ exports.login = function(req, res) {
     } else if (req.method === 'POST') {
         let username = req.body.username;
         let password = req.body.password;
+        let ip = core.getIp(req);
         User.findOne({
             username: username
         }).populate('roles').exec(function(err, user) {
-
             try{
                 new Log({
                     type: 'user',
                     action: 'login',
-                    message: JSON.stringify(username) + '\n' + err
+                    message: JSON.stringify({
+                        username: username,
+                        ip: ip
+                    }) + '\n' + err
                 }).save()
-            } catch(e) {}
+            } catch(e) {
+                console.log(e)
+            }
             
             if (!user) {
                 return res.render('server/info', {
-                    message: '登录失败'
+                    message: '用户名或密码错误'
                 });
             }
             if (user.authenticate(password)) {
@@ -457,7 +462,7 @@ exports.login = function(req, res) {
                 console.log(user);
                 //记录登录信息
                 user.last_login_date = new Date();
-                user.last_login_ip = core.getIp(req);
+                user.last_login_ip = ip;
                 user.save();
                 req.session.user = user;
                 let path = core.translateAdminDir('/');
@@ -472,7 +477,7 @@ exports.login = function(req, res) {
                 res.redirect(ref);
             } else {
                 res.render('server/info', {
-                    message: '密码错误'
+                    message: '用户名或密码错误'
                 });
             }
         });
