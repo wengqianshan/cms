@@ -12,7 +12,7 @@ let RedisStore = require('connect-redis')(session); //存储session,防止服务
 let bodyParser = require('body-parser');
 let csrf = require('csurf');
 let moment = require('moment');
-let underscore = require('underscore');
+let _ = require('lodash');
 let multipart = require('connect-multiparty'); //解析文件
 let core = require('./libs/core');
 let marked = require('marked');
@@ -60,7 +60,7 @@ app.locals = {
     title: config.title || 'CMS',
     pretty: true,
     moment: moment,
-    _: underscore,
+    _: _,
     core: core,
     config: config,
     adminDir: config.admin.dir ? ('/' + config.admin.dir) : '',
