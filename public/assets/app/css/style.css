@@ -108,3 +108,9 @@ html, body{
 .post-content img{
     max-width: 100%;
 }
+.post-content blockquote{
+    padding: 0 1em;
+    color: #777;
+    border-left: .25em solid #ddd;
+    margin: 0 0 16px;
+}
