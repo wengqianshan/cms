@@ -59,17 +59,12 @@ let ContentSchema = new Schema({
         default: 0
     },
     //置顶，权重由数值决定
-    ding: {
+    up: {
         type: Number,
         default: 0
     },
-    //点赞
-    zan: {
-        type: Number,
-        default: 0
-    },
-    //踩
-    cai: {
+    //喜欢
+    like: {
         type: Number,
         default: 0
     }
