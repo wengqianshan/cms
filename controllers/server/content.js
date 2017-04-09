@@ -83,21 +83,15 @@ exports.add = function(req, res) {
         if(req.Roles && req.Roles.indexOf('admin') < 0) {
             condition.author = req.session.user._id;
         }
-        /*Category.find(condition, function(err, results) {
+        Promise.all([Category.find(condition).exec(), Tag.find(condition).exec()]).then((result) => {
             res.render('server/content/add', {
-                categorys: results,
+                categorys: result[0],
+                tags: result[1],
                 Menu: 'add'
             });
-        });*/
-        Category.find(condition).exec().then(function(categorys) {
-            //console.log(categorys);
-            Tag.find(condition).exec().then(function(tags) {
-                //console.log(tags)
-                res.render('server/content/add', {
-                    categorys: categorys,
-                    tags: tags,
-                    Menu: 'add'
-                });
+        }).catch((e) => {
+            res.render('server/content/add', {
+                Menu: 'add'
             });
         })
     } else if (req.method === 'POST') {

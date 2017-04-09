@@ -13,41 +13,37 @@ let core = require('../../libs/core')
 
 //后台首页
 exports.index = function(req, res) {
-    if(req.session.user) {
-        let obj = {}
-        let filter = {};
-        if(req.Roles && req.Roles.indexOf('admin') < 0) {
-            filter = {author: req.session.user._id};
-        }
-        Content.find(filter).count().exec().then(function(result) {
-            //console.log(result)
-            obj.content = result;
-            return Category.find(filter).count().exec();
-        }).then(function(result) {
-            //console.log(result);
-            obj.category = result;
-            return Comment.find(filter).count().exec();
-        }).then(function(result) {
-            //console.log(result);
-            obj.comment = result;
-            return User.find(filter).count().exec();
-        }).then(function(result) {
-            //console.log(result);
-            obj.user = result;
-            return Role.find(filter).count().exec();
-        }).then(function(result) {
-            //console.log(result);
-            obj.role = result;
-            return File.find(filter).count().exec();
-        }).then(function(result) {
-            obj.file = result;
-            console.log(obj);
-            res.render('server/index', { title: '管理后台', data: obj});
-        });
-    } else {
+    if(!req.session.user) {
         let path = core.translateAdminDir('/user/login');
         return res.redirect(path);
     }
+    let obj = {}
+    let filter = {};
+    if(req.Roles && req.Roles.indexOf('admin') < 0) {
+        filter = {author: req.session.user._id};
+    }
+    Promise.all([
+        Content.find(filter).count().exec(),
+        Category.find(filter).count().exec(),
+        Comment.find(filter).count().exec(),
+        User.find(filter).count().exec(),
+        Role.find(filter).count().exec(),
+        File.find(filter).count().exec()
+    ]).then((result) => {
+        res.render('server/index', { 
+            title: '管理后台',
+            data: {
+                content: result[0],
+                category: result[1],
+                comment: result[2],
+                user: result[3],
+                role: result[4],
+                file: result[5]
+            }
+        });
+    }).catch((e) => {
+
+    })
 };
 
 //初始化后台,安装初始数据
