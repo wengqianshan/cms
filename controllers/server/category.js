@@ -50,13 +50,23 @@ exports.one = function(req, res) {
 //添加
 exports.add = function(req, res) {
     if (req.method === 'GET') {
-        res.render('server/category/add', {
-            Menu: 'add'
-        });
+        let condition = {};
+        if(req.Roles && req.Roles.indexOf('admin') < 0) {
+            condition.author = req.session.user._id;
+        }
+        Category.find(condition).exec().then(function(categorys) {
+            res.render('server/category/add', {
+                Menu: 'add',
+                items: categorys || []
+            });
+        })
     } else if (req.method === 'POST') {
         let obj = req.body;
         if (req.session.user) {
             obj.author = req.session.user._id;
+        }
+        if (!obj.parent) {
+            delete obj.parent
         }
         let category = new Category(obj);
         category.save(function(err, category) {
@@ -88,13 +98,23 @@ exports.edit = function(req, res) {
                     message: '没有权限'
                 });
             }
-            res.render('server/category/edit', {
-                category: result
-            });
+            let condition = {};
+            if(req.Roles && req.Roles.indexOf('admin') < 0) {
+                condition.author = req.session.user._id;
+            }
+            Category.find(condition).exec().then(function(categorys) {
+                res.render('server/category/edit', {
+                    category: result,
+                    items: categorys || []
+                });
+            })
         });
     } else if(req.method === 'POST') {
         let id = req.param('id');
         let obj = req.body;
+        if (!obj.parent) {
+            delete obj.parent
+        }
         Category.findById(id).populate('author').exec(function(err, result) {
             let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
             let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
