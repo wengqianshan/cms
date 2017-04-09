@@ -35,7 +35,7 @@ mixin pagination(pageInfo)
 //- 评论条目
 mixin commentItem(comment, comments)
     if (comment)
-        .comment.J_comment(data-id='#{comment._id}', data-reply='#{comment.reply || ""}')
+        .comment.J_comment(id='#{comment._id}', data-id='#{comment._id}', data-reply='#{comment.reply || ""}')
             a.avatar
                 - var avatar = gravatar.url((comment.author &&comment.author.email) || comment.email || '', {s: '40',r: 'x',d: 'retro'}, true)
                 img(src='#{avatar}')

@@ -15,8 +15,8 @@ block content
                     - each page in pages
                         tr
                             td 
-                                a(href='#{adminDir}/page/#{page.id}')
-                                    | #{page.title}
+                                a(href='/page/#{page.id}', target='_blank') #{page.title} 
+                                    i.fa.fa-external-link
                             td
                                 | #{page.content}
                             td #{moment(page.created).format('LLL')}

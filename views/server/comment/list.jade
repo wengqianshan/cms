@@ -24,7 +24,8 @@ block content
                                     | 匿名
                             td
                                 if comment.from
-                                    a(href='#{adminDir}/content/#{comment.from._id}/') #{comment.from.title}
+                                    a(href='/content/#{comment.from._id}##{comment.id}', target='_blank') #{comment.from.title} 
+                                        i.fa.fa-external-link
                             td #{comment.ip}
                             td
                                 | #{moment(comment.created).format('LLL')}
