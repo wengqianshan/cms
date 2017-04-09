@@ -2,7 +2,7 @@
 
 let mongoose = require('mongoose')
 let Tag = mongoose.model('Tag')
-let _ = require('underscore')
+let _ = require('lodash')
 let core = require('../../libs/core')
 
 //列表
