@@ -114,3 +114,26 @@ html, body{
     border-left: .25em solid #ddd;
     margin: 0 0 16px;
 }
+.post-content table{
+    border-spacing: 0;
+    border-collapse: collapse;
+    display: block;
+    width: 100%;
+    overflow: auto;
+    margin: 0 0 16px;
+}
+.post-content table tr{
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+.post-content table tr:nth-child(2n){
+    background-color: #f8f8f8;
+}
+.post-content table td,
+.post-content table th{
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+.post-content table th{
+    font-weight: 700;
+}
