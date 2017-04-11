@@ -12,7 +12,7 @@
     "axios": "^0.16.0",
     "body-parser": "~1.0.0",
     "connect-multiparty": "^1.0.5",
-    "connect-redis": "^2.0.0",
+    "connect-redis": "^3.2.0",
     "cookie-parser": "~1.0.1",
     "csurf": "^1.8.3",
     "debug": "~0.7.4",
