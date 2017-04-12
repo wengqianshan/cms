@@ -1,12 +1,14 @@
 'use strict';
 
+let _ = require('lodash')
+
 /**
  * 基础服务
  **/
 let services = function(Model) {
     return {
-        count: function(condition) {
-            let condition = condition || {};
+        count: function(_condition) {
+            let condition = _condition || {};
             return new Promise(function(resolve, reject) {
                 Model.count(condition, function(err, total) {
                     if (err) {
@@ -17,8 +19,8 @@ let services = function(Model) {
                 })
             })
         },
-        find: function(condition, populates) {
-            let condition = condition || {};
+        find: function(_condition, populates) {
+            let condition = _condition || {};
             return new Promise(function(resolve, reject) {
                 let query = Model.find(condition)
                 if (populates && populates.length > 0) {
@@ -36,10 +38,11 @@ let services = function(Model) {
                 });
             });
         },
-        findOne: function(condition, projection, options) {
-            let condition = condition || {};
+        findOne: function(_condition, projection, options) {
+            let condition = _condition || {};
             return new Promise(function(resolve, reject) {
                 Model.findOne(condition, projection, options, function(err, result) {
+                    return reject(err);
                     if (err) {
                         reject(err);
                     } else {

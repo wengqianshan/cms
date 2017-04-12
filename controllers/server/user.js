@@ -3,7 +3,7 @@
 let mongoose = require('mongoose')
 let User = mongoose.model('User')
 let Role = mongoose.model('Role')
-let Log = mongoose.model('Log')
+let Log = require('../../services/log');
 let config = require('../../config')
 let core = require('../../libs/core')
 let crypto = require('../../libs/crypto')
@@ -153,14 +153,12 @@ exports.register = function(req, res) {
                 user.save(function(err, result) {
                     console.log(result);
                     // 日志
-                    try {
-                        new Log({
-                            type: 'user',
-                            action: 'register',
-                            status: !err ? 'success' : 'failed',
-                            message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n' + err
-                        }).save()
-                    } catch (e) {}
+                    Log.add({
+                        type: 'user',
+                        action: 'register',
+                        status: !err ? 'success' : 'failed',
+                        message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n' + err
+                    })
                     if (err) {
                         console.log(err);
                         let errors = err.errors;
@@ -190,14 +188,12 @@ exports.register = function(req, res) {
                         message: '该邮箱已被标记垃圾邮箱，不允许注册'
                     });
                     // 日志
-                    try {
-                        new Log({
-                            type: 'user',
-                            action: 'register',
-                            status: 'spam',
-                            message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n stopforumspam'
-                        }).save()
-                    } catch (e) {}
+                    Log.add({
+                        type: 'user',
+                        action: 'register',
+                        status: 'spam',
+                        message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n stopforumspam'
+                    })
                 } else {
                     operator()
                 }
@@ -439,18 +435,15 @@ exports.login = function(req, res) {
         User.findOne({
             username: username
         }).populate('roles').exec(function(err, user) {
-            try{
-                new Log({
-                    type: 'user',
-                    action: 'login',
-                    message: JSON.stringify({
-                        username: username,
-                        ip: ip
-                    }) + '\n' + err
-                }).save()
-            } catch(e) {
-                console.log(e)
-            }
+            //日志
+            Log.add({
+                type: 'user',
+                action: 'login',
+                message: JSON.stringify({
+                    username: username,
+                    ip: ip
+                }) + '\n' + err
+            })
             
             if (!user) {
                 return res.render('server/info', {
