@@ -435,17 +435,18 @@ exports.login = function(req, res) {
         User.findOne({
             username: username
         }).populate('roles').exec(function(err, user) {
-            //日志
-            Log.add({
-                type: 'user',
-                action: 'login',
-                message: JSON.stringify({
-                    username: username,
-                    ip: ip
-                }) + '\n' + err
-            })
-            
+
             if (!user) {
+                //日志
+                Log.add({
+                    type: 'user',
+                    action: 'login',
+                    status: 'failed',
+                    message: JSON.stringify({
+                        username: username,
+                        ip: ip
+                    }) + '\n用户不存在\n' + err
+                })
                 return res.render('server/info', {
                     message: '用户名或密码错误'
                 });
@@ -468,10 +469,31 @@ exports.login = function(req, res) {
                     }
                 }
                 res.redirect(ref);
+                //日志
+                Log.add({
+                    type: 'user',
+                    action: 'login',
+                    status: 'success',
+                    message: JSON.stringify({
+                        username: username,
+                        ip: ip
+                    }) + '\n' + err
+                })
             } else {
                 res.render('server/info', {
                     message: '用户名或密码错误'
                 });
+                //日志
+                let hunter = (username === 'admin') ? (' \n尝试密码[' + password + ']') : ''
+                Log.add({
+                    type: 'user',
+                    action: 'login',
+                    status: 'failed',
+                    message: JSON.stringify({
+                        username: username,
+                        ip: ip
+                    }) + '\n密码不正确' + hunter + '\n' + err
+                })
             }
         });
     }
