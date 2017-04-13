@@ -22,6 +22,19 @@ let NotificationSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
+    // 是否系统广播，系统广播只更新read字段, unread默认为全员
+    broadcast: {
+        type: Boolean,
+        default: false
+    },
+    read: [{
+        type: Schema.ObjectId,
+        ref: 'User'
+    }],
+    unread: [{
+        type: Schema.ObjectId,
+        ref: 'User'
+    }],
     created: {
         type: Date,
         default: Date.now
