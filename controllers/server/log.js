@@ -32,7 +32,7 @@ exports.list = function(req, res) {
 //单条
 exports.one = function(req, res) {
     let id = req.param('id');
-    Log.findById(id).populate('author').exec(function(err, result) {
+    Log.findById(id).populate('author', 'username name').exec(function(err, result) {
         console.log(result);
         if(!result) {
             return res.render('server/info', {

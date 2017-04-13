@@ -92,7 +92,7 @@ exports.list = function(req, res) {
         query.exec(function(err, results) {
             //console.log(err, results);
             res.render('server/user/list', {
-                title: '内容列表',
+                title: '用户列表',
                 users: results,
                 pageInfo: pageInfo,
                 Menu: 'list'
@@ -128,12 +128,15 @@ exports.query = function(req, res) {
 };
 //注册
 exports.register = function(req, res) {
+    let ip = core.getIp(req);
+    let ua = req.get('User-Agent');
+
     let method = req.method;
     if (method === 'GET') {
         res.render('server/user/register', {});
     } else if (method === 'POST') {
         let obj = req.body;
-        obj.reg_ip = core.getIp(req);
+        obj.reg_ip = ip;
         console.log(obj);
         let operator = function() {
             //默认角色
@@ -157,6 +160,8 @@ exports.register = function(req, res) {
                         type: 'user',
                         action: 'register',
                         status: !err ? 'success' : 'failed',
+                        ip: ip,
+                        ua: ua,
                         message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n' + err
                     })
                     if (err) {
@@ -192,6 +197,8 @@ exports.register = function(req, res) {
                         type: 'user',
                         action: 'register',
                         status: 'spam',
+                        ip: ip,
+                        ua: ua,
                         message: JSON.stringify(_.pick(obj, 'username', 'name', 'email', 'reg_ip')) + '\n stopforumspam'
                     })
                 } else {
@@ -425,13 +432,15 @@ let noRedirect = [
 ]
 //登录
 exports.login = function(req, res) {
+    let ip = core.getIp(req);
+    let ua = req.get('User-Agent');
+
     if (req.method === 'GET') {
         req.session.loginReferer = req.headers.referer; 
         res.render('server/user/login');
     } else if (req.method === 'POST') {
         let username = req.body.username;
         let password = req.body.password;
-        let ip = core.getIp(req);
         User.findOne({
             username: username
         }).populate('roles').exec(function(err, user) {
@@ -442,6 +451,8 @@ exports.login = function(req, res) {
                     type: 'user',
                     action: 'login',
                     status: 'failed',
+                    ip:ip,
+                    ua: ua,
                     message: JSON.stringify({
                         username: username,
                         ip: ip
@@ -474,6 +485,9 @@ exports.login = function(req, res) {
                     type: 'user',
                     action: 'login',
                     status: 'success',
+                    ip: ip,
+                    ua: ua,
+                    author: user,
                     message: JSON.stringify({
                         username: username,
                         ip: ip
@@ -489,6 +503,8 @@ exports.login = function(req, res) {
                     type: 'user',
                     action: 'login',
                     status: 'failed',
+                    ip: ip,
+                    ua: ua,
                     message: JSON.stringify({
                         username: username,
                         ip: ip

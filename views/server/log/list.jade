@@ -9,6 +9,7 @@ block content
                         th 类型
                         th 动作
                         th 状态
+                        th ip
                         th 信息
                         th 时间
                         th 操作
@@ -22,6 +23,8 @@ block content
                                 | #{item.action}
                             td
                                 | #{item.status}
+                            td
+                                | #{item.ip}
                             td
                                 | #{item.message}
                             td #{moment(item.created).format('LLL')}

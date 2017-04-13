@@ -19,6 +19,12 @@ let LogSchema = new Schema({
     status: {
         type: String
     },
+    ip: {
+        type: String
+    },
+    ua: {
+        type: String
+    },
     message: {
         type: String
     },
