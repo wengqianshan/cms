@@ -108,14 +108,14 @@ exports.sent = function(req, res) {
 exports.one = function(req, res) {
     let id = req.param('id');
     Notification.findById(id).exec(function(err, result) {
-        console.log(result, '单条信息+++++++++++++++++');
+        // console.log(result, '单条信息+++++++++++++++++');
         if (req.session.user._id) {
             let verify = (result.broadcast || result.to.indexOf(req.session.user._id) > -1);
             if (result.read.indexOf(req.session.user._id) < 0 && verify) {
-                console.log('未读消息，设置已读+')
+                // console.log('未读消息，设置已读+')
                 let notification = markRead(result, req.session.user._id);
                 notification.save(function(err, result) {
-                    console.log(err, result, '更新通知+++++++++++++++++')
+                    // console.log(err, result, '更新通知+++++++++++++++++')
                 })    
             }
             
@@ -134,12 +134,11 @@ exports.one = function(req, res) {
 };
 
 function markRead (notification, uid) {
-    console.log(notification, uid, '设置已读++++++++++++')
     if (!notification.broadcast) {
         // 如果不是系统通知，从未读列表去除接收者
         notification.unread = notification.unread.filter((item) => {
-            return item !== uid
-        })   
+            return (item + '') !== (uid + '')
+        })
     }
     // 已读列表增加接收者
     notification.read.push(mongoose.Types.ObjectId(uid))
@@ -182,7 +181,7 @@ exports.add = function(req, res) {
             message: '参数不正确'
         });
     }
-    obj.from = mongoose.Types.ObjectId(obj.from);
+    obj.from = mongoose.Types.ObjectId(req.session.user._id);
     obj.to = obj.to.map(function(item) {
         return mongoose.Types.ObjectId(item) || '';
     })
@@ -201,33 +200,4 @@ exports.add = function(req, res) {
             message: '发送成功'
         })
     });
-    /*obj.to.forEach(function(toId) {
-        obj.from = mongoose.Types.ObjectId(obj.from) || '';
-        obj.to = mongoose.Types.ObjectId(toId) || '';
-        let notification = new Notification(obj);
-        notification.save(function(err) {
-            if (err) {
-                console.log(err);
-            }
-        });
-    });*/
-    /*return res.json({
-        status: true,
-        message: '发送成功'
-    })*/
-    /*obj.from = obj.from ? mongoose.Types.ObjectId(obj.from) : '';
-    obj.to = obj.from ? mongoose.Types.ObjectId(obj.to) : '';
-    let notification = new Notification(obj);
-    notification.save(function(err) {
-        if (err) {
-            return res.json({
-                status: false,
-                message: '发送失败'
-            })
-        }
-        return res.json({
-            status: true,
-            message: '发送成功'
-        })
-    });*/
 };

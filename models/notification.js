@@ -35,6 +35,10 @@ let NotificationSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     }],
+    deleted: [{
+        type: Schema.ObjectId,
+        ref: 'User'
+    }],
     created: {
         type: Date,
         default: Date.now

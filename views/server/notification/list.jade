@@ -11,7 +11,7 @@ block content
                         th 内容
                         th 来自
                         th 发给
-                        th 是否已读
+                        //th 是否已读
                         th 未读
                         th 已读
                         th 时间
@@ -25,7 +25,7 @@ block content
                             td 
                                 each item in notification.to
                                     span.badge.badge-default #{item.username}
-                            td #{notification.isRead ? '已读' : '未读'}
+                            //td #{notification.isRead ? '已读' : '未读'}
                             td
                                 each item in notification.unread
                                     span.badge.badge-default #{item.username}
@@ -52,7 +52,7 @@ block content
 block foot-js
     script(src='//cdn.jsdelivr.net/select2/4.0.3/js/select2.min.js')
     script.
-        var user = !{JSON.stringify(User)};
+        //var user = !{JSON.stringify(User)};
         var token = '#{token}';
         Messenger.options = {
             extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
@@ -65,13 +65,13 @@ block foot-js
             var request = function(to, content, dialog) {
                 $.post(url, {
                     _csrf: token,
-                    from: user._id,
+                    //from: user._id,
                     to: to,
                     content: content
                 }, function(json) {
                     console.log(json);
                     dialog.close();
-                    BootstrapDialog.alert('发送成功');
+                    swal('发送成功!', '', 'success')
                 });
             };
             
