@@ -11,15 +11,27 @@ block content
                         th 内容
                         th 来自
                         th 发给
+                        th 是否已读
+                        th 未读
+                        th 已读
                         th 时间
                         th 操作
                 tbody
                     - each notification in notifications
                         tr
                             td
-                                | #{notification.content}
+                                a(href='#{adminDir}/notification/#{notification.id}') #{notification.content}
                             td #{notification.from.username}
-                            td #{notification.to.username}
+                            td 
+                                each item in notification.to
+                                    span.badge.badge-default #{item.username}
+                            td #{notification.isRead ? '已读' : '未读'}
+                            td
+                                each item in notification.unread
+                                    span.badge.badge-default #{item.username}
+                            td
+                                each item in notification.read
+                                    span.badge.badge-default #{item.username}
                             td
                                 | #{moment(notification.created).format('LLL')}
                             td

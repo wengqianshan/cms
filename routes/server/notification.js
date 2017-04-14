@@ -19,6 +19,7 @@ router.use(function(req, res, next) {
 
 //已发出
 router.route('/sent').get(action.checkAction('NOTIFICATION_INDEX'), notification.sent);
+router.route('/received').get(action.checkAction('NOTIFICATION_INDEX'), notification.received);
 //发信
 router.route('/add').all(action.checkAction('NOTIFICATION_CREATE'), notification.add);
 //单条信息

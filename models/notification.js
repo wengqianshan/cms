@@ -18,10 +18,10 @@ let NotificationSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
-    to: {//接收人
+    to: [{//接收人
         type: Schema.ObjectId,
         ref: 'User'
-    },
+    }],
     // 是否系统广播，系统广播只更新read字段, unread默认为全员
     broadcast: {
         type: Boolean,
@@ -51,6 +51,15 @@ let NotificationSchema = new Schema({
         next(new Error('Invalid password'));
     } else {
         next();
+    }
+});*/
+/*NotificationSchema.virtual('compare').set(function(password) {
+    
+}).get(function() {
+    if (this.broadcast) {
+        return this.read
+    } else {
+        return this.unread
     }
 });*/
 

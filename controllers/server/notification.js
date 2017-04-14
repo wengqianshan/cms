@@ -12,7 +12,7 @@ exports.list = function(req, res) {
         condition.author = req.session.user._id;
     }*/
     Notification.count(condition, function(err, total) {
-        let query = Notification.find(condition).populate('from to');
+        let query = Notification.find(condition).populate('from to read unread');
         //分页
         let pageInfo = core.createPage(req.query.page, total);
         //console.log(pageInfo);
@@ -21,6 +21,14 @@ exports.list = function(req, res) {
         query.sort({created: -1});
         query.exec(function(err, results) {
             //console.log(err, results);
+            results = results.map(function(item) {
+                let isRead = false;
+                item.isRead = item.read.filter((n) => {
+                    return n.id === req.session.user._id;
+                }).length > 0
+                //item.isRead = item.read.indexOf(req.session.user._id) > -1;
+                return item;
+            })
             res.render('server/notification/list', {
                 //title: '列表',
                 Menu: 'list',
@@ -36,7 +44,7 @@ exports.received = function(req, res) {
         to: req.session.user._id
     };
     Notification.count(condition, function(err, total) {
-        let query = Notification.find(condition).populate('from to');
+        let query = Notification.find(condition).populate('from to read unread');
         //分页
         let pageInfo = core.createPage(req.query.page, total);
         //console.log(pageInfo);
@@ -45,9 +53,17 @@ exports.received = function(req, res) {
         query.sort({created: -1});
         query.exec(function(err, results) {
             //console.log(err, results);
+            results = results.map(function(item) {
+                let isRead = false;
+                item.isRead = item.read.filter((n) => {
+                    return n.id === req.session.user._id;
+                }).length > 0
+                //item.isRead = item.read.indexOf(req.session.user._id) > -1;
+                return item;
+            })
             res.render('server/notification/list', {
                 //title: '列表',
-                Menu: 'list',
+                Menu: 'received',
                 notifications: results,
                 pageInfo: pageInfo
             });
@@ -62,7 +78,7 @@ exports.sent = function(req, res) {
         from: req.session.user._id
     };
     Notification.count(condition, function(err, total) {
-        let query = Notification.find(condition).populate('from to');
+        let query = Notification.find(condition).populate('from to read unread');
         //分页
         let pageInfo = core.createPage(req.query.page, total);
         //console.log(pageInfo);
@@ -71,6 +87,14 @@ exports.sent = function(req, res) {
         query.sort({created: -1});
         query.exec(function(err, results) {
             console.log(err, results);
+            results = results.map(function(item) {
+                let isRead = false;
+                item.isRead = item.read.filter((n) => {
+                    return n.id === req.session.user._id;
+                }).length > 0
+                //item.isRead = item.read.indexOf(req.session.user._id) > -1;
+                return item;
+            })
             res.render('server/notification/list', {
                 //title: '列表',
                 Menu: 'sent',
@@ -84,18 +108,43 @@ exports.sent = function(req, res) {
 exports.one = function(req, res) {
     let id = req.param('id');
     Notification.findById(id).exec(function(err, result) {
-        console.log(result);
+        console.log(result, '单条信息+++++++++++++++++');
+        if (req.session.user._id) {
+            let verify = (result.broadcast || result.to.indexOf(req.session.user._id) > -1);
+            if (result.read.indexOf(req.session.user._id) < 0 && verify) {
+                console.log('未读消息，设置已读+')
+                let notification = markRead(result, req.session.user._id);
+                notification.save(function(err, result) {
+                    console.log(err, result, '更新通知+++++++++++++++++')
+                })    
+            }
+            
+        }
+        
         if(!result) {
             return res.render('server/info', {
                 message: '该留言不存在'
             });
         }
         res.render('server/notification/item', {
-            title: result.name + '的留言',
+            title: result.content,
             notification: result
         });
     });
 };
+
+function markRead (notification, uid) {
+    console.log(notification, uid, '设置已读++++++++++++')
+    if (!notification.broadcast) {
+        // 如果不是系统通知，从未读列表去除接收者
+        notification.unread = notification.unread.filter((item) => {
+            return item !== uid
+        })   
+    }
+    // 已读列表增加接收者
+    notification.read.push(mongoose.Types.ObjectId(uid))
+    return notification;
+}
 //删除
 exports.del = function(req, res) {
     let id = req.params.id;
@@ -133,7 +182,26 @@ exports.add = function(req, res) {
             message: '参数不正确'
         });
     }
-    obj.to.forEach(function(toId) {
+    obj.from = mongoose.Types.ObjectId(obj.from);
+    obj.to = obj.to.map(function(item) {
+        return mongoose.Types.ObjectId(item) || '';
+    })
+    obj.unread = obj.to;
+    let notification = new Notification(obj);
+    notification.save(function(err) {
+        if (err) {
+            console.log(err);
+            return res.json({
+                status: false,
+                message: '发送失败'
+            })
+        }
+        return res.json({
+            status: true,
+            message: '发送成功'
+        })
+    });
+    /*obj.to.forEach(function(toId) {
         obj.from = mongoose.Types.ObjectId(obj.from) || '';
         obj.to = mongoose.Types.ObjectId(toId) || '';
         let notification = new Notification(obj);
@@ -142,11 +210,11 @@ exports.add = function(req, res) {
                 console.log(err);
             }
         });
-    });
-    return res.json({
+    });*/
+    /*return res.json({
         status: true,
         message: '发送成功'
-    })
+    })*/
     /*obj.from = obj.from ? mongoose.Types.ObjectId(obj.from) : '';
     obj.to = obj.from ? mongoose.Types.ObjectId(obj.to) : '';
     let notification = new Notification(obj);

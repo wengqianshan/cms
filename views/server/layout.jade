@@ -140,7 +140,9 @@ html.no-js
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
                                     li(class=Menu === 'list' ? 'active' : '')
-                                        a(href='#{adminDir}/notification') 已收到
+                                        a(href='#{adminDir}/notification') 全部
+                                    li(class=Menu === 'received' ? 'active' : '')
+                                        a(href='#{adminDir}/notification/received') 已收到
                                     li(class=Menu === 'sent' ? 'active' : '')
                                         a(href='#{adminDir}/notification/sent') 已发出
                         if (User && Roles.indexOf('admin') > -1 || Actions.indexOf('MESSAGE_INDEX') > -1)
