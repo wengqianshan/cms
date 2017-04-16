@@ -2,7 +2,6 @@ extends ../layout
 block head-css
     link(rel='stylesheet', href='//cdn.jsdelivr.net/highlight.js/9.10.0/styles/tomorrow-night.min.css')
     link(rel='stylesheet', href='//cdn.jsdelivr.net/blueimp-gallery/2.15.0/css/blueimp-gallery.min.css')
-    link(rel='stylesheet', href='//cdn.jsdelivr.net/blueimp-gallery/2.15.0/js/blueimp-gallery-indicator.js')
 block content
     .ui.container
         .ui.body.post
@@ -109,6 +108,7 @@ block foot-js
     script(src='//cdn.jsdelivr.net/highlight.js/9.10.0/highlight.min.js')
 
     script(src='//cdn.jsdelivr.net/blueimp-gallery/2.15.0/js/blueimp-gallery.min.js')
+    //script(src='//cdn.jsdelivr.net/blueimp-gallery/2.15.0/js/blueimp-gallery-indicator.js')
     script(src='//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js')
     if (User)
         script.

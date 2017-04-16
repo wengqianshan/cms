@@ -439,8 +439,13 @@ exports.login = function(req, res) {
         req.session.loginReferer = req.headers.referer; 
         res.render('server/user/login');
     } else if (req.method === 'POST') {
-        let username = req.body.username;
+        let username = (req.body.username || '').trim();
         let password = req.body.password;
+        if (!username) {
+            return res.render('server/info', {
+                message: '用户名不能为空'
+            });
+        }
         User.findOne({
             username: username
         }).populate('roles').exec(function(err, user) {
