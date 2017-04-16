@@ -112,8 +112,11 @@ exports.one = function(req, res) {
 //查询
 exports.query = function(req, res) {
     let kw = req.query.q;
-    User.find({username: new RegExp(kw, 'gi')}).exec(function(err, result) {
+    User.find({name: new RegExp(kw, 'gi')}).exec(function(err, result) {
         console.log(err, result)
+        let data = result.map(function(item) {
+            return _.pick(item, '_id', 'name')
+        })
         if (err) {
             return res.json({
                 status: false,
@@ -122,7 +125,7 @@ exports.query = function(req, res) {
         }
         return res.json({
             status: true,
-            items: result
+            items: data
         });
     });
 };

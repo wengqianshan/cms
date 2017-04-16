@@ -140,7 +140,7 @@ block foot-js
                     var markup = '<div class="clearfix">' +
                         '<div clas="col-sm-10">' +
                         '<div class="clearfix">' +
-                        '<div class="col-sm-6">' + repo.username + '</div>' +
+                        '<div class="col-sm-6">' + repo.name + '</div>' +
                         '</div>';
 
                     markup += '</div></div>';
@@ -148,7 +148,7 @@ block foot-js
                     return markup;
                 },
                 templateSelection: function (repo) {
-                    return repo.username || repo.text;
+                    return repo.name || repo.text;
                 }
             });
         });
