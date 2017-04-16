@@ -12,14 +12,22 @@ router.use(function(req, res, next) {
     });
     next();
 });
-router.route('/users')
-    .get(user.list);
-router.route('/users/:id')
-    .get(user.item)
-    .put()
-    .post()
-    .delete();
+
+router.route('/:id')
+    .get(user.show)
+    .put(user.update)
+    .delete(user.destroy);
+
+router.route('/:id/update')
+    .post(user.update)
+
+router.route('/:id/destroy')
+    .post(user.destroy)
+
+router.route('/')
+    .get(user.all)
+    .post(user.create)
 
 module.exports = function(app) {
-    app.use('/api/v1', router);
+    app.use('/api/v1/user', router);
 };

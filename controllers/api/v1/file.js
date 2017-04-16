@@ -4,7 +4,7 @@ let mongoose = require('mongoose')
 let File = mongoose.model('File')
 let core = require('../../../libs/core')
 
-exports.list = function(req, res) {
+exports.all = function(req, res) {
     let condition = {};
     let obj = {};
     File.count(condition).exec().then(function(total){
@@ -26,10 +26,22 @@ exports.list = function(req, res) {
     });
     //
 };
-exports.item = function(req, res) {
+exports.show = function(req, res) {
     File.findById(req.param('id'), function(err, result) {
         res.jsonp({
             data: result
         });
     })
+}
+
+exports.create = function(req, res) {
+
+}
+
+exports.update = function(req, res) {
+
+}
+
+exports.destroy = function(req, res) {
+    
 }

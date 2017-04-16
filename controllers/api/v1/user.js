@@ -5,7 +5,7 @@ let User = mongoose.model('User')
 let _ = require('lodash')
 let core = require('../../../libs/core')
 
-exports.list = function(req, res) {
+exports.all = function(req, res) {
     let condition = {};
     let obj = {};
     User.count(condition).exec().then(function(total){
@@ -20,7 +20,8 @@ exports.list = function(req, res) {
         query.exec(function(err, results) {
             //console.log(err, results);
             let data = results.map(function(item) {
-                return _.pick(item, '_id', 'name', 'created', 'birthday')
+                //return _.pick(item, '_id', 'name', 'created', 'birthday')
+                return _.pick(item, '_id' ,'name', 'avatar', 'gender', 'birthday', 'description', 'rank')
             });
             res.jsonp({
                 data: data,
@@ -30,12 +31,24 @@ exports.list = function(req, res) {
     });
     //
 };
-exports.item = function(req, res) {
+exports.show = function(req, res) {
     let id = req.param('id');
-    User.findById(id).populate('author', 'name created birthday').populate('roles', 'name').exec(function(err, result) {
-        let data = _.pick(result, '_id', 'name', 'author', 'created', 'roles', 'birthday')
+    User.findById(id).exec(function(err, result) {
+        let data = _.pick(result, 'name', 'avatar', 'gender', 'birthday', 'description', 'rank')
         res.jsonp({
             data: data
         });
     });
+}
+
+exports.create = function(req, res) {
+
+}
+
+exports.update = function(req, res) {
+
+}
+
+exports.destroy = function(req, res) {
+
 }
