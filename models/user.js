@@ -107,7 +107,12 @@ let UserSchema = new Schema({
 
     salt: String,
 
-    hashed_password: String
+    hashed_password: String,
+    activeKey: String,
+    isActive: {
+        type: Boolean,
+        default: false
+    }
 });
 
 /**

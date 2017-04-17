@@ -154,6 +154,7 @@ exports.register = function(req, res) {
                 if (req.session.user) {
                     obj.author = req.session.user._id;
                 }
+                // TODO：用户激活
                 
                 let user = new User(obj);
                 user.save(function(err, result) {
