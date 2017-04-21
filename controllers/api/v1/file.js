@@ -1,47 +1,98 @@
 'use strict';
 
-let mongoose = require('mongoose')
-let File = mongoose.model('File')
 let core = require('../../../libs/core')
+let fileService = require('../../../services/file')
 
-exports.all = function(req, res) {
-    let condition = {};
-    let obj = {};
-    File.count(condition).exec().then(function(total){
-        return total;
-    }).then(function(total) {
-        let query = File.find(condition);
+exports.all = async function(req, res) {
+    let condition = {}
+    let pageInfo = {}
+    let data = null
+    let error
+    try {
+        let total = await fileService.count(condition)
         //分页
-        let pageInfo = core.createPage(req.query.page, total);
-        query.skip(pageInfo.start);
-        query.limit(pageInfo.pageSize);
-        query.sort({created: -1});
-        query.exec(function(err, results) {
-            //console.log(err, results);
-            res.jsonp({
-                data: results,
-                pageInfo: pageInfo
-            });
-        });
+        pageInfo = core.createPage(req.query.page, total);
+
+        data = await fileService.find(condition, null, {
+            skip: pageInfo.start,
+            limit: pageInfo.pageSize,
+            sort: {
+                created: -1
+            }
+        })
+    } catch (e) {
+        error = e.message
+    }
+    
+    res.json({
+        success: !error,
+        data: data,
+        error: error,
+        pageInfo: pageInfo
     });
-    //
 };
-exports.show = function(req, res) {
-    File.findById(req.param('id'), function(err, result) {
-        res.jsonp({
-            data: result
-        });
+exports.show = async function(req, res) {
+    let id = req.param('id');
+    let data = null
+    let error
+    try {
+        data = await fileService.findById(id)
+    } catch (e) {
+        error = e.message
+    }
+    
+    res.json({
+        success: !error,
+        data: data,
+        error: error
+    });
+}
+
+exports.create = async function(req, res) {
+    let obj = req.body
+    let data = null
+    let error
+    try {
+        data = await fileService.create(obj)
+    } catch (e) {
+        error = e.message
+    }
+    res.json({
+        success: !error,
+        data: data,
+        error: error
     })
 }
 
-exports.create = function(req, res) {
-
+exports.update = async function(req, res) {
+    let id = req.param('id')
+    let obj = req.body
+    let data = null
+    let error
+    try {
+        data = await fileService.findByIdAndUpdate(id, obj, {new: true})
+    } catch (e) {
+        error = e.message
+    }
+    res.json({
+        success: !error,
+        data: data,
+        error: error
+    })
 }
 
-exports.update = function(req, res) {
-
-}
-
-exports.destroy = function(req, res) {
-    
+exports.destroy = async function(req, res) {
+    let id = req.param('id')
+    let data = null
+    let error
+    try {
+        data = fileService.findByIdAndRemove(id)
+    } catch (e) {
+        error = e.message
+    }
+    res.json({
+        success: !error,
+        data: data,
+        error: error
+    })
 }
