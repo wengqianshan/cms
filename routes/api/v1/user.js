@@ -7,9 +7,12 @@ let user = require('../../../controllers/api/v1/user')
 //
 router.use(function(req, res, next) {
     //console.log('api: ' + Date.now());
-    res.set({
+    /*res.set({
         'Access-Control-Allow-Origin': '*'
-    });
+    });*/
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+    res.setHeader('Access-Control-Allow-Headers', 'X-Request-With,content-type,Authorization')
     next();
 });
 

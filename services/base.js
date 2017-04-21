@@ -19,30 +19,20 @@ let services = function(Model) {
                 })
             })
         },
-        find: function(_condition, populates) {
-            let condition = _condition || {};
+        find: function(condition = {}, fields = null, options = {}) {
             return new Promise(function(resolve, reject) {
-                let query = Model.find(condition)
-                if (populates && populates.length > 0) {
-                    populates.forEach(function(item) {
-                        query = query.populate(item);
-                    })
-                }
-                query.exec(function(err, result) {
-                    console.log(err, result)
+                Model.find(condition, fields, options, function(err, result) {
                     if (err) {
                         reject(err)
                     } else {
                         resolve(result)
                     }
-                });
+                })
             });
         },
-        findOne: function(_condition, projection, options) {
-            let condition = _condition || {};
+        findOne: function(condition = {}, projection = null, options = {}) {
             return new Promise(function(resolve, reject) {
                 Model.findOne(condition, projection, options, function(err, result) {
-                    return reject(err);
                     if (err) {
                         reject(err);
                     } else {
@@ -51,7 +41,7 @@ let services = function(Model) {
                 })
             })
         },
-        findById: function(id, populates) {
+        findById: function(id, populates = []) {
             return new Promise(function(resolve, reject) {
                 let query = Model.findById(id)
                 if (populates && populates.length > 0) {
@@ -80,7 +70,7 @@ let services = function(Model) {
                 });
             })
         },
-        update: function(condition, doc, options) {
+        update: function(condition = {}, doc = {}, options = {}) {
             return new Promise(function(resolve, reject) {
                 Model.update(condition, doc, options, function(err, result) {
                     if (err) {
@@ -91,10 +81,10 @@ let services = function(Model) {
                 })
             })
         },
-        updateOne: function(condition, doc, options) {
+        findOneAndUpdate: function(condition = {}, doc = {}, options = {}) {
     
         },
-        updateById: function(id, obj, options) {
+        findByIdAndUpdate: function(id, obj, options) {
             return new Promise(function(resolve, reject) {
                 Model.findByIdAndUpdate(id, obj, options, function(err, result) {
                     if (err) {
@@ -105,7 +95,10 @@ let services = function(Model) {
                 })
             })
         },
-        delete: function(condition) {
+        updateById: function(id, obj, options) {
+            return this.findByIdAndUpdate(id, obj, options)
+        },
+        remove: function(condition = {}) {
             return new Promise(function(resolve, reject) {
                 Model.remove(condition, function(err, result) {
                     if (err) {
@@ -116,10 +109,10 @@ let services = function(Model) {
                 })
             })
         },
-        deleteOne: function(condition) {
+        findOneAndRemove: function(condition) {
     
         },
-        deleteById: function(id) {
+        findByIdAndRemove: function(id, options = null) {
             return new Promise(function(resolve, reject) {
                 Model.findByIdAndRemove(id, options, function(err, result) {
                     if (err) {
@@ -129,6 +122,9 @@ let services = function(Model) {
                     }
                 })
             })
+        },
+        removeById: function(id) {
+            return this.findByIdAndRemove(id)
         },
 
     }

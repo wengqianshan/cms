@@ -1,54 +1,108 @@
 'use strict';
 
-let mongoose = require('mongoose')
-let User = mongoose.model('User')
 let _ = require('lodash')
 let core = require('../../../libs/core')
+let userService = require('../../../services/user')
+let roleService = require('../../../services/role')
 
-exports.all = function(req, res) {
-    let condition = {};
-    let obj = {};
-    User.count(condition).exec().then(function(total){
-        return total;
-    }).then(function(total) {
-        let query = User.find(condition);
+exports.all = async function(req, res) {
+    let condition = {}
+    let pageInfo = {}
+    let data = null
+    let error
+    try {
+        let total = await userService.count(condition)
         //分页
-        let pageInfo = core.createPage(req.query.page, total);
-        query.skip(pageInfo.start);
-        query.limit(pageInfo.pageSize);
-        query.sort({created: -1});
-        query.exec(function(err, results) {
-            //console.log(err, results);
-            let data = results.map(function(item) {
-                //return _.pick(item, '_id', 'name', 'created', 'birthday')
-                return _.pick(item, '_id' ,'name', 'avatar', 'gender', 'birthday', 'description', 'rank')
-            });
-            res.jsonp({
-                data: data,
-                pageInfo: pageInfo
-            });
+        pageInfo = core.createPage(req.query.page, total);
+
+        let users = await userService.find(condition, null, {
+            skip: pageInfo.start,
+            limit: pageInfo.pageSize,
+            sort: {
+                created: -1
+            }
+        })
+        data = users.map(function(item) {
+            return _.pick(item, '_id', 'username', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'roles', 'rank', 'status')
         });
+    } catch (e) {
+        error = e.message
+    }
+    
+    res.json({
+        success: !error,
+        data: data,
+        error: error,
+        pageInfo: pageInfo
     });
-    //
+
 };
-exports.show = function(req, res) {
+exports.show = async function(req, res) {
     let id = req.param('id');
-    User.findById(id).exec(function(err, result) {
-        let data = _.pick(result, 'name', 'avatar', 'gender', 'birthday', 'description', 'rank')
-        res.jsonp({
-            data: data
-        });
+    let data = null
+    let error
+    try {
+        let result = await userService.findById(id)
+        data = _.pick(result, '_id', 'username', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'roles', 'rank', 'status')
+    } catch (e) {
+        error = e.message
+    }
+    
+    res.json({
+        success: !error,
+        data: data,
+        error: error
     });
 }
 
-exports.create = function(req, res) {
-
+exports.create = async function(req, res) {
+    let obj = req.body
+    let data = null
+    let error
+    try {
+        let role = await roleService.findOne({status: 202})
+        obj.roles = [role._id]
+        data = await userService.create(obj)
+    } catch (e) {
+        error = e.message
+    }
+    res.json({
+        success: !error,
+        data: data,
+        error: error
+    })
 }
 
-exports.update = function(req, res) {
-
+exports.update = async function(req, res) {
+    let id = req.param('id')
+    let obj = req.body
+    let data = null
+    let error
+    try {
+        data = await userService.findByIdAndUpdate(id, obj, {new: true})
+    } catch (e) {
+        error = e.message
+    }
+    res.json({
+        success: !error,
+        data: data,
+        error: error
+    })
 }
 
 exports.destroy = function(req, res) {
+    let id = req.param('id')
+    let data = null
+    let error
+    try {
+        data = userService.findByIdAndRemove(id)
+    } catch (e) {
+        error = e.message
+    }
+    res.json({
+        success: !error,
+        data: data,
+        error: error
+    })
 
 }

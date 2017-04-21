@@ -86,6 +86,9 @@ app.use(session({
 app.use(multipart({
     uploadDir: config.upload.tmpDir
 }));
+core.walk(appPath + '/routes/api', 'middlewares', function(path) {
+    require(path)(app);
+});
 app.use(csrf());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
@@ -112,7 +115,10 @@ app.use(function(req, res, next) {
 });
 
 //路由控制
-core.walk(appPath + '/routes', 'middlewares', function(path) {
+core.walk(appPath + '/routes/app', 'middlewares', function(path) {
+    require(path)(app);
+});
+core.walk(appPath + '/routes/server', 'middlewares', function(path) {
     require(path)(app);
 });
 

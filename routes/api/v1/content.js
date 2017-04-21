@@ -6,9 +6,12 @@ let content = require('../../../controllers/api/v1/content')
 
 //
 router.use(function(req, res, next) {
-    res.set({
+    /*res.set({
         'Access-Control-Allow-Origin': '*'
-    });
+    });*/
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+    res.setHeader('Access-Control-Allow-Headers', 'X-Request-With,content-type,Authorization')
     next();
 });
 
@@ -20,7 +23,7 @@ router.route('/:id')
 router.route('/:id/update')
     .post(content.update)
 
-router.route('/:id/del')
+router.route('/:id/destroy')
     .post(content.destroy)
     
 router.route('/')
