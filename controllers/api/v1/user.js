@@ -114,9 +114,10 @@ exports.show = async function(req, res) {
 }
 
 exports.create = async function(req, res) {
-    let user = req.user
     let obj = req.body
+    // TODO： 校验输入
     // 后台创建用户
+    let user = req.user
     if (user) {
         obj.author = mongoose.Types.ObjectId(user._id)
     }
@@ -140,6 +141,7 @@ exports.create = async function(req, res) {
 exports.update = async function(req, res) {
     let id = req.param('id')
     let obj = req.body
+    // TODO： 校验输入
     let data = null
     let error
     try {

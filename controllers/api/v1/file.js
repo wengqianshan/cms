@@ -1,5 +1,6 @@
 'use strict';
 
+let mongoose = require('mongoose')
 let core = require('../../../libs/core')
 let fileService = require('../../../services/file')
 
@@ -50,6 +51,13 @@ exports.show = async function(req, res) {
 
 exports.create = async function(req, res) {
     let obj = req.body
+    // TODO： 校验输入
+    // 后台创建用户
+    let user = req.user
+    if (user) {
+        obj.author = mongoose.Types.ObjectId(user._id)
+    }
+
     let data = null
     let error
     try {
@@ -67,10 +75,18 @@ exports.create = async function(req, res) {
 exports.update = async function(req, res) {
     let id = req.param('id')
     let obj = req.body
+    // TODO： 校验输入
     let data = null
     let error
     try {
-        data = await fileService.findByIdAndUpdate(id, obj, {new: true})
+        let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+        let item = await fileService.findById(id)
+        let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
+        if(!isAdmin && !isAuthor) {
+            error = '没有权限'
+        } else {
+            data = await fileService.findByIdAndUpdate(id, obj, {new: true})
+        }
     } catch (e) {
         error = e.message
     }
@@ -86,7 +102,15 @@ exports.destroy = async function(req, res) {
     let data = null
     let error
     try {
-        data = fileService.findByIdAndRemove(id)
+        let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+        let item = await fileService.findById(id)
+        let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
+        if(!isAdmin && !isAuthor) {
+            error = '没有权限'
+        } else {
+            data = fileService.findByIdAndRemove(id)
+        }
+        
     } catch (e) {
         error = e.message
     }
