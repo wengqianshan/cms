@@ -3,12 +3,11 @@
 let express = require('express')
 let router = express.Router()
 let file = require('../../../controllers/api/v1/file')
+let jwtMiddleWare = require('../../../middlewares/jwt')
+let action = require('../../../middlewares/action')
 
 //
 router.use(function(req, res, next) {
-    /*res.set({
-        'Access-Control-Allow-Origin': '*'
-    });*/
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
     res.setHeader('Access-Control-Allow-Headers', 'X-Request-With,content-type,Authorization')
@@ -17,18 +16,18 @@ router.use(function(req, res, next) {
 
 router.route('/:id')
     .get(file.show)
-    .put(file.update)
-    .delete(file.destroy);
+    .put(jwtMiddleWare.verify, action.checkAction('FILE_UPDATE'), file.update)
+    .delete(jwtMiddleWare.verify, action.checkAction('FILE_DELETE'), file.destroy);
 
 router.route('/:id/update')
-    .post(file.update)
+    .post(jwtMiddleWare.verify, action.checkAction('FILE_UPDATE'), file.update)
 
 router.route('/:id/destroy')
-    .post(file.destroy)
+    .post(jwtMiddleWare.verify, action.checkAction('FILE_DELETE'), file.destroy)
 
 router.route('/')
     .get(file.all)
-    .post(file.create)
+    .post(jwtMiddleWare.verify, action.checkAction('FILE_CREATE'), file.create)
 
 module.exports = function(app) {
     app.use('/api/v1/file', router);

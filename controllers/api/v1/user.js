@@ -1,11 +1,69 @@
 'use strict';
 
+let mongoose = require('mongoose')
 let _ = require('lodash')
+let jwt = require('jsonwebtoken')
 let core = require('../../../libs/core')
 let userService = require('../../../services/user')
 let roleService = require('../../../services/role')
+let config = require('../../../config')
+
+exports.auth = async function (req, res) {
+    let ip = core.getIp(req);
+    let obj = req.body
+    let data = null
+    let error
+    try {
+        let user = await userService.findOne({username: obj.username})
+        console.log(user)
+        if (user && user.authenticate(obj.password)) {
+            user.last_login_date = new Date()
+            user.last_login_ip = ip
+            user.token = jwt.sign({
+                user: {
+                    id: user._id,
+                    token_version: user.token_version    
+                }
+            }, config.jwt.secret, config.jwt.options);
+            user.save()
+            data = user
+        } else {
+            error = '用户名或密码错误'
+        }
+    } catch (e) {
+        error = e.message
+    }
+
+    res.json({
+        success: !error,
+        data: data,
+        error: error
+    });
+}
+
+exports.verify = function (req, res, next) {
+    let token
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+        token = req.headers.authorization.split(' ')[1];
+    } else if (req.query && req.query.token) {
+        token = req.query.token;
+    }
+    let data = null
+    let error
+    try {
+        data = jwt.verify(token, 'cms')
+    } catch (e) {
+        error = e.message
+    }
+    res.json({
+        success: !error,
+        data: data,
+        error: error
+    });
+}
 
 exports.all = async function(req, res) {
+    //console.log(req.user, ' get user ++++++++++++++++')
     let condition = {}
     let pageInfo = {}
     let data = null
@@ -23,7 +81,7 @@ exports.all = async function(req, res) {
             }
         })
         data = users.map(function(item) {
-            return _.pick(item, '_id', 'username', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'roles', 'rank', 'status')
+            return _.pick(item, '_id', 'author', 'username', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'roles', 'rank', 'status')
         });
     } catch (e) {
         error = e.message
@@ -56,7 +114,12 @@ exports.show = async function(req, res) {
 }
 
 exports.create = async function(req, res) {
+    let user = req.user
     let obj = req.body
+    // 后台创建用户
+    if (user) {
+        obj.author = mongoose.Types.ObjectId(user._id)
+    }
     let data = null
     let error
     try {
@@ -64,7 +127,8 @@ exports.create = async function(req, res) {
         obj.roles = [role._id]
         data = await userService.create(obj)
     } catch (e) {
-        error = e.message
+        //error = e.message
+        error = '创建用户失败'
     }
     res.json({
         success: !error,
@@ -79,7 +143,14 @@ exports.update = async function(req, res) {
     let data = null
     let error
     try {
-        data = await userService.findByIdAndUpdate(id, obj, {new: true})
+        let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+        let item = await userService.findById(id)
+        let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
+        if(!isAdmin && !isAuthor) {
+            error = '没有权限'
+        } else {
+            data = await userService.findByIdAndUpdate(id, obj, {new: true})    
+        }
     } catch (e) {
         error = e.message
     }
@@ -90,12 +161,19 @@ exports.update = async function(req, res) {
     })
 }
 
-exports.destroy = function(req, res) {
+exports.destroy = async function(req, res) {
     let id = req.param('id')
     let data = null
     let error
     try {
-        data = userService.findByIdAndRemove(id)
+        let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+        let item = await userService.findById(id)
+        let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
+        if(!isAdmin && !isAuthor) {
+            error = '没有权限'
+        } else {
+            data = userService.findByIdAndRemove(id)
+        }
     } catch (e) {
         error = e.message
     }
@@ -104,5 +182,4 @@ exports.destroy = function(req, res) {
         data: data,
         error: error
     })
-
 }

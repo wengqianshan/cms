@@ -3,33 +3,43 @@
 let express = require('express')
 let router = express.Router()
 let user = require('../../../controllers/api/v1/user')
+let jwtMiddleWare = require('../../../middlewares/jwt')
+let action = require('../../../middlewares/action')
 
 //
 router.use(function(req, res, next) {
-    //console.log('api: ' + Date.now());
-    /*res.set({
-        'Access-Control-Allow-Origin': '*'
-    });*/
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
     res.setHeader('Access-Control-Allow-Headers', 'X-Request-With,content-type,Authorization')
     next();
 });
 
+router.route('/auth')
+    .post(user.auth)
+
+// TEST
+router.route('/verify')
+    .get(jwtMiddleWare.verify, user.verify)
+
 router.route('/:id')
     .get(user.show)
-    .put(user.update)
-    .delete(user.destroy);
+    .put(jwtMiddleWare.verify, action.checkAction('USER_UPDATE'), user.update)
+    .delete(jwtMiddleWare.verify, action.checkAction('USER_DELETE'), user.destroy);
 
 router.route('/:id/update')
-    .post(user.update)
+    .post(jwtMiddleWare.verify, action.checkAction('USER_UPDATE'), user.update)
 
 router.route('/:id/destroy')
-    .post(user.destroy)
+    .post(jwtMiddleWare.verify, action.checkAction('USER_DELETE'), user.destroy)
+
+router.route('/register')
+    .post(user.create)
 
 router.route('/')
-    .get(user.all)
-    .post(user.create)
+    .get(jwtMiddleWare.verify, user.all)
+    .post(jwtMiddleWare.verify, action.checkAction('USER_CREATE'), user.create)
+
+
 
 module.exports = function(app) {
     app.use('/api/v1/user', router);

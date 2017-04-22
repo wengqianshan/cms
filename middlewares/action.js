@@ -6,8 +6,9 @@ let _ = require('lodash')
 exports.checkAction = function(actionName) {
     //console.log(actionName)
     return function (req, res, next) {
-        console.log(req.Actions)
-        if (req.Roles.indexOf('admin') > -1) {
+        console.log(req.Actions, 'action middleware ')
+        //console.log(req.user, 'user ++++++++++++++++')
+        if (req.Roles && req.Roles.indexOf('admin') > -1) {
             return next();
         }
         let result = false;
@@ -21,6 +22,13 @@ exports.checkAction = function(actionName) {
         if (result) {
             return next();
         } else {
+            if (req.jwt) {
+                return res.json({
+                    success: false,
+                    msg: '无权访问'
+                })    
+            }
+            
             if (req.xhr) {
                 res.json({
                     success: false,

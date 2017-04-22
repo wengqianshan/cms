@@ -112,6 +112,12 @@ let UserSchema = new Schema({
     isActive: {
         type: Boolean,
         default: false
+    },
+    token: String,
+    // 用来标记token变更比如修改密码后需要重新登录
+    token_version: {
+        type: Number,
+        default: 0
     }
 });
 
