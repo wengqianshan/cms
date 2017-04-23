@@ -26,12 +26,13 @@ exports.auth = async function (req, res) {
                 }
             }, config.jwt.secret, config.jwt.options);
             user.save()
-            data = user
+            data = _.pick(user, '_id', 'username', 'token')
         } else {
             error = '用户名或密码错误'
         }
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '请先登录'
     }
 
     res.json({
@@ -81,7 +82,7 @@ exports.all = async function(req, res) {
             }
         })
         data = users.map(function(item) {
-            return _.pick(item, '_id', 'author', 'username', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'roles', 'rank', 'status')
+            return _.pick(item, '_id', 'username', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'roles', 'rank', 'status')
         });
     } catch (e) {
         error = e.message
@@ -101,7 +102,7 @@ exports.show = async function(req, res) {
     let error
     try {
         let result = await userService.findById(id)
-        data = _.pick(result, '_id', 'username', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'roles', 'rank', 'status')
+        data = _.pick(result, '_id', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'roles', 'rank', 'status')
     } catch (e) {
         error = e.message
     }

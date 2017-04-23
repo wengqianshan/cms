@@ -29,6 +29,13 @@ router.route('/')
     .get(content.all)
     .post(jwtMiddleWare.verify, action.checkAction('CONTENT_CREATE'), content.create)
 
+router.use(function(req, res) {
+    res.json({
+        success: false,
+        error: '无效请求'
+    })
+})
+
 module.exports = function(app) {
     app.use('/api/v1/content', router);
 };

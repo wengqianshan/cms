@@ -15,7 +15,7 @@ router.use(function(req, res, next) {
 });
 
 router.route('/auth')
-    .post(user.auth)
+    .all(user.auth)
 
 // TEST
 router.route('/verify')
@@ -39,6 +39,12 @@ router.route('/')
     .get(jwtMiddleWare.verify, user.all)
     .post(jwtMiddleWare.verify, action.checkAction('USER_CREATE'), user.create)
 
+router.use(function(req, res) {
+    res.json({
+        success: false,
+        error: '无效请求'
+    })
+})
 
 
 module.exports = function(app) {
