@@ -197,35 +197,5 @@ exports.del = function(req, res) {
                 });
             })
         })
-        /*let fileName = path.basename(decodeURIComponent(url));
-        console.log('删除文件', url, fileName);
-        if (fileName[0] !== '.') {
-            if(url.indexOf(config.upload.storage.options.domain) > -1) {
-                try {
-                    uploader.delete(fileName)
-                } catch(e) {
-                    console.log('删除7牛图片失败', e);
-                }
-            }
-            fs.unlink(config.upload.uploadDir + '/' + fileName, function (err) {
-                result.remove(function(err) {
-                    if(req.xhr) {
-                        return res.json({
-                            success: !err,
-                            error: err
-                        });
-                    }
-                    if(err) {
-                        return res.render('server/info', {
-                            message: '删除失败'
-                        });
-                    }
-                    res.render('server/info', {
-                        message: '删除成功'
-                    });
-                })
-            });
-            return;
-        }*/
     });
 };

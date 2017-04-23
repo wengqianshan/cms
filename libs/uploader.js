@@ -90,9 +90,6 @@ module.exports = function(opts) {
         } else {
             callback && callback.call(null, '文件类型错误');
         }
-        /*client.delete(url, function(err) {
-            callback && callback.call(null, err);
-        })*/
     };
     Uploader.post = function(req, res, callback) {
         let files = req.files.files;
