@@ -52,7 +52,7 @@ exports.verify = function (req, res, next) {
     let data = null
     let error
     try {
-        data = jwt.verify(token, 'cms')
+        data = jwt.verify(token, config.jwt.secret)
     } catch (e) {
         error = e.message
     }

@@ -15,7 +15,7 @@ router.use(function(req, res, next) {
 });
 
 router.route('/auth')
-    .all(user.auth)
+    .post(user.auth)
 
 // TEST
 router.route('/verify')
