@@ -172,7 +172,32 @@ exports.del = function(req, res) {
         }
         //console.log(result);
         let url = result.url;
-        let fileName = path.basename(decodeURIComponent(url));
+        uploader.delete(url, function(e) {
+            if (e) {
+                console.log('文件删除失败')
+                return res.json({
+                    success: false,
+                    error: e
+                });
+            }
+            result.remove(function(err) {
+                if(req.xhr) {
+                    return res.json({
+                        success: !err,
+                        error: err
+                    });
+                }
+                if(err) {
+                    return res.render('server/info', {
+                        message: '删除失败'
+                    });
+                }
+                res.render('server/info', {
+                    message: '删除成功'
+                });
+            })
+        })
+        /*let fileName = path.basename(decodeURIComponent(url));
         console.log('删除文件', url, fileName);
         if (fileName[0] !== '.') {
             if(url.indexOf(config.upload.storage.options.domain) > -1) {
@@ -201,6 +226,6 @@ exports.del = function(req, res) {
                 })
             });
             return;
-        }
+        }*/
     });
 };

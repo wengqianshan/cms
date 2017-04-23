@@ -11,13 +11,14 @@ let _ = require('lodash')
 let config = require('../config')
 let qn = require('qn')
 
+let path = require('path')
+let fs = require('fs')
+let existsSync = fs.existsSync || path.existsSync
+let mkdirp = require('mkdirp')
+let nameCountRegexp = /(?:(?: \(([\d]+)\))?(\.[^.]+))?$/
+
 module.exports = function(opts) {
-    let path = require('path'),
-        fs = require('fs'),
-        _existsSync = fs.existsSync || path.existsSync,
-        mkdirp = require('mkdirp'),
-        nameCountRegexp = /(?:(?: \(([\d]+)\))?(\.[^.]+))?$/,
-        options = _.assign({}, config.upload, opts);
+    let options = _.assign({}, config.upload, opts);
     // 检查上传目录是否存在
     function checkExists(dir) {
         fs.exists(dir, function(exists) {
@@ -39,7 +40,7 @@ module.exports = function(opts) {
         // Prevent directory traversal and creating hidden system files:
         let name = path.basename(_name).replace(/^\.+/, '');
         // Prevent overwriting existing files:
-        while (_existsSync(options.uploadDir + '/' + name)) {
+        while (existsSync(options.uploadDir + '/' + name)) {
             name = name.replace(nameCountRegexp, nameCountFunc);
         }
         return name;
@@ -62,11 +63,6 @@ module.exports = function(opts) {
         }
         return !error;
     };
-    let setNoCacheHeaders = function(res) {
-        res.setHeader('Pragma', 'no-cache');
-        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
-        res.setHeader('Content-Disposition', 'inline; filename="files.json"');
-    };
     //七牛云存储
     let client = null;
     if (options.storage.type === 'qiniu') {
@@ -74,9 +70,29 @@ module.exports = function(opts) {
     }
     let Uploader = {};
     Uploader.delete = function(url, callback) {
-        client.delete(url, function(err) {
+        let fileName = path.basename(decodeURIComponent(url))
+        console.log('删除文件', url, fileName);
+        if (fileName[0] !== '.') {
+            if(url.indexOf(options.storage.options.domain) > -1) {
+                try {
+                    client.delete(fileName, function(err) {
+                        callback && callback.call(null, err);            
+                    })
+                } catch(e) {
+                    console.log('删除7牛图片失败', e);
+                    callback && callback.call(null, '删除7牛图片失败');
+                }
+            } else {
+                fs.unlink(options.uploadDir + '/' + fileName, function (err) {
+                    callback && callback.call(null, err);
+                });    
+            }
+        } else {
+            callback && callback.call(null, '文件类型错误');
+        }
+        /*client.delete(url, function(err) {
             callback && callback.call(null, err);
-        })
+        })*/
     };
     Uploader.post = function(req, res, callback) {
         let files = req.files.files;

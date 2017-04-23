@@ -40,7 +40,7 @@ let config = {
                 accessKey: 'your key',
                 secretKey: 'your secret',
                 bucket: 'your bucket',
-                domain: 'your domain',
+                domain: 'http://yourdomain.qiniudn.com', // 域名，包含http，如http://yourdomain.qiniudn.com
                 timeout: 3600000, // default rpc timeout: one hour, optional
             }
         }
