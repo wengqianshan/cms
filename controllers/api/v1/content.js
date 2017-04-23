@@ -1,5 +1,6 @@
 'use strict';
 
+let _ = require('lodash')
 let mongoose = require('mongoose')
 let core = require('../../../libs/core')
 let contentService = require('../../../services/content')
@@ -20,6 +21,9 @@ exports.all = async function(req, res) {
             sort: {
                 created: -1
             }
+        })
+        data = data.map((item) => {
+            return _.pick(item, '_id', 'title', 'category', 'author', 'up', 'like', 'status', 'visits', 'created', 'tags', 'gallery', 'comments')
         })
     } catch (e) {
         error = e.message
