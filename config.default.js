@@ -9,14 +9,23 @@ let config = {
         uri: 'mongodb://localhost/cms',
         options: {}
     },
-    //redis服务，用来session维持，当不需要redis服务时注释此项
-    // redis: {
-    //     host: '127.0.0.1',
-    //     port: 6379,
-    //     pass: ''
-    // },
+    //redis服务，用来session维持，非必须
+    redis: {
+        host: '', // 如 127.0.0.1 配置此项表示启用redis，需保证redis服务已启动
+        port: 6379, // 6379
+        pass: ''
+    },
     //找回密码hash过期时间
     findPasswordTill: 24 * 60 * 60 * 1000,
+    // session secret
+    sessionSecret: 'SessionSecret',
+    // jsonwebtoken config
+    jwt: {
+        secret: 'JWTSecret',
+        options: {
+            expiresIn: '10h'
+        }
+    },
     title: 'CMS',
     //后台相关配置
     admin: {
