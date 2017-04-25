@@ -93,7 +93,12 @@ app.use(csrf());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
     res.header('X-Powered-By', 'wengqianshan');
+    if (req.csrfToken) {
+        res.cookie('TOKEN', req.csrfToken())
+    }
+    // TODO remove
     res.locals.token = req.csrfToken && req.csrfToken();
+
     res.locals.query = req.query;
     if (req.session && req.session.user) {
         res.locals.User = req.session.user;
