@@ -164,6 +164,7 @@ exports.edit = function(req, res) {
         if(obj.category === '') {
             obj.category = null;
         }
+        obj.content = xss(obj.content);
         if(!obj.gallery) {
             obj.gallery = [];
         }
