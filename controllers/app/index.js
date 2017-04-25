@@ -4,6 +4,7 @@ let  mongoose = require('mongoose')
 let Content = mongoose.model('Content')
 let Message = mongoose.model('Message')
 let Category = mongoose.model('Category')
+let _ = require('lodash')
 let File = mongoose.model('File')
 let config = require('../../config')
 let core = require('../../libs/core')
@@ -75,7 +76,7 @@ exports.contact = function(req, res) {
             Path: 'contact'
         });
     } else if (req.method === 'POST') {
-        let obj = req.body;
+        let obj = _.pick(req.body, 'name', 'email', 'mobile', 'address', 'content');
         obj.ip = core.getIp(req);
         let contact = new Message(obj);
         contact.save(function(err, result) {

@@ -67,7 +67,7 @@ exports.add = function(req, res) {
             ACTIONS: actions
         });
     } else if (req.method === 'POST') {
-        let obj = req.body;
+        let obj = _.pick(req.body, 'name', 'actions', 'description');
         //转为数组格式
         let actions = obj.actions;
         obj.actions = _.uniq(actions);
@@ -139,7 +139,7 @@ exports.edit = function(req, res) {
         });
     } else if(req.method === 'POST') {
         let id = req.param('id');
-        let obj = req.body;
+        let obj = _.pick(req.body, 'name', 'actions', 'description');
         //转为数组格式
         let actions = obj.actions;
         obj.actions = _.uniq(actions);

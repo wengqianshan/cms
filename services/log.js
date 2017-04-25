@@ -12,7 +12,7 @@ let baseServices = require('./base')(Log);
 
 let services = {
     add: function(obj) {
-        return this.create(obj);
+        return this.create(_.pick(obj, 'type', 'action', 'status', 'ip', 'ua', 'message', 'author'));
     }
 };
 

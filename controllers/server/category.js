@@ -61,7 +61,7 @@ exports.add = function(req, res) {
             });
         })
     } else if (req.method === 'POST') {
-        let obj = req.body;
+        let obj = _.pick(req.body, 'name', 'flag', 'description', 'parent');
         if (req.session.user) {
             obj.author = req.session.user._id;
         }
@@ -111,7 +111,7 @@ exports.edit = function(req, res) {
         });
     } else if(req.method === 'POST') {
         let id = req.param('id');
-        let obj = req.body;
+        let obj = _.pick(req.body, 'name', 'flag', 'description', 'parent');
         if (!obj.parent) {
             delete obj.parent
         }

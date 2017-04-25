@@ -81,6 +81,7 @@ exports.updatePassword = function(req, res) {
         User.findById(id).exec(function(err, user) {
             if (user.authenticate(oldPassword)) {
                 user.password = password;
+                user.token_version ++;
                 user.save(function(err, result) {
                     //console.log('fffffffffffff', result);
                     userController.reload(result._id, function(err, user) {
@@ -90,11 +91,6 @@ exports.updatePassword = function(req, res) {
                             message: '密码修改成功'
                         });
                     });
-                    /*req.session.user = result;
-                    res.locals.User = result;
-                    res.render('server/info', {
-                        message: '密码修改成功'
-                    });*/
                 });
             } else {
                 res.render('server/info', {

@@ -174,7 +174,7 @@ exports.del = function(req, res) {
 
 //发送
 exports.add = function(req, res) {
-    let obj = req.body;
+    let obj = _.pick(req.body, 'content', 'to');
     if (!obj.to || !_.isArray(obj.to)) {
         return res.json({
             status: false,

@@ -134,7 +134,7 @@ exports.edit = function(req, res) {
         });
     } else if(req.method === 'POST') {
         let id = req.param('id');
-        let obj = req.body;
+        let obj = _.pick(req.body, 'url', 'md_url', 'sm_url', 'size', 'type', 'description');
         File.findById(id).populate('author').exec(function(err, result) {
             let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
             let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);

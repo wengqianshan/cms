@@ -2,6 +2,7 @@
 
 let mongoose = require('mongoose')
 let Page = mongoose.model('Page')
+let _ = require('lodash')
 let core = require('../../libs/core')
 
 //列表
@@ -83,7 +84,7 @@ exports.del = function(req, res) {
 
 //发送
 exports.add = function(req, res) {
-    let obj = req.body;
+    let obj = _.pick(req.body, 'title', 'flag', 'description', 'content');
     if (req.session.user) {
         obj.author = req.session.user._id;
     }

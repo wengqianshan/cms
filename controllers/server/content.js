@@ -95,7 +95,7 @@ exports.add = function(req, res) {
             });
         })
     } else if (req.method === 'POST') {
-        let obj = req.body;
+        let obj = _.pick(req.body, 'title', 'summary', 'content', 'gallery', 'category', 'tags');
         if (req.session.user) {
             obj.author = req.session.user._id;
         }
@@ -158,7 +158,7 @@ exports.edit = function(req, res) {
         });
     } else if(req.method === 'POST') {
         let id = req.param('id');
-        let obj = req.body;
+        let obj = _.pick(req.body, 'title', 'summary', 'content', 'gallery', 'category', 'tags');
         console.log(obj);
         console.log(obj.gallery)
         if(obj.category === '') {
