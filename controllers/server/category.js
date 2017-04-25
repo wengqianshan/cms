@@ -34,7 +34,7 @@ exports.list = function(req, res) {
 //单条
 exports.one = function(req, res) {
     let id = req.param('id');
-    Category.findById(id).populate('author', 'username name email').exec(function(err, result) {
+    Category.findById(id).populate('author', 'username name email').populate('parent').exec(function(err, result) {
         console.log(result);
         if(!result) {
             return res.render('server/info', {
