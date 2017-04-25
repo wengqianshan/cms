@@ -30,9 +30,7 @@ exports.translateAdminDir = function(p) {
     return newPath;
 };
 //分页  params: 当前页, 总条数, 每页条数
-exports.createPage = function(_page, total, _pageSize = 20) {
-    let pageSize = _pageSize || 10;
-    let page = _page | 0; //强制转化整型
+exports.createPage = function(page = 0, total = 0, pageSize = 20) {
     let totalPage = Math.max(Math.ceil(total / pageSize), 1); //获取总页数
     let currentPage = page < 1 ? 1 : page > totalPage ? totalPage : page; //获取当前页数
     let start = pageSize * (currentPage - 1); //计算开始位置
