@@ -52,8 +52,8 @@ block content
                 if(content.comments)
                     .ui.threaded.comments.J_list
                         each comment in content.comments
-                            - var listComment = !!comment_list
-                            if(!listComment)
+                            -var nested = true
+                            if(nested)
                                 if (!comment.reply)
                                     include ../mixin
                                     +commentItem(comment, content.comments)

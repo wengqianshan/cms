@@ -6,6 +6,7 @@ let Comment = mongoose.model('Comment')
 let gravatar = require('gravatar')
 let config = require('../../config')
 let _ = require('lodash')
+let xss = require('xss')
 let core = require('../../libs/core')
 
 //添加
@@ -15,6 +16,7 @@ exports.add = function(req, res) {
     } else if (req.method === 'POST') {
         let obj = _.pick(req.body, 'content', 'from', 'reply', 'name', 'email', 'website');
         obj.ip = core.getIp(req);
+        obj.content = xss(obj.content)
         if (req.session.user) {
             obj.author = req.session.user._id;
         }
