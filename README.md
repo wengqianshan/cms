@@ -13,7 +13,7 @@
 ## Install dependencies
 
 ````
-npm install
+$ npm install
 ````
 
 ## Initialize config file
@@ -27,19 +27,19 @@ $ cp config.default.js config.js
 ### Development
 
 ````
-npm start
+$ npm start
 ````
 
 ### Production
 
 ````
-npm run server
+$ npm run server
 ````
 
 or
 
 ````
-NODE_ENV=production node app
+$ NODE_ENV=production node app
 ````
 
 ## Administrator account
