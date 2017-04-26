@@ -76,6 +76,8 @@ let config = {
         }
         
     },
+    // google analytics
+    ga: '',
     // 短信服务配置TODO:
     sms: {
 
