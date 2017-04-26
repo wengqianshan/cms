@@ -5,6 +5,7 @@ let mongoose = require('mongoose');
 let gravatar = require('gravatar');
 let path = require('path');
 let favicon = require('serve-favicon');
+let compression = require('compression')
 let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let session = require('express-session');
@@ -34,6 +35,8 @@ let config = require('./config');
 moment.locale('zh-cn');
 
 let app = express();
+
+app.use(compression())
 
 //连接数据库
 mongoose.Promise = global.Promise;

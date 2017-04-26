@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.16.0",
     "body-parser": "~1.17.1",
+    "compression": "^1.6.2",
     "connect-multiparty": "^1.0.5",
     "connect-redis": "^3.2.0",
     "cookie-parser": "~1.4.3",
