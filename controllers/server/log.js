@@ -31,7 +31,7 @@ exports.list = function(req, res) {
 
 //单条
 exports.one = function(req, res) {
-    let id = req.param('id');
+    let id = req.params.id;
     Log.findById(id).populate('author', 'username name').exec(function(err, result) {
         console.log(result);
         if(!result) {

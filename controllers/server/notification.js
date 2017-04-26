@@ -106,7 +106,7 @@ exports.sent = function(req, res) {
 };
 //单条
 exports.one = function(req, res) {
-    let id = req.param('id');
+    let id = req.params.id;
     Notification.findById(id).exec(function(err, result) {
         // console.log(result, '单条信息+++++++++++++++++');
         if (req.session.user._id) {

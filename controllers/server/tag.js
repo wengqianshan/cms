@@ -33,7 +33,7 @@ exports.list = function(req, res) {
 };
 //单条
 exports.one = function(req, res) {
-    let id = req.param('id');
+    let id = req.params.id;
     Tag.findById(id).populate('author', 'username name email').exec(function(err, result) {
         console.log(result);
         if(!result) {
@@ -78,7 +78,7 @@ exports.add = function(req, res) {
 };
 exports.edit = function(req, res) {
     if(req.method === 'GET') {
-        let id = req.param('id');
+        let id = req.params.id;
         Tag.findById(id).populate('author').exec(function(err, result) {
             let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
             let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
@@ -93,7 +93,7 @@ exports.edit = function(req, res) {
             });
         });
     } else if(req.method === 'POST') {
-        let id = req.param('id');
+        let id = req.params.id;
         let obj = _.pick(req.body, 'name', 'description');
         Tag.findById(id).populate('author').exec(function(err, result) {
             let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;

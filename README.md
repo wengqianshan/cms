@@ -1,37 +1,48 @@
-CMS
-===
+# CMS
 
-# 使用方法
+> coding in process with no guaranteed stability
 
-## 环境
+# Usage
 
-需要安装[nodejs](https://nodejs.org/)、[mongodb](https://www.mongodb.org/)
+## Environment required
 
-## 安装依赖
+- [nodejs](https://nodejs.org/) >= 7.9.0   (for ``async/await`` refer [node.green](http://node.green/))
+- [mongodb](https://www.mongodb.org/) >= 3.4
+
+
+## Install dependencies
 
 ````
 npm install
 ````
 
-## 创建配置文件
+## Initialize config file
 
 ````
-拷贝config.default.js并改名为config.js
+$ cp config.default.js config.js
 ````
 
-## 开发环境
+## Start Service
+
+### Development
 
 ````
 npm start
 ````
 
-## 生产环境
+### Production
 
 ````
 npm run server
 ````
 
-## 创建管理员账号
+or
 
-访问 http://localhost:7000/admin/ ，按提示安装，创建超级管理员帐号
+````
+NODE_ENV=production node app
+````
+
+## Administrator account
+
+open http://localhost:7000/admin/  follow the prompts to install
 

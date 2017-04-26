@@ -126,7 +126,7 @@ exports.add = function(req, res) {
 };
 exports.edit = function(req, res) {
     if(req.method === 'GET') {
-        let id = req.param('id');
+        let id = req.params.id;
         Content.findById(id).populate('author gallery tags').exec(function(err, result) {
             if(err) {
                 console.log('加载内容失败');
@@ -157,7 +157,7 @@ exports.edit = function(req, res) {
             });
         });
     } else if(req.method === 'POST') {
-        let id = req.param('id');
+        let id = req.params.id;
         let obj = _.pick(req.body, 'title', 'summary', 'content', 'gallery', 'category', 'tags');
         console.log(obj);
         console.log(obj.gallery)

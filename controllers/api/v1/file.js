@@ -33,7 +33,7 @@ exports.all = async function(req, res) {
     });
 };
 exports.show = async function(req, res) {
-    let id = req.param('id');
+    let id = req.params.id;
     let data = null
     let error
     try {
@@ -73,7 +73,7 @@ exports.create = async function(req, res) {
 }
 
 exports.update = async function(req, res) {
-    let id = req.param('id')
+    let id = req.params.id
     let obj = req.body
     // TODO： 校验输入
     let data = null
@@ -98,7 +98,7 @@ exports.update = async function(req, res) {
 }
 
 exports.destroy = async function(req, res) {
-    let id = req.param('id')
+    let id = req.params.id
     let data = null
     let error
     try {

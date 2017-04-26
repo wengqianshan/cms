@@ -102,7 +102,7 @@ exports.list = function(req, res) {
 }
 //单个用户
 exports.one = function(req, res) {
-    let id = req.param('id');
+    let id = req.params.id;
     User.findById(id).populate('author').populate('roles').exec(function(err, result) {
         res.render('server/user/item', {
             user: result
