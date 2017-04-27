@@ -52,7 +52,8 @@ exports.show = async function(req, res) {
 }
 
 exports.create = async function(req, res) {
-    let obj = req.body
+    // let obj = req.body
+    let obj = _.pick(req.body, 'url', 'md_url', 'sm_url', 'size', 'type', 'description');
     // TODO： 校验输入
     // 后台创建用户
     let user = req.user
@@ -77,7 +78,8 @@ exports.create = async function(req, res) {
 
 exports.update = async function(req, res) {
     let id = req.params.id
-    let obj = req.body
+    // let obj = req.body
+    let obj = _.pick(req.body, 'url', 'md_url', 'sm_url', 'size', 'type', 'description');
     // TODO： 校验输入
     let data = null
     let error

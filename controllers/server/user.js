@@ -138,7 +138,7 @@ exports.register = function(req, res) {
     if (method === 'GET') {
         res.render('server/user/register', {});
     } else if (method === 'POST') {
-        let obj = _.pick(req.body, 'username', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions');
+        let obj = _.pick(req.body, 'username', 'password', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions');
         obj.reg_ip = ip;
         console.log(obj);
         let operator = function() {
@@ -227,7 +227,7 @@ exports.add = function(req, res) {
         });
     } else if (method === 'POST') {
         //let obj = req.body;
-        let obj = _.pick(req.body, 'username', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions');
+        let obj = _.pick(req.body, 'username', 'password', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions');
         console.log(obj);
         //默认角色
         Role.findOne({status: 202}, function(err, role) {

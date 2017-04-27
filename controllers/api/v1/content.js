@@ -56,7 +56,8 @@ exports.show = async function(req, res) {
 }
 
 exports.create = async function(req, res) {
-    let obj = req.body
+    // let obj = req.body
+    let obj = _.pick(req.body, 'title', 'summary', 'content', 'gallery', 'category', 'tags');
     // TODO： 校验输入
     let user = req.user
     if (user) {
@@ -79,7 +80,8 @@ exports.create = async function(req, res) {
 
 exports.update = async function(req, res) {
     let id = req.params.id
-    let obj = req.body
+    // let obj = req.body
+    let obj = _.pick(req.body, 'title', 'summary', 'content', 'gallery', 'category', 'tags');
     // TODO： 校验输入
     let data = null
     let error
