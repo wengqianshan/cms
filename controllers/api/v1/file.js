@@ -22,7 +22,8 @@ exports.all = async function(req, res) {
             }
         })
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '系统异常'
     }
     
     res.json({
@@ -39,7 +40,8 @@ exports.show = async function(req, res) {
     try {
         data = await fileService.findById(id)
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '系统异常'
     }
     
     res.json({
@@ -63,7 +65,8 @@ exports.create = async function(req, res) {
     try {
         data = await fileService.create(obj)
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '系统异常'
     }
     res.json({
         success: !error,
@@ -88,7 +91,8 @@ exports.update = async function(req, res) {
             data = await fileService.findByIdAndUpdate(id, obj, {new: true})
         }
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '系统异常'
     }
     res.json({
         success: !error,
@@ -112,7 +116,8 @@ exports.destroy = async function(req, res) {
         }
         
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '系统异常'
     }
     res.json({
         success: !error,

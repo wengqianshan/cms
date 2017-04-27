@@ -54,7 +54,8 @@ exports.verify = function (req, res, next) {
     try {
         data = jwt.verify(token, config.jwt.secret)
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '校验失败'
     }
     res.json({
         success: !error,
@@ -85,7 +86,8 @@ exports.all = async function(req, res) {
             return _.pick(item, '_id', 'username', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'roles', 'rank', 'status')
         });
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '系统异常'
     }
     
     res.json({
@@ -104,7 +106,8 @@ exports.show = async function(req, res) {
         let result = await userService.findById(id)
         data = _.pick(result, '_id', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'roles', 'rank', 'status')
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '系统异常'
     }
     
     res.json({
@@ -155,7 +158,8 @@ exports.update = async function(req, res) {
             data = await userService.findByIdAndUpdate(id, obj, {new: true})    
         }
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '更新失败'
     }
     res.json({
         success: !error,
@@ -178,7 +182,8 @@ exports.destroy = async function(req, res) {
             data = userService.findByIdAndRemove(id)
         }
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '系统异常'
     }
     res.json({
         success: !error,

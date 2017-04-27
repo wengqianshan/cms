@@ -26,7 +26,8 @@ exports.all = async function(req, res) {
             return _.pick(item, '_id', 'title', 'category', 'author', 'up', 'like', 'status', 'visits', 'created', 'tags', 'gallery', 'comments')
         })
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '系统异常'
     }
     
     res.json({
@@ -43,7 +44,8 @@ exports.show = async function(req, res) {
     try {
         data = await contentService.findById(id)
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '系统异常'
     }
     
     res.json({
@@ -65,7 +67,8 @@ exports.create = async function(req, res) {
     try {
         data = await contentService.create(obj)
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '系统异常'
     }
     res.json({
         success: !error,
@@ -91,7 +94,8 @@ exports.update = async function(req, res) {
         }
         
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '系统异常'
     }
     res.json({
         success: !error,
@@ -114,7 +118,8 @@ exports.destroy = async function(req, res) {
             data = contentService.findByIdAndRemove(id)
         }
     } catch (e) {
-        error = e.message
+        // error = e.message
+        error = '系统异常'
     }
     res.json({
         success: !error,
