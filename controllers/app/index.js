@@ -8,15 +8,12 @@ let _ = require('lodash')
 let File = mongoose.model('File')
 let config = require('../../config')
 let core = require('../../libs/core')
+let contentService = require('../../services/content')
 
-exports.index = function(req, res) {
+exports.index = async function(req, res) {
     console.log('前台')
-    //console.time('content-list');
     let condition = {};
-    let category = req.query.category;
-    if(category) {
-        condition.category = category;
-    }
+    
     let key = req.query.key;
     if(key) {
         console.log('关键字为', key);
@@ -25,49 +22,54 @@ exports.index = function(req, res) {
         let reg = new RegExp(k, 'gi');
         condition.title = reg;
     }
-    let obj = {};
-    Content.count(condition).exec().then(function(total){
-        obj.total = total;
-        return Content.find().limit(10).sort({created: -1}).exec();
-    }).then(function(newest) {
-        obj.newest = newest;
-        return Content.find().limit(10).sort({visits: -1}).exec();
-    }).then(function(hotest) {
-        obj.hotest = hotest;
-        let query = Content.find(condition).populate('author', 'username name email').populate('comments').populate('gallery');
-        //分页
-        let pageInfo = core.createPage(req.query.page, obj.total);
-        query.skip(pageInfo.start);
-        query.limit(pageInfo.pageSize);
-        query.sort({created: -1});
-        query.exec(function(err, results) {
-            //console.log(err, results);
-            //console.timeEnd('content-list');
-            if(req.xhr) {
-                res.json({
-                    //title: '网站首页',
-                    contents: results,
-                    pageInfo: pageInfo,
-                    key: key,
-                    total: obj.total,
-                    newest: obj.newest,
-                    hotest: obj.hotest
-                });
-                return;
+
+    let pageInfo = {}
+    let contents = []
+    let newest = []
+    let hotest = []
+    let total
+    let error
+    try {
+        total = await contentService.count(condition)
+        pageInfo = core.createPage(req.query.page, total);
+        contents = await contentService.find(condition, null, {
+            skip: pageInfo.start,
+            limit: pageInfo.pageSize,
+            sort: {
+                created: -1
             }
-            res.render('app/index', {
-                //title: '列表',
-                //title: '网站首页',
-                contents: results,
-                pageInfo: pageInfo,
-                key: key,
-                total: obj.total,
-                newest: obj.newest,
-                hotest: obj.hotest
-            });
+        })
+        newest = await contentService.find(condition, null, {
+            limit: 10,
+            sort: {
+                created: -1
+            }
+        })
+
+        hotest = await contentService.find(condition, null, {
+            limit: 10,
+            sort: {
+                visits: -1
+            }
+        })
+
+    } catch (e) {
+        error = '系统异常'
+    }
+    if (!error) {
+        res.render('app/index', {
+            contents: contents,
+            pageInfo: pageInfo,
+            key: key,
+            total: total,
+            newest: newest,
+            hotest: hotest
         });
-    });
-    //
+    } else {
+        res.render('app/info', {
+            message: '系统开小差了，请稍等'
+        });
+    }
 };
 
 exports.contact = function(req, res) {
