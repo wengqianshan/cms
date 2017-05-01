@@ -11,52 +11,41 @@ let core = require('../../libs/core')
 let contentService = require('../../services/content')
 
 exports.index = async function(req, res) {
-    console.log('前台')
     let condition = {};
-    
     let key = req.query.key;
     if(key) {
-        console.log('关键字为', key);
         let _key = key.replace(/([\(\)\[])/g, '\\$1');//正则bugfix
         let k = '[^\s]*' + _key + '[^\s]*';
         let reg = new RegExp(k, 'gi');
         condition.title = reg;
     }
-
-    let pageInfo = {}
-    let contents = []
-    let newest = []
-    let hotest = []
-    let total
-    let error
+    
     try {
-        total = await contentService.count(condition)
-        pageInfo = core.createPage(req.query.page, total);
-        contents = await contentService.find(condition, null, {
+        let total = await contentService.count(condition)
+        let pageInfo = core.createPage(req.query.page, total);
+        let contents = await contentService.find(condition, null, {
+            populate: 'author gallery',
             skip: pageInfo.start,
             limit: pageInfo.pageSize,
             sort: {
                 created: -1
             }
         })
-        newest = await contentService.find(condition, null, {
+
+        let newest = await contentService.find(condition, null, {
             limit: 10,
             sort: {
                 created: -1
             }
         })
 
-        hotest = await contentService.find(condition, null, {
+        let hotest = await contentService.find(condition, null, {
             limit: 10,
             sort: {
                 visits: -1
             }
         })
 
-    } catch (e) {
-        error = '系统异常'
-    }
-    if (!error) {
         res.render('app/index', {
             contents: contents,
             pageInfo: pageInfo,
@@ -65,7 +54,9 @@ exports.index = async function(req, res) {
             newest: newest,
             hotest: hotest
         });
-    } else {
+
+    } catch (e) {
+        console.log(e)
         res.render('app/info', {
             message: '系统开小差了，请稍等'
         });
