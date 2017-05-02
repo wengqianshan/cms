@@ -29,7 +29,6 @@
     "mongoose": "^4.9.2",
     "morgan": "~1.8.1",
     "nodemailer": "^1.1.1",
-    "nodemailer-smtp-transport": "^0.1.12",
     "qn": "^0.2.2",
     "qs": "^2.3.3",
     "sendmail": "^0.2.1",

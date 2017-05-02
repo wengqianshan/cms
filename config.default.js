@@ -59,20 +59,21 @@ let config = {
     userVerify: {
         enable: false,
         type: 'admin' // mail | admin, 默认admin
-    }
+    },
     // 邮箱配置，找回密码、用户注册使用
     mail: {
         // 发信人邮箱
         from: 'username@domain.com',
-        options: {
-            // 邮箱服务host
-            host: '10.1.1.1',
+        // nodemailer config see https://nodemailer.com/about/
+        nodemailer: {
+            // https://nodemailer.com/smtp/
+            service: 'gmail',
+            host: '',
+            port: '',
             auth: {
-                // 发信人用户名
-                user: 'username',
-                // 发信人密码
-                pass: 'password'
-            }    
+                user: '',
+                pass: ''
+            }
         }
         
     },

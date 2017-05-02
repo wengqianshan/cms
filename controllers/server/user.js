@@ -7,11 +7,9 @@ let Log = require('../../services/log');
 let config = require('../../config')
 let core = require('../../libs/core')
 let crypto = require('../../libs/crypto')
-let sendmail = require('sendmail')()
-    //nodemailer = require('nodemailer')
-    //smtpTransport = require('nodemailer-smtp-transport')
+let Mailer = require('../../libs/mailer')
 let _ = require('lodash');
-
+let mailer = new Mailer()
 
 /*let userService = require('../../services/user')
 userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(function(res) {
@@ -580,13 +578,13 @@ exports.forget = function(req, res) {
         });
         
     } else if(req.method === 'POST') {
-        console.log(req.query);
+        //console.log(req.query);
         if(req.query.hash) {
             let obj = req.body;
             let hash = req.query.hash;
             //处理更新密码操作，并重置hash
             User.findOne({'forget.hash': hash}, function(err, user) {
-                console.log(err, user);
+                //console.log(err, user);
                 if(err || !user) {
                     return res.render('server/info', {
                         message: '初始后：token已过期，请重新找回密码'
@@ -614,7 +612,7 @@ exports.forget = function(req, res) {
         }
         let obj = req.body;
         User.findOne({username: obj.username}, function(err, user) {
-            console.log(user);
+            //console.log(user);
             if(err || !user) {
                 return res.render('server/info', {
                     message: '没有这个用户'
@@ -626,34 +624,25 @@ exports.forget = function(req, res) {
                 till: new Date()
             };
             user.save(function(err, result) {
-                console.log(result);
+                //console.log(result);
                 if(err || !result) {
                     return res.render('server/info', {
                         message: '出错了 '
                     });
                 }
-                //发邮件操作
-                //let transporter = nodemailer.createTransport(config.mail.options);
+                
                 let url = req.headers.origin + req.originalUrl + '?hash=' + hash;
-                /*transporter.sendMail({
+                
+                mailer.send({
                     from: config.mail.from,
                     to: user.email,
                     subject: '找回密码',
-                    html: '你好，请点击<a href="' + url + '">此处</a>找回密码<br/>' + url
-                }, function(err, info) {
-                    console.log(err, info)
-                });*/
-
-
-                sendmail({
-                    from: config.mail.from,
-                    to: user.email,
-                    subject: '找回密码',
-                    content: '你好，请点击<a href="' + url + '">此处</a>找回密码<br/>' + url,
+                    content: '<p>你好，请点击<a href="' + url + '">此处</a>找回密码<br/>' + url + '</p>',
                   }, function(err, reply) {
                     let message = '';
                     if (err) {
-                        message = '发送失败，请检查是否安装sendmail服务';
+                        console.log(err)
+                        message = '发送失败';
                     } else {
                         message = '已邮件发到您的邮箱 ' + user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, '$1****$3$4');
                     }
@@ -663,7 +652,6 @@ exports.forget = function(req, res) {
                         message: message
                     });
                 });
-                
             });
             
         });
