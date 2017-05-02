@@ -28,10 +28,10 @@
     "moment": "^2.18.0",
     "mongoose": "^4.9.2",
     "morgan": "~1.8.1",
-    "nodemailer": "^1.1.1",
+    "nodemailer": "^4.0.1",
     "qn": "^0.2.2",
     "qs": "^2.3.3",
-    "sendmail": "^0.2.1",
+    "sendmail": "^1.1.1",
     "serve-favicon": "^2.4.2",
     "strip": "0.0.7",
     "xss": "^0.3.3"

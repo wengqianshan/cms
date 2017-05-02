@@ -637,21 +637,19 @@ exports.forget = function(req, res) {
                     from: config.mail.from,
                     to: user.email,
                     subject: '找回密码',
-                    content: '<p>你好，请点击<a href="' + url + '">此处</a>找回密码<br/>' + url + '</p>',
-                  }, function(err, reply) {
-                    let message = '';
-                    if (err) {
-                        console.log(err)
-                        message = '发送失败';
-                    } else {
-                        message = '已邮件发到您的邮箱 ' + user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, '$1****$3$4');
-                    }
+                    html: '<p>你好，请点击<a href="' + url + '">此处</a>找回密码<br/>' + url + '</p>',
+                  }).then((info) => {
+                    let message = '已邮件发到您的邮箱 ' + user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, '$1****$3$4');
                     //console.log(err && err.stack);
                     //console.dir(reply);
                     res.render('server/info', {
                         message: message
                     });
-                });
+                }).catch((err) => {
+                    res.render('server/info', {
+                        message: '发送失败'
+                    });
+                })
             });
             
         });

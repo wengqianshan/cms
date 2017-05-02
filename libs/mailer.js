@@ -13,7 +13,7 @@ class Mailer {
     from: '',
     to: '',
     subject: '',
-    content: '',
+    html: '',
      **/
     send(obj, callback) {
         return new Promise((resolve, reject) => {
@@ -22,7 +22,7 @@ class Mailer {
                     from: obj.from,
                     to: obj.to,
                     subject: obj.subject,
-                    html: obj.content
+                    html: obj.html
                 }, function(err, info) {
                     if (!err) {
                         resolve(info)
@@ -39,7 +39,7 @@ class Mailer {
                     from: obj.from,
                     to: obj.to,
                     subject: obj.subject,
-                    content: obj.content
+                    html: obj.html
                 }, function(err, info) {
                     if (!err) {
                         resolve(info)
