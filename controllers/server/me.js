@@ -13,8 +13,11 @@ const ACTIONS = require('../../actions')
 exports.init = function(req, res) {
     let id = req.session.user._id;
     User.findById(id).populate('roles').exec(function(err, user) {
-        user._roles = req.Roles;
-        user._actions = req.Actions;
+        if (!user) {
+            return res.render('server/info', {
+                message: '出错了'
+            });
+        }
         
         let actions = [];
         if (req.Roles.indexOf('admin') > -1) {
@@ -41,8 +44,6 @@ exports.edit = function(req, res) {
     let id = req.session.user._id;
     if(req.method === 'GET') {
         User.findById(id).populate('roles').exec(function(err, user) {
-            user._roles = req.Roles;
-            user._actions = req.Actions;
             let data = _.pick(user, 'name', 'mobile', 'gender', 'birthday');
             res.render('server/me/edit', {
                 title: '修改资料',
@@ -58,7 +59,7 @@ exports.edit = function(req, res) {
                 if(err || !result) {
                     return res.render('server/info', {
                         message: '修改失败'
-                    });    
+                    });
                 }
                 req.session.user = result;
                 res.locals.User = user;
