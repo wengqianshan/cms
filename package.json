@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "npm run dev",
-    "dev": "NODE_ENV=development nodemon ./app.js --ignore public/ --ignore views/",
-    "server": "NODE_ENV=production node app",
+    "dev": "cross-env NODE_ENV=development nodemon ./app.js --ignore public/ --ignore views/",
+    "server": "cross-env NODE_ENV=production node app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -37,6 +37,7 @@
     "xss": "^0.3.3"
   },
   "devDependencies": {
+    "cross-env": "^4.0.0",
     "nodemon": "^1.11.0"
   }
 }
