@@ -6,7 +6,6 @@ let Category = mongoose.model('Category')
 let Tag = mongoose.model('Tag')
 let _ = require('lodash')
 let core = require('../../libs/core')
-let xss = require('xss')
 /*let userService = require('../../services/user')
 userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(function(res) {
     console.log(res)
@@ -102,7 +101,6 @@ exports.add = function(req, res) {
         if(obj.category === '') {
             obj.category = null;
         }
-        obj.content = xss(obj.content);
         
         let content = new Content(obj);
         content.save(function(err, content) {
@@ -164,7 +162,6 @@ exports.edit = function(req, res) {
         if(obj.category === '') {
             obj.category = null;
         }
-        obj.content = xss(obj.content);
         if(!obj.gallery) {
             obj.gallery = [];
         }

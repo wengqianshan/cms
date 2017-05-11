@@ -44,7 +44,7 @@ block content
                 //- else 
                 //-     | #{content.content}
                 div
-                    | !{md(content.content)}
+                    | !{xss(md(content.content))}
             
             .post-comments
                 h3 评论(#{content.comments.length}) 

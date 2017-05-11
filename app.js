@@ -16,6 +16,7 @@ let moment = require('moment');
 let _ = require('lodash');
 let multipart = require('connect-multiparty'); //解析文件
 let core = require('./libs/core');
+let xss = require('xss')
 let marked = require('marked');
 marked.setOptions({
     renderer: new marked.Renderer(),
@@ -70,7 +71,8 @@ app.locals = {
     gravatar: gravatar,
     md: marked,
     strip: strip,
-    env: config.env
+    env: config.env,
+    xss: xss
 };
 app.set('config', config);
 
