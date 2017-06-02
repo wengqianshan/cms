@@ -17,6 +17,7 @@ userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(funct
 }, function(err) {
     console.log(err)
 })*/
+
 // 这个最好移到app.js里面，每次开启服务时检查，
 exports.checkInstall = function(req, res, next) {
     if(req.session.user) {
