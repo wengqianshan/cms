@@ -41,12 +41,13 @@ app.use(compression())
 
 //连接数据库
 mongoose.Promise = global.Promise;
-mongoose.connect(config.mongodb.uri);
-let db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function callback() {
-    console.log('mongodb连接成功');
-});
+mongoose.connect(config.mongodb.uri, {
+    useMongoClient: true
+}).then(function(db) {
+    console.log('mongodb连接成功')
+}, function(err) {
+    console.log('mongodb连接失败', err)
+})
 //载入数据模型
 core.walk(appPath + '/models', null, function(path) {
     require(path);
