@@ -31,7 +31,7 @@ let UserSchema = new Schema({
     
     name: {
         type: String,
-        required: '请输入姓名'
+        // required: '请输入姓名'
     },
     
     avatar: {
@@ -135,9 +135,9 @@ UserSchema.virtual('password').set(function(password) {
 /**
  * Validations
  */
-UserSchema.path('name').validate(function(name) {
-    return (typeof name === 'string' && name.length >= 1 && name.length <= 50);
-}, '名字在1-50个字符之间');
+// UserSchema.path('name').validate(function(name) {
+//     return (typeof name === 'string' && name.length >= 1 && name.length <= 50);
+// }, '名字在1-50个字符之间');
 
 UserSchema.path('email').validate(function(email) {
     return (typeof email === 'string' && email.length > 0);
