@@ -29,8 +29,7 @@ exports.index = function(req, res) {
         Comment.find(filter).count().exec(),
         User.find(filter).count().exec(),
         Role.find(filter).count().exec(),
-        File.find(filter).count().exec(),
-        userService.trend()
+        File.find(filter).count().exec()
     ]).then((result) => {
         //console.log(result)
         res.render('server/index', { 
@@ -41,8 +40,7 @@ exports.index = function(req, res) {
                 comment: result[2],
                 user: result[3],
                 role: result[4],
-                file: result[5],
-                trend: result[6]
+                file: result[5]
             }
         });
     }).catch((e) => {
