@@ -157,7 +157,7 @@ exports.update = async function(req, res) {
         if(!isAdmin && !isAuthor) {
             error = '没有权限'
         } else {
-            data = await userService.findByIdAndUpdate(id, obj, {new: true})    
+            data = await userService.findByIdAndUpdate(id, obj, {new: true})
         }
     } catch (e) {
         // error = e.message

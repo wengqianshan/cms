@@ -93,6 +93,9 @@ module.exports = function(opts) {
     };
     Uploader.post = function(req, res, callback) {
         let files = req.files.files;
+        if (!files) {
+            return callback.call(null, null)
+        }
         let len = files.length;
         if (len < 1) {
             return;

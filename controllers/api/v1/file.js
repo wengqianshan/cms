@@ -3,6 +3,7 @@
 let mongoose = require('mongoose')
 let core = require('../../../libs/core')
 let fileService = require('../../../services/file')
+let _ = require('lodash')
 
 exports.all = async function(req, res) {
     let condition = {}
@@ -47,6 +48,21 @@ exports.show = async function(req, res) {
     res.json({
         success: !error,
         data: data,
+        error: error
+    });
+}
+
+exports.upload = async function(req, res) {
+    let result = null;
+    let error;
+    try {
+        result = await fileService.upload(req, res);
+    } catch (e) {
+        error = '上传失败'
+    }
+    res.json({
+        success: !error,
+        data: result,
         error: error
     });
 }

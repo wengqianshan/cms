@@ -25,6 +25,9 @@ router.route('/:id/update')
 router.route('/:id/destroy')
     .post(jwtMiddleWare.verify, action.checkAction('FILE_DELETE'), file.destroy)
 
+router.route('/upload')
+    .all(jwtMiddleWare.verify, action.checkAction('FILE_CREATE'), file.upload)
+
 router.route('/')
     .get(file.all)
     .post(jwtMiddleWare.verify, action.checkAction('FILE_CREATE'), file.create)

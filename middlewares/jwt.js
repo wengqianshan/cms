@@ -68,7 +68,7 @@ exports.verify = async function (req, res, next) {
         return res.json({
             success: !error,
             data: data,
-            error: '请登录后操作'
+            error: error || '请登录后操作'
         });    
     }
     next()
