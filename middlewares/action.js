@@ -16,7 +16,7 @@ exports.checkAction = function(actionName) {
         if (_.isArray(actionName)) {
             result = _.intersection(req.Actions, actionName).length === actionName.length;
         } else if(_.isString(actionName)) {
-            result = req.Actions.indexOf(actionName) > -1;
+            result = req.Actions && req.Actions.indexOf(actionName) > -1;
         }
 
         if (result) {
