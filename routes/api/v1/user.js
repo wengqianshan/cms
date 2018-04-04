@@ -36,7 +36,7 @@ router.route('/register')
     .post(user.create)
 
 router.route('/')
-    .get(jwtMiddleWare.verify, user.all)
+    .get(jwtMiddleWare.verify, action.checkAction('USER_INDEX'), user.all)
     .post(jwtMiddleWare.verify, action.checkAction('USER_CREATE'), user.create)
 
 router.use(function(req, res) {
