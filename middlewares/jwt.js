@@ -13,6 +13,12 @@ exports.verify = async function (req, res, next) {
         token = req.headers.authorization.split(' ')[1];
     } else if (req.query && req.query.token) {
         token = req.query.token;
+    } else {
+        return res.json({
+            success: false,
+            data: null,
+            error: '缺少token'
+        });   
     }
     let data = null
     let error
@@ -69,7 +75,7 @@ exports.verify = async function (req, res, next) {
             success: !error,
             data: data,
             error: error || '请登录后操作'
-        });    
+        });
     }
     next()
 }

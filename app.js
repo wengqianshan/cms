@@ -102,6 +102,8 @@ app.use(function(req, res, next) {
     if (req.csrfToken) {
         res.cookie('TOKEN', req.csrfToken())
     }
+
+    // TODO when use jwt
     // TODO remove
     res.locals.token = req.csrfToken && req.csrfToken();
 
