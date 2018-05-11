@@ -3,7 +3,8 @@
 let _ = require('lodash')
 let mongoose = require('mongoose')
 let core = require('../../../libs/core')
-let contentService = require('../../../services/content')
+let ContentService = require('../../../services/content')
+let contentService = new ContentService();
 
 exports.all = async function(req, res) {
     let condition = {}

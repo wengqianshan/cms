@@ -2,132 +2,131 @@
 
 let _ = require('lodash')
 
-/**
- * 基础服务
- **/
-let services = function(Model) {
-    return {
-        count: function(_condition) {
-            let condition = _condition || {};
-            return new Promise(function(resolve, reject) {
-                Model.count(condition, function(err, total) {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        resolve(total)
-                    }
-                })
-            })
-        },
-        find: function(condition = {}, fields = null, options = {}) {
-            return new Promise(function(resolve, reject) {
-                Model.find(condition, fields, options, function(err, result) {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        resolve(result)
-                    }
-                })
-            });
-        },
-        findOne: function(condition = {}, projection = null, options = {}) {
-            return new Promise(function(resolve, reject) {
-                Model.findOne(condition, projection, options, function(err, result) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(result)
-                    }
-                })
-            })
-        },
-        findById: function(id, populates = []) {
-            return new Promise(function(resolve, reject) {
-                let query = Model.findById(id)
-                if (populates && populates.length > 0) {
-                    populates.forEach(function(item) {
-                        query = query.populate(item);
-                    })
+class Base {
+    constructor(props) {
+        for (let i in props) {
+            this[i] = props[i];
+        }
+    }
+    count(condition = {}) {
+        return new Promise((resolve, reject) => {
+            this.Model.count(condition, function (err, total) {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(total)
                 }
-                query.exec(function(err, result) {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        resolve(result)
-                    }
-                });
             })
-        },
-        create: function(obj) {
-            return new Promise(function(resolve, reject) {
-                let user = new Model(obj);
-                user.save(function(err, result) {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        resolve(result)
-                    }
-                });
-            })
-        },
-        update: function(condition = {}, doc = {}, options = {}) {
-            return new Promise(function(resolve, reject) {
-                Model.update(condition, doc, options, function(err, result) {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        resolve(result)
-                    }
-                })
-            })
-        },
-        findOneAndUpdate: function(condition = {}, doc = {}, options = {}) {
-    
-        },
-        findByIdAndUpdate: function(id, obj, options) {
-            return new Promise(function(resolve, reject) {
-                Model.findByIdAndUpdate(id, obj, options, function(err, result) {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        resolve(result);
-                    }
-                })
-            })
-        },
-        updateById: function(id, obj, options) {
-            return this.findByIdAndUpdate(id, obj, options)
-        },
-        remove: function(condition = {}) {
-            return new Promise(function(resolve, reject) {
-                Model.remove(condition, function(err, result) {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        resolve(result)
-                    }
-                })
-            })
-        },
-        findOneAndRemove: function(condition) {
-    
-        },
-        findByIdAndRemove: function(id, options = null) {
-            return new Promise(function(resolve, reject) {
-                Model.findByIdAndRemove(id, options, function(err, result) {
-                    if (err) {
-                        reject(err)
-                    } else {
-                        resolve(result)
-                    }
-                })
-            })
-        },
-        removeById: function(id) {
-            return this.findByIdAndRemove(id)
-        },
+        })
+    }
 
+    find(condition = {}, fields = null, options = {}) {
+        return new Promise((resolve, reject) => {
+            this.Model.find(condition, fields, options, function (err, result) {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result)
+                }
+            })
+        });
+    }
+    findOne(condition = {}, projection = null, options = {}) {
+        return new Promise((resolve, reject) => {
+            this.Model.findOne(condition, projection, options, function (err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result)
+                }
+            })
+        })
+    }
+    findById(id, populates = []) {
+        return new Promise((resolve, reject) => {
+            let query = this.Model.findById(id)
+            if (populates && populates.length > 0) {
+                populates.forEach(function (item) {
+                    query = query.populate(item);
+                })
+            }
+            query.exec(function (err, result) {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result)
+                }
+            });
+        })
+    }
+    create(obj) {
+        return new Promise((resolve, reject) => {
+            let user = new this.Model(obj);
+            user.save(function (err, result) {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result)
+                }
+            });
+        })
+    }
+    update(condition = {}, doc = {}, options = {}) {
+        return new Promise((resolve, reject) => {
+            this.Model.update(condition, doc, options, function (err, result) {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result)
+                }
+            })
+        })
+    }
+    findOneAndUpdate(condition = {}, doc = {}, options = {}) {
+
+    }
+    findByIdAndUpdate(id, obj, options) {
+        return new Promise((resolve, reject) => {
+            this.Model.findByIdAndUpdate(id, obj, options, function (err, result) {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result);
+                }
+            })
+        })
+    }
+    updateById(id, obj, options) {
+        return this.findByIdAndUpdate(id, obj, options)
+    }
+    remove(condition = {}) {
+        return new Promise((resolve, reject) => {
+            this.Model.remove(condition, function (err, result) {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result)
+                }
+            })
+        })
+    }
+    findOneAndRemove(condition) {
+
+    }
+    findByIdAndRemove(id, options = null) {
+        return new Promise((resolve, reject) => {
+            this.Model.findByIdAndRemove(id, options, function (err, result) {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result)
+                }
+            })
+        })
+    }
+    removeById(id) {
+        return this.findByIdAndRemove(id)
     }
 }
 
-module.exports = services;
+module.exports = Base;

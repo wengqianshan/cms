@@ -8,18 +8,23 @@ let _ = require('lodash');
 let Page = mongoose.model('Page');
 
 
-let baseServices = require('./base')(Page);
+let Base = require('./base');
 
-let services = {
-    findBySome: function(id, populates) {
-        return new Promise(function(resolve, reject) {
-            let query = Page.findById(id)
+class Service extends Base {
+    constructor(props) {
+        super(props);
+        this.Model = Page;
+    }
+
+    findBySome(id, populates) {
+        return new Promise((resolve, reject) => {
+            let query = this.Model.findById(id)
             if (populates && populates.length > 0) {
-                populates.forEach(function(item) {
+                populates.forEach(function (item) {
                     query = query.populate(item);
                 })
             }
-            query.exec(function(err, result) {
+            query.exec(function (err, result) {
                 if (err) {
                     reject(err)
                 } else {
@@ -28,6 +33,6 @@ let services = {
             });
         })
     }
-};
+}
 
-module.exports = _.assign({}, baseServices, services);
+module.exports = Service;

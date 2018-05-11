@@ -10,7 +10,6 @@ let Role = mongoose.model('Role')
 let userController = require('./user')
 let config = require('../../config')
 let core = require('../../libs/core')
-let userService = require('../../services/user')
 
 //后台首页
 exports.index = function(req, res) {

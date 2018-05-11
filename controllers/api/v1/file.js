@@ -2,7 +2,8 @@
 
 let mongoose = require('mongoose')
 let core = require('../../../libs/core')
-let fileService = require('../../../services/file')
+let FileService = require('../../../services/file')
+let fileService = new FileService()
 let _ = require('lodash')
 
 exports.all = async function(req, res) {

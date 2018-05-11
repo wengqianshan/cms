@@ -3,7 +3,8 @@
 let mongoose = require('mongoose')
 let User = mongoose.model('User')
 let Role = mongoose.model('Role')
-let Log = require('../../services/log');
+let LogService = require('../../services/log');
+let Log = new LogService();
 let config = require('../../config')
 let core = require('../../libs/core')
 let crypto = require('../../libs/crypto')

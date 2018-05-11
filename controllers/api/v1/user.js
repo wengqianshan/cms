@@ -4,8 +4,10 @@ let mongoose = require('mongoose')
 let _ = require('lodash')
 let jwt = require('jsonwebtoken')
 let core = require('../../../libs/core')
-let userService = require('../../../services/user')
-let roleService = require('../../../services/role')
+let UserService = require('../../../services/user')
+let userService = new UserService()
+let RoleService = require('../../../services/role')
+let roleService = new RoleService();
 let config = require('../../../config')
 
 exports.auth = async function (req, res) {

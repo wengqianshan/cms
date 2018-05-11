@@ -7,13 +7,18 @@ let mongoose = require('mongoose');
 let _ = require('lodash');
 let Log = mongoose.model('Log');
 
+let Base = require('./base');
 
-let baseServices = require('./base')(Log);
-
-let services = {
-    add: function(obj) {
-        return this.create(_.pick(obj, 'type', 'action', 'status', 'ip', 'ua', 'message', 'author'));
+class Service extends Base {
+    constructor(props) {
+        super(props);
+        this.Model = Log;
     }
-};
 
-module.exports = _.assign({}, baseServices, services);
+    add(obj) {
+        let data = _.pick(obj, 'type', 'action', 'status', 'ip', 'ua', 'message', 'author');
+        return this.create(data);
+    }
+}
+
+module.exports = Service;

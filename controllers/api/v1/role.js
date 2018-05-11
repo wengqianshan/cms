@@ -3,7 +3,8 @@
 let _ = require('lodash')
 let mongoose = require('mongoose')
 let core = require('../../../libs/core')
-let roleService = require('../../../services/role')
+let RoleService = require('../../../services/role')
+let roleService = new RoleService()
 
 exports.all = async function(req, res) {
     let condition = {}

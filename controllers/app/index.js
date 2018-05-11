@@ -8,7 +8,8 @@ let _ = require('lodash')
 let File = mongoose.model('File')
 let config = require('../../config')
 let core = require('../../libs/core')
-let contentService = require('../../services/content')
+let ContentService = require('../../services/content')
+let contentService = new ContentService()
 
 exports.index = async function(req, res) {
     let condition = {};
