@@ -3,8 +3,10 @@
 let jwt = require('jsonwebtoken')
 let config = require('../config')
 let core = require('../libs/core')
-let userService = require('../services/user')
-let roleService = require('../services/role')
+let UserService = require('../services/user')
+let userService = new UserService()
+let RoleService = require('../services/role')
+let roleService = new RoleService()
 let UserCache = {}
 exports.verify = async function (req, res, next) {
     req.jwt = true;

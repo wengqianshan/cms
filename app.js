@@ -41,9 +41,7 @@ app.use(compression())
 
 //连接数据库
 mongoose.Promise = global.Promise;
-mongoose.connect(config.mongodb.uri, {
-    useMongoClient: true
-}).then(function(db) {
+mongoose.connect(config.mongodb.uri).then(function(db) {
     console.log('mongodb连接成功')
 }, function(err) {
     console.log('mongodb连接失败', err)
