@@ -37,7 +37,7 @@ exports.list = function(req, res) {
 exports.one = function(req, res) {
     let id = req.params.id;
     Content.findById(id).populate('author').populate('category').populate('comments').populate('gallery').exec(function(err, result) {
-        //console.log(result);
+        // console.log(result);
         if(!result) {
             return res.render('app/info', {
                 message: '该内容不存在'

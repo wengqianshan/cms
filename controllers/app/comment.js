@@ -1,8 +1,10 @@
 'use strict';
 
 let mongoose = require('mongoose')
-let Content = mongoose.model('Content')
-let Comment = mongoose.model('Comment')
+let ContentService = require('../../services/content')
+let contentService = new ContentService()
+let CommentService = require('../../services/comment')
+let commentService = new CommentService()
 let gravatar = require('gravatar')
 let config = require('../../config')
 let _ = require('lodash')
@@ -10,7 +12,7 @@ let xss = require('xss')
 let core = require('../../libs/core')
 
 //添加
-exports.add = function(req, res) {
+exports.add = async function(req, res) {
     if (req.method === 'GET') {
         
     } else if (req.method === 'POST') {
@@ -20,40 +22,41 @@ exports.add = function(req, res) {
         if (req.session.user) {
             obj.author = req.session.user._id;
         }
-        Content.findById(obj.from, function(err, content) {
-            let comment = new Comment(obj);
-            comment.save(function(err, result) {
-                if(err || !result) {
-                    return res.json({
-                        success: false,
-                        message: '出错啦'
-                    });
+        let data;
+        let error;
+        try {
+            let postItem = await contentService.findById(obj.from);
+            let saveResult = await commentService.create(obj);
+            if (!postItem.comments) {
+                postItem.comments = [];
+            }
+            if (saveResult._id) {
+                postItem.comments.push(saveResult._id);
+                postItem.save();
+            }
+
+            if (obj.reply) {
+                let parent = await commentService.findById(obj.reply);
+                if (!parent.comments) {
+                    parent.comments = [];
                 }
-                if(!content.comments) {
-                    content.comments = [];
+                if (saveResult._id) {
+                    parent.comments.push(saveResult._id);
+                    parent.save();
                 }
-                content.comments.push(result._id);
-                content.save();
-                if(obj.reply) {
-                    Comment.findById(obj.reply, function(err, comment) {
-                        if(!comment.comments) {
-                            comment.comments = [];
-                        }
-                        comment.comments.push(result._id);
-                        comment.save();
-                    });
-                }
-                let json = _.assign({}, _.pick(result, 'id', 'content', 'created', 'name', 'email', 'reply', 'from', 'ip'), {
-                    avatar: gravatar.url(result.email || '', {s: '40',r: 'x',d: 'retro'}, true)
-                });
-                res.json({
-                    success: true,
-                    message: '评论成功',
-                    data: json
-                });
+            }
+            data = _.assign({}, _.pick(saveResult, 'id', 'content', 'created', 'name', 'email', 'reply', 'from', 'ip'), {
+                avatar: gravatar.url(saveResult.email || '', { s: '40', r: 'x', d: 'retro' }, true)
             });
+        } catch (e) {
+            console.log(e);
+            error = e.message;
+        }
+        res.json({
+            success: !error,
+            message: error,
+            data: data
         });
-        
     }
 };
 //删除
@@ -91,10 +94,4 @@ exports.list = function(req, res) {
             });
         })
     })
-    /*Comment.find({}).populate('author').exec(function(err, results) {
-        //console.log(results);
-        res.render('app/comment', {
-            comments: results
-        });
-    })*/
 }
