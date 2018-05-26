@@ -60,9 +60,8 @@ exports.show = async function(req, res) {
 }
 
 exports.create = async function(req, res) {
-    // let obj = req.body
     let body = req.body;
-    console.log(body);
+    // console.log(body);
     if (!body.from) {
         return res.json({
             success: false,
@@ -90,7 +89,6 @@ exports.create = async function(req, res) {
             postItem.comments.push(saveResult._id);
             postItem.save();
         }
-        console.log('一切正常');
         if (obj.reply) {
             let parent = await commentService.findById(obj.reply);
             if (!parent.comments) {
@@ -103,7 +101,7 @@ exports.create = async function(req, res) {
         }
         data = _.assign({}, _.pick(saveResult, 'id', 'content', 'created', 'name', 'email', 'reply', 'from', 'ip'));
     } catch (e) {
-        console.log(e);
+        // console.log(e);
         error = e.message;
     }
     res.json({
