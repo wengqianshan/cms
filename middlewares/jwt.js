@@ -15,6 +15,8 @@ exports.verify = async function (req, res, next) {
         token = req.headers.authorization.split(' ')[1];
     } else if (req.query && req.query.token) {
         token = req.query.token;
+    } else if (req.body && req.body.token) {
+        token = req.body.token;
     } else {
         return res.json({
             success: false,
