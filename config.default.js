@@ -75,7 +75,7 @@ let config = {
                 pass: ''
             }
         },
-        sgkey: ''
+        sgkey: '', // https://github.com/sendgrid/sendgrid-nodejs
         
     },
     // google analytics
