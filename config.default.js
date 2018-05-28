@@ -74,7 +74,8 @@ let config = {
                 user: '',
                 pass: ''
             }
-        }
+        },
+        sgkey: ''
         
     },
     // google analytics

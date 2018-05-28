@@ -60,7 +60,21 @@ exports.show = async function(req, res) {
 exports.create = async function(req, res) {
     // let obj = req.body
     let obj = _.pick(req.body, 'name', 'actions', 'description');
-    // TODO： 校验输入
+    
+    let actions = obj.actions;
+    obj.actions = _.uniq(actions);
+    //如果不是管理员，检查是否超出权限
+    if (req.Roles.indexOf('admin') === -1) {
+        let overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
+        if (overAuth.length > 0) {
+            return res.json({
+                success: false,
+                data: null,
+                error: '你不能操作如下权限:' + overAuth.join(',')
+            })
+        }
+    }
+    
     let user = req.user
     if (user) {
         obj.author = mongoose.Types.ObjectId(user._id)
