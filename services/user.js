@@ -9,7 +9,6 @@ let moment = require('moment')
 let config = require('../config');
 let core = require('../libs/core');
 let User = mongoose.model('User');
-let RoleService = require('./role');
 
 
 let Base = require('./base');
@@ -26,33 +25,6 @@ class Service extends Base {
         })
     }
 
-    register(obj) {
-        return new Promise(function (resolve, reject) {
-            if (!obj) {
-                return reject(null)
-            }
-            //默认角色
-            RoleService.read({ status: 202 }, (err, role) => {
-                console.log('role', role);
-                if (err || !role) {
-                    console.log('注册失败, 未开放角色:' + config.admin.role.user)
-                }
-                obj.roles = [role._id];
-                obj.reg_ip = core.getIp(req);
-                let user = new this.Model(obj);
-                user.save(function (err, result) {
-                    console.log(result);
-                    if (err) {
-                        console.log(err);
-
-                    } else {
-                        console.log('注册成功')
-                    }
-
-                });
-            });
-        })
-    }
     trend() {
         let now = new Date()
         let lastMonth = moment().subtract(3, 'month').format()

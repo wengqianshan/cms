@@ -133,6 +133,7 @@ exports.create = async function(req, res) {
     try {
         let role = await roleService.findOne({status: 202})
         obj.roles = [role._id]
+        obj.reg_ip = core.getIp(req)
         data = await userService.create(obj)
     } catch (e) {
         //error = e.message
