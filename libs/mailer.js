@@ -1,13 +1,9 @@
-const sendmail = require('sendmail')()
 const nodemailer = require('nodemailer')
+const sgMail = require('@sendgrid/mail');
 const config = require('../config')
 
 class Mailer {
-    constructor(options = {}) {
-      if (options.nodemailer) {
-        this.transporter = nodemailer.createTransport(config.mail.nodemailer)
-      }
-    }
+    constructor() {}
     /**
      * 描述
     from: '',
@@ -15,45 +11,52 @@ class Mailer {
     subject: '',
     html: '',
      **/
-    send(obj, callback) {
+    send(params) {
+        const type = config.mail.type
+        if (!type || !this[type]) {
+            return new Promise((resolve, reject) => {
+                reject('邮件服务类型错误')
+            })
+        }
+        return this[type](params)
+    }
+    nodemailer(params) {
+        const { to, from, subject, html } = params;
         return new Promise((resolve, reject) => {
-            if (this.transporter) {
-                this.transporter.sendMail({
-                    from: obj.from,
-                    to: obj.to,
-                    subject: obj.subject,
-                    html: obj.html
-                }, function(err, info) {
-                    if (!err) {
-                        resolve(info)
-                    } else {
-                        reject(err)
-                    }
-                    if (callback) {
-                        callback(err, info)
-                    }
-                    console.log(err, info, 'nodemailer')
-                })
-            } else {
-                sendmail({
-                    from: obj.from,
-                    to: obj.to,
-                    subject: obj.subject,
-                    html: obj.html
-                }, function(err, info) {
-                    if (!err) {
-                        resolve(info)
-                    } else {
-                        reject(err)
-                    }
-                    if (callback) {
-                        callback(err, info)
-                    }
-                    console.log(err, info, 'sendmail')
-                })
-            }
+            const transporter = nodemailer.createTransport(config.mail.options)
+            transporter.sendMail({
+                from,
+                to,
+                subject,
+                html,
+            }, (err, info) => {
+                if (!err) {
+                    resolve()
+                } else {
+                    reject(err)
+                }
+                console.log(err, info, 'nodemailer')
+            })
         })
-        
+    }
+    sendgrid(params) {
+        const {to, from, subject, html} = params;
+        return new Promise((resolve, reject) => {
+            sgMail.setApiKey(config.mail.options.key);
+            const msg = {
+                from,
+                to,
+                subject,
+                html,
+            };
+            sgMail.send(msg, (err, res) => {
+                if (!err) {
+                    resolve()
+                } else {
+                    reject(err)
+                }
+            });
+        })
     }
 }
 

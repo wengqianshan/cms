@@ -613,6 +613,17 @@ exports.forget = function(req, res) {
             return;
         }
         let obj = req.body;
+        // 日志
+        let ip = core.getIp(req);
+        let ua = req.get('User-Agent');
+        Log.add({
+            type: 'user',
+            action: 'forget',
+            status: 'start',
+            ip: ip,
+            ua: ua,
+            message: obj.username
+        })
         User.findOne({username: obj.username}, function(err, user) {
             //console.log(user);
             if(err || !user) {
@@ -634,14 +645,14 @@ exports.forget = function(req, res) {
                 }
                 
                 let url = req.headers.origin + req.originalUrl + '?hash=' + hash;
-                
+
                 mailer.send({
                     from: config.mail.from,
                     to: user.email,
                     subject: '找回密码',
                     html: '<p>你好，请点击<a href="' + url + '">此处</a>找回密码<br/>' + url + '</p>',
                   }).then((info) => {
-                    let message = '已邮件发到您的邮箱 ' + user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, '$1****$3$4');
+                    let message = '修改密码指令已发到您的邮箱 ' + user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, '$1****$3$4');
                     //console.log(err && err.stack);
                     //console.dir(reply);
                     res.render('server/info', {
