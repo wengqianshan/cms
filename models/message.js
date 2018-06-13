@@ -24,6 +24,10 @@ let MessageSchema = new Schema({
         type: String
     },
     content: String,
+    author: {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
     created: {
         type: Date,
         default: Date.now
