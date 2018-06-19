@@ -40,8 +40,8 @@ class Service extends Base {
     upload(req, res) {
         console.log('调试开始')
         
-        return new Promise(function (resolve, reject) {
-            uploader.post(req, res, function (result) {
+        return new Promise((resolve, reject) => {
+            uploader.post(req, res, (result) => {
                 console.log('上传结果', result);
 
                 if (!result || !result.files) {
@@ -78,7 +78,7 @@ class Service extends Base {
                 let json = {
                     files: []
                 };
-                result.files.forEach(function (item) {
+                result.files.forEach((item) => {
                     if (req.session.user) {
                         item.author = req.session.user._id;
                     }
@@ -86,7 +86,7 @@ class Service extends Base {
                     let fileObj = item; //_.pick(item, 'name', 'size', 'type', 'url');
                     console.log(fileObj);
                     let file = new this.Model(fileObj);
-                    file.save(function (err, obj) {
+                    file.save((err, obj) => {
                         if (err || !obj) {
                             console.log('保存file失败', err, obj);
                             return;

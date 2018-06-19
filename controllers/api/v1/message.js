@@ -5,9 +5,7 @@ let mongoose = require('mongoose');
 let xss = require('xss');
 let core = require('../../../libs/core');
 let MessageService = require('../../../services/message');
-let ContentService = require('../../../services/content');
 let messageService = new MessageService();
-let contentService = new ContentService();
 
 exports.all = async function(req, res) {
     let condition = {}
