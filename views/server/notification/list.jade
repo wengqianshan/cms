@@ -24,14 +24,14 @@ block content
                             td #{notification.from && notification.from.username}
                             td 
                                 each item in notification.to
-                                    span.badge.badge-default #{item.username}
+                                    span.badge.badge-default #{item && item.username}
                             //td #{notification.isRead ? '已读' : '未读'}
                             td
                                 each item in notification.unread
-                                    span.badge.badge-default #{item.username}
+                                    span.badge.badge-default #{item && item.username}
                             td
                                 each item in notification.read
-                                    span.badge.badge-default #{item.username}
+                                    span.badge.badge-default #{item && item.username}
                             td
                                 | #{moment(notification.created).format('LLL')}
                             td
