@@ -175,10 +175,10 @@ exports.del = function(req, res) {
         uploader.delete(url, function(e) {
             if (e) {
                 console.log('文件删除失败')
-                return res.json({
-                    success: false,
-                    error: e
-                });
+                // return res.json({
+                //     success: false,
+                //     error: e
+                // });
             }
             result.remove(function(err) {
                 if(req.xhr) {

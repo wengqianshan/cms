@@ -42,9 +42,8 @@ pre{
 }
 
 ::selection {
-}
-
-::-moz-selection {
+    background-color: #d61e9f;
+    color: #ffffff;
 }
 
 #container {

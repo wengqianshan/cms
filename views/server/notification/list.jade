@@ -21,7 +21,7 @@ block content
                         tr
                             td
                                 a(href='#{adminDir}/notification/#{notification.id}') #{notification.content}
-                            td #{notification.from.username}
+                            td #{notification.from && notification.from.username}
                             td 
                                 each item in notification.to
                                     span.badge.badge-default #{item.username}
