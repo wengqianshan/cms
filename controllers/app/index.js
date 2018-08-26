@@ -25,7 +25,17 @@ exports.index = async function(req, res) {
         let total = await contentService.count(condition)
         let pageInfo = core.createPage(req.query.page, total);
         let contents = await contentService.find(condition, null, {
-            populate: 'author gallery',
+            // populate: 'author gallery',
+            populate: [{
+                path: 'author',
+                select: 'name avatar'
+            }, {
+                path: 'gallery',
+                select: 'name url md_url sm_url type',
+                options: {
+                    limit: 5
+                }
+            }],
             skip: pageInfo.start,
             limit: pageInfo.pageSize,
             sort: {

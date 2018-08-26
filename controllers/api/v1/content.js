@@ -17,6 +17,17 @@ exports.all = async function(req, res) {
         pageInfo = core.createPage(req.query.page, total);
 
         data = await contentService.find(condition, null, {
+            populate: [{
+                path: 'author',
+                select: 'name avatar'
+            }, {
+                path: 'gallery',
+                match: {type: /image/},
+                select: 'name url md_url sm_url type',
+                options: {
+                    limit: 3
+                }
+            }],
             skip: pageInfo.start,
             limit: pageInfo.pageSize,
             sort: {
@@ -43,7 +54,17 @@ exports.show = async function(req, res) {
     let data = null
     let error
     try {
-        data = await contentService.findById(id)
+        data = await contentService.findById(id, null, {
+            populate: [{
+                path: 'author',
+                select: 'name avatar'
+            }, {
+                path: 'gallery',
+                match: { type: /image/ },
+                select: 'name url md_url sm_url type'
+            }]
+        })
+        console.log(data);
     } catch (e) {
         // error = e.message
         error = '系统异常'

@@ -42,14 +42,9 @@ class Base {
             })
         })
     }
-    findById(id, populates = []) {
+    findById(id, projection, options) {
         return new Promise((resolve, reject) => {
-            let query = this.Model.findById(id)
-            if (populates && populates.length > 0) {
-                populates.forEach(function (item) {
-                    query = query.populate(item);
-                })
-            }
+            let query = this.Model.findById(id, projection, options);
             query.exec(function (err, result) {
                 if (err) {
                     reject(err)

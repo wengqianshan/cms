@@ -47,8 +47,9 @@ module.exports = function(opts) {
     };
     //构造文件url
     let initUrls = function(host, name) {
-        let baseUrl = (options.useSSL ? 'https:' : 'http:') +
-            '//' + host + options.uploadUrl;
+        // let baseUrl = (options.useSSL ? 'https:' : 'http:') +
+        //     '//' + host + options.uploadUrl;
+        let baseUrl = options.uploadUrl;
         let url = baseUrl + encodeURIComponent(name);
         return url;
     };
