@@ -57,7 +57,7 @@ exports.upload = async function(req, res) {
     let result = null;
     let error;
     try {
-        result = await fileService.upload(req, res);
+        result = await fileService.upload(req.files.files);
     } catch (e) {
         error = '上传失败'
     }

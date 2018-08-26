@@ -57,12 +57,14 @@ exports.add = function(req, res) {
             Menu: 'add'
         });
     } else if (req.method === 'POST') {
-        //console.log(req.files);
+        // console.log(req.files);
         //console.log(req.body);
-        uploader.post(req, res, function (result) {
+        uploader.post(req.files.files, function (result) {
             console.log('上传结果', result);
             if(!result || !result.files) {
-                return;
+                return {
+                    files: []
+                };
             }
             let id = req.body.id;
             //如果是修改文件，则不保存到服务器

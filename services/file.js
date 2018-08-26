@@ -37,11 +37,10 @@ class Service extends Base {
         })
     }
 
-    upload(req, res) {
+    upload(files) {
         console.log('调试开始')
-        
         return new Promise((resolve, reject) => {
-            uploader.post(req, res, (result) => {
+            uploader.post(files, (result) => {
                 console.log('上传结果', result);
 
                 if (!result || !result.files) {

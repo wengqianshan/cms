@@ -46,11 +46,8 @@ module.exports = function(opts) {
         return name;
     };
     //构造文件url
-    let initUrls = function(host, name) {
-        // let baseUrl = (options.useSSL ? 'https:' : 'http:') +
-        //     '//' + host + options.uploadUrl;
-        let baseUrl = options.uploadUrl;
-        let url = baseUrl + encodeURIComponent(name);
+    let initUrls = function(name) {
+        let url = path.join(options.uploadUrl, encodeURIComponent(name));
         return url;
     };
     let validate = function(file) {
@@ -92,8 +89,7 @@ module.exports = function(opts) {
             callback && callback.call(null, '文件类型错误');
         }
     };
-    Uploader.post = function(req, res, callback) {
-        let files = req.files.files;
+    Uploader.post = function(files, callback) {
         if (!files) {
             return callback.call(null, null)
         }
@@ -142,7 +138,7 @@ module.exports = function(opts) {
                 let sName = safeName(file.name);
                 fs.renameSync(file.path, options.uploadDir + '/' + sName);
                 result.push({
-                    url: initUrls(req.headers.host, sName),
+                    url: initUrls(sName),
                     name: sName,
                     size: file.size,
                     type: file.type
