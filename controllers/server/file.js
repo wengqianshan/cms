@@ -8,6 +8,9 @@ let _ = require('lodash')
 let config = require('../../config')
 let core = require('../../libs/core')
 
+let FileService = require('../../services/file')
+let fileService = new FileService()
+
 let uploader = require('../../libs/uploader')(config.upload);
 //列表
 exports.list = function(req, res) {
@@ -51,71 +54,21 @@ exports.one = function(req, res) {
     });
 };
 //添加
-exports.add = function(req, res) {
+exports.add = async function(req, res) {
     if (req.method === 'GET') {
         res.render('server/file/add', {
             Menu: 'add'
         });
     } else if (req.method === 'POST') {
-        // console.log(req.files);
-        //console.log(req.body);
-        uploader.post(req.files.files, function (result) {
-            console.log('上传结果', result);
-            if(!result || !result.files) {
-                return {
-                    files: []
-                };
-            }
-            let id = req.body.id;
-            //如果是修改文件，则不保存到服务器
-            if(id) {
-                console.log('修改文件');
-                File.findById(id).populate('author').exec(function(err, file) {
-                    let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-                    let isAuthor = file.author && ((file.author._id + '') === req.session.user._id);
-
-                    if(!isAdmin && !isAuthor) {
-                        return res.render('server/info', {
-                            message: '没有权限'
-                        });
-                    }
-                    //TODO: 删除之前的文件 uploader.delete()?
-                    fs.unlink(config.upload.uploadDir + '/' + file.name, function(err) {
-                        console.log('删除成功', config.upload.uploadDir + '/' + file.name)
-                    });
-                    // todo: 更新文件信息
-
-                    res.json(result);
-                });
-                return;
-            }
-            let len = result.files.length;
-            let json = {
-                files: []
-            };
-            result.files.forEach(function(item) {
-                if(req.session.user) {
-                    item.author = req.session.user._id;
-                }
-                //这里还可以处理url
-                let fileObj = item;//_.pick(item, 'name', 'size', 'type', 'url');
-                console.log(fileObj);
-                let file = new File(fileObj);
-                file.save(function(err, obj) {
-                    if(err || !obj) {
-                        console.log('保存file失败', err, obj);
-                        return;
-                    }
-                    len --;
-                    item._id = obj._id;
-                    json.files.push(item);
-                    if(len === 0) {
-                        console.log(json)
-                        res.json(json);
-                    }
-                });
+        let result = {};
+        try {
+            result = await fileService.upload(req.files.files, {
+                author: req.session.user._id
             });
-        });
+        } catch (e) {
+            console.log(e)
+        }
+        res.json(result);
     }
 };
 exports.edit = function(req, res) {

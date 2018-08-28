@@ -64,7 +64,7 @@ exports.show = async function(req, res) {
                 select: 'name url md_url sm_url type'
             }]
         })
-        console.log(data);
+        // console.log(data);
     } catch (e) {
         // error = e.message
         error = '系统异常'

@@ -37,7 +37,7 @@ class Service extends Base {
         })
     }
 
-    upload(files) {
+    upload(files, fields = {}) {
         console.log('调试开始')
         return new Promise((resolve, reject) => {
             uploader.post(files, (result) => {
@@ -49,52 +49,29 @@ class Service extends Base {
                         message: '未知错误'
                     });
                 }
-                let id = req.body.id;
-                //如果是修改文件，则不保存到服务器
-                if (id) {
-                    console.log('修改文件');
-                    this.Model.findById(id).populate('author').exec(function (err, file) {
-                        let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-                        let isAuthor = file.author && ((file.author._id + '') === req.session.user._id);
-
-                        if (!isAdmin && !isAuthor) {
-                            return reject({
-                                code: -1,
-                                message: '没有权限'
-                            });
-                        }
-                        //TODO: 删除之前的文件 uploader.delete()?
-                        fs.unlink(config.upload.uploadDir + '/' + file.name, function (err) {
-                            console.log('删除成功', config.upload.uploadDir + '/' + file.name)
-                        });
-                        // todo: 更新文件信息
-
-                        resolve(result);
-                    });
-                    return;
-                }
                 let len = result.files.length;
                 let json = {
                     files: []
                 };
                 result.files.forEach((item) => {
-                    if (req.session.user) {
-                        item.author = req.session.user._id;
-                    }
+                    Object.keys(fields).forEach((key) => {
+                        item[key] = fields[key]
+                    })
                     //这里还可以处理url
                     let fileObj = item; //_.pick(item, 'name', 'size', 'type', 'url');
-                    console.log(fileObj);
+                    // console.log('fileObj: ', fileObj);
                     let file = new this.Model(fileObj);
                     file.save((err, obj) => {
                         if (err || !obj) {
                             console.log('保存file失败', err, obj);
-                            return;
+                            // return;
                         }
+                        // TODO: 改成异步
                         len--;
                         item._id = obj._id;
                         json.files.push(item);
                         if (len === 0) {
-                            console.log(json)
+                            // console.log(json)
                             resolve(json);
                         }
                     });
