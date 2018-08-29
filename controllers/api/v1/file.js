@@ -56,9 +56,17 @@ exports.show = async function(req, res) {
 exports.upload = async function(req, res) {
     let result = null;
     let error;
+    const uid = req.body.uid;
+    if (!uid) {
+        error = '缺少参数 uid';
+        return res.json({
+            success: !error,
+            error: error
+        });
+    }
     try {
         result = await fileService.upload(req.files.files, {
-            author: req.session.user._id
+            author: req.body.uid || ''
         });
     } catch (e) {
         error = '上传失败'
