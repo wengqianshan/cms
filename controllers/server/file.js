@@ -11,7 +11,8 @@ let core = require('../../libs/core')
 let FileService = require('../../services/file')
 let fileService = new FileService()
 
-let uploader = require('../../libs/uploader')(config.upload);
+const Uploader = require('../../libs/uploader');
+const uploader = new Uploader();
 //列表
 exports.list = function(req, res) {
     //console.log(req.cookies['XSRF-TOKEN'])

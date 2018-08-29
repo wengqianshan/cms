@@ -8,8 +8,8 @@ let mongoose = require('mongoose');
 let _ = require('lodash');
 let File = mongoose.model('File');
 
-let config = require('../config')
-let uploader = require('../libs/uploader')(config.upload);
+const Uploader = require('../libs/uploader');
+const uploader = new Uploader();
 
 let Base = require('./base');
 
