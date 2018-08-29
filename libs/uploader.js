@@ -20,7 +20,6 @@ let nameCountRegexp = /(?:(?: \(([\d]+)\))?(\.[^.]+))?$/
 class Uploader {
     constructor(opts) {
         this.options = Object.assign(config.upload, opts);
-        console.log('options: ', this.options);
         this.checkExists(this.options.tmpDir);
         this.checkExists(this.options.uploadDir);
         this.client = null
