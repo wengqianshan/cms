@@ -22,7 +22,7 @@ exports.all = async function(req, res) {
                 select: 'name avatar'
             }, {
                 path: 'gallery',
-                match: {type: /image/},
+                match: {type: /(image)|(video)/},
                 select: 'name url md_url sm_url type covers',
                 options: {
                     limit: 3
@@ -60,7 +60,7 @@ exports.show = async function(req, res) {
                 select: 'name avatar'
             }, {
                 path: 'gallery',
-                match: { type: /image/ },
+                match: { type: /(image)|(video)/ },
                 select: 'name url md_url sm_url type covers'
             }]
         })
