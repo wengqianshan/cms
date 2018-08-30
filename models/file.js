@@ -22,6 +22,7 @@ let FileSchema = new Schema({
     sm_url: {
         type: String
     },
+    covers: Array,
     size: Number,
     type: String,
     description: String,

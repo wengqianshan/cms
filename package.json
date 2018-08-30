@@ -18,6 +18,7 @@
     "cookie-parser": "~1.4.3",
     "csurf": "^1.8.3",
     "debug": "~2.6.3",
+    "del": "^3.0.0",
     "express": "~4.15.2",
     "express-session": "^1.2.0",
     "gravatar": "^1.0.6",
@@ -34,6 +35,7 @@
     "qs": "^2.3.3",
     "serve-favicon": "^2.4.2",
     "strip": "0.0.7",
+    "video-extracter": "^1.0.0",
     "xss": "^0.3.3"
   },
   "devDependencies": {

@@ -61,7 +61,7 @@ exports.show = async function(req, res) {
             }, {
                 path: 'gallery',
                 match: { type: /image/ },
-                select: 'name url md_url sm_url type'
+                select: 'name url md_url sm_url type covers'
             }]
         })
         // console.log(data);
