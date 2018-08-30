@@ -91,65 +91,68 @@ class Uploader {
         }
     }
 
-    post(files, callback) {
-        if (!files) {
-            return callback.call(null, null)
-        }
-        let len = files.length;
-        if (len < 1) {
-            return;
-        }
-        let result = [];
-        //七牛
-        if (this.options.storage.type === 'qiniu') {
-            files.forEach((file) => {
-                if (!this.validate(file)) {
-                    fs.unlink(file.path);
-                    return;
-                }
+    move(file) {
+        return new Promise((resolve, reject) => {
+            if (this.options.storage.type === 'qiqiu') {
                 client.uploadFile(file.path, (err, qf) => {
-                    //console.log(qf);
+                    if (err) {
+                        return reject(err);
+                    }
                     try {
                         fs.unlink(file.path);
                     } catch (e) {
                         console.log(e);
                     }
-                    result.push({
+                    resolve({
                         url: qf.url,
                         md_url: qf.url + '?imageView/1/w/300',
                         sm_url: qf.url + '?imageView/1/w/100',
                         name: file.name,
                         size: file.size,
                         type: file.type
-                    });
-                    len--;
-                    if (len <= 0) {
-                        callback.call(null, {
-                            files: result
-                        });
-                    }
-                });
-            });
-        } else {
-            //本地上传
-            files.forEach((file) => {
-                if (!this.validate(file)) {
-                    fs.unlink(file.path);
-                    return;
-                }
-                let sName = this.safeName(file.name);
-                fs.renameSync(file.path, this.options.uploadDir + '/' + sName);
-                result.push({
-                    url: this.initUrls(sName),
-                    name: sName,
-                    size: file.size,
-                    type: file.type
+                    })
                 })
-            });
-            callback.call(null, {
-                files: result
-            });
+            } else {
+                const safeName = this.safeName(file.name);
+                const filePath = path.join(this.options.uploadDir, safeName);
+                try {
+                    fs.renameSync(file.path, filePath);
+                    resolve({
+                        url: this.initUrls(safeName),
+                        name: safeName,
+                        size: file.size,
+                        type: file.type
+                    });
+                } catch (e) {
+                    reject(e.message);
+                }
+            }
+        });
+    }
+
+    post(files, callback) {
+        if (!files || files.length < 1) {
+            return callback();
         }
+        const fns = [];
+        files.forEach((file) => {
+            if (!this.validate(file)) {
+                fs.unlink(file.path);
+                return;
+            }
+            fns.push(this.move(file));
+        });
+        Promise.all(fns).then((res) => {
+            // console.log('promise: ', res);
+            callback({
+                files: res
+            });
+        }).catch(e => {
+            // console.log(e)
+            callback({
+                files: []
+            });
+        });
     }
 
 
