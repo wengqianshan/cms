@@ -16,8 +16,11 @@ block content
                         each content in contents
                             .item
                                 if (content.gallery && content.gallery.length > 0)
-                                    .image
-                                        img(src='#{content.gallery[0].sm_url || content.gallery[0].url}')
+                                    - var file = content.gallery[0]
+                                    - var url = file.type.indexOf('video') > -1 ? file.covers && file.covers[0] : (file.sm_url || file.url)
+                                    if (url)
+                                        .image
+                                            img(src='#{url}')
                                 .content
                                     a.ui.large.header(href='/content/#{content._id}') #{content.title}
                                     .meta

@@ -106,6 +106,9 @@ class Uploader {
             let coverData = {};
             if (file.type.indexOf('video') > -1) {
                 coverData = await videoExtracter(file.path, {
+                    settings: {
+                        number: 3
+                    },
                     dirname: path.join(this.options.uploadDir, 'covers')
                 });
                 console.log('covers: ', coverData);

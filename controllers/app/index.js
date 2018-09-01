@@ -31,7 +31,7 @@ exports.index = async function(req, res) {
                 select: 'name avatar'
             }, {
                 path: 'gallery',
-                select: 'name url md_url sm_url type',
+                select: 'name url md_url sm_url type covers',
                 options: {
                     limit: 5
                 }
