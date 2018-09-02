@@ -9,12 +9,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@sendgrid/mail": "^6.2.1",
+    "@sendgrid/mail": "^6.3.1",
     "axios": "^0.16.0",
     "body-parser": "~1.17.1",
-    "compression": "^1.6.2",
+    "compression": "^1.7.3",
     "connect-multiparty": "^1.0.5",
-    "connect-redis": "^3.2.0",
+    "connect-redis": "^3.3.3",
     "cookie-parser": "~1.4.3",
     "csurf": "^1.8.3",
     "debug": "~2.6.3",
@@ -24,22 +24,22 @@
     "gravatar": "^1.0.6",
     "jade": "~1.11.0",
     "jsonwebtoken": "^7.3.0",
-    "lodash": "^4.17.4",
-    "marked": "^0.3.3",
+    "lodash": "^4.17.10",
+    "marked": "^0.3.19",
     "mkdirp": "^0.5.0",
-    "moment": "^2.18.0",
-    "mongoose": "^5.1.0",
+    "moment": "^2.22.2",
+    "mongoose": "5.2.8",
     "morgan": "~1.8.1",
-    "nodemailer": "^4.0.1",
+    "nodemailer": "^4.6.8",
     "qn": "^0.2.2",
     "qs": "^2.3.3",
-    "serve-favicon": "^2.4.2",
+    "serve-favicon": "^2.5.0",
     "strip": "0.0.7",
     "video-extracter": "^1.0.0",
-    "xss": "^0.3.3"
+    "xss": "^0.3.8"
   },
   "devDependencies": {
     "cross-env": "^4.0.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.18.4"
   }
 }

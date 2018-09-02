@@ -6,7 +6,7 @@ let config = {
     env: process.env.NODE_ENV || 'development', // development   production
     //mongodb配置信息
     mongodb: {
-        uri: 'mongodb://localhost/cms',
+        uri: 'mongodb://127.0.0.1:27017/cms',
         options: {}
     },
     //redis服务，用来session维持，非必须

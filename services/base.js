@@ -1,4 +1,5 @@
 'use strict';
+// mongoose api https://mongoosejs.com/docs/api.html#model_Model.create
 
 let _ = require('lodash')
 
@@ -8,9 +9,9 @@ class Base {
             this[i] = props[i];
         }
     }
-    count(condition = {}) {
+    count(filter = {}) {
         return new Promise((resolve, reject) => {
-            this.Model.count(condition, function (err, total) {
+            this.Model.estimatedDocumentCount(filter, function (err, total) {
                 if (err) {
                     reject(err)
                 } else {
@@ -54,10 +55,10 @@ class Base {
             });
         })
     }
-    create(obj) {
+    create(doc) {
         return new Promise((resolve, reject) => {
-            let user = new this.Model(obj);
-            user.save(function (err, result) {
+            let model = new this.Model(doc);
+            model.save(function (err, result) {
                 if (err) {
                     reject(err)
                 } else {
