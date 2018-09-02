@@ -24,12 +24,12 @@ exports.list = function (req, res) {
     let query = File.find(condition).populate('author');
     //分页
     let pageInfo = util.createPage(req.query.page, total);
-    console.log(pageInfo)
+    // console.log(pageInfo)
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);
     query.sort({ created: -1 });
     query.exec(function (err, results) {
-      console.log(results)
+      // console.log(results)
       res.render('server/file/list', {
         files: results,
         pageInfo: pageInfo,
@@ -42,7 +42,7 @@ exports.list = function (req, res) {
 exports.one = function (req, res) {
   let id = req.params.id;
   File.findById(id).populate('author').exec(function (err, result) {
-    console.log(result);
+    // console.log(result);
     if (!result) {
       return res.render('server/info', {
         message: '该文件不存在'
@@ -67,7 +67,7 @@ exports.add = async function (req, res) {
         author: req.session.user._id
       });
     } catch (e) {
-      console.log(e)
+      // console.log(e)
     }
     res.json(result);
   }
@@ -118,7 +118,6 @@ exports.del = async function (req, res) {
       select: '_id name avatar'
     }]
   });
-  console.log(file);
   const isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
   const isAuthor = file.author && ((file.author._id + '') === req.session.user._id);
   if (!isAdmin && !isAuthor) {
@@ -132,7 +131,7 @@ exports.del = async function (req, res) {
   try {
     await fileService.del(id);
   } catch (e) {
-    console.log(e)
+    // console.log(e)
     error = e.message;
   }
   return res.json({

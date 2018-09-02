@@ -84,7 +84,7 @@ class Service extends Base {
         file.remove((err, product) => {
           console.log('文件数据库删除结果: ', err);
           if (err) {
-            return reject(err)
+            reject(err)
           } else {
             resolve(product)
           }
