@@ -7,7 +7,7 @@ let Category = mongoose.model('Category')
 let _ = require('lodash')
 let File = mongoose.model('File')
 let config = require('../../config')
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 let ContentService = require('../../services/content')
 let contentService = new ContentService()
 
@@ -23,7 +23,7 @@ exports.index = async function (req, res) {
 
   try {
     let total = await contentService.count(condition)
-    let pageInfo = core.createPage(req.query.page, total);
+    let pageInfo = util.createPage(req.query.page, total);
     let contents = await contentService.find(condition, null, {
       // populate: 'author gallery',
       populate: [{
@@ -81,7 +81,7 @@ exports.contact = function (req, res) {
     });
   } else if (req.method === 'POST') {
     let obj = _.pick(req.body, 'name', 'email', 'mobile', 'address', 'content');
-    obj.ip = core.getIp(req);
+    obj.ip = util.getIp(req);
     let contact = new Message(obj);
     contact.save(function (err, result) {
       console.log(err, result);

@@ -2,7 +2,7 @@
 
 let express = require('express')
 let router = express.Router()
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 let action = require('../../middlewares/action')
 let content = require('../../controllers/server/content')
 
@@ -11,7 +11,7 @@ router.use(function (req, res, next) {
   console.log('内容页: ' + Date.now());
   res.locals.Path = 'content';
   if (!req.session.user) {
-    let path = core.translateAdminDir('/user/login');
+    let path = util.translateAdminDir('/user/login');
     return res.redirect(path);
   }
   next();
@@ -28,6 +28,6 @@ router.route('/:id/del').all(action.checkAction('CONTENT_DELETE'), content.del);
 
 
 module.exports = function (app) {
-  let path = core.translateAdminDir('/content');
+  let path = util.translateAdminDir('/content');
   app.use(path, router);
 };

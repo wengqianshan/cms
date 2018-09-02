@@ -4,7 +4,7 @@ let mongoose = require('mongoose')
 let Comment = mongoose.model('Comment')
 let Content = mongoose.model('Content')
 let Category = mongoose.model('Category')
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 
 //列表
 exports.list = function (req, res) {
@@ -17,7 +17,7 @@ exports.list = function (req, res) {
   Content.count(condition, function (err, total) {
     let query = Content.find(condition).populate('author', 'username name email');
     //分页
-    let pageInfo = core.createPage(req.query.page, total, 30);
+    let pageInfo = util.createPage(req.query.page, total, 30);
     //console.log(pageInfo);
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);

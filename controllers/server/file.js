@@ -6,12 +6,12 @@ let path = require('path')
 let File = mongoose.model('File')
 let _ = require('lodash')
 let config = require('../../config')
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 
 let FileService = require('../../services/file')
 let fileService = new FileService()
 
-const Uploader = require('../../libs/uploader');
+const Uploader = require('../../lib/uploader');
 const uploader = new Uploader();
 //列表
 exports.list = function (req, res) {
@@ -23,7 +23,7 @@ exports.list = function (req, res) {
   File.count(condition, function (err, total) {
     let query = File.find(condition).populate('author');
     //分页
-    let pageInfo = core.createPage(req.query.page, total);
+    let pageInfo = util.createPage(req.query.page, total);
     console.log(pageInfo)
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);
@@ -110,48 +110,33 @@ exports.edit = function (req, res) {
   }
 };
 //删除
-exports.del = function (req, res) {
-  let id = req.params.id;
-  File.findById(id).populate('author').exec(function (err, result) {
-    if (!result) {
-      return res.render('server/info', {
-        message: '文件不存在'
-      });
-    }
-    let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-    let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
-
-    if (!isAdmin && !isAuthor) {
-      return res.render('server/info', {
-        message: '没有权限'
-      });
-    }
-    //console.log(result);
-    let url = result.url;
-    uploader.delete(url, function (e) {
-      if (e) {
-        console.log('文件删除失败')
-        // return res.json({
-        //     success: false,
-        //     error: e
-        // });
-      }
-      result.remove(function (err) {
-        if (req.xhr) {
-          return res.json({
-            success: !err,
-            error: err
-          });
-        }
-        if (err) {
-          return res.render('server/info', {
-            message: '删除失败'
-          });
-        }
-        res.render('server/info', {
-          message: '删除成功'
-        });
-      })
-    })
+exports.del = async function (req, res) {
+  const id = req.params.id;
+  const file = await fileService.findById(id, null, {
+    populate: [{
+      path: 'author',
+      select: '_id name avatar'
+    }]
+  });
+  console.log(file);
+  const isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+  const isAuthor = file.author && ((file.author._id + '') === req.session.user._id);
+  if (!isAdmin && !isAuthor) {
+    return res.json({
+      success: false,
+      error: '没有权限'
+    });
+  }
+  
+  let error = null;
+  try {
+    await fileService.del(id);
+  } catch (e) {
+    console.log(e)
+    error = e.message;
+  }
+  return res.json({
+    success: !error,
+    error: error
   });
 };

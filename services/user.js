@@ -6,8 +6,7 @@
 let mongoose = require('mongoose');
 let _ = require('lodash');
 let moment = require('moment')
-let config = require('../config');
-let core = require('../libs/core');
+let util = require('../lib/util');
 let User = mongoose.model('User');
 
 

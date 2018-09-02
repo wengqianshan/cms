@@ -3,7 +3,7 @@
 let mongoose = require('mongoose')
 let _ = require('lodash')
 let jwt = require('jsonwebtoken')
-let core = require('../../../libs/core')
+let util = require('../../../lib/util')
 let UserService = require('../../../services/user')
 let userService = new UserService()
 let RoleService = require('../../../services/role')
@@ -11,7 +11,7 @@ let roleService = new RoleService();
 let config = require('../../../config')
 
 exports.auth = async function (req, res) {
-  let ip = core.getIp(req);
+  let ip = util.getIp(req);
   let obj = req.body
   let data = null
   let error
@@ -75,7 +75,7 @@ exports.all = async function (req, res) {
   try {
     let total = await userService.count(condition)
     //分页
-    pageInfo = core.createPage(req.query.page, total);
+    pageInfo = util.createPage(req.query.page, total);
 
     let users = await userService.find(condition, null, {
       skip: pageInfo.start,
@@ -133,7 +133,7 @@ exports.create = async function (req, res) {
   try {
     let role = await roleService.findOne({ status: 202 })
     obj.roles = [role._id]
-    obj.reg_ip = core.getIp(req)
+    obj.reg_ip = util.getIp(req)
     data = await userService.create(obj)
   } catch (e) {
     //error = e.message

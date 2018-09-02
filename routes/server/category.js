@@ -2,7 +2,7 @@
 
 let express = require('express')
 let router = express.Router()
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 let action = require('../../middlewares/action')
 let category = require('../../controllers/server/category')
 
@@ -11,7 +11,7 @@ router.use(function (req, res, next) {
   console.log('分类页: ' + Date.now());
   res.locals.Path = 'category';
   if (!req.session.user) {
-    let path = core.translateAdminDir('/user/login');
+    let path = util.translateAdminDir('/user/login');
     return res.redirect(path);
   }
   next();
@@ -28,6 +28,6 @@ router.route('/:id/edit').all(action.checkAction('CATEGORY_UPDATE'), category.ed
 router.route('/:id/del').all(action.checkAction('CATEGORY_DELETE'), category.del);
 
 module.exports = function (app) {
-  let path = core.translateAdminDir('/category');
+  let path = util.translateAdminDir('/category');
   app.use(path, router);
 };

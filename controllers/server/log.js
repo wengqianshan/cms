@@ -2,7 +2,7 @@
 
 let mongoose = require('mongoose')
 let Log = mongoose.model('Log')
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 
 //列表
 exports.list = function (req, res) {
@@ -13,7 +13,7 @@ exports.list = function (req, res) {
   Log.count(condition, function (err, total) {
     let query = Log.find(condition);
     //分页
-    let pageInfo = core.createPage(req.query.page, total);
+    let pageInfo = util.createPage(req.query.page, total);
     //console.log(pageInfo);
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);

@@ -4,7 +4,7 @@ let mongoose = require('mongoose')
 let Role = mongoose.model('Role')
 let userController = require('./user')
 let _ = require('lodash')
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 const ACTIONS = require('../../actions')
 
 //列表
@@ -16,7 +16,7 @@ exports.list = function (req, res) {
   Role.count(condition, function (err, total) {
     let query = Role.find(condition).populate('author');
     //分页
-    let pageInfo = core.createPage(req.query.page, total);
+    let pageInfo = util.createPage(req.query.page, total);
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);
     query.sort({ created: -1 });

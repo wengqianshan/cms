@@ -2,7 +2,7 @@
 
 let express = require('express')
 let router = express.Router()
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 let action = require('../../middlewares/action')
 let role = require('../../controllers/server/role')
 
@@ -11,7 +11,7 @@ router.use(function (req, res, next) {
   console.log('角色页: ' + Date.now());
   res.locals.Path = 'role';
   if (!req.session.user) {
-    let path = core.translateAdminDir('/user/login');
+    let path = util.translateAdminDir('/user/login');
     return res.redirect(path);
   }
   next();
@@ -29,6 +29,6 @@ router.route('/:id/del').all(action.checkAction('ROLE_DELETE'), role.del);
 
 
 module.exports = function (app) {
-  let path = core.translateAdminDir('/role');
+  let path = util.translateAdminDir('/role');
   app.use(path, router);
 };

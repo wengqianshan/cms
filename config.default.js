@@ -36,8 +36,8 @@ let config = {
     }
   },
   upload: {
-    tmpDir: appPath + '/public/uploaded/tmp',
-    uploadDir: appPath + '/public/uploaded/files',
+    tmpDir: appPath + '/public/uploaded/tmp/',
+    uploadDir: appPath + '/public/uploaded/files/',
     uploadUrl: '/uploaded/files/',
     maxPostSize: 100 * 1024 * 1024, // 100M
     minFileSize: 1,

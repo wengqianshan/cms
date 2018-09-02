@@ -2,7 +2,7 @@
 
 let _ = require('lodash')
 let mongoose = require('mongoose')
-let core = require('../../../libs/core')
+let util = require('../../../lib/util')
 let ContentService = require('../../../services/content')
 let contentService = new ContentService();
 
@@ -14,7 +14,7 @@ exports.all = async function (req, res) {
   try {
     let total = await contentService.count(condition)
     //分页
-    pageInfo = core.createPage(req.query.page, total);
+    pageInfo = util.createPage(req.query.page, total);
 
     data = await contentService.find(condition, null, {
       populate: [{

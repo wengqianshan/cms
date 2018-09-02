@@ -3,7 +3,7 @@
 let _ = require('lodash');
 let mongoose = require('mongoose');
 let xss = require('xss');
-let core = require('../../../libs/core');
+let util = require('../../../lib/util');
 let CommentService = require('../../../services/comment');
 let ContentService = require('../../../services/content');
 let commentService = new CommentService();
@@ -17,7 +17,7 @@ exports.all = async function (req, res) {
   try {
     let total = await commentService.count(condition)
     //分页
-    pageInfo = core.createPage(req.query.page, total);
+    pageInfo = util.createPage(req.query.page, total);
 
     data = await commentService.find(condition, null, {
       skip: pageInfo.start,
@@ -70,7 +70,7 @@ exports.create = async function (req, res) {
     });
   }
   let obj = _.pick(body, 'content', 'from', 'reply', 'name', 'email', 'website');
-  obj.ip = core.getIp(req);
+  obj.ip = util.getIp(req);
   obj.content = xss(obj.content);
 
   let user = req.user

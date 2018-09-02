@@ -6,7 +6,7 @@ let Role = mongoose.model('Role')
 let userController = require('./user')
 let _ = require('lodash')
 let config = require('../../config')
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 const ACTIONS = require('../../actions')
 
 //管理员资料

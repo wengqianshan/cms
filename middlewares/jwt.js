@@ -2,7 +2,7 @@
 
 let jwt = require('jsonwebtoken')
 let config = require('../config')
-let core = require('../libs/core')
+let util = require('../lib/util')
 let UserService = require('../services/user')
 let userService = new UserService()
 let RoleService = require('../services/role')
@@ -43,8 +43,8 @@ exports.verify = async function (req, res, next) {
         }
       }
       user.roles = roleArray
-      let roles = core.getRoles(user);
-      let actions = core.getActions(user);
+      let roles = util.getRoles(user);
+      let actions = util.getActions(user);
       req.Roles = roles;
       req.Actions = actions;
       req.user = user
@@ -63,8 +63,8 @@ exports.verify = async function (req, res, next) {
         error = 'token过期，请重新登录'
         return
       }
-      let roles = core.getRoles(user);
-      let actions = core.getActions(user);
+      let roles = util.getRoles(user);
+      let actions = util.getActions(user);
       //console.log(roles, actions, '----------------')
       req.Roles = roles;
       req.Actions = actions;

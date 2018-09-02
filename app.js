@@ -15,7 +15,7 @@ let csrf = require('csurf');
 let moment = require('moment');
 let _ = require('lodash');
 let multipart = require('connect-multiparty'); //解析文件
-let core = require('./libs/core');
+let util = require('./lib/util');
 let xss = require('xss')
 let marked = require('marked');
 marked.setOptions({
@@ -47,7 +47,7 @@ mongoose.connect(config.mongodb.uri, { useNewUrlParser: true }).then(function (d
   console.log('mongodb连接失败', err)
 })
 //载入数据模型
-core.walk(appPath + '/models', null, function (path) {
+util.walk(appPath + '/models', null, function (path) {
   require(path);
 });
 
@@ -64,7 +64,7 @@ app.locals = {
   pretty: true,
   moment: moment,
   _: _,
-  core: core,
+  util: util,
   config: config,
   adminDir: config.admin.dir ? ('/' + config.admin.dir) : '',
   gravatar: gravatar,
@@ -90,7 +90,7 @@ app.use(session({
 app.use(multipart({
   uploadDir: config.upload.tmpDir
 }));
-core.walk(appPath + '/routes/api', 'middlewares', function (path) {
+util.walk(appPath + '/routes/api', 'middlewares', function (path) {
   require(path)(app);
 });
 app.use(csrf());
@@ -109,8 +109,8 @@ app.use(function (req, res, next) {
   if (req.session && req.session.user) {
     res.locals.User = req.session.user;
     //角色信息
-    let roles = core.getRoles(req.session.user);
-    let actions = core.getActions(req.session.user);
+    let roles = util.getRoles(req.session.user);
+    let actions = util.getActions(req.session.user);
     req.Roles = roles;
     req.Actions = actions;
     res.locals.Roles = roles;
@@ -126,10 +126,10 @@ app.use(function (req, res, next) {
 });
 
 //路由控制
-core.walk(appPath + '/routes/app', 'middlewares', function (path) {
+util.walk(appPath + '/routes/app', 'middlewares', function (path) {
   require(path)(app);
 });
-core.walk(appPath + '/routes/server', 'middlewares', function (path) {
+util.walk(appPath + '/routes/server', 'middlewares', function (path) {
   require(path)(app);
 });
 

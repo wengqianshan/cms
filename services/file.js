@@ -8,7 +8,7 @@ let mongoose = require('mongoose');
 let _ = require('lodash');
 let File = mongoose.model('File');
 
-const Uploader = require('../libs/uploader');
+const Uploader = require('../lib/uploader');
 const uploader = new Uploader();
 
 let Base = require('./base');
@@ -17,24 +17,6 @@ class Service extends Base {
   constructor(props) {
     super(props);
     this.Model = File;
-  }
-
-  findBySome(id, populates) {
-    return new Promise((resolve, reject) => {
-      let query = this.Model.findById(id)
-      if (populates && populates.length > 0) {
-        populates.forEach(function (item) {
-          query = query.populate(item);
-        })
-      }
-      query.exec(function (err, result) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(result)
-        }
-      });
-    })
   }
 
   upload(files, fields = {}) {
@@ -78,6 +60,40 @@ class Service extends Base {
         });
       });
     });
+  }
+
+  del(id) {
+    return new Promise(async (resolve, reject) => {
+      const file = await this.Model.findById(id);
+      try {
+        // 删除主文件
+        uploader.delete(file.url, err => {
+          if (err) {
+            console.log(err)
+          }
+        });
+        // 删除封面
+        if (file.covers && file.covers.length > 0) {
+          file.covers.forEach((cover) => {
+            uploader.delete(cover, err => {
+              console.log('删除封面: ', err);
+            })
+          })
+        }
+        // 删除数据库记录
+        file.remove((err, product) => {
+          console.log('文件数据库删除结果: ', err);
+          if (err) {
+            return reject(err)
+          } else {
+            resolve(product)
+          }
+        });
+      } catch (e) {
+        console.log(e);
+        reject(e.message);
+      }
+    })
   }
 }
 

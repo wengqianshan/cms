@@ -2,7 +2,7 @@
 
 let express = require('express')
 let router = express.Router()
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 let action = require('../../middlewares/action')
 let user = require('../../controllers/server/user')
 
@@ -28,7 +28,7 @@ router.route('/forget').all(user.forget);
 //权限判断
 router.use(function (req, res, next) {
   if (!req.session.user) {
-    let path = core.translateAdminDir('/user/login');
+    let path = util.translateAdminDir('/user/login');
     return res.redirect(path);
   }
   next();
@@ -47,6 +47,6 @@ router.route('/:id/del').all(action.checkAction('USER_DELETE'), user.del);
 
 
 module.exports = function (app) {
-  let path = core.translateAdminDir('/user');
+  let path = util.translateAdminDir('/user');
   app.use(path, router);
 };

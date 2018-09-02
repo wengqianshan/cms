@@ -6,9 +6,9 @@ let Role = mongoose.model('Role')
 let LogService = require('../../services/log');
 let Log = new LogService();
 let config = require('../../config')
-let core = require('../../libs/core')
-let crypto = require('../../libs/crypto')
-let Mailer = require('../../libs/mailer')
+let util = require('../../lib/util')
+let crypto = require('../../lib/crypto')
+let Mailer = require('../../lib/mailer')
 let _ = require('lodash');
 let mailer = new Mailer()
 
@@ -22,7 +22,7 @@ userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(funct
 // 这个最好移到app.js里面，每次开启服务时检查，
 exports.checkInstall = function (req, res, next) {
   if (req.session.user) {
-    let path = core.translateAdminDir('/');
+    let path = util.translateAdminDir('/');
     return res.redirect(path);
   }
   User.find({}, function (err, results) {
@@ -30,13 +30,13 @@ exports.checkInstall = function (req, res, next) {
       return;
     }
     if (results.length > 0) {
-      // let path = core.translateAdminDir('/user/login');
+      // let path = util.translateAdminDir('/user/login');
       // return res.redirect(path);
       return next();
     } else {
-      //let path = core.translateAdminDir('/install');
+      //let path = util.translateAdminDir('/install');
       //return res.redirect(path);
-      let path = core.translateAdminDir('/install')
+      let path = util.translateAdminDir('/install')
       return res.render('server/install')
       //return res.send('请先<a href="' + path + '">安装应用</a>');
     }
@@ -70,7 +70,7 @@ user.save(function(err, result) {
 //用户登录校验
 exports.authenticate = function (req, res, next) {
   if (!req.session.user) {
-    let path = core.translateAdminDir('/user/login');
+    let path = util.translateAdminDir('/user/login');
     return res.redirect(path);
   } else {
     next();
@@ -85,7 +85,7 @@ exports.list = function (req, res) {
   User.count(condition, function (err, total) {
     let query = User.find(condition).populate('author').populate('roles');
     //分页
-    let pageInfo = core.createPage(req.query.page, total);
+    let pageInfo = util.createPage(req.query.page, total);
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);
     query.sort({ created: -1 });
@@ -131,7 +131,7 @@ exports.query = function (req, res) {
 };
 //注册
 exports.register = function (req, res) {
-  let ip = core.getIp(req);
+  let ip = util.getIp(req);
   let ua = req.get('User-Agent');
 
   let method = req.method;
@@ -188,7 +188,7 @@ exports.register = function (req, res) {
     }
 
     if (config.stopForumSpam) {
-      core.stopForumSpam({
+      util.stopForumSpam({
         email: obj.email
       }).then((data) => {
         console.log(data, 'res')
@@ -335,8 +335,8 @@ exports.edit = function (req, res) {
           message: '没有权限'
         });
       }
-      //let roles = core.getRoles(user);
-      let oldRoles = core.getRoles(user);
+      //let roles = util.getRoles(user);
+      let oldRoles = util.getRoles(user);
       //啊 这个人是管你员
       let query;
       if (typeof obj.roles === 'string') {
@@ -420,7 +420,7 @@ exports.del = function (req, res) {
         req.session.destroy();
         res.locals.User = null;
         console.log('自杀成功');
-        let path = core.translateAdminDir('');
+        let path = util.translateAdminDir('');
         return res.redirect(path);
       }
       res.render('server/info', {
@@ -438,7 +438,7 @@ let noRedirect = [
 ]
 //登录
 exports.login = function (req, res) {
-  let ip = core.getIp(req);
+  let ip = util.getIp(req);
   let ua = req.get('User-Agent');
 
   if (req.method === 'GET') {
@@ -481,7 +481,7 @@ exports.login = function (req, res) {
         user.last_login_ip = ip;
         user.save();
         req.session.user = user;
-        let path = core.translateAdminDir('/');
+        let path = util.translateAdminDir('/');
 
         let ref = req.session.loginReferer || path;
         for (let i = 0, len = noRedirect.length; i < len; i++) {
@@ -542,7 +542,7 @@ exports.logout = function (req, res) {
     /*res.render('server/info', {
         message: '注销成功'
     });*/
-    let path = core.translateAdminDir('/');
+    let path = util.translateAdminDir('/');
     res.redirect(path);
   } else {
     res.render('server/info', {
@@ -614,7 +614,7 @@ exports.forget = function (req, res) {
     }
     let obj = req.body;
     // 日志
-    let ip = core.getIp(req);
+    let ip = util.getIp(req);
     let ua = req.get('User-Agent');
     Log.add({
       type: 'user',

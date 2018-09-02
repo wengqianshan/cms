@@ -9,12 +9,12 @@ let File = mongoose.model('File')
 let Role = mongoose.model('Role')
 let userController = require('./user')
 let config = require('../../config')
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 
 //后台首页
 exports.index = function (req, res) {
   if (!req.session.user) {
-    let path = core.translateAdminDir('/user/login');
+    let path = util.translateAdminDir('/user/login');
     return res.redirect(path);
   }
   let obj = {}
@@ -50,7 +50,7 @@ exports.index = function (req, res) {
 //初始化后台,安装初始数据
 exports.install = function (req, res) {
   if (req.session.user) {
-    let path = core.translateAdminDir('');
+    let path = util.translateAdminDir('');
     return res.redirect(path);
   }
   //检查是否已经有用户
@@ -105,7 +105,7 @@ exports.install = function (req, res) {
       }
     } else {
       //已经初始化过，跳过
-      let path = core.translateAdminDir('');
+      let path = util.translateAdminDir('');
       res.redirect(path);
     }
   })

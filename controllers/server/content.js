@@ -5,7 +5,7 @@ let Content = mongoose.model('Content')
 let Category = mongoose.model('Category')
 let Tag = mongoose.model('Tag')
 let _ = require('lodash')
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 /*let userService = require('../../services/user')
 userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(function(res) {
     console.log(res)
@@ -59,7 +59,7 @@ exports.list = function (req, res) {
   Content.count(condition).exec().then(function (total) {
     let query = Content.find(condition).populate('author', 'username name email');
     //分页
-    let pageInfo = core.createPage(req.query.page, total);
+    let pageInfo = util.createPage(req.query.page, total);
     //console.log(pageInfo);
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);

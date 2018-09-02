@@ -2,7 +2,7 @@
 
 let mongoose = require('mongoose')
 let Notification = mongoose.model('Notification')
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 let _ = require('lodash')
 
 //列表
@@ -14,7 +14,7 @@ exports.list = function (req, res) {
   Notification.count(condition, function (err, total) {
     let query = Notification.find(condition).populate('from to read unread');
     //分页
-    let pageInfo = core.createPage(req.query.page, total);
+    let pageInfo = util.createPage(req.query.page, total);
     //console.log(pageInfo);
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);
@@ -46,7 +46,7 @@ exports.received = function (req, res) {
   Notification.count(condition, function (err, total) {
     let query = Notification.find(condition).populate('from to read unread');
     //分页
-    let pageInfo = core.createPage(req.query.page, total);
+    let pageInfo = util.createPage(req.query.page, total);
     //console.log(pageInfo);
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);
@@ -80,7 +80,7 @@ exports.sent = function (req, res) {
   Notification.count(condition, function (err, total) {
     let query = Notification.find(condition).populate('from to read unread');
     //分页
-    let pageInfo = core.createPage(req.query.page, total);
+    let pageInfo = util.createPage(req.query.page, total);
     //console.log(pageInfo);
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);

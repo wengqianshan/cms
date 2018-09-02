@@ -1,7 +1,7 @@
 'use strict';
 
 let mongoose = require('mongoose')
-let core = require('../../../libs/core')
+let util = require('../../../lib/util')
 let FileService = require('../../../services/file')
 let fileService = new FileService()
 let _ = require('lodash')
@@ -14,7 +14,7 @@ exports.all = async function (req, res) {
   try {
     let total = await fileService.count(condition)
     //分页
-    pageInfo = core.createPage(req.query.page, total);
+    pageInfo = util.createPage(req.query.page, total);
 
     data = await fileService.find(condition, null, {
       skip: pageInfo.start,
@@ -141,7 +141,8 @@ exports.destroy = async function (req, res) {
     if (!isAdmin && !isAuthor) {
       error = '没有权限'
     } else {
-      data = fileService.findByIdAndRemove(id)
+      // data = await fileService.findByIdAndRemove(id)
+      data = await fileService.del(id);
     }
 
   } catch (e) {

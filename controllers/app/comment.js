@@ -9,7 +9,7 @@ let gravatar = require('gravatar')
 let config = require('../../config')
 let _ = require('lodash')
 let xss = require('xss')
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 
 //添加
 exports.add = async function (req, res) {
@@ -17,7 +17,7 @@ exports.add = async function (req, res) {
 
   } else if (req.method === 'POST') {
     let obj = _.pick(req.body, 'content', 'from', 'reply', 'name', 'email', 'website');
-    obj.ip = core.getIp(req);
+    obj.ip = util.getIp(req);
     obj.content = xss(obj.content)
     if (req.session.user) {
       obj.author = req.session.user._id;
@@ -83,7 +83,7 @@ exports.list = function (req, res) {
   Comment.count(condition, function (err, total) {
     let query = Comment.find({}).populate('author').populate('from');
     //分页
-    let pageInfo = core.createPage(req.query.page, total);
+    let pageInfo = util.createPage(req.query.page, total);
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);
     query.sort({ created: -1 });

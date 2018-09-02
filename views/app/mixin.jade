@@ -17,21 +17,21 @@ mixin pagination(pageInfo)
         - var nextPage = currentPage >= page.totalPage ? page.totalPage : (currentPage + 1)
         - var query = pageInfo.query || {}
         - query.page = prevPage
-        a.item(class=(currentPage === 1) ? 'disabled' : '', href='?#{core.stringify(query)}') &laquo;
+        a.item(class=(currentPage === 1) ? 'disabled' : '', href='?#{util.stringify(query)}') &laquo;
         if (currentPage - range >= 2)
             - query.page = 1
-            a.item(class=(currentPage === 1) ? 'active' : '', href='?#{core.stringify(query)}') 1
+            a.item(class=(currentPage === 1) ? 'active' : '', href='?#{util.stringify(query)}') 1
             a.item ...
         - for (var i = 1; i <= totalPage; i ++)
             - query.page = i
             if(i >= Math.min(Math.max(currentPage - range, 1), totalPage - 2 * range) && i <= Math.max(Math.min(range + currentPage, totalPage), 2 * range))
-                a.item(class=(currentPage === i) ? 'active' : '', href='?#{core.stringify(query)}') #{i}
+                a.item(class=(currentPage === i) ? 'active' : '', href='?#{util.stringify(query)}') #{i}
         if (currentPage + range <= totalPage - 1 )
             a.item ...
             - query.page = totalPage
-            a.item(class=(currentPage === totalPage) ? 'active' : '', href='?#{core.stringify(query)}') #{totalPage}
+            a.item(class=(currentPage === totalPage) ? 'active' : '', href='?#{util.stringify(query)}') #{totalPage}
         - query.page = nextPage
-        a.item(class=(currentPage === totalPage) ? 'disabled' : '', href='?#{core.stringify(query)}') &raquo;
+        a.item(class=(currentPage === totalPage) ? 'disabled' : '', href='?#{util.stringify(query)}') &raquo;
 //- 评论条目
 mixin commentItem(comment, comments)
     if (comment)

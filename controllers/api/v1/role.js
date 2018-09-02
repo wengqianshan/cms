@@ -2,7 +2,7 @@
 
 let _ = require('lodash')
 let mongoose = require('mongoose')
-let core = require('../../../libs/core')
+let util = require('../../../lib/util')
 let RoleService = require('../../../services/role')
 let roleService = new RoleService()
 
@@ -14,7 +14,7 @@ exports.all = async function (req, res) {
   try {
     let total = await roleService.count(condition)
     //分页
-    pageInfo = core.createPage(req.query.page, total);
+    pageInfo = util.createPage(req.query.page, total);
 
     data = await roleService.find(condition, null, {
       skip: pageInfo.start,

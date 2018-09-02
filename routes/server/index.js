@@ -5,7 +5,7 @@
  */
 let express = require('express')
 let router = express.Router()
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 let index = require('../../controllers/server/index')
 
 //首页
@@ -18,6 +18,6 @@ router.get('/', index.index);
 router.route('/install').all(index.install);
 
 module.exports = function (app) {
-  let path = core.translateAdminDir('/');
+  let path = util.translateAdminDir('/');
   app.use(path, router);
 };

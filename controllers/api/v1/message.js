@@ -3,7 +3,7 @@
 let _ = require('lodash');
 let mongoose = require('mongoose');
 let xss = require('xss');
-let core = require('../../../libs/core');
+let util = require('../../../lib/util');
 let MessageService = require('../../../services/message');
 let messageService = new MessageService();
 
@@ -15,7 +15,7 @@ exports.all = async function (req, res) {
   try {
     let total = await messageService.count(condition)
     //分页
-    pageInfo = core.createPage(req.query.page, total);
+    pageInfo = util.createPage(req.query.page, total);
 
     data = await messageService.find(condition, null, {
       skip: pageInfo.start,
@@ -61,7 +61,7 @@ exports.create = async function (req, res) {
   let body = req.body;
   // console.log(body);
   let obj = _.pick(body, 'name', 'email', 'mobile', 'address', 'content');
-  obj.ip = core.getIp(req);
+  obj.ip = util.getIp(req);
   obj.content = xss(obj.content);
 
   let user = req.user

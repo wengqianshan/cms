@@ -101,7 +101,7 @@ block foot-js
             $dialog.$modalBody.find(".J_to_users").select2({
                 ajax: {
                     //url: "https://api.github.com/search/repositories",
-                    url: '#{core.translateAdminDir("/user/query"))',
+                    url: '#{util.translateAdminDir("/user/query"))',
                     //dataType: 'json',
                     delay: 250,
                     data: function(params) {

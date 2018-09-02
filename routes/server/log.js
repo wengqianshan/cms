@@ -2,7 +2,7 @@
 
 let express = require('express')
 let router = express.Router()
-let core = require('../../libs/core')
+let util = require('../../lib/util')
 let action = require('../../middlewares/action')
 let log = require('../../controllers/server/log')
 
@@ -11,7 +11,7 @@ router.use(function (req, res, next) {
   console.log('通知页: ' + Date.now());
   res.locals.Path = 'log';
   if (!req.session.user) {
-    let path = core.translateAdminDir('/user/login');
+    let path = util.translateAdminDir('/user/login');
     return res.redirect(path);
   }
   next();
@@ -25,6 +25,6 @@ router.route('/:id/del').all(action.checkAction('LOG_DELETE'), log.del);
 router.route('/').get(action.checkAction('LOG_INDEX'), log.list);
 
 module.exports = function (app) {
-  let path = core.translateAdminDir('/log');
+  let path = util.translateAdminDir('/log');
   app.use(path, router);
 };
