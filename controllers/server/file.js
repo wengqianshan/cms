@@ -112,30 +112,28 @@ exports.edit = function (req, res) {
 //删除
 exports.del = async function (req, res) {
   const id = req.params.id;
-  const file = await fileService.findById(id, null, {
-    populate: [{
-      path: 'author',
-      select: '_id name avatar'
-    }]
-  });
-  const isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-  const isAuthor = file.author && ((file.author._id + '') === req.session.user._id);
-  if (!isAdmin && !isAuthor) {
-    return res.json({
-      success: false,
-      error: '没有权限'
-    });
-  }
-  
-  let error = null;
+  let data;
+  let error;
   try {
-    await fileService.del(id);
+    const file = await fileService.findById(id, null, {
+      populate: [{
+        path: 'author',
+        select: '_id name avatar'
+      }]
+    });
+    const isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+    const isAuthor = file.author && (file.author._id + '') === req.session.user._id + '';
+    if (!isAdmin && !isAuthor) {
+      error = '没有权限';
+    } else {
+      data = await fileService.del(id);
+    }
   } catch (e) {
-    // console.log(e)
     error = e.message;
   }
   return res.json({
     success: !error,
-    error: error
+    error: error,
+    data: data
   });
 };

@@ -40,7 +40,7 @@ class Service extends Base {
       }
     });
   }
-
+  // 根据 id 删除文件(含封面)
   del(id) {
     return new Promise(async (resolve, reject) => {
       const file = await this.Model.findById(id);

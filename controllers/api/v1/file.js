@@ -131,23 +131,25 @@ exports.update = async function (req, res) {
 }
 
 exports.destroy = async function (req, res) {
-  let id = req.params.id
-  let data = null
-  let error
+  const id = req.params.id;
+  let data;
+  let error;
   try {
-    let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-    let item = await fileService.findById(id)
-    let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
+    const file = await fileService.findById(id, null, {
+      populate: [{
+        path: 'author',
+        select: '_id name avatar'
+      }]
+    });
+    const isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+    const isAuthor = file.author && (file.author._id + '') === (req.user._id + '')
     if (!isAdmin && !isAuthor) {
-      error = '没有权限'
+      error = '没有权限';
     } else {
-      // data = await fileService.findByIdAndRemove(id)
       data = await fileService.del(id);
     }
-
   } catch (e) {
-    // error = e.message
-    error = '系统异常'
+    error = e.message;
   }
   res.json({
     success: !error,
