@@ -63,8 +63,10 @@ exports.show = async function (req, res) {
         match: { type: /(image)|(video)/ },
         select: 'name url md_url sm_url type covers'
       }]
-    })
+    });
     // console.log(data);
+    data.visits = data.visits + 1;
+    data.save();
   } catch (e) {
     // error = e.message
     error = '系统异常'
