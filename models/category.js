@@ -10,31 +10,31 @@ let Schema = mongoose.Schema
  * 分类模型
  */
 let CategorySchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    flag: {
-        type: String,
-        unique: true
-    },
-    author: {
-        type: Schema.ObjectId,
-        ref: 'User'
-    },
-    description: String,
-    created: {
-        type: Date,
-        default: Date.now
-    },
-    status: {
-        type: Number,
-        default: 0
-    },
-    parent: {
-        type: Schema.ObjectId,
-        ref: 'Category'
-    }
+  name: {
+    type: String,
+    required: true
+  },
+  flag: {
+    type: String,
+    unique: true
+  },
+  author: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
+  description: String,
+  created: {
+    type: Date,
+    default: Date.now
+  },
+  status: {
+    type: Number,
+    default: 0
+  },
+  parent: {
+    type: Schema.ObjectId,
+    ref: 'Category'
+  }
 });
 CategorySchema.methods = {
 

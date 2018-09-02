@@ -7,14 +7,14 @@ let action = require('../../middlewares/action')
 let page = require('../../controllers/server/page')
 
 //权限判断
-router.use(function(req, res, next) {
-    console.log('通知页: ' + Date.now());
-    res.locals.Path = 'page';
-    if(!req.session.user) {
-        let path = core.translateAdminDir('/user/login');
-        return res.redirect(path);
-    }
-    next();
+router.use(function (req, res, next) {
+  console.log('通知页: ' + Date.now());
+  res.locals.Path = 'page';
+  if (!req.session.user) {
+    let path = core.translateAdminDir('/user/login');
+    return res.redirect(path);
+  }
+  next();
 });
 
 //发信
@@ -26,7 +26,7 @@ router.route('/:id/del').all(action.checkAction('PAGE_DELETE'), page.del);
 //内容列表
 router.route('/').get(action.checkAction('PAGE_INDEX'), page.list);
 
-module.exports = function(app) {
-    let path = core.translateAdminDir('/page');
-    app.use(path, router);
+module.exports = function (app) {
+  let path = core.translateAdminDir('/page');
+  app.use(path, router);
 };

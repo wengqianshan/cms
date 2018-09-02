@@ -7,14 +7,14 @@ let action = require('../../middlewares/action')
 let role = require('../../controllers/server/role')
 
 //权限判断
-router.use(function(req, res, next) {
-    console.log('角色页: ' + Date.now());
-    res.locals.Path = 'role';
-    if(!req.session.user) {
-        let path = core.translateAdminDir('/user/login');
-        return res.redirect(path);
-    }
-    next();
+router.use(function (req, res, next) {
+  console.log('角色页: ' + Date.now());
+  res.locals.Path = 'role';
+  if (!req.session.user) {
+    let path = core.translateAdminDir('/user/login');
+    return res.redirect(path);
+  }
+  next();
 });
 //内容列表
 router.route('/').get(action.checkAction('ROLE_INDEX'), role.list);
@@ -28,7 +28,7 @@ router.route('/:id/edit').all(action.checkAction('ROLE_UPDATE'), role.edit);
 router.route('/:id/del').all(action.checkAction('ROLE_DELETE'), role.del);
 
 
-module.exports = function(app) {
-    let path = core.translateAdminDir('/role');
-    app.use(path, router);
+module.exports = function (app) {
+  let path = core.translateAdminDir('/role');
+  app.use(path, router);
 };

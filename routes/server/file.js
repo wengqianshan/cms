@@ -7,14 +7,14 @@ let action = require('../../middlewares/action')
 let file = require('../../controllers/server/file')
 
 //文件
-router.use(function(req, res, next) {
-    console.log('文件页: ' + Date.now());
-    res.locals.Path = 'file';
-    if(!req.session.user) {
-        let path = core.translateAdminDir('/user/login');
-        return res.redirect(path);
-    }
-    next();
+router.use(function (req, res, next) {
+  console.log('文件页: ' + Date.now());
+  res.locals.Path = 'file';
+  if (!req.session.user) {
+    let path = core.translateAdminDir('/user/login');
+    return res.redirect(path);
+  }
+  next();
 });
 //内容列表
 router.route('/').get(action.checkAction('FILE_INDEX'), file.list);
@@ -28,7 +28,7 @@ router.route('/:id/edit').all(action.checkAction('FILE_UPDATE'), file.edit);
 router.route('/:id/del').all(action.checkAction('FILE_DELETE'), file.del);
 
 
-module.exports = function(app) {
-    let path = core.translateAdminDir('/file');
-    app.use(path, router);
+module.exports = function (app) {
+  let path = core.translateAdminDir('/file');
+  app.use(path, router);
 };

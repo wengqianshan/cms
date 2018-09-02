@@ -8,6 +8,6 @@ let index = require('../../controllers/app/index')
 router.route('/contact').all(index.contact);
 router.route('/').all(index.index);
 
-module.exports = function(app) {
-    app.use('/', router);
+module.exports = function (app) {
+  app.use('/', router);
 };

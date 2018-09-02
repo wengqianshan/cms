@@ -8,6 +8,6 @@ let page = require('../../controllers/app/page')
 router.route('/:id').all(page.one);
 router.route('/').all(page.list);
 
-module.exports = function(app) {
-    app.use('/page', router);
+module.exports = function (app) {
+  app.use('/page', router);
 };

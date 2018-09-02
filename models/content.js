@@ -10,64 +10,64 @@ let Schema = mongoose.Schema
  * 内容模型
  */
 let ContentSchema = new Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    summary: {
-        type: String  
-    },
-    content: {
-        type: String,
-        required: true
-    },
-    gallery: [{
-        type: Schema.ObjectId,
-        ref: 'File'
-    }],
-    author: {
-        type: Schema.ObjectId,
-        ref: 'User'
-    },
-    category: {
-        type: Schema.ObjectId,
-        ref: 'Category'
-    },
-    tags: [{
-        type: Schema.ObjectId,
-        ref: 'Tag'
-    }],
-    created: {
-        type: Date,
-        default: Date.now
-    },
-    visits: {
-        type: Number,
-        default: 0
-    },
-    comments: [{
-        type: Schema.ObjectId,
-        ref: 'Comment'
-    }],
-    status: {
-        type: Number,
-        default: 0
-    },
-    //喜欢
-    like: {
-        type: Number,
-        default: 0
-    },
-    //置顶，权重由数值决定
-    up: {
-        type: Number,
-        default: 0
-    },
-    //喜欢
-    like: {
-        type: Number,
-        default: 0
-    }
+  title: {
+    type: String,
+    required: true
+  },
+  summary: {
+    type: String
+  },
+  content: {
+    type: String,
+    required: true
+  },
+  gallery: [{
+    type: Schema.ObjectId,
+    ref: 'File'
+  }],
+  author: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
+  category: {
+    type: Schema.ObjectId,
+    ref: 'Category'
+  },
+  tags: [{
+    type: Schema.ObjectId,
+    ref: 'Tag'
+  }],
+  created: {
+    type: Date,
+    default: Date.now
+  },
+  visits: {
+    type: Number,
+    default: 0
+  },
+  comments: [{
+    type: Schema.ObjectId,
+    ref: 'Comment'
+  }],
+  status: {
+    type: Number,
+    default: 0
+  },
+  //喜欢
+  like: {
+    type: Number,
+    default: 0
+  },
+  //置顶，权重由数值决定
+  up: {
+    type: Number,
+    default: 0
+  },
+  //喜欢
+  like: {
+    type: Number,
+    default: 0
+  }
 });
 
 /*ContentSchema.pre('save', function(next) {

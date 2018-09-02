@@ -7,10 +7,10 @@ let action = require('../../middlewares/action')
 let user = require('../../controllers/server/user')
 
 //权限判断
-router.use(function(req, res, next) {
-    console.log('用户页: ' + Date.now());
-    res.locals.Path = 'user';
-    next();
+router.use(function (req, res, next) {
+  console.log('用户页: ' + Date.now());
+  res.locals.Path = 'user';
+  next();
 });
 //登录
 router.route('/login').all(user.checkInstall, user.login);
@@ -26,12 +26,12 @@ router.route('/forget').all(user.forget);
 
 
 //权限判断
-router.use(function(req, res, next) {
-    if(!req.session.user) {
-        let path = core.translateAdminDir('/user/login');
-        return res.redirect(path);
-    }
-    next();
+router.use(function (req, res, next) {
+  if (!req.session.user) {
+    let path = core.translateAdminDir('/user/login');
+    return res.redirect(path);
+  }
+  next();
 });
 //用户列表
 router.route('/').get(action.checkAction('USER_INDEX'), user.list);
@@ -46,7 +46,7 @@ router.route('/:id/del').all(action.checkAction('USER_DELETE'), user.del);
 
 
 
-module.exports = function(app) {
-    let path = core.translateAdminDir('/user');
-    app.use(path, router);
+module.exports = function (app) {
+  let path = core.translateAdminDir('/user');
+  app.use(path, router);
 };
