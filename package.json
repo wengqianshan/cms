@@ -34,6 +34,7 @@
     "qn": "^0.2.2",
     "qs": "^2.3.3",
     "serve-favicon": "^2.5.0",
+    "shortid": "^2.2.13",
     "strip": "0.0.7",
     "video-extracter": "^1.0.2",
     "xss": "^0.3.8"
