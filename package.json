@@ -36,7 +36,7 @@
     "serve-favicon": "^2.5.0",
     "shortid": "^2.2.13",
     "strip": "0.0.7",
-    "video-extracter": "^1.0.2",
+    "video-extracter": "^1.0.3",
     "xss": "^0.3.8"
   },
   "devDependencies": {
