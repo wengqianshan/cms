@@ -42,7 +42,7 @@ router.route('/:id').get(action.checkAction('USER_DETAIL'), user.one);
 //编辑用户信息
 router.route('/:id/edit').all(action.checkAction('USER_UPDATE'), user.edit);
 //删除用户
-router.route('/:id/del').all(action.checkAction('USER_DELETE'), user.del);
+router.route('/:id/del').post(action.checkAction('USER_DELETE'), user.del);
 
 
 

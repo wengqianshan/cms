@@ -30,7 +30,7 @@ router.route('/:id').get(action.checkAction('FILE_DETAIL'), file.one);
 //更新信息
 router.route('/:id/edit').all(action.checkAction('FILE_UPDATE'), file.edit);
 //删除信息
-router.route('/:id/del').all(action.checkAction('FILE_DELETE'), file.del);
+router.route('/:id/del').post(action.checkAction('FILE_DELETE'), file.del);
 
 
 module.exports = function (app) {

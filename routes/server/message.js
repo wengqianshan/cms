@@ -21,7 +21,7 @@ router.route('/').get(action.checkAction('MESSAGE_INDEX'), message.list);
 //单条信息
 router.route('/:id').get(action.checkAction('MESSAGE_DETAIL'), message.one);
 //删除信息
-router.route('/:id/del').all(action.checkAction('MESSAGE_DELETE'), message.del);
+router.route('/:id/del').post(action.checkAction('MESSAGE_DELETE'), message.del);
 
 module.exports = function (app) {
   let path = util.translateAdminDir('/message');

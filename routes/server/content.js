@@ -24,7 +24,7 @@ router.route('/add').all(action.checkAction('CONTENT_CREATE'), content.add);
 //更新信息
 router.route('/:id/edit').all(action.checkAction('CONTENT_UPDATE'), content.edit);
 //删除信息
-router.route('/:id/del').all(action.checkAction('CONTENT_DELETE'), content.del);
+router.route('/:id/del').post(action.checkAction('CONTENT_DELETE'), content.del);
 
 
 module.exports = function (app) {

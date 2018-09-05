@@ -20,7 +20,7 @@ router.use(function (req, res, next) {
 //单条信息
 router.route('/:id').get(action.checkAction('LOG_DETAIL'), log.one);
 //删除信息
-router.route('/:id/del').all(action.checkAction('LOG_DELETE'), log.del);
+router.route('/:id/del').post(action.checkAction('LOG_DELETE'), log.del);
 //内容列表
 router.route('/').get(action.checkAction('LOG_INDEX'), log.list);
 

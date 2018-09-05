@@ -25,7 +25,7 @@ router.route('/:id').get(action.checkAction('TAG_DETAIL'), tag.one);
 //更新信息
 router.route('/:id/edit').all(action.checkAction('TAG_UPDATE'), tag.edit);
 //删除信息
-router.route('/:id/del').all(action.checkAction('TAG_DELETE'), tag.del);
+router.route('/:id/del').post(action.checkAction('TAG_DELETE'), tag.del);
 
 module.exports = function (app) {
   let path = util.translateAdminDir('/tag');

@@ -21,7 +21,7 @@ router.route('/').get(action.checkAction('COMMENT_INDEX'), comment.list);
 //单条信息
 router.route('/:id').get(action.checkAction('COMMENT_DETAIL'), comment.one);
 //删除信息
-router.route('/:id/del').all(action.checkAction('COMMENT_DELETE'), comment.del);
+router.route('/:id/del').post(action.checkAction('COMMENT_DELETE'), comment.del);
 
 module.exports = function (app) {
   let path = util.translateAdminDir('/comment');

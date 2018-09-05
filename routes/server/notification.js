@@ -25,7 +25,7 @@ router.route('/add').all(action.checkAction('NOTIFICATION_CREATE'), notification
 //单条信息
 router.route('/:id').get(action.checkAction('NOTIFICATION_DETAIL'), notification.one);
 //删除信息
-router.route('/:id/del').all(action.checkAction('NOTIFICATION_DELETE'), notification.del);
+router.route('/:id/del').post(action.checkAction('NOTIFICATION_DELETE'), notification.del);
 //内容列表
 router.route('/').get(action.checkAction('NOTIFICATION_INDEX'), notification.list);
 

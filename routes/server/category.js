@@ -25,7 +25,7 @@ router.route('/:id').get(action.checkAction('CATEGORY_DETAIL'), category.one);
 //更新信息
 router.route('/:id/edit').all(action.checkAction('CATEGORY_UPDATE'), category.edit);
 //删除信息
-router.route('/:id/del').all(action.checkAction('CATEGORY_DELETE'), category.del);
+router.route('/:id/del').post(action.checkAction('CATEGORY_DELETE'), category.del);
 
 module.exports = function (app) {
   let path = util.translateAdminDir('/category');

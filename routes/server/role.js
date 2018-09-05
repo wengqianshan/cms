@@ -25,7 +25,7 @@ router.route('/:id').get(action.checkAction('ROLE_DETAIL'), role.one);
 //更新信息
 router.route('/:id/edit').all(action.checkAction('ROLE_UPDATE'), role.edit);
 //删除信息
-router.route('/:id/del').all(action.checkAction('ROLE_DELETE'), role.del);
+router.route('/:id/del').post(action.checkAction('ROLE_DELETE'), role.del);
 
 
 module.exports = function (app) {
