@@ -1,6 +1,11 @@
 'use strict';
 
 let express = require('express')
+const multipart = require('connect-multiparty');
+const config = require('../../config.js');
+const multipartMiddleware = multipart({
+  uploadDir: config.upload.tmpDir
+});
 let router = express.Router()
 let util = require('../../lib/util')
 let action = require('../../middlewares/action')
@@ -19,7 +24,7 @@ router.use(function (req, res, next) {
 //内容列表
 router.route('/').get(action.checkAction('FILE_INDEX'), file.list);
 //添加内容
-router.route('/add').all(action.checkAction('FILE_CREATE'), file.add);
+router.route('/add').all(action.checkAction('FILE_CREATE'), multipartMiddleware, file.add);
 //单条信息
 router.route('/:id').get(action.checkAction('FILE_DETAIL'), file.one);
 //更新信息

@@ -39,10 +39,10 @@ block foot-js
         $(function () {
             $('#fileupload').fileupload({
                 //url: '/upload',
-                url: '/admin/file/add',
+                url: '/admin/file/add?_csrf=#{token}',
                 paramName: 'files[]',//防止影响表单提交
                 formData: {
-                    _csrf: '#{token}',
+                    //- _csrf: '#{token}',
                     id: '#{file.id}'
                 },
                 dataType: 'json',

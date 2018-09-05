@@ -1,6 +1,11 @@
 'use strict';
 
 let express = require('express')
+const multipart = require('connect-multiparty');
+const config = require('../../../config.js');
+const multipartMiddleware = multipart({
+  uploadDir: config.upload.tmpDir
+});
 let router = express.Router()
 let file = require('../../../controllers/api/v1/file')
 let jwtMiddleWare = require('../../../middlewares/jwt')
@@ -26,7 +31,7 @@ router.route('/:id/destroy')
   .post(jwtMiddleWare.verify, action.checkAction('FILE_DELETE'), file.destroy)
 
 router.route('/upload')
-  .all(jwtMiddleWare.verify, action.checkAction('FILE_CREATE'), file.upload)
+  .all(jwtMiddleWare.verify, action.checkAction('FILE_CREATE'), multipartMiddleware, file.upload)
 
 router.route('/')
   .get(file.all)

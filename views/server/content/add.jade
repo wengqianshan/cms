@@ -72,9 +72,9 @@ block foot-js
             
             $('#fileupload').fileupload({
                 //url: '/upload',
-                url: '/admin/file/add',
+                url: '/admin/file/add?_csrf=#{token}',
                 formData: {
-                    _csrf: '#{token}'
+                    //- _csrf: '#{token}'
                 },
                 dataType: 'json',
                 progressall: function(e, data) {

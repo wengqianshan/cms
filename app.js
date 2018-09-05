@@ -14,7 +14,6 @@ let bodyParser = require('body-parser');
 let csrf = require('csurf');
 let moment = require('moment');
 let _ = require('lodash');
-let multipart = require('connect-multiparty'); //解析文件
 let util = require('./lib/util');
 let xss = require('xss')
 let marked = require('marked');
@@ -86,10 +85,6 @@ app.use(session({
   secret: config.sessionSecret || 'cms',
   store: (config.redis.host ? new RedisStore(config.redis) : null)
 }));
-//上传中间件，todo：换成multer, no global middleware
-app.use(multipart({
-  uploadDir: config.upload.tmpDir
-}));
 util.walk(appPath + '/routes/api', 'middlewares', function (path) {
   require(path)(app);
 });
@@ -97,12 +92,6 @@ app.use(csrf());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function (req, res, next) {
   res.header('X-Powered-By', 'wengqianshan');
-  if (req.csrfToken) {
-    res.cookie('TOKEN', req.csrfToken())
-  }
-
-  // TODO when use jwt
-  // TODO remove
   res.locals.token = req.csrfToken && req.csrfToken();
 
   res.locals.query = req.query;
