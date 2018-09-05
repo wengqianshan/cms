@@ -37,7 +37,8 @@ let FileSchema = new Schema({
   status: {
     type: Number,
     default: 0
-  }
+  },
+  md5: String
 });
 FileSchema.methods = {
 
