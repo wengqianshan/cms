@@ -136,8 +136,7 @@ exports.create = async function (req, res) {
     obj.reg_ip = util.getIp(req)
     data = await userService.create(obj)
   } catch (e) {
-    //error = e.message
-    error = '创建用户失败'
+    error = e.message
   }
   res.json({
     success: !error,

@@ -18,21 +18,20 @@ exports.checkAction = function (actionName) {
     } else if (_.isString(actionName)) {
       result = req.Actions && req.Actions.indexOf(actionName) > -1;
     }
-
     if (result) {
       return next();
     } else {
       if (req.jwt) {
         return res.json({
           success: false,
-          msg: '无权访问'
+          error: '无权访问'
         })
       }
 
       if (req.xhr) {
         res.json({
           success: false,
-          msg: '无权访问'
+          error: '无权访问'
         })
       } else {
         res.render('server/info', {
