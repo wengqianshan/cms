@@ -13,7 +13,7 @@ block content
                         span 添加文件
                         input#fileupload(type='file', name='files[]', multiple='multiple')
                     div(style='padding: 10px;')
-                    div#progress.progress.progress-striped
+                    div#progress.progress.progress-striped(style='display: none;')
                         div.progress-bar.progress-bar-default
                     //#J_preview.preview
     script#J_tmpl_gallery_item(type='x-tmpl-mustache')
@@ -43,18 +43,17 @@ block foot-js
                 },
                 dataType: 'json',
                 progressall: function(e, data) {
-                    //console.log(e, data);
+                    //- console.log(e, data);
                     var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#progress').show();
                     $('#progress .progress-bar').css(
                         'width',
                         progress + '%'
                     ).text(progress + '%');
                 },
                 done: function (e, data) {
-                    $('#progress .progress-bar').addClass('progress-bar-success').css(
-                        'width',
-                        100 + '%'
-                    ).text('100%');
+                    $('#progress').hide();
+                    $('#progress .progress-bar').addClass('progress-bar-success').css('width',0).text('');
                     $.each(data.result.files, function (index, file) {
                         var tmpl = $('#J_tmpl_gallery_item').html();
                         var html = Mustache.render(tmpl, {
