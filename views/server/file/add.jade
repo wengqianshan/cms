@@ -65,32 +65,48 @@ block foot-js
                     });
                 }
             });
+
             //删除图集
             $('#J_gallery').on('click', '.J_del', function(e) {
-                e.preventDefault();
-                var $this = $(this);
-                var $item = $this.closest('.gallery-item');
-                var confirm = BootstrapDialog.confirm('<p>确定删除图片吗</p><label><input type="checkbox"/> 同时删除原图</label>', function(val) {
-                    var $input = confirm.$modal.find('input');
-                    var checked = $input[0].checked;
-                    if(val) {
-                        if(checked) {
-                            var id = $this.siblings('input').val();
-                            var url = '/admin/file/' + id + '/del';
-                            $.post(url, {
-                                _csrf: '#{token}'
-                            }, function(json) {
-                                if(json.success) {
-                                    $item.remove();
-                                } else{
-                                    BootstrapDialog.alert('删除失败');
-                                }
-                            });
-                        } else {
-                            $item.remove();
-                        }
-                        
-                    }
-                });
+              e.preventDefault()
+              var $this = $(this);
+              var $item = $this.closest('.gallery-item');
+              swal({
+                title: '确定删除图片吗?',
+                text: '选中下方的复选框将会删除原图',
+                type: 'question',
+                input: 'checkbox',
+                inputValue: true,
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                confirmButtonText: '是的',
+                cancelButtonText: '不了',
+                preConfirm: function(checked) {
+                  return new Promise(function(resolve, reject) {
+                      if (checked) {
+                          var id = $this.siblings('input').val();
+                          var url = '/admin/file/' + id + '/del';
+                          $.post(url, {
+                              _csrf: '#{token}'
+                          }, function(json) {
+                              if(json.success) {
+                                  resolve()
+                                  $item.remove();
+                              } else{
+                                  reject('删除失败')
+                              }
+                          });
+                      } else {
+                          $item.remove();
+                          resolve()
+                      }
+                  })
+                }
+              }).then(function() {
+                  var checked = swal.getInput().checked;
+                  swal('已删除!', '', 'success')
+              }, function(dismiss) {
+                // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+              })
             });
         });
