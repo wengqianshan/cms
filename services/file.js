@@ -7,6 +7,7 @@ let fs = require('fs');
 let mongoose = require('mongoose');
 let _ = require('lodash');
 let File = mongoose.model('File');
+const notify = require('../notify');
 
 const Uploader = require('../lib/uploader');
 const uploader = new Uploader();
@@ -20,6 +21,7 @@ class Service extends Base {
   }
 
   upload(files, fields = {}) {
+    notify.sendMessage('用户上传图片');
     // console.log('调试开始')
     return new Promise(async (resolve, reject) => {
       try {
