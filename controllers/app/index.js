@@ -10,6 +10,7 @@ let config = require('../../config')
 let util = require('../../lib/util')
 let ContentService = require('../../services/content')
 let contentService = new ContentService()
+let notify = require('../../notify');
 
 exports.index = async function (req, res) {
   let condition = {};
@@ -82,9 +83,13 @@ exports.contact = function (req, res) {
   } else if (req.method === 'POST') {
     let obj = _.pick(req.body, 'name', 'email', 'mobile', 'address', 'content');
     obj.ip = util.getIp(req);
+    if (/http(s)?/.test(obj.content)) {
+      return res.redirect('/')
+    }
+    notify.sendMessage(`留言: ${JSON.stringify(obj)}`);
     let contact = new Message(obj);
     contact.save(function (err, result) {
-      console.log(err, result);
+      // console.log(err, result);
       if (err) {
         return res.render('app/info', {
           message: err.message

@@ -83,8 +83,12 @@ let config = {
   // google analytics
   ga: '',
   // 短信服务配置TODO:
-  sms: {
-
+  sms: {},
+  // 网站管理员通知 https://github.com/yagop/node-telegram-bot-api
+  // https://core.telegram.org/bots/api
+  notify: {
+    token: '',
+    chatId: ''
   }
 };
 

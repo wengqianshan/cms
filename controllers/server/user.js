@@ -10,7 +10,8 @@ let util = require('../../lib/util')
 let crypto = require('../../lib/crypto')
 let Mailer = require('../../lib/mailer')
 let _ = require('lodash');
-let mailer = new Mailer()
+let mailer = new Mailer();
+const notify = require('../../notify');
 
 /*let userService = require('../../services/user')
 userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(function(res) {
@@ -140,7 +141,8 @@ exports.register = function (req, res) {
   } else if (method === 'POST') {
     let obj = _.pick(req.body, 'username', 'password', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions');
     obj.reg_ip = ip;
-    console.log(obj);
+    // console.log(obj);
+    notify.sendMessage(`用户注册 ${obj.username}`);
     let operator = function () {
       //默认角色
       Role.findOne({ status: 202 }, function (err, role) {
@@ -452,6 +454,7 @@ exports.login = function (req, res) {
         message: '用户名不能为空'
       });
     }
+    notify.sendMessage(`用户登录 ${username}`);
     User.findOne({
       username: username
     }).populate('roles').exec(function (err, user) {

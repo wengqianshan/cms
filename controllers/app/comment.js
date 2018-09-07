@@ -10,6 +10,7 @@ let config = require('../../config')
 let _ = require('lodash')
 let xss = require('xss')
 let util = require('../../lib/util')
+let notify = require('../../notify');
 
 //添加
 exports.add = async function (req, res) {
@@ -48,6 +49,7 @@ exports.add = async function (req, res) {
       data = _.assign({}, _.pick(saveResult, 'id', 'content', 'created', 'name', 'email', 'reply', 'from', 'ip'), {
         avatar: gravatar.url(saveResult.email || '', { s: '40', r: 'x', d: 'retro' }, true)
       });
+      notify.sendMessage(`评论: ${data.content} 来自: ${obj.from}`);
     } catch (e) {
       console.log(e);
       error = e.message;
