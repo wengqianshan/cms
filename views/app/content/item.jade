@@ -25,9 +25,14 @@ block content
             .ui.basic.segment.post-content
                 - var images = content.gallery
                 if (images.length === 1)
+                    - var image = images[0]
                     .ui.center.aligned
-                        a(href='#{images[0].url}', target='_blank')
-                            img.ui.fluid.image(src='#{images[0].url}')
+                        if (image.type.indexOf('video') > -1)
+                          a(href='#{image.url}', type='#{image.type}')
+                              video(controls src='#{image.url}')
+                        else if (image.type.indexOf('image') > -1)
+                          a(href='#{images[0].url}', target='_blank')
+                              img.ui.fluid.image(src='#{images[0].url}')
                 else if (images.length > 1) 
                     .gallery
                         if (content.gallery)
