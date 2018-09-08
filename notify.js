@@ -1,37 +1,45 @@
-require('bluebird');
+/**
+ * telegram bot notify
+ * how to create a telegram bot: https://core.telegram.org/bots#3-how-do-i-create-a-bot
+ * usage: https://github.com/yagop/node-telegram-bot-api
+ */
 const TelegramBot = require('node-telegram-bot-api');
-const config = require('./config').notify;
+const config = require('./config');
 
-// replace the value below with the Telegram token you receive from @BotFather
-
-
-let bot = {
-  sendMessage() {
-    console.log('请正确配置 notify');
+class Bot {
+  constructor() {
+    this.bot = null;
+    this.config = config.notify;
+    this.init();
   }
-};
 
-if (config.enable) {
-  bot = new TelegramBot(config.token, { polling: true });
+  init() {
+    if (!this.config.enable) {
+      return;
+    }
+    this.bot = new TelegramBot(this.config.token, { polling: true });
+    // this.bot.onText(/\/echo (.+)/, (msg, match) => {
+    //   const chatId = msg.chat.id;
+    //   const resp = match[1]; // the captured "whatever"`
+    //   bot.sendMessage(chatId, resp);
+    // });
 
-  bot.onText(/\/echo (.+)/, (msg, match) => {
-    const chatId = msg.chat.id;
-    const resp = match[1]; // the captured "whatever"
-    bot.sendMessage(chatId, resp);
-  });
+    this.bot.on('message', (msg) => {
+      const chatId = msg.chat.id;
+      bot.sendMessage(chatId, `当前chatId: ${chatId}`);
+    });
 
-  bot.on('message', (msg) => {
-    const chatId = msg.chat.id;
-    bot.sendMessage(chatId, `当前chatId: ${chatId}`);
-  });
+    this.bot.on('error', (msg) => {
+      console.log(`通知服务错误: ${msg}`);
+    });
+  }
 
-  bot.on('error', (msg) => {
-    console.log(`通知服务错误: ${msg}`);
-  })
-}
-
-module.exports = {
   sendMessage(text) {
-    bot.sendMessage(config.chatId, `wenglou: ${text}`)
+    if (!this.bot) {
+      return;
+    }
+    this.bot.sendMessage(this.config.chatId, `${this.config.prefix}: ${text}`);
   }
 }
+
+module.exports = new Bot();

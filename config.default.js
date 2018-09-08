@@ -89,7 +89,8 @@ let config = {
   notify: {
     enable: false, // you should set true to enable this feature
     token: '',
-    chatId: ''
+    chatId: '',
+    prefix: 'wenglou'
   }
 };
 
