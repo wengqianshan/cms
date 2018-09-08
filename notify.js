@@ -11,7 +11,7 @@ let bot = {
   }
 };
 
-if (config.token && config.chatId) {
+if (config.enable) {
   bot = new TelegramBot(config.token, { polling: true });
 
   bot.onText(/\/echo (.+)/, (msg, match) => {

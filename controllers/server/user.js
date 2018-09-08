@@ -484,6 +484,7 @@ exports.login = function (req, res) {
         user.last_login_ip = ip;
         user.save();
         req.session.user = user;
+        req.session.cookie.user = user;
         let path = util.translateAdminDir('/');
 
         let ref = req.session.loginReferer || path;

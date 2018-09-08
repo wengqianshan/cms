@@ -7,7 +7,6 @@ let path = require('path');
 let favicon = require('serve-favicon');
 let compression = require('compression')
 let logger = require('morgan');
-let cookieParser = require('cookie-parser');
 let session = require('express-session');
 let RedisStore = require('connect-redis')(session); //存储session,防止服务重启后session丢失
 let bodyParser = require('body-parser');
@@ -78,9 +77,13 @@ app.use(favicon(__dirname + '/public/assets/app/images/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+
+// session options https://www.npmjs.com/package/express-session
 app.use(session({
   resave: true,
+  cookie: {
+    maxAge: 86400000 // 1 day
+  },
   saveUninitialized: true,
   secret: config.sessionSecret || 'cms',
   store: (config.redis.host ? new RedisStore(config.redis) : null)
@@ -151,7 +154,6 @@ if (config.env === 'development') {
   });
 }
 
-let debug = require('debug')('cms');
 app.set('port', process.env.PORT || config.port || 7000);
 let server = app.listen(app.get('port'), function () {
   console.log('网站服务已启动，端口号： ' + server.address().port);

@@ -87,6 +87,7 @@ let config = {
   // 网站管理员通知 https://github.com/yagop/node-telegram-bot-api
   // https://core.telegram.org/bots/api
   notify: {
+    enable: false, // you should set true to enable this feature
     token: '',
     chatId: ''
   }
