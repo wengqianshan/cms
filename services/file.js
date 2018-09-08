@@ -3,9 +3,8 @@
  **/
 'use strict';
 
-let fs = require('fs');
+const path = require('path');
 let mongoose = require('mongoose');
-let _ = require('lodash');
 let File = mongoose.model('File');
 const notify = require('../notify');
 
@@ -47,14 +46,8 @@ class Service extends Base {
     return new Promise(async (resolve, reject) => {
       const file = await this.Model.findById(id);
       try {
-        // 删除主文件
-        await uploader.delete(file.url);
-        // 删除封面
-        if (file.covers && file.covers.length > 0) {
-          file.covers.forEach(async (cover) => {
-            await uploader.delete(cover);
-          });
-        }
+        // 删除文件
+        await uploader.delete(file);
         // 删除数据库记录
         file.remove((err, product) => {
           // console.log('文件数据库删除结果: ', err);
