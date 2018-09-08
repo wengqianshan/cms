@@ -146,14 +146,8 @@ html.no-js
                                     li(class=Menu === 'sent' ? 'active' : '')
                                         a(href='#{adminDir}/notification/sent') 已发出
                         if (User && Roles.indexOf('admin') > -1 || Actions.indexOf('MESSAGE_INDEX') > -1)
-                            li.sub-menu(class=Path === 'message' ? 'active' : '')
-                                a(href='javascript:void(0);')
-                                    i.fa.fa-comment
-                                    span 访客留言
-                                    i.arrow.fa.fa-angle-right.pull-right
-                                ul
-                                    li(class=Menu === 'list' ? 'active' : '')
-                                        a(href='#{adminDir}/message') 留言列表
+                            li(class=Menu === 'list' ? 'active' : '')
+                                a(href='#{adminDir}/message') 留言列表
                         if (User && Roles.indexOf('admin') > -1 || Actions.indexOf('PAGE_INDEX') > -1)
                             li.sub-menu(class=Path === 'page' ? 'active' : '')
                                 a(href='#{adminDir}/page') 页面列表
