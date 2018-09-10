@@ -11,7 +11,7 @@ class Base {
   }
   count(filter = {}) {
     return new Promise((resolve, reject) => {
-      this.Model.estimatedDocumentCount(filter, function (err, total) {
+      this.Model.countDocuments(filter, function (err, total) {
         if (err) {
           reject(err)
         } else {
