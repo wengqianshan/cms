@@ -49,7 +49,7 @@ block content
                 //- else 
                 //-     | #{content.content}
                 div
-                    | !{xss(md(content.content))}
+                    | !{content.content}
             
             .post-comments
                 h3 评论(#{content.comments.length}) 

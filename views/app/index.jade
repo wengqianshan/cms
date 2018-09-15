@@ -26,7 +26,7 @@ block content
                                     .meta
                                         .cinema 
                                     .description
-                                        - var text = strip(md(content.content)).substr(0, 100);
+                                        - var text = content.content.substr(0, 100);
                                         p #{text}
                                     .extra
                                         .ui.label

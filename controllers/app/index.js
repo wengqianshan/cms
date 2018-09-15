@@ -6,6 +6,11 @@ let Message = mongoose.model('Message')
 let Category = mongoose.model('Category')
 let _ = require('lodash')
 let File = mongoose.model('File')
+let strip = require('strip');
+let MarkdownIt = require('markdown-it');
+let md = new MarkdownIt({
+  html: true
+});
 let config = require('../../config')
 let util = require('../../lib/util')
 let ContentService = require('../../services/content')
@@ -58,6 +63,10 @@ exports.index = async function (req, res) {
       }
     })
 
+    contents = contents.map((item) => {
+      item.content = strip(md.render(item.content));
+      return item;
+    })
     res.render('app/index', {
       contents: contents,
       pageInfo: pageInfo,

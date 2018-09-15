@@ -14,19 +14,6 @@ let csrf = require('csurf');
 let moment = require('moment');
 let _ = require('lodash');
 let util = require('./lib/util');
-let xss = require('xss')
-let marked = require('marked');
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: false,
-  pedantic: false,
-  //sanitize: true,// 不解析html标签
-  smartLists: true,
-  smartypants: false
-});
-let strip = require('strip');
 
 let appPath = process.cwd();
 let config = require('./config');
@@ -66,10 +53,7 @@ app.locals = {
   config: config,
   adminDir: config.admin.dir ? ('/' + config.admin.dir) : '',
   gravatar: gravatar,
-  md: marked,
-  strip: strip,
   env: config.env,
-  xss: xss
 };
 app.set('config', config);
 

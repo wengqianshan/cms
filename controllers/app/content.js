@@ -5,6 +5,11 @@ let Comment = mongoose.model('Comment')
 let Content = mongoose.model('Content')
 let Category = mongoose.model('Category')
 let util = require('../../lib/util')
+let MarkdownIt = require('markdown-it');
+let md = new MarkdownIt({
+  html: true
+});
+let xss = require('xss');
 
 //列表
 exports.list = function (req, res) {
@@ -46,9 +51,12 @@ exports.one = function (req, res) {
     result.visits = result.visits + 1;
     result.save();
 
+    const data = result.toJSON();
     res.render('app/content/item', {
       title: result.title,
-      content: result
+      content: Object.assign(data, {
+        content: xss(md.render(data.content))
+      })
     });
   });
 };
