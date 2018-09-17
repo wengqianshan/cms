@@ -126,7 +126,7 @@ block foot-js
         
         moment.locale('zh-cn');
         var token = '#{token}';
-        var cid = '#{content.id}';
+        var cid = '#{content._id}';
         $(document).ready(function() {
           $('pre code').each(function(i, block) {
             hljs.highlightBlock(block);

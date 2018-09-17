@@ -52,6 +52,11 @@ exports.one = function (req, res) {
     result.save();
 
     const data = result.toJSON();
+    let comments = data.comments;
+    data.comments = comments.map((item) => {
+      item.content = xss(md.render(item.content));
+      return item;
+    });
     res.render('app/content/item', {
       title: result.title,
       content: Object.assign(data, {

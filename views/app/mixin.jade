@@ -44,7 +44,7 @@ mixin commentItem(comment, comments)
                 .metadata
                     .date #{moment(comment.created).fromNow()}
                 .text
-                    p !{md(comment.content)}
+                    p !{comment.content}
                 .actions
                     a.reply.J_reply(href='javascript:') 回复
 

@@ -14,7 +14,7 @@ block content
                         - each content in contents
                             tr
                                 td
-                                    a(href='content/#{content.id}') #{content.title}
+                                    a(href='/content/#{content.id}') #{content.title}
                                 td
                                     if (content.author)
                                         strong #{content.author.name}
