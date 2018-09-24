@@ -81,9 +81,9 @@ class Base {
   findOneAndUpdate(condition = {}, doc = {}, options = {}) {
 
   }
-  findByIdAndUpdate(id, obj, options) {
+  findByIdAndUpdate(id, update, options) {
     return new Promise((resolve, reject) => {
-      this.Model.findByIdAndUpdate(id, obj, options, function (err, result) {
+      this.Model.findByIdAndUpdate(id, update, options, function (err, result) {
         if (err) {
           reject(err)
         } else {
@@ -106,7 +106,7 @@ class Base {
       })
     })
   }
-  findOneAndRemove(condition) {
+  findOneAndRemove(conditions, options) {
 
   }
   findByIdAndRemove(id, options = null) {
