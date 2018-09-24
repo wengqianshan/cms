@@ -149,7 +149,7 @@ exports.destroy = async function (req, res) {
     if (!isAdmin && !isAuthor) {
       error = '没有权限'
     } else {
-      data = contentService.findByIdAndRemove(id)
+      data = await contentService.findByIdAndRemove(id)
     }
   } catch (e) {
     // error = e.message
@@ -159,5 +159,26 @@ exports.destroy = async function (req, res) {
     success: !error,
     data: data,
     error: error
+  })
+}
+
+exports.deleteBatch = async function(req, res) {
+  const {ids} = req.body;
+  let data = null
+  let error
+  try {
+    let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+    if (!isAdmin) {
+      error = '没有权限'
+    } else {
+      data = await contentService.remove({_id: {$in: ids}})
+    }
+  } catch(e) {
+    error = e.message
+  }
+  res.json({
+    success: !error,
+    data,
+    error,
   })
 }
