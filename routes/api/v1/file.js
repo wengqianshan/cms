@@ -20,22 +20,23 @@ router.use(function (req, res, next) {
 });
 
 router.route('/:id')
-  .get(file.show)
+  .get(file.item)
   .put(jwtMiddleWare.verify, action.checkAction('FILE_UPDATE'), file.update)
-  .delete(jwtMiddleWare.verify, action.checkAction('FILE_DELETE'), file.destroy);
+  .delete(jwtMiddleWare.verify, action.checkAction('FILE_DELETE'), file.delete);
 
 router.route('/:id/update')
   .post(jwtMiddleWare.verify, action.checkAction('FILE_UPDATE'), file.update)
 
 router.route('/:id/destroy')
-  .post(jwtMiddleWare.verify, action.checkAction('FILE_DELETE'), file.destroy)
+  .post(jwtMiddleWare.verify, action.checkAction('FILE_DELETE'), file.delete)
 
 router.route('/upload')
   .all(jwtMiddleWare.verify, action.checkAction('FILE_CREATE'), multipartMiddleware, file.upload)
 
 router.route('/')
-  .get(file.all)
+  .get(file.list)
   .post(jwtMiddleWare.verify, action.checkAction('FILE_CREATE'), file.create)
+  .delete(jwtMiddleWare.verify, action.checkAction('FILE_DELETE'), file.deleteBatch)
 
 router.use(function (req, res) {
   res.json({

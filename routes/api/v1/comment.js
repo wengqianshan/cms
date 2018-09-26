@@ -15,19 +15,20 @@ router.use(function (req, res, next) {
 });
 
 router.route('/:id')
-  .get(comment.show)
+  .get(comment.item)
   .put(jwtMiddleWare.verify, action.checkAction('COMMENT_UPDATE'), comment.update)
-  .delete(jwtMiddleWare.verify, action.checkAction('COMMENT_DELETE'), comment.destroy)
+  .delete(jwtMiddleWare.verify, action.checkAction('COMMENT_DELETE'), comment.delete)
 
 router.route('/:id/update')
   .post(jwtMiddleWare.verify, action.checkAction('COMMENT_UPDATE'), comment.update)
 
 router.route('/:id/destroy')
-  .post(jwtMiddleWare.verify, action.checkAction('COMMENT_DELETE'), comment.destroy)
+  .post(jwtMiddleWare.verify, action.checkAction('COMMENT_DELETE'), comment.delete)
 
 router.route('/')
-  .get(comment.all)
+  .get(comment.list)
   .post(jwtMiddleWare.verify, action.checkAction('COMMENT_CREATE'), comment.create)
+  .delete(jwtMiddleWare.verify, action.checkAction('COMMENT_DELETE'), comment.deleteBatch)
 
 router.use(function (req, res) {
   res.json({
