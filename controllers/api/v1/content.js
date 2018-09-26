@@ -7,7 +7,7 @@ let $page = require('../../../lib/page')
 let ContentService = require('../../../services/content')
 let contentService = new ContentService();
 
-exports.all = async function (req, res) {
+exports.list = async function (req, res) {
   let condition = {}
   const query = req.query;
   if (query.s) {
@@ -57,7 +57,7 @@ exports.all = async function (req, res) {
     pagination
   });
 };
-exports.show = async function (req, res) {
+exports.item = async function (req, res) {
   let id = req.params.id;
   let data = null
   let error
@@ -138,7 +138,7 @@ exports.update = async function (req, res) {
   })
 }
 
-exports.destroy = async function (req, res) {
+exports.delete = async function (req, res) {
   let id = req.params.id
   let data = null
   let error

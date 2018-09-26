@@ -15,18 +15,18 @@ router.use(function (req, res, next) {
 });
 
 router.route('/:id')
-  .get(content.show)
+  .get(content.item)
   .put(jwtMiddleWare.verify, action.checkAction('CONTENT_UPDATE'), content.update)
-  .delete(jwtMiddleWare.verify, action.checkAction('CONTENT_DELETE'), content.destroy)
+  .delete(jwtMiddleWare.verify, action.checkAction('CONTENT_DELETE'), content.delete)
 
 router.route('/:id/update')
   .post(jwtMiddleWare.verify, action.checkAction('CONTENT_UPDATE'), content.update)
 
 router.route('/:id/destroy')
-  .post(jwtMiddleWare.verify, action.checkAction('CONTENT_DELETE'), content.destroy)
+  .post(jwtMiddleWare.verify, action.checkAction('CONTENT_DELETE'), content.delete)
 
 router.route('/')
-  .get(content.all)
+  .get(content.list)
   .post(jwtMiddleWare.verify, action.checkAction('CONTENT_CREATE'), content.create)
   .delete(jwtMiddleWare.verify, action.checkAction('CONTENT_DELETE'), content.deleteBatch)
 
