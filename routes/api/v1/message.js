@@ -15,19 +15,20 @@ router.use(function (req, res, next) {
 });
 
 router.route('/:id')
-  .get(jwtMiddleWare.verify, action.checkAction('MESSAGE_DETAIL'), message.show)
+  .get(jwtMiddleWare.verify, action.checkAction('MESSAGE_DETAIL'), message.item)
   .put(jwtMiddleWare.verify, action.checkAction('MESSAGE_UPDATE'), message.update)
-  .delete(jwtMiddleWare.verify, action.checkAction('MESSAGE_DELETE'), message.destroy)
+  .delete(jwtMiddleWare.verify, action.checkAction('MESSAGE_DELETE'), message.delete)
 
 router.route('/:id/update')
   .post(jwtMiddleWare.verify, action.checkAction('MESSAGE_UPDATE'), message.update)
 
 router.route('/:id/destroy')
-  .post(jwtMiddleWare.verify, action.checkAction('MESSAGE_DELETE'), message.destroy)
+  .post(jwtMiddleWare.verify, action.checkAction('MESSAGE_DELETE'), message.delete)
 
 router.route('/')
-  .get(jwtMiddleWare.verify, action.checkAction('MESSAGE_INDEX'), message.all)
+  .get(jwtMiddleWare.verify, action.checkAction('MESSAGE_INDEX'), message.list)
   .post(message.create)
+  .delete(jwtMiddleWare.verify, action.checkAction('MESSAGE_DELETE'), message.deleteBatch)
 
 router.use(function (req, res) {
   res.json({

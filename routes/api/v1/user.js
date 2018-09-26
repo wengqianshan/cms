@@ -22,22 +22,23 @@ router.route('/verify')
   .get(jwtMiddleWare.verify, user.verify)
 
 router.route('/:id')
-  .get(user.show)
+  .get(user.item)
   .put(jwtMiddleWare.verify, action.checkAction('USER_UPDATE'), user.update)
-  .delete(jwtMiddleWare.verify, action.checkAction('USER_DELETE'), user.destroy);
+  .delete(jwtMiddleWare.verify, action.checkAction('USER_DELETE'), user.delete);
 
 router.route('/:id/update')
   .post(jwtMiddleWare.verify, action.checkAction('USER_UPDATE'), user.update)
 
 router.route('/:id/destroy')
-  .post(jwtMiddleWare.verify, action.checkAction('USER_DELETE'), user.destroy)
+  .post(jwtMiddleWare.verify, action.checkAction('USER_DELETE'), user.delete)
 
 router.route('/register')
   .post(user.create)
 
 router.route('/')
-  .get(jwtMiddleWare.verify, action.checkAction('USER_INDEX'), user.all)
+  .get(jwtMiddleWare.verify, action.checkAction('USER_INDEX'), user.list)
   .post(jwtMiddleWare.verify, action.checkAction('USER_CREATE'), user.create)
+  .delete(jwtMiddleWare.verify, action.checkAction('USER_DELETE'), user.deleteBatch)
 
 router.use(function (req, res) {
   res.json({

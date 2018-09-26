@@ -15,19 +15,20 @@ router.use(function (req, res, next) {
 });
 
 router.route('/:id')
-  .get(jwtMiddleWare.verify, action.checkAction('ROLE_INDEX'), role.show)
+  .get(jwtMiddleWare.verify, action.checkAction('ROLE_INDEX'), role.item)
   .put(jwtMiddleWare.verify, action.checkAction('ROLE_UPDATE'), role.update)
-  .delete(jwtMiddleWare.verify, action.checkAction('ROLE_DELETE'), role.destroy)
+  .delete(jwtMiddleWare.verify, action.checkAction('ROLE_DELETE'), role.delete)
 
 router.route('/:id/update')
   .post(jwtMiddleWare.verify, action.checkAction('ROLE_UPDATE'), role.update)
 
 router.route('/:id/destroy')
-  .post(jwtMiddleWare.verify, action.checkAction('ROLE_DELETE'), role.destroy)
+  .post(jwtMiddleWare.verify, action.checkAction('ROLE_DELETE'), role.delete)
 
 router.route('/')
-  .get(jwtMiddleWare.verify, action.checkAction('ROLE_INDEX'), role.all)
-  .post(jwtMiddleWare.verify, action.checkAction('CONTENT_CREATE'), role.create)
+  .get(jwtMiddleWare.verify, action.checkAction('ROLE_INDEX'), role.list)
+  .post(jwtMiddleWare.verify, action.checkAction('ROLE_CREATE'), role.create)
+  .delete(jwtMiddleWare.verify, action.checkAction('ROLE_DELETE'), role.deleteBatch)
 
 router.use(function (req, res) {
   res.json({
