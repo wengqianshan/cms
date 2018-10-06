@@ -17,8 +17,8 @@ class RoleController extends Base {
     this.fields = {
       list: ['_id', 'name', 'actions', 'description'],
       item: ['_id', 'name', 'actions', 'description'], // todo: base 暂不支持
-      create: ['name', 'actions', 'description'],
-      update: ['title', 'summary', 'content', 'gallery', 'category', 'tags']
+      create: [],
+      update: []
     };
   }
 
@@ -60,7 +60,7 @@ class RoleController extends Base {
 
   async update(req, res) {
     let id = req.params.id
-    let obj = _.pick(req.body, 'title', 'summary', 'content', 'gallery', 'category', 'tags');
+    let obj = _.pick(req.body, 'name', 'actions', 'description');
 
     let actions = obj.actions;
     obj.actions = _.uniq(actions);

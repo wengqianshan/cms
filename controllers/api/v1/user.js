@@ -117,17 +117,22 @@ class UserController extends Base {
     let error
     try {
       let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
-      let item = await userService.findById(id)
+      let item = await userService.findById(id);
       let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
       let isMine = (item._id + '') === (req.user._id + '')
+      // 校验是否有分配角色权限 roles 值为id
+      // const roles = req.Roles;
+      // const inputRoles = _.difference(obj.roles, roles);
+      // const overAuth = inputRoles.length > 0;
+      // console.log(obj.roles, roles, '----------');
+      // console.log(inputRoles, overAuth, '++++++');
       if (!isAdmin && !isAuthor && !isMine) {
         error = '没有权限'
       } else {
         data = await userService.findByIdAndUpdate(id, obj, { new: true })
       }
     } catch (e) {
-      // error = e.message
-      error = '更新失败'
+      error = e.message
     }
     res.json({
       success: !error,
