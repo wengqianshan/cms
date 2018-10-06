@@ -87,6 +87,7 @@ app.use(function (req, res, next) {
     //角色信息
     let roles = util.getRoles(req.session.user);
     let actions = util.getActions(req.session.user);
+    req.isAdmin = req.session.user.status === 101;
     req.Roles = roles;
     req.Actions = actions;
     res.locals.Roles = roles;

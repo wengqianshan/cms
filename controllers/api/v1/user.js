@@ -116,7 +116,7 @@ class UserController extends Base {
     let data = null
     let error
     try {
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let item = await userService.findById(id);
       let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
       let isMine = (item._id + '') === (req.user._id + '')

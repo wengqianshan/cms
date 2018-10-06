@@ -17,7 +17,8 @@ const uploader = new Uploader();
 exports.list = function (req, res) {
   //console.log(req.cookies['XSRF-TOKEN'])
   let condition = {};
-  if (req.Roles && req.Roles.indexOf('admin') < 0) {
+  const isAdmin = req.isAdmin;
+  if (!isAdmin) {
     condition.author = req.session.user._id;
   }
   File.count(condition, function (err, total) {
@@ -77,7 +78,7 @@ exports.edit = function (req, res) {
   if (req.method === 'GET') {
     let id = req.params.id;
     File.findById(id).populate('author').exec(function (err, result) {
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
       if (!isAdmin && !isAuthor) {
@@ -93,7 +94,7 @@ exports.edit = function (req, res) {
     let id = req.params.id;
     let obj = _.pick(req.body, 'url', 'md_url', 'sm_url', 'size', 'type', 'description');
     File.findById(id).populate('author').exec(function (err, result) {
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
       if (!isAdmin && !isAuthor) {
@@ -122,7 +123,7 @@ exports.del = async function (req, res) {
         select: '_id name avatar'
       }]
     });
-    const isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+    const isAdmin = req.isAdmin;
     const isAuthor = file.author && (file.author._id + '') === req.session.user._id + '';
     if (!isAdmin && !isAuthor) {
       error = '没有权限';

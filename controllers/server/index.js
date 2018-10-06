@@ -19,7 +19,8 @@ exports.index = function (req, res) {
   }
   let obj = {}
   let filter = {};
-  if (req.Roles && req.Roles.indexOf('admin') < 0) {
+  const isAdmin = req.isAdmin;
+  if (!isAdmin) {
     filter = { author: req.session.user._id };
   }
   Promise.all([

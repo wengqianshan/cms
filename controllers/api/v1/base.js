@@ -137,7 +137,7 @@ class BaseController {
     let data = null
     let error
     try {
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let item = await this.service.findById(id)
       let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
       if (!isAdmin && !isAuthor) {
@@ -162,7 +162,7 @@ class BaseController {
     let data = null
     let error
     try {
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let item = await this.service.findById(id)
       let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
       if (!isAdmin && !isAuthor) {
@@ -186,7 +186,7 @@ class BaseController {
     let data = null
     let error
     try {
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       if (!isAdmin) {
         error = '没有权限'
       } else {

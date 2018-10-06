@@ -80,7 +80,8 @@ exports.authenticate = function (req, res, next) {
 //用户列表
 exports.list = function (req, res) {
   let condition = {};
-  if (req.Roles && req.Roles.indexOf('admin') < 0) {
+  const isAdmin = req.isAdmin;
+  if (!isAdmin) {
     condition.author = req.session.user._id;
   }
   User.count(condition, function (err, total) {
@@ -297,7 +298,7 @@ exports.edit = function (req, res) {
           message: '出错了'
         });
       }
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
       if (!isAdmin && !isAuthor) {
@@ -307,7 +308,8 @@ exports.edit = function (req, res) {
       }
       try {
         let condition = {};
-        if (req.Roles.indexOf('admin') < 0) {
+        const isAdmin = req.isAdmin;
+        if (!isAdmin) {
           condition.author = req.session.user._id;
         }
         Role.find(condition, function (err, results) {
@@ -329,7 +331,7 @@ exports.edit = function (req, res) {
     let obj = _.pick(req.body, 'username', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions', 'roles');
     //判断是否允许编辑
     User.findById(id).populate('roles').populate('author').exec(function (err, user) {
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let isAuthor = user.author && ((user.author._id + '') === req.session.user._id);
 
       if (!isAdmin && !isAuthor) {
@@ -391,7 +393,7 @@ exports.del = function (req, res) {
         message: '用户不存在'
       });
     }
-    let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+    let isAdmin = req.isAdmin;
     let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
     if (!isAdmin && !isAuthor) {

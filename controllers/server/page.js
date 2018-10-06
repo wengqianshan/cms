@@ -8,7 +8,8 @@ let util = require('../../lib/util')
 //列表
 exports.list = function (req, res) {
   let condition = {};
-  if (req.Roles && req.Roles.indexOf('admin') < 0) {
+  const isAdmin = req.isAdmin;
+  if (!isAdmin) {
     condition.author = req.session.user._id;
   }
   Page.count(condition, function (err, total) {
@@ -55,7 +56,7 @@ exports.del = function (req, res) {
         message: '留言不存在'
       });
     }
-    let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+    let isAdmin = req.isAdmin;
     let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
     if (!isAdmin && !isAuthor) {

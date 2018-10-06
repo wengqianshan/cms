@@ -8,9 +8,6 @@ let _ = require('lodash')
 //列表
 exports.list = function (req, res) {
   let condition = {};
-  /*if(req.Roles && req.Roles.indexOf('admin') < 0) {
-      condition.author = req.session.user._id;
-  }*/
   Notification.count(condition, function (err, total) {
     let query = Notification.find(condition).populate('from to read unread');
     //分页

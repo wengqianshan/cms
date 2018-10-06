@@ -28,7 +28,8 @@ class RoleController extends Base {
     let actions = obj.actions;
     obj.actions = _.uniq(actions);
     //如果不是管理员，检查是否超出权限
-    if (req.Roles.indexOf('admin') === -1) {
+    const isAdmin = req.isAdmin;
+    if (!isAdmin) {
       let overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
       if (overAuth.length > 0) {
         return res.json({
@@ -65,7 +66,8 @@ class RoleController extends Base {
     let actions = obj.actions;
     obj.actions = _.uniq(actions);
     //如果不是管理员，检查是否超出权限
-    if (req.Roles.indexOf('admin') === -1) {
+    const isAdmin = req.isAdmin;
+    if (!isAdmin) {
       let overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
       if (overAuth.length > 0) {
         return res.json({
@@ -78,7 +80,7 @@ class RoleController extends Base {
     let data = null
     let error
     try {
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let item = await roleService.findById(id)
       let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
       if (!isAdmin && !isAuthor) {

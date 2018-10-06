@@ -8,9 +8,6 @@ let util = require('../../lib/util')
 //列表
 exports.list = function (req, res) {
   let condition = {};
-  /*if(req.Roles && req.Roles.indexOf('admin') < 0) {
-      condition.author = req.session.user._id;
-  }*/
   Page.count(condition, function (err, total) {
     let query = Page.find(condition).populate('author');
     //分页

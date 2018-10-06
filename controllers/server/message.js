@@ -6,9 +6,6 @@ let util = require('../../lib/util')
 //列表
 exports.list = function (req, res) {
   let condition = {};
-  /*if(req.Roles && req.Roles.indexOf('admin') < 0) {
-      condition.author = req.session.user._id;
-  }*/
   Message.count(condition, function (err, total) {
     let query = Message.find(condition);
     //分页
@@ -54,11 +51,6 @@ exports.del = function (req, res) {
         message: '留言不存在'
       });
     }
-    /*if(req.Roles && req.Roles.indexOf('admin') === -1) {
-        return res.render('server/info', {
-            message: '没有权限'
-        });
-    }*/
     console.log(result)
     result.remove(function (err) {
       if (req.xhr) {

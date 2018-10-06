@@ -7,7 +7,8 @@ let util = require('../../lib/util')
 //列表
 exports.list = function (req, res) {
   let condition = {};
-  if (req.Roles && req.Roles.indexOf('admin') < 0) {
+  const isAdmin = req.isAdmin;
+  if (!isAdmin) {
     condition.author = req.session.user._id;
   }
   Comment.count(condition, function (err, total) {
@@ -55,7 +56,7 @@ exports.del = function (req, res) {
       });
     }
 
-    let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+    let isAdmin = req.isAdmin;
     let isOwner = result.from && ((result.from.author + '') === req.session.user._id);
 
     if (!isAdmin && !isOwner) {

@@ -20,7 +20,8 @@ exports.init = function (req, res) {
     }
 
     let actions = [];
-    if (req.Roles.indexOf('admin') > -1) {
+    const isAdmin = req.isAdmin;
+    if (isAdmin) {
       actions = ACTIONS;
     } else {
       actions = ACTIONS.filter(function (item) {
