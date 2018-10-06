@@ -140,7 +140,6 @@ exports.edit = function (req, res) {
         });
       }
       let condition = {};
-      const isAdmin = req.isAdmin;
       if (!isAdmin) {
         condition.author = req.session.user._id;
       }

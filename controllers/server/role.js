@@ -161,7 +161,6 @@ exports.edit = function (req, res) {
         });
       }
       //如果不是管理员，检查是否超出权限
-      const isAdmin = req.isAdmin;
       if (!isAdmin) {
         let overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
         if (overAuth.length > 0) {
