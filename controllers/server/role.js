@@ -10,7 +10,8 @@ const ACTIONS = require('../../actions')
 //列表
 exports.list = function (req, res) {
   let condition = {};
-  if (req.Roles && req.Roles.indexOf('admin') < 0) {
+  const isAdmin = req.isAdmin;
+  if (!isAdmin) {
     condition.author = req.session.user._id;
   }
   Role.count(condition, function (err, total) {
@@ -50,7 +51,8 @@ exports.one = function (req, res) {
 exports.add = function (req, res) {
   if (req.method === 'GET') {
     let actions = [];
-    if (req.Roles.indexOf('admin') > -1) {
+    const isAdmin = req.isAdmin;
+    if (isAdmin) {
       actions = ACTIONS;
     } else {
       actions = ACTIONS.filter(function (item) {
@@ -72,7 +74,8 @@ exports.add = function (req, res) {
     let actions = obj.actions;
     obj.actions = _.uniq(actions);
     //如果不是管理员，检查是否超出权限
-    if (req.Roles.indexOf('admin') === -1) {
+    const isAdmin = req.isAdmin;
+    if (!isAdmin) {
       let overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
       if (overAuth.length > 0) {
         return res.render('server/info', {
@@ -105,7 +108,7 @@ exports.edit = function (req, res) {
   if (req.method === 'GET') {
     let id = req.params.id;
     Role.findById(id).populate('author').exec(function (err, result) {
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
       if (!isAdmin && !isAuthor) {
@@ -120,7 +123,8 @@ exports.edit = function (req, res) {
       }
       //console.log(result)
       let actions = [];
-      if (req.Roles.indexOf('admin') > -1) {
+      const isAdmin = req.isAdmin;
+      if (isAdmin) {
         actions = ACTIONS;
       } else {
         actions = ACTIONS.filter(function (item) {
@@ -144,7 +148,7 @@ exports.edit = function (req, res) {
     let actions = obj.actions;
     obj.actions = _.uniq(actions);
     Role.findById(id).populate('author').exec(function (err, result) {
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
       if (!isAdmin && !isAuthor) {
@@ -158,7 +162,8 @@ exports.edit = function (req, res) {
         });
       }
       //如果不是管理员，检查是否超出权限
-      if (req.Roles.indexOf('admin') === -1) {
+      const isAdmin = req.isAdmin;
+      if (!isAdmin) {
         let overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
         if (overAuth.length > 0) {
           return res.render('server/info', {
@@ -201,7 +206,7 @@ exports.del = function (req, res) {
         message: '角色不存在'
       });
     }
-    let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+    let isAdmin = req.isAdmin;
     let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
     if (!isAdmin && !isAuthor) {

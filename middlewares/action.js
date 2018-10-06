@@ -6,8 +6,7 @@ let _ = require('lodash')
 exports.checkAction = function (actionName) {
   //console.log(actionName)
   return function (req, res, next) {
-    console.log('actions=> \n', req.Actions);
-    //console.log(req.user, 'user ++++++++++++++++')
+    // console.log('actions=> \n', req.Actions);
     const isAdmin = req.isAdmin;
     if (isAdmin) {
       return next();

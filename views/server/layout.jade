@@ -74,7 +74,7 @@ html.no-js
                             a(href='#{adminDir}')
                                 i.fa.fa-dashboard
                                 span 首页
-                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('CONTENT_INDEX') > -1))
+                        if (User && (User.status === 101 || Actions.indexOf('CONTENT_INDEX') > -1))
                             li.sub-menu(class=Path === 'content' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-file-text
@@ -85,7 +85,7 @@ html.no-js
                                         a(href='#{adminDir}/content') 内容列表
                                     li(class=Menu === 'add' ? 'active' : '')
                                         a(href='#{adminDir}/content/add') 添加内容
-                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('CATEGORY_INDEX') > -1))
+                        if (User && (User.status === 101 || Actions.indexOf('CATEGORY_INDEX') > -1))
                             li.sub-menu(class=Path === 'category' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-th
@@ -96,10 +96,10 @@ html.no-js
                                         a(href='#{adminDir}/category') 分类列表
                                     li(class=Menu === 'add' ? 'active' : '')
                                         a(href='#{adminDir}/category/add') 添加分类
-                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('COMMENT_INDEX') > -1))
+                        if (User && (User.status === 101 || Actions.indexOf('COMMENT_INDEX') > -1))
                             li(class=Path === 'comment' ? 'active' : '')
                                 a(href='#{adminDir}/comment') 评论列表
-                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('USER_INDEX') > -1))
+                        if (User && (User.status === 101 || Actions.indexOf('USER_INDEX') > -1))
                             li.sub-menu(class=Path === 'user' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-users
@@ -110,7 +110,7 @@ html.no-js
                                         a(href='#{adminDir}/user') 用户列表
                                     li(class=Menu === 'add' ? 'active' : '')
                                         a(href='#{adminDir}/user/add') 添加用户
-                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('ROLE_INDEX') > -1))
+                        if (User && (User.status === 101 || Actions.indexOf('ROLE_INDEX') > -1))
                             li.sub-menu(class=Path === 'role' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-unlock-alt
@@ -121,7 +121,7 @@ html.no-js
                                         a(href='#{adminDir}/role') 角色列表
                                     li(class=Menu === 'add' ? 'active' : '')
                                         a(href='#{adminDir}/role/add') 添加角色
-                        if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('FILE_INDEX') > -1))
+                        if (User && (User.status === 101 || Actions.indexOf('FILE_INDEX') > -1))
                             li.sub-menu(class=Path === 'file' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-folder-open
@@ -132,7 +132,7 @@ html.no-js
                                         a(href='#{adminDir}/file') 文件列表
                                     li(class=Menu === 'add' ? 'active' : '')
                                         a(href='#{adminDir}/file/add') 添加文件
-                        if (User && Roles.indexOf('admin') > -1 || Actions.indexOf('NOTIFICATION_INDEX') > -1)
+                        if (User && User.status === 101 || Actions.indexOf('NOTIFICATION_INDEX') > -1)
                             li.sub-menu(class=Path === 'notification' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-envelope
@@ -145,13 +145,13 @@ html.no-js
                                         a(href='#{adminDir}/notification/received') 已收到
                                     li(class=Menu === 'sent' ? 'active' : '')
                                         a(href='#{adminDir}/notification/sent') 已发出
-                        if (User && Roles.indexOf('admin') > -1 || Actions.indexOf('MESSAGE_INDEX') > -1)
+                        if (User && User.status === 101 || Actions.indexOf('MESSAGE_INDEX') > -1)
                             li(class=Menu === 'list' ? 'active' : '')
                                 a(href='#{adminDir}/message') 留言列表
-                        if (User && Roles.indexOf('admin') > -1 || Actions.indexOf('PAGE_INDEX') > -1)
+                        if (User && User.status === 101 || Actions.indexOf('PAGE_INDEX') > -1)
                             li.sub-menu(class=Path === 'page' ? 'active' : '')
                                 a(href='#{adminDir}/page') 页面列表
-                        if (User && Roles.indexOf('admin') > -1 || Actions.indexOf('TAG_INDEX') > -1)
+                        if (User && User.status === 101 || Actions.indexOf('TAG_INDEX') > -1)
                             li.sub-menu(class=Path === 'tag' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-tags
@@ -162,7 +162,7 @@ html.no-js
                                         a(href='#{adminDir}/tag') 标签列表
                                     li(class=Menu === 'add' ? 'active' : '')
                                         a(href='#{adminDir}/tag/add') 添加标签
-                        if (User && Roles.indexOf('admin') > -1 || Actions.indexOf('LOG_INDEX') > -1)
+                        if (User && User.status === 101 || Actions.indexOf('LOG_INDEX') > -1)
                             li.sub-menu(class=Path === 'log' ? 'active' : '')
                                 a(href='#{adminDir}/log')
                                     i.fa.fa-file

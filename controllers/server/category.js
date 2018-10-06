@@ -8,7 +8,8 @@ let util = require('../../lib/util')
 //列表
 exports.list = function (req, res) {
   let condition = {};
-  if (req.Roles && req.Roles.indexOf('admin') < 0) {
+  const isAdmin = req.isAdmin;
+  if (!isAdmin) {
     condition.author = req.session.user._id;
   }
   Category.count(condition, function (err, total) {
@@ -51,7 +52,8 @@ exports.one = function (req, res) {
 exports.add = function (req, res) {
   if (req.method === 'GET') {
     let condition = {};
-    if (req.Roles && req.Roles.indexOf('admin') < 0) {
+    const isAdmin = req.isAdmin;
+    if (!isAdmin) {
       condition.author = req.session.user._id;
     }
     Category.find(condition).exec().then(function (categorys) {
@@ -90,7 +92,7 @@ exports.edit = function (req, res) {
   if (req.method === 'GET') {
     let id = req.params.id;
     Category.findById(id).populate('author').exec(function (err, result) {
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
       if (!isAdmin && !isAuthor) {
@@ -99,7 +101,8 @@ exports.edit = function (req, res) {
         });
       }
       let condition = {};
-      if (req.Roles && req.Roles.indexOf('admin') < 0) {
+      const isAdmin = req.isAdmin;
+      if (!isAdmin) {
         condition.author = req.session.user._id;
       }
       Category.find(condition).exec().then(function (categorys) {
@@ -116,7 +119,7 @@ exports.edit = function (req, res) {
       delete obj.parent
     }
     Category.findById(id).populate('author').exec(function (err, result) {
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
       if (!isAdmin && !isAuthor) {
@@ -149,7 +152,7 @@ exports.del = function (req, res) {
         message: '分类不存在'
       });
     }
-    let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+    let isAdmin = req.isAdmin;
     let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
     if (!isAdmin && !isAuthor) {

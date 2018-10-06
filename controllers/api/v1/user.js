@@ -110,7 +110,6 @@ class UserController extends Base {
 
   async update(req, res) {
     let id = req.params.id
-    //let obj = req.body
     let obj = _.pick(req.body, 'username', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions', 'roles');
     // TODO： 校验输入
     let data = null
@@ -121,13 +120,13 @@ class UserController extends Base {
       let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
       let isMine = (item._id + '') === (req.user._id + '')
       // 校验是否有分配角色权限 roles 值为id
-      // const roles = req.Roles;
-      // const inputRoles = _.difference(obj.roles, roles);
-      // const overAuth = inputRoles.length > 0;
-      // console.log(obj.roles, roles, '----------');
-      // console.log(inputRoles, overAuth, '++++++');
+      const roles = req.Roles;
+      const inputRoles = _.difference(obj.roles, roles);
+      const overAuth = inputRoles.length > 0;
       if (!isAdmin && !isAuthor && !isMine) {
         error = '没有权限'
+      } else if (!isAdmin && overAuth) {
+        error = '您没有足够权限:' + inputRoles.join(',')
       } else {
         data = await userService.findByIdAndUpdate(id, obj, { new: true })
       }

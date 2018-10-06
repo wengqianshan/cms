@@ -52,7 +52,8 @@ exports.list = function (req, res) {
   if (category) {
     condition.category = category;
   }
-  if (req.Roles && req.Roles.indexOf('admin') < 0) {
+  const isAdmin = req.isAdmin;
+  if (!isAdmin) {
     condition.author = req.session.user._id;
   }
   //查数据总数
@@ -79,7 +80,8 @@ exports.list = function (req, res) {
 exports.add = function (req, res) {
   if (req.method === 'GET') {
     let condition = {};
-    if (req.Roles && req.Roles.indexOf('admin') < 0) {
+    const isAdmin = req.isAdmin;
+    if (!isAdmin) {
       condition.author = req.session.user._id;
     }
     Promise.all([Category.find(condition).exec(), Tag.find(condition).exec()]).then((result) => {
@@ -129,7 +131,7 @@ exports.edit = function (req, res) {
       if (err) {
         console.log('加载内容失败');
       }
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
       if (!isAdmin && !isAuthor) {
@@ -138,7 +140,8 @@ exports.edit = function (req, res) {
         });
       }
       let condition = {};
-      if (req.Roles && req.Roles.indexOf('admin') < 0) {
+      const isAdmin = req.isAdmin;
+      if (!isAdmin) {
         condition.author = req.session.user._id;
       }
       Category.find(condition, function (err, categorys) {
@@ -168,7 +171,7 @@ exports.edit = function (req, res) {
 
     Content.findById(id).populate('author').exec(function (err, result) {
       //console.log(result);
-      let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+      let isAdmin = req.isAdmin;
       let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
       if (!isAdmin && !isAuthor) {
@@ -204,7 +207,7 @@ exports.del = function (req, res) {
         message: '内容不存在'
       });
     }
-    let isAdmin = req.Roles && req.Roles.indexOf('admin') > -1;
+    let isAdmin = req.isAdmin;
     let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
     if (!isAdmin && !isAuthor) {

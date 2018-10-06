@@ -480,7 +480,7 @@ exports.login = function (req, res) {
       }
       if (user.authenticate(password)) {
         console.log('登录成功');
-        console.log(user);
+        // console.log(user);
         //记录登录信息
         user.last_login_date = new Date();
         user.last_login_ip = ip;

@@ -80,24 +80,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function (req, res, next) {
   res.header('X-Powered-By', 'wengqianshan');
   res.locals.token = req.csrfToken && req.csrfToken();
-
   res.locals.query = req.query;
   if (req.session && req.session.user) {
-    res.locals.User = req.session.user;
-    //角色信息
-    let roles = util.getRoles(req.session.user);
-    let actions = util.getActions(req.session.user);
+    const roles = util.getRoles(req.session.user);
+    const actions = util.getActions(req.session.user);
+    req.user = req.session.user;
     req.isAdmin = req.session.user.status === 101;
     req.Roles = roles;
     req.Actions = actions;
-    res.locals.Roles = roles;
     res.locals.Actions = actions;
+    res.locals.User = req.session.user;
   } else {
-    res.locals.User = null;
+    req.user = null;
+    req.isAdmin = false;
     req.Roles = null;
     req.Actions = null;
-    res.locals.Roles = null;
     res.locals.Actions = null;
+    res.locals.User = null;
   }
   next();
 });

@@ -18,7 +18,7 @@ block content
                                 option(value='#{category.id}')
                                     | #{category.name}
 
-                if (User && (Roles.indexOf('admin') > -1 || Actions.indexOf('FILE_CREATE') > -1))
+                if (User && (User.status === 101 || Actions.indexOf('FILE_CREATE') > -1))
                     .form-group
                         label 图集
                         .gallery#J_gallery
