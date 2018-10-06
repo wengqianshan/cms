@@ -333,15 +333,22 @@ exports.edit = function (req, res) {
     User.findById(id).populate('roles').populate('author').exec(function (err, user) {
       let isAdmin = req.isAdmin;
       let isAuthor = user.author && ((user.author._id + '') === req.session.user._id);
+      let isMine = (user._id + '') === (req.user._id + '')
+      // 校验是否有分配角色权限 roles 值为id
+      const roles = req.Roles;
+      const inputRoles = _.difference(obj.roles, roles);
+      const overAuth = inputRoles.length > 0;
 
-      if (!isAdmin && !isAuthor) {
+      if (!isAdmin && !isAuthor && !isMine) {
         return res.render('server/info', {
           message: '没有权限'
         });
       }
-      //let roles = util.getRoles(user);
-      let oldRoles = util.getRoles(user);
-      //啊 这个人是管你员
+      if (!isAdmin && overAuth) {
+        return res.render('server/info', {
+          message: '权限不足'
+        });
+      }
       let query;
       if (typeof obj.roles === 'string') {
         query = Role.find({ _id: obj.roles });

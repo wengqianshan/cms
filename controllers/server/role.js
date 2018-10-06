@@ -123,7 +123,6 @@ exports.edit = function (req, res) {
       }
       //console.log(result)
       let actions = [];
-      const isAdmin = req.isAdmin;
       if (isAdmin) {
         actions = ACTIONS;
       } else {
