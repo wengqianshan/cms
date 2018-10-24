@@ -9,7 +9,7 @@ const config = require('./config');
 class Bot {
   constructor() {
     this.bot = null;
-    this.config = config.notify;
+    this.config = config.notify || {};
     this.init();
   }
 
