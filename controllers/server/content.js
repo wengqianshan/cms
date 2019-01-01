@@ -6,45 +6,7 @@ let Category = mongoose.model('Category')
 let Tag = mongoose.model('Tag')
 let _ = require('lodash')
 let util = require('../../lib/util')
-/*let userService = require('../../services/user')
-userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(function(res) {
-    console.log(res)
-}, function(err) {
-    console.log(err)
-})*/
 
-//let contentService = require('../../services/content');
-
-//console.log(contentService, 111);
-
-/*contentService.findBySome('5741aeb9e5ba3ff9025dfdec').then(function(res) {
-    console.log(res, 222);
-})*/
-
-
-//同步mysql
-//先安装mysql模块 npm install mysql
-/*let mysql = require('mysql');
-let connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database: 'ouyo'
-});
-connection.connect();
-connection.query('select * from info', function(err, result) {
-    result.forEach(function(item) {
-        let content = new Content({
-            title: item.title,
-            content: item.content,
-            created: item.created
-        });
-        content.save(function(c) {
-            console.log('保存成功', c);
-        });
-    })
-});*/
-//备份end
 //列表
 exports.list = function (req, res) {
   let condition = {};
