@@ -92,9 +92,14 @@ block foot-js
                         100 + '%'
                     ).text('100%');
                     $.each(data.result.files, function (index, file) {
+                        let thumb = file.md_url || file.url;
+                        if (file.type.indexOf('video') > -1) {
+                          const covers = file.covers || [];
+                          thumb = `${location.origin}${covers[0]}`;
+                        }
                         var tmpl = $('#J_tmpl_gallery_item').html();
                         var html = Mustache.render(tmpl, {
-                            url: file.md_url || file.url,
+                            url: thumb,
                             id: file._id
                         });
                         $('#J_gallery').append(html);

@@ -25,11 +25,12 @@ block content
                     label 图集
                     .gallery#J_gallery
                         if (content.gallery)
-                            - each image in content.gallery
+                            - each file in content.gallery
+                                - var url = file.type.indexOf('video') > -1 ? file.covers && file.covers[0] : (file.md_url || file.url)
                                 .gallery-item
-                                    img.gallery-image(src='#{image.md_url || image.url}')
-                                    input(type='hidden', name='gallery[]', value='#{image._id}')
-                                    a.gallery-remove.J_del(href='#{adminDir}/file/#{image._id}/del')
+                                    img.gallery-image(src='#{url}')
+                                    input(type='hidden', name='gallery[]', value='#{file._id}')
+                                    a.gallery-remove.J_del(href='#{adminDir}/file/#{file._id}/del')
                                         span.fa.fa-times-circle
                     span.btn.btn-success.fileinput-button
                         i.glyphicon.glyphicon-plus
