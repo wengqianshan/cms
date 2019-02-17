@@ -16,6 +16,21 @@ let LogSchema = new Schema({
   action: {
     type: String
   },
+  name: {
+    type: String
+  },
+  qs: {
+    type: String
+  },
+  arg1: {
+    type: String
+  },
+  arg2: {
+    type: String
+  },
+  arg3: {
+    type: String
+  },
   status: {
     type: String
   },

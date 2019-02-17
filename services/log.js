@@ -16,7 +16,7 @@ class Service extends Base {
   }
 
   add(obj) {
-    let data = _.pick(obj, 'type', 'action', 'status', 'ip', 'ua', 'message', 'author');
+    let data = _.pick(obj, 'type', 'action', 'name', 'qs', 'arg1', 'arg2', 'arg3', 'status', 'ip', 'ua', 'message', 'author');
     return this.create(data);
   }
 }
