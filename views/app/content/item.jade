@@ -39,8 +39,13 @@ block content
                             each image in content.gallery
                                 .gallery-item(data-obj='#{image}')
                                     if (image.type.indexOf('video') > -1)
-                                        a(href='#{image.url}', type='#{image.type}')
-                                            video(controls src='#{image.url}')
+                                        if (image.covers && image.covers.length)
+                                          a(href='#{image.url}', type='#{image.type}')
+                                            img.lazy(data-original='#{image.covers[0]}')
+                                            span.video-icon
+                                        else if(image.url)
+                                          a.video-empty(href='#{image.url}', type='#{image.type}')
+                                              span.video-icon
                                     else if (image.type.indexOf('image') > -1)
                                         a(href='#{image.url}')
                                             img.lazy(data-original='#{image.md_url || image.url}')
@@ -137,7 +142,6 @@ block foot-js
             blueimp.Gallery($('.gallery a'), {
                 index: this,
                 event: e
-                
             })
         });
         $(".lazy").lazyload();

@@ -51,7 +51,23 @@
     max-width: 200px;
     max-height: 200px;
 }
-
+.video-icon{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: url(https://cdn.jsdelivr.net/blueimp-gallery/2.15.0/img/video-play.svg) center;
+  background-size: contain;
+  width: 40px;
+  height: 40px;
+  opacity: .8;
+  margin-left: -20px;
+  margin-top: -20px;
+}
+.video-empty{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .video-content{
     display: flex;
     align-items: center;
