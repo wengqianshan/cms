@@ -39,7 +39,7 @@ util.walk(appPath + '/models', null, function (path) {
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 if (config.env === 'production') {
   app.enable('view cache');
 }
