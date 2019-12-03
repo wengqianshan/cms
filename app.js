@@ -8,6 +8,7 @@ let favicon = require('serve-favicon');
 let compression = require('compression')
 let logger = require('morgan');
 let session = require('express-session');
+const redis = require('redis');
 let RedisStore = require('connect-redis')(session); //存储session,防止服务重启后session丢失
 let bodyParser = require('body-parser');
 let csrf = require('csurf');
@@ -63,15 +64,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // session options https://www.npmjs.com/package/express-session
-app.use(session({
-  resave: true,
-  cookie: {
-    maxAge: 86400000 // 1 day
-  },
-  saveUninitialized: true,
-  secret: config.sessionSecret || 'cms',
-  store: (config.redis.host ? new RedisStore(config.redis) : null)
-}));
+app.use(
+  session({
+    resave: true,
+    cookie: {
+      maxAge: 86400000 // 1 day
+    },
+    saveUninitialized: true,
+    secret: config.sessionSecret || "cms",
+    store: config.redis.host
+      ? new RedisStore({ client: redis.createClient(config.redis) })
+      : null
+  })
+);
 util.walk(appPath + '/routes/api', 'middlewares', function (path) {
   require(path)(app);
 });
