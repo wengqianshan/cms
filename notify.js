@@ -3,6 +3,7 @@
  * how to create a telegram bot: https://core.telegram.org/bots#3-how-do-i-create-a-bot
  * usage: https://github.com/yagop/node-telegram-bot-api
  */
+process.env.NTBA_FIX_319 = 1;
 const TelegramBot = require('node-telegram-bot-api');
 const config = require('./config');
 
