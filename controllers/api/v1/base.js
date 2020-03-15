@@ -37,6 +37,7 @@ class BaseController {
     this.list = this.list.bind(this);
     this.item = this.item.bind(this);
     this.create = this.create.bind(this);
+    this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
     this.deleteBatch = this.deleteBatch.bind(this);
   }
