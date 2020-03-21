@@ -32,13 +32,15 @@ let FileSchema = new Schema({
   },
   author: {
     type: Schema.ObjectId,
-    ref: 'User'
+    ref: "User"
   },
   status: {
     type: Number,
     default: 0
   },
-  md5: String
+  md5: String,
+  width: Number,
+  height: Number
 });
 FileSchema.methods = {
 

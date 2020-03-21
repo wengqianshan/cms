@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "gravatar": "^1.8.0",
+    "image-pixels": "^2.2.2",
     "jade": "^1.11.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
