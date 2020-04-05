@@ -16,9 +16,7 @@ class ContentController extends Base{
         path: 'gallery',
         match: { type: /(image)|(video)/ },
         select: 'name url md_url sm_url type covers width height',
-        options: {
-          limit: 3
-        }
+        perDocumentLimit: 3,
       }],
       item: [{
         path: 'author',

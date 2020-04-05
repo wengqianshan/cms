@@ -38,9 +38,7 @@ exports.index = async function (req, res) {
       }, {
         path: 'gallery',
         select: 'name url md_url sm_url type covers',
-        options: {
-          limit: 5
-        }
+        perDocumentLimit: 3,
       }],
       skip: pageInfo.start,
       limit: pageInfo.pageSize,
