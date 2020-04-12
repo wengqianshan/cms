@@ -1,14 +1,8 @@
 'use strict';
 
-/**
- * 模块依赖
- */
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
-/**
- * 角色模型
- */
 let RoleSchema = new Schema({
   name: {
     type: String,

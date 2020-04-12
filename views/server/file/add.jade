@@ -6,11 +6,10 @@ block content
         .col-md-12
             form(action='', method='post')
                 .form-group
-                    label 上传文件
                     .gallery#J_gallery
                     span.btn.btn-success.fileinput-button
                         i.glyphicon.glyphicon-plus
-                        span 添加文件
+                        span Add
                         input#fileupload(type='file', name='files[]', multiple='multiple')
                     div(style='padding: 10px;')
                     div#progress.progress.progress-striped(style='display: none;')
@@ -65,21 +64,20 @@ block foot-js
                 }
             });
 
-            //删除图集
             $('#J_gallery').on('click', '.J_del', function(e) {
               e.preventDefault()
               var $this = $(this);
               var $item = $this.closest('.gallery-item');
               swal({
-                title: '确定删除图片吗?',
-                text: '选中下方的复选框将会删除原图',
+                title: 'Are you sure to delete the picture?',
+                text: 'Selecting the check box below will delete the original image',
                 type: 'question',
                 input: 'checkbox',
                 inputValue: true,
                 showLoaderOnConfirm: true,
                 showCancelButton: true,
-                confirmButtonText: '是的',
-                cancelButtonText: '不了',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
                 preConfirm: function(checked) {
                   return new Promise(function(resolve, reject) {
                       if (checked) {
@@ -92,7 +90,7 @@ block foot-js
                                   resolve()
                                   $item.remove();
                               } else{
-                                  reject('删除失败')
+                                  reject('Failure')
                               }
                           });
                       } else {
@@ -103,7 +101,7 @@ block foot-js
                 }
               }).then(function() {
                   var checked = swal.getInput().checked;
-                  swal('已删除!', '', 'success')
+                  swal('Deleted!', '', 'success')
               }, function(dismiss) {
                 // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
               })

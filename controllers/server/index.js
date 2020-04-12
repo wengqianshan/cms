@@ -11,7 +11,6 @@ let userController = require('./user')
 let config = require('../../config')
 let util = require('../../lib/util')
 
-//后台首页
 exports.index = function (req, res) {
   if (!req.session.user) {
     let path = util.translateAdminDir('/user/login');
@@ -33,7 +32,7 @@ exports.index = function (req, res) {
   ]).then((result) => {
     //console.log(result)
     res.render('server/index', {
-      title: '管理后台',
+      title: 'Admin Dashboard',
       data: {
         content: result[0],
         category: result[1],
@@ -48,55 +47,55 @@ exports.index = function (req, res) {
   })
 };
 
-//初始化后台,安装初始数据
+// admin init
 exports.install = function (req, res) {
   if (req.session.user) {
     let path = util.translateAdminDir('');
     return res.redirect(path);
   }
-  //检查是否已经有用户
+  // check user exist
   User.find({}, function (err, results) {
     console.log(err, results);
     if (err) {
       return;
     }
     if (results.length < 1) {
-      //满足条件
       if (req.method === 'GET') {
         res.render('server/install', {
-          title: '初始化'
+          title: 'init'
         });
       } else if (req.method === 'POST') {
         let createUser = function (obj) {
           let user = new User(obj);
           user.save(function () {
             res.render('server/info', {
-              message: '初始化完成'
+              message: 'init complete'
             });
           });
         };
         let obj = req.body;
-        obj.status = 101;//系统默认管理员
-        //检查是否有角色，没有的话创建
+        obj.status = 101; // admin user
+        // check role
         Role.find({ status: 201 }, function (err, roles) {
-          console.log('查找role', err, roles)
+          console.log('find role', err, roles)
           if (roles.length < 1) {
-            console.log('没有角色 ' + config.admin.role.admin);
+            console.log('no role ' + config.admin.role.admin);
+            // create admin role
             let role = new Role({
               name: config.admin.role.admin,
               actions: [],
-              status: 201//系统默认管理员角色
+              status: 201 // admin role
             });
             role.save(function (err, result) {
               console.log('role result', result);
               obj.roles = [role._id];
               createUser(obj);
             });
-            //创建普通角色
+            // create user role
             new Role({
               name: config.admin.role.user,
               actions: [],
-              status: 202//系统默认用户角色
+              status: 202 // user role
             }).save();
           } else {
             obj.roles = [roles[0]._id];
@@ -105,7 +104,6 @@ exports.install = function (req, res) {
         })
       }
     } else {
-      //已经初始化过，跳过
       let path = util.translateAdminDir('');
       res.redirect(path);
     }

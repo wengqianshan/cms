@@ -30,12 +30,6 @@ router.route('/')
   .post(jwtMiddleWare.verify, action.checkAction('CONTENT_CREATE'), content.create)
   .delete(jwtMiddleWare.verify, action.checkAction('CONTENT_DELETE'), content.deleteBatch)
 
-// router.use(function (req, res) {
-//   res.json({
-//     success: false,
-//     error: '无效请求'
-//   })
-// })
 
 module.exports = function (app) {
   app.use('/api/v1/content', router);

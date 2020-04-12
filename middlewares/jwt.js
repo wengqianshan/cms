@@ -19,20 +19,20 @@ exports.verify = async function (req, res, next) {
     return res.json({
       success: false,
       data: null,
-      error: '缺少token'
+      error: 'no token'
     });
   }
   let data = null
   let error
-  // 缓存用户信息，读取
+
+  // cache user
   try {
     data = jwt.verify(token, config.jwt.secret)
     console.log('jwt=> \n', data);
     let uid = data.user.id
     let version = data.user.token_version
     let user;
-    // TODO 已删除用户容错
-    // 用户读缓存 or 读取
+    // TODO deleted user
     if (!UserCache[uid]) {
       user = await userService.findById(uid, null, {
         populate: ['roles']
@@ -48,15 +48,14 @@ exports.verify = async function (req, res, next) {
     req.Roles = roles;
     req.Actions = actions;
     req.user = user
-    // 用户版本更新，过期token
+    // check token version
     if (user.token_version !== version) {
-      // token中途过期处理
       req.Roles = null
       req.Actions = null
       req.user = null
       UserCache[uid] = null
       data = null
-      error = 'token过期，请重新登录'
+      error = 'token expired'
     }
   } catch (e) {
     error = e.message
@@ -65,7 +64,7 @@ exports.verify = async function (req, res, next) {
     return res.json({
       success: !error,
       data: data,
-      error: error || '请登录后操作'
+      error: error || 'please login first'
     });
   }
   next()

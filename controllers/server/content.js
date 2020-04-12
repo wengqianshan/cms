@@ -7,7 +7,6 @@ let Tag = mongoose.model('Tag')
 let _ = require('lodash')
 let util = require('../../lib/util')
 
-//列表
 exports.list = function (req, res) {
   let condition = {};
   let category = req.query.category;
@@ -18,10 +17,9 @@ exports.list = function (req, res) {
   if (!isAdmin) {
     condition.author = req.session.user._id;
   }
-  //查数据总数
+  
   Content.count(condition).exec().then(function (total) {
     let query = Content.find(condition).populate('author', 'username name email');
-    //分页
     let pageInfo = util.createPage(req.query.page, total);
     //console.log(pageInfo);
     query.skip(pageInfo.start);
@@ -30,7 +28,7 @@ exports.list = function (req, res) {
     query.exec(function (err, results) {
       //console.log(err, results);
       res.render('server/content/list', {
-        title: '内容列表',
+        title: 'Content List',
         contents: results,
         pageInfo: pageInfo,
         Menu: 'list'
@@ -38,7 +36,7 @@ exports.list = function (req, res) {
     });
   });
 };
-//添加
+
 exports.add = function (req, res) {
   if (req.method === 'GET') {
     let condition = {};
@@ -76,12 +74,12 @@ exports.add = function (req, res) {
       if (err) {
         console.log(err);
         return res.render('server/info', {
-          message: '创建失败'
+          message: 'Failure'
         });
       }
 
       res.render('server/info', {
-        message: '创建成功'
+        message: 'Success'
       });
     });
   }
@@ -91,14 +89,14 @@ exports.edit = function (req, res) {
     let id = req.params.id;
     Content.findById(id).populate('author gallery tags').exec(function (err, result) {
       if (err) {
-        console.log('加载内容失败');
+        console.log('Failure');
       }
       let isAdmin = req.isAdmin;
       let isAuthor = result.author && ((result.author._id + '') === req.session.user._id);
 
       if (!isAdmin && !isAuthor) {
         return res.render('server/info', {
-          message: '没有权限'
+          message: 'no permission'
         });
       }
       let condition = {};
@@ -137,7 +135,7 @@ exports.edit = function (req, res) {
 
       if (!isAdmin && !isAuthor) {
         return res.render('server/info', {
-          message: '没有权限'
+          message: 'no permission'
         });
       }
       _.assign(result, obj);
@@ -149,23 +147,23 @@ exports.edit = function (req, res) {
         }
         if (err || !content) {
           return res.render('server/info', {
-            message: '修改失败'
+            message: 'Failure'
           });
         }
         res.render('server/info', {
-          message: '更新成功'
+          message: 'Success'
         });
       });
     });
   }
 };
-//删除
+
 exports.del = function (req, res) {
   let id = req.params.id;
   Content.findById(id).populate('author').exec(function (err, result) {
     if (err || !result) {
       return res.render('server/info', {
-        message: '内容不存在'
+        message: 'Not Exist'
       });
     }
     let isAdmin = req.isAdmin;
@@ -173,7 +171,7 @@ exports.del = function (req, res) {
 
     if (!isAdmin && !isAuthor) {
       return res.render('server/info', {
-        message: '没有权限'
+        message: 'no permission'
       });
     }
     //
@@ -185,11 +183,11 @@ exports.del = function (req, res) {
       }
       if (err) {
         return res.render('server/info', {
-          message: '删除失败'
+          message: 'Failure'
         });
       }
       res.render('server/info', {
-        message: '删除成功'
+        message: 'Success'
       })
     });
   });

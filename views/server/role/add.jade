@@ -5,11 +5,10 @@ block content
         .col-md-12
             form(action='', method='post')
                 .form-group
-                    label 角色名
+                    labelRole
                     input.form-control(name='name')
                 .form-group
-                    label 权限
-                    h4 选择权限
+                    label Actions
                     - each action in ACTIONS
                         | #{action.name}
                         ul.list-group
@@ -19,10 +18,10 @@ block content
                                         input(name='actions[]', type='checkbox', value='#{item.value}')
                                         | #{item.name} (#{item.description})
                 .form-group
-                    label 描述
+                    label Description
                     textarea.form-control(name='description', rows='8')
                 input(type='hidden', name='_csrf', value='#{token}')
-                button.btn.btn-primary(type='submit') 提交
+                button.btn.btn-primary(type='submit') Submit
 
 block foot-js
     script.
@@ -38,21 +37,21 @@ block foot-js
                 },
                 beforeSubmit: function() {
                     console.log('beforeSubmit')
-                    messenger = Messenger().post("处理中...");
+                    messenger = Messenger().post("Processing...");
                 },
                 success: function(data, status, xhr, $form) {
                     console.log(data)
                     var status = data.status;
                     if (status) {
                         messenger.update({
-                            message: '添加成功',
+                            message: 'Success',
                             hideAfter: 3,
                             type: 'success'
                         });
                         $form[0].reset();
                     } else {
                         messenger.update({
-                            message: '添加失败',
+                            message: 'Failure',
                             hideAfter: 3,
                             type: 'success'
                         });
@@ -61,7 +60,7 @@ block foot-js
                 err: function() {
                     console.log('error')
                     messenger.update({
-                        message: '系统繁忙',
+                        message: 'System Error',
                         hideAfter: 3,
                         type: 'success'
                     });

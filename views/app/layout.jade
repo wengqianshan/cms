@@ -10,31 +10,31 @@ html
     body
         .ui.large.top.fixed.menu.transition.hidden
             .ui.container
-                a.item(class=!Path ? 'active' : '',href='/') 首页
-                a.item(class=Path === 'contact' ? 'active' : '',href='/contact') 留言
+                a.item(class=!Path ? 'active' : '',href='/') Home
+                a.item(class=Path === 'contact' ? 'active' : '',href='/contact') Message
                 .right.menu
                     if (User)
                         a.item(href='#{adminDir}')
                             | #{User.name}
-                        a.item(href='#{adminDir}/user/logout') 注销
+                        a.item(href='#{adminDir}/user/logout') Logout
                     else
                         .item
-                            a.ui.button(href='#{adminDir}/user/login') 登录
+                            a.ui.button(href='#{adminDir}/user/login') Login
                         .item
-                            a.ui.primary.button(href='#{adminDir}/user/register') 注册
+                            a.ui.primary.button(href='#{adminDir}/user/register') Register
         .pusher
             .ui.inverted.vertical.masthead.center.aligned.segment
                 .ui.container
                     .ui.large.secondary.inverted.pointing.menu
-                        a.item(class=!Path ? 'active' : '',href='/') 首页
-                        a.item(class=Path === 'contact' ? 'active' : '',href='/contact') 留言
+                        a.item(class=!Path ? 'active' : '',href='/') Home
+                        a.item(class=Path === 'contact' ? 'active' : '',href='/contact') Message
                         .right.item
                             if (User)
                                 a.item(href='#{adminDir}') #{User.name}
-                                a.item(href='#{adminDir}/user/logout') 注销
+                                a.item(href='#{adminDir}/user/logout') Logout
                             else
-                                a(href='#{adminDir}/user/login', style='margin-right: 16px;') 登录
-                                a(href='#{adminDir}/user/register') 注册
+                                a(href='#{adminDir}/user/login', style='margin-right: 16px;') Login
+                                a(href='#{adminDir}/user/register') Register
             
         .page
             block content
@@ -53,8 +53,8 @@ html
                             a.item
                     .ten.wide.column
                         h3.ui.inverted.large.header wenglou
-                        p 基于nodejs的cms系统，nodejs + mongodb
-                        a.item(target='_blank', href='https://github.com/xiaoshan5733/cms') github
+                        p Cms system based on node
+                        a.item(target='_blank', href='https://github.com/wengqianshan/cms') github
         script(src='//cdn.jsdelivr.net/jquery/3.2.1/jquery.min.js')
         script(src='//cdn.jsdelivr.net/semantic-ui/2.2.9/semantic.min.js')
         script(src='//cdn.jsdelivr.net/mustache.js/2.3.0/mustache.min.js')

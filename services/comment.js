@@ -1,5 +1,5 @@
 /**
- * 评论服务
+ * comment
  **/
 'use strict';
 

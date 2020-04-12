@@ -5,7 +5,7 @@ block content
         .col-md-12
             .panel.panel-primary
                 .panel-heading
-                    | 我的信息
+                    | Profile
                 ul.list-group
                     li.list-group-item
                         .row
@@ -13,24 +13,24 @@ block content
                                 - var avatar = user.avatar || gravatar.url(user.email, {s: '100',r: 'x',d: 'retro'}, true)
                                 img.img-circle(src='#{avatar}', alt='', width='100', height='100')
                             .col-md-10
-                                a(href='#{adminDir}/me/edit', title='编辑', style='line-height: 100px;')
+                                a(href='#{adminDir}/me/edit', title='edit', style='line-height: 100px;')
                                     span.glyphicon.glyphicon-edit
-                    //li.list-group-item
+                    li.list-group-item
                         .row
                             .col-md-2
-                                strong 用户ID
+                                strong ID
                             .col-md-10
                                 | #{user.id}
                     li.list-group-item
                         .row
                             .col-md-2
-                                strong 用户名
+                                strong Username
                             .col-md-10
                                 | #{user.username}
                     li.list-group-item
                         .row
                             .col-md-2
-                                strong 名字
+                                strong Name
                             .col-md-10
                                 | #{user.name}
                     li.list-group-item
@@ -42,31 +42,31 @@ block content
                     li.list-group-item
                         .row
                             .col-md-2
-                                strong 手机号
+                                strong Mobile
                             .col-md-10
                                 | #{user.mobile}
                     li.list-group-item
                         .row
                             .col-md-2
-                                strong 生日
+                                strong Birthday
                             .col-md-10
-                                | #{moment(user.birthday || '').format('YYYY年MM月DD日')}
+                                | #{moment(user.birthday || '').format('YYYY/MM/DD')}
                     li.list-group-item
                         .row
                             .col-md-2
-                                strong 性别
+                                strong Gender
                             .col-md-10
                                 | #{user.gender}
                     li.list-group-item
                         .row
                             .col-md-2
-                                strong 角色
+                                strongRole
                             .col-md-10
                                 | #{user._roles}
                     li.list-group-item
                         .row
                             .col-md-2
-                                strong 权限
+                                strong Actions
                             .col-md-10
                                 - each action in ACTIONS
                                         | #{action.name}
@@ -78,32 +78,32 @@ block content
                     li.list-group-item
                         .row
                             .col-md-2
-                                strong 注册日期
+                                strong Register Date
                             .col-md-10
                                 | #{moment(user.created).format('LLL')}
     .row
         .col-md-12
             .panel.panel-danger
                 .panel-heading
-                    | 修改密码
+                    | Change Password
                 .panel-body
                     form.form-horizontal(action='#{adminDir}/me/updatepwd', method='post')
                         .form-group
-                            label.col-md-2.text-right 旧密码
+                            label.col-md-2.text-right Old Password
                             .col-md-4
                                 input.form-control(type='password', name='oldpassword')
                         .form-group
-                            label.col-md-2.text-right 新密码
+                            label.col-md-2.text-right New Password
                             .col-md-4
                                 input.form-control(type='password', name='password')
                         .form-group
-                            label.col-md-2.text-right 确认新密码
+                            label.col-md-2.text-right Confirm New Password
                             .col-md-4
                                 input.form-control(type='password', name='repassword')
                         input(type='hidden', name='_csrf', value='#{token}')
                         .form-group
                             .col-md-4.col-md-offset-2
-                                button.btn.btn-primary(type='submit') 提交
+                                button.btn.btn-primary(type='submit') Submit
 
                     
 

@@ -5,29 +5,29 @@ block content
         .col-md-6
             .panel.panel-default
                 .panel-heading
-                    h3.panel-title 添加用户
+                    h3.panel-title Add
                 .panel-body
                     form.form-horizontal(role='form', action='', method='post')
                         .form-group
-                            label.col-sm-2.control-label(for='inputEmail2') 用户名
+                            label.col-sm-2.control-label(for='inputEmail2') Username
                             .col-sm-10
-                                input#inputEmail2.form-control(type='text', name='username', placeholder='用户名')
+                                input#inputEmail2.form-control(type='text', name='username', placeholder='')
                         .form-group
-                            label.col-sm-2.control-label(for='inputPassword3') 密码
+                            label.col-sm-2.control-label(for='inputPassword3') Password
                             .col-sm-10
-                                input#inputPassword3.form-control(type='password', name='password', placeholder='密码')
+                                input#inputPassword3.form-control(type='password', name='password', placeholder='')
                         .form-group
-                            label.col-sm-2.control-label(for='inputPassword4') 姓名
+                            label.col-sm-2.control-label(for='inputPassword4') Name
                             .col-sm-10
-                                input#inputPassword4.form-control(type='text', name='name', placeholder='姓名')
+                                input#inputPassword4.form-control(type='text', name='name', placeholder='')
                         .form-group
                             label.col-sm-2.control-label(for='inputPassword5') Email
                             .col-sm-10
-                                input#inputPassword5.form-control(type='email', name='email', placeholder='Email')
+                                input#inputPassword5.form-control(type='email', name='email', placeholder='')
                         input(type='hidden', name='_csrf', value='#{token}')
                         .form-group
                             .col-sm-offset-2.col-sm-10
-                                button.btn.btn-primary(type='submit') 提交
+                                button.btn.btn-primary(type='submit') Submit
 
 block foot-js
     script.
@@ -43,21 +43,21 @@ block foot-js
                 },
                 beforeSubmit: function() {
                     console.log('beforeSubmit')
-                    messenger = Messenger().post("处理中...");
+                    messenger = Messenger().post("Processing...");
                 },
                 success: function(data, status, xhr, $form) {
                     console.log(data)
                     var status = data.status;
                     if (status) {
                         messenger.update({
-                            message: '添加成功',
+                            message: 'Success',
                             hideAfter: 3,
                             type: 'success'
                         });
                         $form[0].reset();
                     } else {
                         messenger.update({
-                            message: '添加失败',
+                            message: 'Failure',
                             hideAfter: 3,
                             type: 'success'
                         });
@@ -66,7 +66,7 @@ block foot-js
                 err: function() {
                     console.log('error')
                     messenger.update({
-                        message: '系统繁忙',
+                        message: 'System Error',
                         hideAfter: 3,
                         type: 'success'
                     });

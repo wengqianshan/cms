@@ -4,18 +4,17 @@ block head-css
 block content
     .row
         .col-md-12
-            a.btn.btn-info.J_post(href='#{adminDir}/notification/add') 发私信
+            a.btn.btn-info.J_post(href='#{adminDir}/notification/add') Add
             table.table.table-striped
                 thead
                     tr
-                        th 内容
-                        th 来自
-                        th 发给
-                        //th 是否已读
-                        th 未读
-                        th 已读
-                        th 时间
-                        th 操作
+                        th Content
+                        th From
+                        th To
+                        th Unread
+                        th Read
+                        th Date
+                        th Operation
                 tbody
                     - each notification in notifications
                         tr
@@ -25,7 +24,6 @@ block content
                             td 
                                 each item in notification.to
                                     span.badge.badge-default #{item && item.username}
-                            //td #{notification.isRead ? '已读' : '未读'}
                             td
                                 each item in notification.unread
                                     span.badge.badge-default #{item && item.username}
@@ -35,19 +33,19 @@ block content
                             td
                                 | #{moment(notification.created).format('LLL')}
                             td
-                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/notification/#{notification.id}/del') 删除
+                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/notification/#{notification.id}/del') delete
             if (pageInfo && pageInfo.totalPage > 1)
                 - pageInfo.query = query
                 include ../mixin
                 +pagination(pageInfo)
     script#J_tmpl_add(type='x-tmpl-mustache')
         .form-group
-            label 收信人
+            label To
             //input.form-control(name='kw')
             select.form-control.J_to_users(name='kw', style='width: 60%', multiple='multiple')
                 
         .form-group
-            label 内容
+            label Content
             textarea.form-control(rows='4')
 block foot-js
     script(src='//cdn.jsdelivr.net/select2/4.0.3/js/select2.min.js')
@@ -71,16 +69,16 @@ block foot-js
                 }, function(json) {
                     console.log(json);
                     dialog.close();
-                    swal('发送成功!', '', 'success')
+                    swal('Success!', '', 'success')
                 });
             };
             
             var $dialog = BootstrapDialog.show({
-                title: '发送私信',
+                title: 'Post Message',
                 message: $('<div/>').append($('#J_tmpl_add').html()),
                 buttons: [
                     {
-                        label: '发送',
+                        label: 'Send',
                         cssClass: 'btn-primary',
                         action: function(dialog) {
                             console.log(dialog)
@@ -90,7 +88,7 @@ block foot-js
                         }
                     },
                     {
-                        label: '取消',
+                        label: 'Cancel',
                         action: function(dialogItself) {
                             dialogItself.close();
                         }
@@ -158,20 +156,20 @@ block foot-js
             var $this = $(this);
             var $tr = $this.closest('tr');
             var url = $this.attr('href');
-            var messenger = Messenger().post("处理中...");
+            var messenger = Messenger().post("Processing...");
             $.post(url, {_csrf: token}, function(json) {
                 console.log(json);
                 var status = json.status;
                 if(status === true) {
                     messenger.update({
-                        message: '删除成功',
+                        message: 'Success',
                         hideAfter: 3,
                         type: 'success'
                     });
                     $tr.remove();
                 } else {
                     messenger.update({
-                        message: '删除失败',
+                        message: 'Failure',
                         hideAfter: 3,
                         type: 'error'
                     });

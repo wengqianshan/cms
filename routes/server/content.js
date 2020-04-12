@@ -6,9 +6,8 @@ let util = require('../../lib/util')
 let action = require('../../middlewares/action')
 let content = require('../../controllers/server/content')
 
-//权限判断
 router.use(function (req, res, next) {
-  console.log('内容页: ' + Date.now());
+  console.log('content: ' + Date.now());
   res.locals.Path = 'content';
   if (!req.session.user) {
     let path = util.translateAdminDir('/user/login');
@@ -17,13 +16,13 @@ router.use(function (req, res, next) {
   next();
 });
 
-//内容列表
+
 router.route('/').get(action.checkAction('CONTENT_INDEX'), content.list);
-//添加内容
+
 router.route('/add').all(action.checkAction('CONTENT_CREATE'), content.add);
-//更新信息
+
 router.route('/:id/edit').all(action.checkAction('CONTENT_UPDATE'), content.edit);
-//删除信息
+
 router.route('/:id/del').post(action.checkAction('CONTENT_DELETE'), content.del);
 
 

@@ -8,37 +8,37 @@ block content
                         .panel.panel-primary
                             .panel-heading
                                 h3.panel-title
-                                    | 设置密码
+                                    | Reset Password
                             .panel-body
-                                p  请设置新密码 #{user.username}
+                                p #{user.username}
                                 form.form-horizontal(role='form', action='', method='post')
                                     .form-group
                                         .col-md-12
-                                            input#email.form-control(type='password', name='password', placeholder='请输入新密码', autofocus)
+                                            input#email.form-control(type='password', name='password', placeholder='please input new password', autofocus)
                                             i.fa.fa-user
                                     .form-group
                                         .col-md-12
-                                            input#password.form-control(type='password', name='repassword', placeholder='确认新密码')
+                                            input#password.form-control(type='password', name='repassword', placeholder='confirm password')
                                             i.fa.fa-lock
                                     .form-group
                                         .col-md-12
                                             input(type='hidden', name='hash', value='#{hash}')
                                             input(type='hidden', name='_csrf', value='#{token}')
-                                            button.btn.btn-primary.btn-block(type='submit') 提交
+                                            button.btn.btn-primary.btn-block(type='submit') Submit
                     else
                         .panel.panel-primary
                             .panel-heading
                                 h3.panel-title
-                                    | 找回密码
+                                    | Forgot Password
                             .panel-body
-                                p  请输入您的用户名
+                                p  please input your username
                                 form.form-horizontal(role='form', action='', method='post')
                                     .form-group
                                         .col-md-12
-                                            input#email.form-control(type='text', name='username', placeholder='用户名', autofocus)
+                                            input#email.form-control(type='text', name='username', placeholder='', autofocus)
                                             i.fa.fa-user
                                     .form-group
                                         .col-md-12
                                             input(type='hidden', name='_csrf', value='#{token}')
-                                            button.btn.btn-primary.btn-block(type='submit') 提交
+                                            button.btn.btn-primary.btn-block(type='submit') Submit
 

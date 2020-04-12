@@ -10,9 +10,9 @@ block content
                         if (comment.author)
                             strong
                                 | #{comment.author.name} 
-                        | 发布于 
+                        | Time 
                         | #{moment(comment.created).format('LLL')}
-                        p 来自
+                        p From
                             if (comment.from)
                                 a(href='/content/#{comment.from._id}') #{comment.from.title}
             

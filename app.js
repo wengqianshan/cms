@@ -9,7 +9,7 @@ let compression = require('compression')
 let logger = require('morgan');
 let session = require('express-session');
 const redis = require('redis');
-let RedisStore = require('connect-redis')(session); //存储session,防止服务重启后session丢失
+let RedisStore = require('connect-redis')(session);
 let bodyParser = require('body-parser');
 let csrf = require('csurf');
 let moment = require('moment');
@@ -18,22 +18,22 @@ let util = require('./lib/util');
 
 let appPath = process.cwd();
 let config = require('./config');
-//设置moment语言
-moment.locale('zh-cn');
+
+// moment.locale('zh-cn');
 
 let app = express();
 
 app.use(compression())
 
-//连接数据库
+// db connect
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
 mongoose.connect(config.mongodb.uri, { useNewUrlParser: true, useUnifiedTopology: true }).then(function (db) {
-  console.log('mongodb连接成功')
+  console.log('mongodb connected')
 }, function (err) {
-  console.log('mongodb连接失败', err)
+  console.log('mongodb connect error', err)
 })
-//载入数据模型
+// load models
 util.walk(appPath + '/models', null, function (path) {
   require(path);
 });
@@ -45,7 +45,7 @@ if (config.env === 'production') {
   app.enable('view cache');
 }
 
-//定义全局字段
+// global variables
 app.locals = {
   title: config.title || 'CMS',
   pretty: true,
@@ -107,7 +107,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-//路由控制
+// router
 util.walk(appPath + '/routes/app', 'middlewares', function (path) {
   require(path)(app);
 });
@@ -118,12 +118,10 @@ util.walk(appPath + '/routes/server', 'middlewares', function (path) {
 
 /// catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  let err = new Error('页面不存在');
+  let err = new Error('Not Found!');
   err.status = 404;
   next(err);
 });
-
-/// error handlers
 
 // development error handler
 // will print stacktrace
@@ -146,5 +144,5 @@ if (config.env === 'development') {
 
 app.set('port', process.env.PORT || config.port || 7000);
 let server = app.listen(app.get('port'), function () {
-  console.log('网站服务已启动，端口号： ' + server.address().port);
+  console.log('service started! port: ' + server.address().port);
 });

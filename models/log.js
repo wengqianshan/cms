@@ -1,14 +1,8 @@
 'use strict';
 
-/**
- * 模块依赖
- */
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
-/**
- * 标签模型
- */
 let LogSchema = new Schema({
   type: {
     type: String

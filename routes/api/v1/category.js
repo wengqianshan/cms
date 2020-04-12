@@ -58,13 +58,6 @@ router
     category.deleteBatch
   );
 
-// router.use(function (req, res) {
-//   res.json({
-//     success: false,
-//     error: '无效请求'
-//   })
-// })
-
 module.exports = function (app) {
   app.use("/api/v1/category", router);
 };

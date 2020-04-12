@@ -13,7 +13,7 @@ let fileService = new FileService()
 
 const Uploader = require('../../lib/uploader');
 const uploader = new Uploader();
-//列表
+
 exports.list = function (req, res) {
   //console.log(req.cookies['XSRF-TOKEN'])
   let condition = {};
@@ -23,7 +23,6 @@ exports.list = function (req, res) {
   }
   File.count(condition, function (err, total) {
     let query = File.find(condition).populate('author');
-    //分页
     let pageInfo = util.createPage(req.query.page, total);
     // console.log(pageInfo)
     query.skip(pageInfo.start);
@@ -39,14 +38,14 @@ exports.list = function (req, res) {
     });
   })
 };
-//单条
+
 exports.one = function (req, res) {
   let id = req.params.id;
   File.findById(id).populate('author').exec(function (err, result) {
     // console.log(result);
     if (!result) {
       return res.render('server/info', {
-        message: '该文件不存在'
+        message: 'Not Exist'
       });
     }
     res.render('server/file/item', {
@@ -55,7 +54,7 @@ exports.one = function (req, res) {
     });
   });
 };
-//添加
+
 exports.add = async function (req, res) {
   if (req.method === 'GET') {
     res.render('server/file/add', {
@@ -73,7 +72,7 @@ exports.add = async function (req, res) {
     res.json(result);
   }
 };
-// TODO: 重构
+
 exports.edit = function (req, res) {
   if (req.method === 'GET') {
     let id = req.params.id;
@@ -83,7 +82,7 @@ exports.edit = function (req, res) {
 
       if (!isAdmin && !isAuthor) {
         return res.render('server/info', {
-          message: '没有权限'
+          message: 'no permission'
         });
       }
       res.render('server/file/edit', {
@@ -99,19 +98,19 @@ exports.edit = function (req, res) {
 
       if (!isAdmin && !isAuthor) {
         return res.render('server/info', {
-          message: '没有权限'
+          message: 'no permission'
         });
       }
       _.assign(result, obj);
       result.save(function (err, role) {
         res.render('server/info', {
-          message: '更新成功'
+          message: 'Success'
         });
       });
     });
   }
 };
-//删除
+
 exports.del = async function (req, res) {
   const id = req.params.id;
   let data;
@@ -126,7 +125,7 @@ exports.del = async function (req, res) {
     const isAdmin = req.isAdmin;
     const isAuthor = file.author && (file.author._id + '') === req.session.user._id + '';
     if (!isAdmin && !isAuthor) {
-      error = '没有权限';
+      error = 'no permission';
     } else {
       data = await fileService.del(id);
     }

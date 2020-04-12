@@ -7,7 +7,6 @@ let _ = require('lodash')
 let util = require('../../lib/util')
 const ACTIONS = require('../../actions')
 
-//列表
 exports.list = function (req, res) {
   let condition = {};
   const isAdmin = req.isAdmin;
@@ -16,7 +15,6 @@ exports.list = function (req, res) {
   }
   Role.count(condition, function (err, total) {
     let query = Role.find(condition).populate('author');
-    //分页
     let pageInfo = util.createPage(req.query.page, total);
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);
@@ -31,14 +29,14 @@ exports.list = function (req, res) {
     });
   })
 };
-//单条
+
 exports.one = function (req, res) {
   let id = req.params.id;
   Role.findById(id).populate('author').exec(function (err, result) {
     console.log(result);
     if (!result) {
       return res.render('server/info', {
-        message: '该内容不存在'
+        message: 'Not Exist'
       });
     }
     res.render('server/role/item', {
@@ -47,7 +45,7 @@ exports.one = function (req, res) {
     });
   });
 };
-//添加
+
 exports.add = function (req, res) {
   if (req.method === 'GET') {
     let actions = [];
@@ -70,16 +68,15 @@ exports.add = function (req, res) {
     });
   } else if (req.method === 'POST') {
     let obj = _.pick(req.body, 'name', 'actions', 'description');
-    //转为数组格式
     let actions = obj.actions;
     obj.actions = _.uniq(actions);
-    //如果不是管理员，检查是否超出权限
+    // check actions
     const isAdmin = req.isAdmin;
     if (!isAdmin) {
-      let overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
+      let overAuth = _.difference(obj.actions, req.Actions);
       if (overAuth.length > 0) {
         return res.render('server/info', {
-          message: '你不能操作如下权限:' + overAuth.join(',')
+          message: 'You have no permissions:' + overAuth.join(',')
         });
       }
     }
@@ -95,11 +92,11 @@ exports.add = function (req, res) {
       }
       if (err) {
         return res.render('server/info', {
-          message: '创建失败'
+          message: 'Failure'
         });
       }
       res.render('server/info', {
-        message: '创建成功'
+        message: 'Success'
       });
     });
   }
@@ -113,12 +110,12 @@ exports.edit = function (req, res) {
 
       if (!isAdmin && !isAuthor) {
         return res.render('server/info', {
-          message: '没有权限'
+          message: 'no permission'
         });
       }
       if (result.status === 201) {
-        return res.render('server/info', {
-          message: '系统默认管理员角色不可修改'
+        return res.render("server/info", {
+          message: "The system default administrator role cannot be modified",
         });
       }
       //console.log(result)
@@ -143,7 +140,6 @@ exports.edit = function (req, res) {
   } else if (req.method === 'POST') {
     let id = req.params.id;
     let obj = _.pick(req.body, 'name', 'actions', 'description');
-    //转为数组格式
     let actions = obj.actions;
     obj.actions = _.uniq(actions);
     Role.findById(id).populate('author').exec(function (err, result) {
@@ -152,20 +148,20 @@ exports.edit = function (req, res) {
 
       if (!isAdmin && !isAuthor) {
         return res.render('server/info', {
-          message: '没有权限'
+          message: 'no permission'
         });
       }
       if (result.status === 201) {
-        return res.render('server/info', {
-          message: '系统默认管理员角色不可修改'
+        return res.render("server/info", {
+          message: "The system default administrator role cannot be modified",
         });
       }
-      //如果不是管理员，检查是否超出权限
+      // check actions
       if (!isAdmin) {
-        let overAuth = _.difference(obj.actions, req.Actions);//返回第一个参数不同于第二个参数的条目
+        let overAuth = _.difference(obj.actions, req.Actions);
         if (overAuth.length > 0) {
           return res.render('server/info', {
-            message: '你不能操作如下权限:' + overAuth.join(',')
+            message: 'You have no permissions:' + overAuth.join(',')
           });
         }
       }
@@ -178,16 +174,16 @@ exports.edit = function (req, res) {
         }
         if (err || !role) {
           return res.render('server/info', {
-            message: '更新失败'
+            message: 'Failure'
           });
         }
-        //重置session信息
+        // reset session
         userController.reload(req.session.user._id, function (err, user) {
           req.session.user = user;
           res.locals.User = user;
           if (!err) {
             res.render('server/info', {
-              message: '更新成功'
+              message: 'Success'
             });
           }
         });
@@ -195,13 +191,13 @@ exports.edit = function (req, res) {
     });
   }
 };
-//删除
+
 exports.del = function (req, res) {
   let id = req.params.id;
   Role.findById(id).populate('author').exec(function (err, result) {
     if (!result) {
       return res.render('server/info', {
-        message: '角色不存在'
+        message: 'Not Exist'
       });
     }
     let isAdmin = req.isAdmin;
@@ -209,12 +205,12 @@ exports.del = function (req, res) {
 
     if (!isAdmin && !isAuthor) {
       return res.render('server/info', {
-        message: '没有权限'
+        message: 'no permission'
       });
     }
     if (result.status === 201 || result.status === 202) {
-      return res.render('server/info', {
-        message: '系统默认角色不可删除'
+      return res.render("server/info", {
+        message: "The system default role cannot be deleted",
       });
     }
     result.remove(function (err) {
@@ -225,19 +221,19 @@ exports.del = function (req, res) {
       }
       if (err) {
         return res.render('server/info', {
-          message: '删除失败'
+          message: 'Failure'
         });
       }
       /*res.render('server/info', {
-          message: '删除成功'
+          message: 'Success'
       })*/
-      //重置session信息
+      // reset session
       userController.reload(req.session.user._id, function (err, user) {
         req.session.user = user;
         res.locals.User = user;
         if (!err) {
           res.render('server/info', {
-            message: '删除成功'
+            message: 'Success'
           });
         }
       });

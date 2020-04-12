@@ -10,23 +10,17 @@ block content
         .ui.container
             form.ui.form(action='', method='POST', role='form')
                 .four.wide.field
-                    label(for='') 名字
-                    input(type='text', placeholder='请输入姓名', name='name')
-                //.form-group
-                    label.control-label(for='') 手机
-                    input.form-control(type='text', placeholder='请输入手机号', name='mobile')
+                    label(for='') Name
+                    input(type='text', placeholder='please input your name', name='name')
                 .four.wide.field
-                    label(for='') 邮箱
-                    input(type='text', placeholder='请输入邮箱', name='email')
-                //.form-group
-                    label(for='') 通讯地址
-                    input.form-control(type='text', placeholder='', name='address')
+                    label(for='') Email
+                    input(type='text', placeholder='please input your email', name='email')
                 .field
-                    label(for='') 留言
-                    textarea(placeholder='留言内容', name='content', rows='5')
+                    label(for='') Content
+                    textarea(placeholder='please leave a message', name='content', rows='5')
                     input(type='hidden', name='_csrf', value='#{token}')
                 .inline.field
-                    button.ui.primary.button(type='submit') 提交 
+                    button.ui.primary.button(type='submit') Submit 
             
             
 block foot-js

@@ -5,7 +5,6 @@ let Category = mongoose.model('Category')
 let _ = require('lodash')
 let util = require('../../lib/util')
 
-//列表
 exports.list = function (req, res) {
   let condition = {};
   const isAdmin = req.isAdmin;
@@ -14,7 +13,6 @@ exports.list = function (req, res) {
   }
   Category.count(condition, function (err, total) {
     let query = Category.find(condition).populate('author');
-    //分页
     let pageInfo = util.createPage(req.query.page, total);
     //console.log(pageInfo);
     query.skip(pageInfo.start);
@@ -23,7 +21,6 @@ exports.list = function (req, res) {
     query.exec(function (err, results) {
       //console.log(err, results);
       res.render('server/category/list', {
-        //title: '列表',
         categorys: results,
         pageInfo: pageInfo,
         Menu: 'list'
@@ -32,14 +29,14 @@ exports.list = function (req, res) {
   })
 
 };
-//单条
+
 exports.one = function (req, res) {
   let id = req.params.id;
   Category.findById(id).populate('author', 'username name email').populate('parent').exec(function (err, result) {
     console.log(result);
     if (!result) {
       return res.render('server/info', {
-        message: '该分类不存在'
+        message: 'Not Exist'
       });
     }
     res.render('server/category/item', {
@@ -48,7 +45,7 @@ exports.one = function (req, res) {
     });
   });
 };
-//添加
+
 exports.add = function (req, res) {
   if (req.method === 'GET') {
     let condition = {};
@@ -79,11 +76,11 @@ exports.add = function (req, res) {
       }
       if (err) {
         return res.render('server/info', {
-          message: '创建失败'
+          message: 'Failure'
         });
       }
       res.render('server/info', {
-        message: '创建成功'
+        message: 'Success'
       });
     });
   }
@@ -97,7 +94,7 @@ exports.edit = function (req, res) {
 
       if (!isAdmin && !isAuthor) {
         return res.render('server/info', {
-          message: '没有权限'
+          message: 'no permission'
         });
       }
       let condition = {};
@@ -123,7 +120,7 @@ exports.edit = function (req, res) {
 
       if (!isAdmin && !isAuthor) {
         return res.render('server/info', {
-          message: '没有权限'
+          message: 'no permission'
         });
       }
       _.assign(result, obj);
@@ -135,20 +132,20 @@ exports.edit = function (req, res) {
         }
         if (!err) {
           res.render('server/info', {
-            message: '更新成功'
+            message: 'Success'
           });
         }
       });
     });
   }
 };
-//删除
+
 exports.del = function (req, res) {
   let id = req.params.id;
   Category.findById(id).populate('author').exec(function (err, result) {
     if (!result) {
       return res.render('server/info', {
-        message: '分类不存在'
+        message: 'Not Exist'
       });
     }
     let isAdmin = req.isAdmin;
@@ -156,7 +153,7 @@ exports.del = function (req, res) {
 
     if (!isAdmin && !isAuthor) {
       return res.render('server/info', {
-        message: '没有权限'
+        message: 'no permission'
       });
     }
     result.remove(function (err) {
@@ -167,11 +164,11 @@ exports.del = function (req, res) {
       }
       if (err) {
         return res.render('server/info', {
-          message: '删除失败'
+          message: 'Failure'
         });
       }
       res.render('server/info', {
-        message: '删除成功'
+        message: 'Success'
       })
     });
   });

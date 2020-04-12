@@ -1,5 +1,5 @@
 /**
- * 角色服务
+ * role
  **/
 'use strict';
 

@@ -1,5 +1,5 @@
 /**
- * 分类服务
+ * category
  **/
 'use strict';
 

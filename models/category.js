@@ -1,14 +1,8 @@
 'use strict';
 
-/**
- * 模块依赖
- */
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
-/**
- * 分类模型
- */
 let CategorySchema = new Schema({
   name: {
     type: String,
@@ -43,42 +37,42 @@ CategorySchema.methods = {
 mongoose.model('Category', CategorySchema);
 
 /*
- * 分类嵌套格式获取方法示例
+ * Nested example
  * 
 let items = [
     {
         id: 1,
-        name: '顶级分类1'
+        name: 'category1'
     },{
         id: 2,
-        name: '顶级分类1'
+        name: 'category1'
     },{
         id: 3,
-        name: '顶级分类1',
+        name: 'category1',
         parent: 1
     },{
         id: 4,
-        name: '顶级分类1',
+        name: 'category1',
         parent: 2
     },{
         id: 5,
-        name: '顶级分类1',
+        name: 'category1',
         parent: 3
     },{
         id: 6,
-        name: '顶级分类1',
+        name: 'category1',
         parent: 5
     },{
         id: 7,
-        name: '顶级分类1',
+        name: 'category1',
         parent: 5
     },{
         id: 8,
-        name: '顶级分类1',
+        name: 'category1',
         parent: 2
     },{
         id: 9,
-        name: '顶级分类1'
+        name: 'category1'
     }
 ]
 

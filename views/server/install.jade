@@ -7,21 +7,21 @@ block content
                 .panel.panel-primary
                     .panel-heading
                         h3.panel-title
-                            | 后台初始化
+                            | Initialization
                     .panel-body
                         form(role='form', action='#{adminDir}/install', method='post')
                             .form-group
-                                label(for='exampleInputEmail1') 超级管理员
-                                input#exampleInputEmail1.form-control(type='text', name='username', placeholder='请输入管理员用户名', autofocus)
+                                label(for='exampleInputEmail1') Admin Username
+                                input#exampleInputEmail1.form-control(type='text', name='username', placeholder='', autofocus)
                             .form-group
-                                label(for='exampleInputPassword1') 密码
-                                input#exampleInputPassword1.form-control(type='password', name='password', placeholder='请输入密码')
+                                label(for='exampleInputPassword1') Password
+                                input#exampleInputPassword1.form-control(type='password', name='password', placeholder='')
                             .form-group
-                                label(for='exampleInputPassword1') 姓名
-                                input#exampleInputPassword1.form-control(type='text', name='name', placeholder='请输入姓名')
+                                label(for='exampleInputName1') Name
+                                input#exampleInputName1.form-control(type='text', name='name', placeholder='')
                             .form-group
-                                label(for='exampleInputPassword1') Email
-                                input#exampleInputPassword1.form-control(type='email', name='email', placeholder='请输入Email')
+                                label(for='exampleInputEmail1') Email
+                                input#exampleInputEmail1.form-control(type='email', name='email', placeholder='')
                             input(type='hidden', name='_csrf', value='#{token}')
-                            button.btn.btn-primary.btn-block(type='submit') 提交
+                            button.btn.btn-primary.btn-block(type='submit') Submit
 

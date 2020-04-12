@@ -24,7 +24,7 @@ class FileController extends Base {
     let error;
     const uid = req.user._id;
     if (!uid) {
-      error = "缺少参数 uid";
+      error = "param required: uid";
       return res.json({
         success: !error,
         error: error
@@ -35,7 +35,7 @@ class FileController extends Base {
         author: uid || ""
       });
     } catch (e) {
-      error = "上传失败";
+      error = "Upload failed";
     }
     res.json({
       success: !error,
@@ -52,13 +52,13 @@ class FileController extends Base {
       let item = await this.service.findById(id);
       let isAuthor = !!(item.author && item.author + "" === req.user._id + "");
       if (!isAdmin && !isAuthor) {
-        error = "没有权限";
+        error = "no permission";
       } else {
         data = await this.service.del(id);
       }
     } catch (e) {
       // error = e.message
-      error = "系统异常";
+      error = "system error";
     }
     res.json({
       success: !error,

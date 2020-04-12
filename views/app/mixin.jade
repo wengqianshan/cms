@@ -1,4 +1,4 @@
-//- 分页模块
+//- pagination module
 //- pageInfo = {
 //-     totalPage: 15,
 //-     currentPage: 5,
@@ -32,7 +32,7 @@ mixin pagination(pageInfo)
             a.item(class=(currentPage === totalPage) ? 'active' : '', href='?#{util.stringify(query)}') #{totalPage}
         - query.page = nextPage
         a.item(class=(currentPage === totalPage) ? 'disabled' : '', href='?#{util.stringify(query)}') &raquo;
-//- 评论条目
+//- comment module
 mixin commentItem(comment, comments)
     if (comment)
         .comment.J_comment(id='#{comment._id}', data-id='#{comment._id}', data-reply='#{comment.reply || ""}')
@@ -46,7 +46,7 @@ mixin commentItem(comment, comments)
                 .text
                     p !{comment.content}
                 .actions
-                    a.reply.J_reply(href='javascript:') 回复
+                    a.reply.J_reply(href='javascript:') Reply
 
             if (comments)
                 if (comment.comments && comment.comments.length > 0)

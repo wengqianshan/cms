@@ -1,14 +1,8 @@
 'use strict';
 
-/**
- * 模块依赖
- */
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
-/**
- * 选项模型
- */
 let OptionSchema = new Schema({
   name: {
     type: String,

@@ -4,7 +4,6 @@ let express = require('express')
 let router = express.Router()
 let comment = require('../../controllers/app/comment')
 
-//评论
 router.use(function (req, res, next) {
   res.locals.Path = 'comment';
   next();

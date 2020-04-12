@@ -5,12 +5,10 @@ let Notification = mongoose.model('Notification')
 let util = require('../../lib/util')
 let _ = require('lodash')
 
-//列表
 exports.list = function (req, res) {
   let condition = {};
   Notification.count(condition, function (err, total) {
     let query = Notification.find(condition).populate('from to read unread');
-    //分页
     let pageInfo = util.createPage(req.query.page, total);
     //console.log(pageInfo);
     query.skip(pageInfo.start);
@@ -27,7 +25,6 @@ exports.list = function (req, res) {
         return item;
       })
       res.render('server/notification/list', {
-        //title: '列表',
         Menu: 'list',
         notifications: results,
         pageInfo: pageInfo
@@ -35,14 +32,13 @@ exports.list = function (req, res) {
     })
   })
 };
-//已收到
+
 exports.received = function (req, res) {
   let condition = {
     to: req.session.user._id
   };
   Notification.count(condition, function (err, total) {
     let query = Notification.find(condition).populate('from to read unread');
-    //分页
     let pageInfo = util.createPage(req.query.page, total);
     //console.log(pageInfo);
     query.skip(pageInfo.start);
@@ -59,7 +55,6 @@ exports.received = function (req, res) {
         return item;
       })
       res.render('server/notification/list', {
-        //title: '列表',
         Menu: 'received',
         notifications: results,
         pageInfo: pageInfo
@@ -67,7 +62,7 @@ exports.received = function (req, res) {
     })
   })
 };
-//已发出
+
 exports.sent = function (req, res) {
   //console.log(req.headers, req.session.user)
   //console.log('id', req.session.user._id)
@@ -76,7 +71,6 @@ exports.sent = function (req, res) {
   };
   Notification.count(condition, function (err, total) {
     let query = Notification.find(condition).populate('from to read unread');
-    //分页
     let pageInfo = util.createPage(req.query.page, total);
     //console.log(pageInfo);
     query.skip(pageInfo.start);
@@ -93,7 +87,6 @@ exports.sent = function (req, res) {
         return item;
       })
       res.render('server/notification/list', {
-        //title: '列表',
         Menu: 'sent',
         notifications: results,
         pageInfo: pageInfo
@@ -101,18 +94,15 @@ exports.sent = function (req, res) {
     })
   })
 };
-//单条
+
 exports.one = function (req, res) {
   let id = req.params.id;
   Notification.findById(id).exec(function (err, result) {
-    // console.log(result, '单条信息+++++++++++++++++');
     if (req.session.user._id) {
       let verify = (result.broadcast || result.to.indexOf(req.session.user._id) > -1);
       if (result.read.indexOf(req.session.user._id) < 0 && verify) {
-        // console.log('未读消息，设置已读+')
         let notification = markRead(result, req.session.user._id);
         notification.save(function (err, result) {
-          // console.log(err, result, '更新通知+++++++++++++++++')
         })
       }
 
@@ -120,7 +110,7 @@ exports.one = function (req, res) {
 
     if (!result) {
       return res.render('server/info', {
-        message: '该留言不存在'
+        message: 'Not Exist'
       });
     }
     res.render('server/notification/item', {
@@ -132,22 +122,20 @@ exports.one = function (req, res) {
 
 function markRead(notification, uid) {
   if (!notification.broadcast) {
-    // 如果不是系统通知，从未读列表去除接收者
     notification.unread = notification.unread.filter((item) => {
       return (item + '') !== (uid + '')
     })
   }
-  // 已读列表增加接收者
   notification.read.push(mongoose.Types.ObjectId(uid))
   return notification;
 }
-//删除
+
 exports.del = function (req, res) {
   let id = req.params.id;
   Notification.findById(id).exec(function (err, result) {
     if (!result) {
       return res.render('server/info', {
-        message: '留言不存在'
+        message: 'Not Exist'
       });
     }
     console.log(result)
@@ -159,23 +147,22 @@ exports.del = function (req, res) {
       }
       if (err) {
         return res.render('server/info', {
-          message: '删除失败'
+          message: 'Failure'
         });
       }
       res.render('server/info', {
-        message: '删除成功'
+        message: 'Success'
       })
     });
   });
 };
 
-//发送
 exports.add = function (req, res) {
   let obj = _.pick(req.body, 'content', 'to');
   if (!obj.to || !_.isArray(obj.to)) {
     return res.json({
       status: false,
-      message: '参数不正确'
+      message: "Incorrect parameters",
     });
   }
   obj.from = mongoose.Types.ObjectId(req.session.user._id);
@@ -189,12 +176,12 @@ exports.add = function (req, res) {
       console.log(err);
       return res.json({
         status: false,
-        message: '发送失败'
+        message: 'Failure'
       })
     }
     return res.json({
       status: true,
-      message: '发送成功'
+      message: 'Success'
     })
   });
 };

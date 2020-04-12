@@ -33,7 +33,7 @@ class LogController extends Base {
       data = await logService.add(obj)
     } catch (e) {
       // error = e.message
-      error = '系统异常'
+      error = 'system error'
     }
     res.status(200).end();
     // res.json({

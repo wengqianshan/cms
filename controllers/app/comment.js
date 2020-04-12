@@ -12,7 +12,7 @@ let xss = require('xss')
 let util = require('../../lib/util')
 let notify = require('../../notify');
 
-//添加
+// add
 exports.add = async function (req, res) {
   if (req.method === 'GET') {
 
@@ -49,7 +49,7 @@ exports.add = async function (req, res) {
       data = _.assign({}, _.pick(saveResult, 'id', 'content', 'created', 'name', 'email', 'reply', 'from', 'ip'), {
         avatar: gravatar.url(saveResult.email || '', { s: '40', r: 'x', d: 'retro' }, true)
       });
-      notify.sendMessage(`评论: ${data.content} 来自: ${obj.from}`);
+      notify.sendMessage(`Comment: ${data.content} From: ${obj.from}`);
     } catch (e) {
       console.log(e);
       error = e.message;
@@ -61,20 +61,20 @@ exports.add = async function (req, res) {
     });
   }
 };
-//删除
+// delete
 exports.del = function (req, res) {
   if (!req.session.user) {
-    return res.render('app/info', {
-      message: '请先登录'
+    return res.render("app/info", {
+      message: "Please log in first",
     });
   }
 
 };
-//删除
+
 exports.one = function (req, res) {
   if (!req.session.user) {
-    return res.render('app/info', {
-      message: '请先登录'
+    return res.render("app/info", {
+      message: "Please log in first",
     });
   }
 
@@ -84,7 +84,6 @@ exports.list = function (req, res) {
   let condition = {};
   Comment.count(condition, function (err, total) {
     let query = Comment.find({}).populate('author').populate('from');
-    //分页
     let pageInfo = util.createPage(req.query.page, total);
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);

@@ -5,12 +5,11 @@ let mongoose = require('mongoose')
 let $page = require('../../../lib/page')
 
 /**
- * todo: 自定义字段 list create update
  * populate {list item}
  */
 
 /**
- * 属性:
+ * props:
  * service
  * populate
  *  list
@@ -98,7 +97,7 @@ class BaseController {
       data.save();
     } catch (e) {
       // error = e.message
-      error = '系统异常'
+      error = 'system error'
     }
 
     res.json({
@@ -110,7 +109,7 @@ class BaseController {
 
   async create(req, res) {
     let obj = _.pick(req.body, this.fields.create);
-    // TODO： 校验输入
+    // TODO： validation
     let user = req.user
     if (user) {
       obj.author = mongoose.Types.ObjectId(user._id)
@@ -121,7 +120,7 @@ class BaseController {
       data = await this.service.create(obj)
     } catch (e) {
       // error = e.message
-      error = '系统异常'
+      error = 'system error'
     }
     res.json({
       success: !error,
@@ -134,7 +133,7 @@ class BaseController {
     let id = req.params.id
     // let obj = req.body
     let obj = _.pick(req.body, this.fields.update);
-    // TODO： 校验输入
+    // TODO： validation
     let data = null
     let error
     try {
@@ -142,14 +141,14 @@ class BaseController {
       let item = await this.service.findById(id)
       let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
       if (!isAdmin && !isAuthor) {
-        error = '没有权限'
+        error = 'no permission';
       } else {
         data = await this.service.findByIdAndUpdate(id, obj, { new: true })
       }
 
     } catch (e) {
       // error = e.message
-      error = '系统异常'
+      error = 'system error'
     }
     res.json({
       success: !error,
@@ -167,13 +166,13 @@ class BaseController {
       let item = await this.service.findById(id)
       let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
       if (!isAdmin && !isAuthor) {
-        error = '没有权限'
+        error = "no permission";
       } else {
         data = await this.service.findByIdAndRemove(id)
       }
     } catch (e) {
       // error = e.message
-      error = '系统异常'
+      error = 'system error'
     }
     res.json({
       success: !error,
@@ -189,7 +188,7 @@ class BaseController {
     try {
       let isAdmin = req.isAdmin;
       if (!isAdmin) {
-        error = '没有权限'
+        error = "no permission";
       } else {
         data = await this.service.remove({ _id: { $in: ids } })
       }

@@ -3,95 +3,91 @@
 let appPath = process.cwd();
 let config = {
   port: 7000,
-  env: process.env.NODE_ENV || 'development', // development   production
-  //mongodb配置信息
+  env: process.env.NODE_ENV || "development", // development   production
+  //mongodb
   mongodb: {
-    uri: 'mongodb://127.0.0.1:27017/cms',
-    options: {}
+    uri: "mongodb://127.0.0.1:27017/cms",
+    options: {},
   },
-  //redis服务，用来session维持，非必须
+  //redis server，used to keep sessions, optional
   redis: {
-    host: '', // 如 127.0.0.1 配置此项表示启用redis，需保证redis服务已启动
+    host: "", // Leave blank to disable
     port: 6379, // 6379
-    pass: ''
+    pass: "",
   },
-  //找回密码hash过期时间
+  //token time of forget password
   findPasswordTill: 24 * 60 * 60 * 1000,
-  // session secret
-  sessionSecret: 'SessionSecret',
+  // session secret,
+  sessionSecret: "SessionSecret",
   // jsonwebtoken config
   jwt: {
-    secret: 'JWTSecret',
+    secret: "JWTSecret",
     options: {
-      expiresIn: '10h'
-    }
+      expiresIn: "10h",
+    },
   },
-  title: 'CMS',
-  //后台相关配置
+  title: "CMS",
+  // admin config
   admin: {
-    dir: 'admin', //后台访问路径，如http://localhost/admin配置为admin
-    role: {//默认角色名
-      admin: 'admin',
-      user: 'user'
-    }
+    dir: "admin", // admin router, admin -> http://localhost/admin
+    role: {
+      //default roles
+      admin: "admin",
+      user: "user",
+    },
   },
   upload: {
-    tmpDir: appPath + '/public/uploaded/tmp/',
-    uploadDir: appPath + '/public/uploaded/files/',
-    uploadUrl: '/uploaded/files/',
+    tmpDir: appPath + "/public/uploaded/tmp/",
+    uploadDir: appPath + "/public/uploaded/files/",
+    uploadUrl: "/uploaded/files/",
     maxPostSize: 100 * 1024 * 1024, // 100M
     minFileSize: 1,
     maxFileSize: 50 * 1024 * 1024, // 50M
     acceptFileTypes: /.+/i,
     storage: {
-      type: 'local',//保存类型，如果保存到本地可省略或local, 目前支持7牛：qiniu
+      type: "local", //local: upload files to local  qiniu: use qiniu sdk <https://www.qiniu.com/>(not recommend)
       options: {
-        accessKey: 'your key',
-        secretKey: 'your secret',
-        bucket: 'your bucket',
-        origin: 'http://yourdomain.qiniudn.com', // 域名，包含http，如http://yourdomain.qiniudn.com
-        timeout: 3600000, // default rpc timeout: one hour, optional
-      }
-    }
+        // Depends on upload type
+        accessKey: "your key",
+        secretKey: "your secret",
+        bucket: "your bucket",
+        origin: "http://yourdomain.qiniudn.com",
+        timeout: 3600000,
+      },
+    },
   },
   stopForumSpam: false,
-  // 是否启动用户注册校验TODO:
-  userVerify: {
-    enable: false,
-    type: 'admin' // mail | admin, 默认admin
-  },
-  // 邮箱配置，找回密码、用户注册使用
+  // email config, for login/forget password ...
   mail: {
-    // 邮件服务类型，目前支持[sendgrid](https://sendgrid.com/)和[nodemailer](https://nodemailer.com/about/)
-    type: 'sendgrid',
-    // 发信人邮箱
-    from: 'username@domain.com',
+    // mail service, [sendgrid](https://sendgrid.com/)(recommend) or [nodemailer](https://nodemailer.com/about/)
+    type: "sendgrid",
+    // Sender
+    from: "username@domain.com",
     options: {
-      // nodemailer配置项，参考: https://nodemailer.com/smtp/
-      service: 'gmail',
-      host: '',
-      port: '',
+      // nodemailer options: https://nodemailer.com/smtp/
+      service: "gmail",
+      host: "",
+      port: "",
       auth: {
-        user: '',
-        pass: ''
+        user: "",
+        pass: "",
       },
 
-      // sendgrid配置项，参考: https://github.com/sendgrid/sendgrid-nodejs
-      key: '',
+      // sendgrid options: https://github.com/sendgrid/sendgrid-nodejs
+      key: "",
     },
   },
   // google analytics
-  ga: '',
-  // 短信服务配置TODO:
-  sms: {},
-  // 网站管理员通知 https://github.com/yagop/node-telegram-bot-api
+  ga: "",
+  // Use telegram api to send messages to yourself
+  // https://github.com/yagop/node-telegram-bot-api
   // https://core.telegram.org/bots/api
   notify: {
     enable: false, // you should set true to enable this feature
-    token: '',
-    chatId: '',
-    prefix: 'wenglou'
-  }
+    token: "",
+    chatId: "",
+    prefix: "wenglou",
+  },
 };
 
 module.exports = config;

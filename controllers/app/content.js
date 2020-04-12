@@ -11,17 +11,14 @@ let md = new MarkdownIt({
 });
 let xss = require('xss');
 
-//列表
 exports.list = function (req, res) {
   let condition = {};
   let category = req.query.category;
   if (category) {
     condition.category = category;
   }
-  //查数据总数
   Content.count(condition, function (err, total) {
     let query = Content.find(condition).populate('author', 'username name email');
-    //分页
     let pageInfo = util.createPage(req.query.page, total, 30);
     //console.log(pageInfo);
     query.skip(pageInfo.start);
@@ -30,7 +27,7 @@ exports.list = function (req, res) {
     query.exec(function (err, results) {
       //console.log(err, results);
       res.render('app/content/list', {
-        title: '内容列表',
+        title: 'content list',
         contents: results,
         pageInfo: pageInfo
       });
@@ -38,14 +35,14 @@ exports.list = function (req, res) {
   });
 
 };
-//单条
+
 exports.one = function (req, res) {
   let id = req.params.id;
   Content.findById(id).populate('author').populate('category').populate('comments').populate('gallery').exec(function (err, result) {
     // console.log(result);
     if (!result) {
-      return res.render('app/info', {
-        message: '该内容不存在'
+      return res.render("app/info", {
+        message: "Content does not exist",
       });
     }
     result.visits = result.visits + 1;

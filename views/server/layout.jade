@@ -35,11 +35,10 @@ html.no-js
                 // logo start
                 .brand
                     a.logo(href='#{adminDir}')
-                        | 管理后台
-                        //| 实验室
+                        | Admin
                 // logo end
                 .toggle-navigation.toggle-left
-                    button#toggle-left.btn.btn-default(type='button', data-toggle='tooltip', data-placement='right', title='切换左栏')
+                    button#toggle-left.btn.btn-default(type='button', data-toggle='tooltip', data-placement='right', title='Toggle sidebar')
                         i.fa.fa-bars
 
                 .user-nav
@@ -56,16 +55,11 @@ html.no-js
                                     li
                                         a(href='#{adminDir}/me')
                                             i.fa.fa-user
-                                            |  个人资料
-                                    //li
-                                        a(href='index.html#')
-                                            i.fa.fa-envelope
-                                            |  消息 
-                                            span#user-inbox.badge.badge-danager 5
+                                            |  Profile
                                     li
                                         a(href='#{adminDir}/user/logout')
                                             i.fa.fa-power-off
-                                            |  登出
+                                            |  Logout
             // sidebar left start
             aside.sidebar
                 #leftside-navigation.nano
@@ -73,100 +67,97 @@ html.no-js
                         li(class=Path === 'index' ? 'active' : '')
                             a(href='#{adminDir}')
                                 i.fa.fa-dashboard
-                                span 首页
+                                span Home
                         if (User && (User.status === 101 || Actions.indexOf('CONTENT_INDEX') > -1))
                             li.sub-menu(class=Path === 'content' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-file-text
-                                    span 内容
+                                    span Content
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
                                     li(class=Menu === 'list' ? 'active' : '')
-                                        a(href='#{adminDir}/content') 内容列表
+                                        a(href='#{adminDir}/content') List
                                     li(class=Menu === 'add' ? 'active' : '')
-                                        a(href='#{adminDir}/content/add') 添加内容
+                                        a(href='#{adminDir}/content/add') Add
                         if (User && (User.status === 101 || Actions.indexOf('CATEGORY_INDEX') > -1))
                             li.sub-menu(class=Path === 'category' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-th
-                                    span 分类
+                                    span Category
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
                                     li(class=Menu === 'list' ? 'active' : '')
-                                        a(href='#{adminDir}/category') 分类列表
+                                        a(href='#{adminDir}/category') List
                                     li(class=Menu === 'add' ? 'active' : '')
-                                        a(href='#{adminDir}/category/add') 添加分类
+                                        a(href='#{adminDir}/category/add') Add
                         if (User && (User.status === 101 || Actions.indexOf('COMMENT_INDEX') > -1))
                             li(class=Path === 'comment' ? 'active' : '')
-                                a(href='#{adminDir}/comment') 评论列表
+                                a(href='#{adminDir}/comment') Comment
                         if (User && (User.status === 101 || Actions.indexOf('USER_INDEX') > -1))
                             li.sub-menu(class=Path === 'user' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-users
-                                    span 用户
+                                    span User
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
                                     li(class=Menu === 'list' ? 'active' : '')
-                                        a(href='#{adminDir}/user') 用户列表
+                                        a(href='#{adminDir}/user') List
                                     li(class=Menu === 'add' ? 'active' : '')
-                                        a(href='#{adminDir}/user/add') 添加用户
+                                        a(href='#{adminDir}/user/add') Add
                         if (User && (User.status === 101 || Actions.indexOf('ROLE_INDEX') > -1))
                             li.sub-menu(class=Path === 'role' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-unlock-alt
-                                    span 角色
+                                    span Role
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
                                     li(class=Menu === 'list' ? 'active' : '')
-                                        a(href='#{adminDir}/role') 角色列表
+                                        a(href='#{adminDir}/role') List
                                     li(class=Menu === 'add' ? 'active' : '')
-                                        a(href='#{adminDir}/role/add') 添加角色
+                                        a(href='#{adminDir}/role/add') Add
                         if (User && (User.status === 101 || Actions.indexOf('FILE_INDEX') > -1))
                             li.sub-menu(class=Path === 'file' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-folder-open
-                                    span 文件
+                                    span File
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
                                     li(class=Menu === 'list' ? 'active' : '')
-                                        a(href='#{adminDir}/file') 文件列表
+                                        a(href='#{adminDir}/file') List
                                     li(class=Menu === 'add' ? 'active' : '')
-                                        a(href='#{adminDir}/file/add') 添加文件
+                                        a(href='#{adminDir}/file/add') Add
                         if (User && User.status === 101 || Actions.indexOf('NOTIFICATION_INDEX') > -1)
                             li.sub-menu(class=Path === 'notification' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-envelope
-                                    span 站内信
+                                    span Notification
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
                                     li(class=Menu === 'list' ? 'active' : '')
-                                        a(href='#{adminDir}/notification') 全部
+                                        a(href='#{adminDir}/notification') All
                                     li(class=Menu === 'received' ? 'active' : '')
-                                        a(href='#{adminDir}/notification/received') 已收到
+                                        a(href='#{adminDir}/notification/received') Received
                                     li(class=Menu === 'sent' ? 'active' : '')
-                                        a(href='#{adminDir}/notification/sent') 已发出
+                                        a(href='#{adminDir}/notification/sent') Sent
                         if (User && User.status === 101 || Actions.indexOf('MESSAGE_INDEX') > -1)
                             li(class=Menu === 'list' ? 'active' : '')
-                                a(href='#{adminDir}/message') 留言列表
-                        if (User && User.status === 101 || Actions.indexOf('PAGE_INDEX') > -1)
-                            li.sub-menu(class=Path === 'page' ? 'active' : '')
-                                a(href='#{adminDir}/page') 页面列表
+                                a(href='#{adminDir}/message') Message
                         if (User && User.status === 101 || Actions.indexOf('TAG_INDEX') > -1)
                             li.sub-menu(class=Path === 'tag' ? 'active' : '')
                                 a(href='javascript:void(0);')
                                     i.fa.fa-tags
-                                    span 标签
+                                    span Tag
                                     i.arrow.fa.fa-angle-right.pull-right
                                 ul
                                     li(class=Menu === 'list' ? 'active' : '')
-                                        a(href='#{adminDir}/tag') 标签列表
+                                        a(href='#{adminDir}/tag') List
                                     li(class=Menu === 'add' ? 'active' : '')
-                                        a(href='#{adminDir}/tag/add') 添加标签
+                                        a(href='#{adminDir}/tag/add') Add
                         if (User && User.status === 101 || Actions.indexOf('LOG_INDEX') > -1)
                             li.sub-menu(class=Path === 'log' ? 'active' : '')
                                 a(href='#{adminDir}/log')
                                     i.fa.fa-file
-                                    span 日志
+                                    span Log
                                 
             // sidebar left end
             // main content start

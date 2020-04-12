@@ -6,18 +6,18 @@ block content
             table.table.table-striped
                 thead
                     tr
-                        th 类型
-                        th 动作
-                        th 状态
+                        thType
+                        th Action
+                        th Status
                         th name
                         th qs
                         th arg1
                         th arg2
                         th arg3
                         th ip
-                        th 信息
-                        th 时间
-                        th 操作
+                        th Message
+                        th Date
+                        th Operation
                 tbody
                     - each item in data
                         tr
@@ -44,17 +44,17 @@ block content
                                 | #{item.message}
                             td #{moment(item.created).format('LLL')}
                             td
-                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/log/#{item.id}/del') 删除
+                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/log/#{item.id}/del') delete
             if (pageInfo && pageInfo.totalPage > 1)
                 - pageInfo.query = query
                 include ../mixin
                 +pagination(pageInfo)
     script#J_tmpl_add(type='x-tmpl-mustache')
         .form-group
-            label 标题
+            label Title
             input.form-control(name='title')
         .form-group
-            label 内容
+            label Content
             textarea.form-control(rows='4', name='content')
 block foot-js
     script.
@@ -70,30 +70,30 @@ block foot-js
             var $this = $(this);
             var $tr = $this.closest('tr');
             var url = $this.attr('href');
-            var messenger = Messenger().post("处理中...");
+            var messenger = Messenger().post("Processing...");
             $.post(url, {_csrf: token}, function(json) {
                 console.log(json);
                 var status = json.status;
                 if(status === true) {
                     //- Messenger().post({
-                    //-     message: '删除成功',
+                    //-     message: 'Success',
                     //-     hideAfter: 3,
                     //-     type: 'success'
                     //- });
                     messenger.update({
-                        message: '删除成功',
+                        message: 'Success',
                         hideAfter: 3,
                         type: 'success'
                     });
                     $tr.remove();
                 } else {
                     //- Messenger().post({
-                    //-     message: '删除失败',
+                    //-     message: 'Failure',
                     //-     hideAfter: 3,
                     //-     type: 'error'
                     //- });
                     messenger.update({
-                        message: '删除失败',
+                        message: 'Failure',
                         hideAfter: 3,
                         type: 'error'
                     });

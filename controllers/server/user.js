@@ -20,7 +20,7 @@ userService.findById('53b6ca419dfe0cf41ccbaf96', ['roles', 'author']).then(funct
     console.log(err)
 })*/
 
-// 这个最好移到app.js里面，每次开启服务时检查，
+// TODO: Run when the service is started 
 exports.checkInstall = function (req, res, next) {
   if (req.session.user) {
     let path = util.translateAdminDir('/');
@@ -39,7 +39,6 @@ exports.checkInstall = function (req, res, next) {
       //return res.redirect(path);
       let path = util.translateAdminDir('/install')
       return res.render('server/install')
-      //return res.send('请先<a href="' + path + '">安装应用</a>');
     }
   })
 }
@@ -47,7 +46,7 @@ exports.checkInstall = function (req, res, next) {
 /*let user = new User({
     username: 'geo5',
     password: '123456',
-    name: '测试位置5',
+    name: 'test5',
     email: 'geo_5@wenglou.com',
     position: [113.323571, 23.146439]
 });
@@ -68,7 +67,6 @@ user.save(function(err, result) {
     console.log(res);
 })*/
 
-//用户登录校验
 exports.authenticate = function (req, res, next) {
   if (!req.session.user) {
     let path = util.translateAdminDir('/user/login');
@@ -77,7 +75,7 @@ exports.authenticate = function (req, res, next) {
     next();
   }
 };
-//用户列表
+
 exports.list = function (req, res) {
   let condition = {};
   const isAdmin = req.isAdmin;
@@ -86,7 +84,6 @@ exports.list = function (req, res) {
   }
   User.count(condition, function (err, total) {
     let query = User.find(condition).populate('author').populate('roles');
-    //分页
     let pageInfo = util.createPage(req.query.page, total);
     query.skip(pageInfo.start);
     query.limit(pageInfo.pageSize);
@@ -94,7 +91,7 @@ exports.list = function (req, res) {
     query.exec(function (err, results) {
       //console.log(err, results);
       res.render('server/user/list', {
-        title: '用户列表',
+        title: 'User List',
         users: results,
         pageInfo: pageInfo,
         Menu: 'list'
@@ -102,7 +99,7 @@ exports.list = function (req, res) {
     });
   })
 }
-//单个用户
+
 exports.one = function (req, res) {
   let id = req.params.id;
   User.findById(id).populate('author').populate('roles').exec(function (err, result) {
@@ -111,7 +108,7 @@ exports.one = function (req, res) {
     });
   });
 };
-//查询
+
 exports.query = function (req, res) {
   let kw = req.query.q;
   User.find({ name: new RegExp(kw, 'gi') }).exec(function (err, result) {
@@ -122,7 +119,7 @@ exports.query = function (req, res) {
     if (err) {
       return res.json({
         status: false,
-        message: '查询失败'
+        message: 'Failure'
       });
     }
     return res.json({
@@ -131,7 +128,7 @@ exports.query = function (req, res) {
     });
   });
 };
-//注册
+
 exports.register = function (req, res) {
   let ip = util.getIp(req);
   let ua = req.get('User-Agent');
@@ -143,26 +140,24 @@ exports.register = function (req, res) {
     let obj = _.pick(req.body, 'username', 'password', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions');
     obj.reg_ip = ip;
     // console.log(obj);
-    notify.sendMessage(`用户注册 ${obj.username}`);
+    notify.sendMessage(`User Register: ${obj.username}`);
     let operator = function () {
-      //默认角色
       Role.findOne({ status: 202 }, function (err, role) {
         console.log('role', role);
         if (err || !role) {
           return res.render('server/info', {
-            message: '注册失败, 未开放角色:' + config.admin.role.user
+            message: 'Failure, role not exist:' + config.admin.role.user
           });
         }
         obj.roles = [role._id];
         if (req.session.user) {
           obj.author = req.session.user._id;
         }
-        // TODO：用户激活
+        // TODO：user activation
 
         let user = new User(obj);
         user.save(function (err, result) {
           console.log(result);
-          // 日志
           Log.add({
             type: 'user',
             action: 'register',
@@ -179,11 +174,11 @@ exports.register = function (req, res) {
               message.push(errors[i].message);
             }
             return res.render('server/info', {
-              message: '注册失败' + message.join('<br/>')
+              message: 'Failure' + message.join('<br/>')
             });
           }
           res.render('server/info', {
-            message: '注册成功'
+            message: 'Success'
           });
 
         });
@@ -196,10 +191,9 @@ exports.register = function (req, res) {
       }).then((data) => {
         console.log(data, 'res')
         if (data && data.email && data.email.frequency > 5) {
-          res.render('server/info', {
-            message: '该邮箱已被标记垃圾邮箱，不允许注册'
+          res.render("server/info", {
+            message: "mail not allowed",
           });
-          // 日志
           Log.add({
             type: 'user',
             action: 'register',
@@ -221,7 +215,7 @@ exports.register = function (req, res) {
 
   }
 };
-//添加
+
 exports.add = function (req, res) {
   let method = req.method;
   if (method === 'GET') {
@@ -232,12 +226,11 @@ exports.add = function (req, res) {
     //let obj = req.body;
     let obj = _.pick(req.body, 'username', 'password', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions');
     console.log(obj);
-    //默认角色
     Role.findOne({ status: 202 }, function (err, role) {
       console.log('role', role);
       if (err || !role) {
         return res.render('server/info', {
-          message: '添加失败, 未开放角色:' + config.admin.role.user
+          message: 'Failure, role not exist:' + config.admin.role.user
         });
       }
       obj.roles = [role._id];
@@ -255,18 +248,17 @@ exports.add = function (req, res) {
         if (err) {
           console.log(err);
           return res.render('server/info', {
-            message: '添加失败'
+            message: 'Failure'
           });
         }
         res.render('server/info', {
-          message: '添加成功'
+          message: 'Success'
         });
       });
     });
   }
 };
 
-//编辑
 exports.edit = function (req, res) {
   let id = req.params.id;
   let editHandler = function (user) {
@@ -279,7 +271,7 @@ exports.edit = function (req, res) {
       if (err || !user) {
         console.log(err);
         return res.render('server/info', {
-          message: '更新失败'
+          message: 'Failure'
         });
       }
       if (id === req.session.user._id) {
@@ -287,7 +279,7 @@ exports.edit = function (req, res) {
         res.locals.User = user;
       }
       res.render('server/info', {
-        message: '更新成功'
+        message: 'Success'
       });
     })
   };
@@ -295,7 +287,7 @@ exports.edit = function (req, res) {
     User.findById(id).populate('author').exec(function (err, result) {
       if (err || !result) {
         return res.render('server/info', {
-          message: '出错了'
+          message: 'System Error'
         });
       }
       let isAdmin = req.isAdmin;
@@ -303,7 +295,7 @@ exports.edit = function (req, res) {
 
       if (!isAdmin && !isAuthor) {
         return res.render('server/info', {
-          message: '没有权限'
+          message: 'no permission'
         });
       }
       try {
@@ -329,24 +321,24 @@ exports.edit = function (req, res) {
   } else if (req.method === 'POST') {
     //let obj = req.body;
     let obj = _.pick(req.body, 'username', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions', 'roles');
-    //判断是否允许编辑
+    // check permission
     User.findById(id).populate('roles').populate('author').exec(function (err, user) {
       let isAdmin = req.isAdmin;
       let isAuthor = user.author && ((user.author._id + '') === req.session.user._id);
       let isMine = (user._id + '') === (req.user._id + '')
-      // 校验是否有分配角色权限 roles 值为id
+      // check roole
       const roles = req.Roles;
       const inputRoles = _.difference(obj.roles, roles);
       const overAuth = inputRoles.length > 0;
 
       if (!isAdmin && !isAuthor && !isMine) {
         return res.render('server/info', {
-          message: '没有权限'
+          message: 'No permission'
         });
       }
       if (!isAdmin && overAuth) {
         return res.render('server/info', {
-          message: '权限不足'
+          message: 'No permission'
         });
       }
       let query;
@@ -357,17 +349,17 @@ exports.edit = function (req, res) {
       }
       if (!query) {
         return res.render('server/info', {
-          message: '请至少选择一个角色'
+          message: 'no role info'
         });
       }
       query.exec(function (err, roles) {
-        //系统默认管理员
+        // admin user
         if (user.status === 101) {
-          // TODO: 验证
+          // TODO: validation
           let statuses = _.map(roles, 'status');
           if (statuses.indexOf(201) === -1) {
             return res.render('server/info', {
-              message: '系统管理员角色不正确'
+              message: 'admin user role incorrect'
             });
           }
         }
@@ -379,25 +371,24 @@ exports.edit = function (req, res) {
   }
 };
 
-//删除
 exports.del = function (req, res) {
   let deleteHandle = function (user) {
     user.remove(function (err) {
       if (err) {
         return res.render('server/info', {
-          message: '删除失败'
+          message: 'Failure'
         });
       }
       res.render('server/info', {
-        message: '删除成功'
+        message: 'Success'
       })
     });
   };
   let id = req.params.id;
   User.findById(id).populate('roles').populate('author').exec(function (err, result) {
     if (!result) {
-      return res.render('server/info', {
-        message: '用户不存在'
+      return res.render("server/info", {
+        message: "Not Exist",
       });
     }
     let isAdmin = req.isAdmin;
@@ -405,13 +396,13 @@ exports.del = function (req, res) {
 
     if (!isAdmin && !isAuthor) {
       return res.render('server/info', {
-        message: '没有权限'
+        message: 'no permission'
       });
     }
-    //系统默认用户不能删除
+    //System default users cannot delete
     if (result.status === 101) {
-      return res.render('server/info', {
-        message: '不能删除系统默认管理员'
+      return res.render("server/info", {
+        message: "System default users cannot delete",
       });
     }
 
@@ -423,19 +414,19 @@ exports.del = function (req, res) {
       }
       if (err) {
         return res.render('server/info', {
-          message: '删除失败'
+          message: 'Failure'
         });
       }
-      //自杀的节奏啊
+      // kill oneself
       if (id === req.session.user._id) {
         req.session.destroy();
         res.locals.User = null;
-        console.log('自杀成功');
+        console.log('Success');
         let path = util.translateAdminDir('');
         return res.redirect(path);
       }
       res.render('server/info', {
-        message: '删除成功'
+        message: 'Success'
       })
     });
   });
@@ -447,7 +438,7 @@ let noRedirect = [
   'user/forget',
   'user/register'
 ]
-//登录
+
 exports.login = function (req, res) {
   let ip = util.getIp(req);
   let ua = req.get('User-Agent');
@@ -459,36 +450,37 @@ exports.login = function (req, res) {
     let username = (req.body.username || '').trim();
     let password = req.body.password;
     if (!username) {
-      return res.render('server/info', {
-        message: '用户名不能为空'
+      return res.render("server/info", {
+        message: "User name cannot be empty",
       });
     }
-    notify.sendMessage(`用户登录 ${username}`);
+    notify.sendMessage(`User Login: ${username}`);
     User.findOne({
       username: username
     }).populate('roles').exec(function (err, user) {
 
       if (!user) {
-        //日志
         Log.add({
-          type: 'user',
-          action: 'login',
-          status: 'failed',
+          type: "user",
+          action: "login",
+          status: "failed",
           ip: ip,
           ua: ua,
-          message: JSON.stringify({
-            username: username,
-            ip: ip
-          }) + '\n用户不存在\n' + err
-        })
-        return res.render('server/info', {
-          message: '用户名或密码错误'
+          message:
+            JSON.stringify({
+              username: username,
+              ip: ip,
+            }) +
+            "\nNot Exist\n" +
+            err,
+        });
+        return res.render("server/info", {
+          message: "Wrong user name or password",
         });
       }
       if (user.authenticate(password)) {
-        console.log('登录成功');
+        console.log('Success');
         // console.log(user);
-        //记录登录信息
         user.last_login_date = new Date();
         user.last_login_ip = ip;
         user.save();
@@ -504,7 +496,6 @@ exports.login = function (req, res) {
           }
         }
         res.redirect(ref);
-        //日志
         Log.add({
           type: 'user',
           action: 'login',
@@ -518,52 +509,56 @@ exports.login = function (req, res) {
           }) + '\n' + err
         })
       } else {
-        res.render('server/info', {
-          message: '用户名或密码错误'
+        res.render("server/info", {
+          message: "Wrong user name or password",
         });
-        //日志
-        let hunter = (username === 'admin') ? (' \n尝试密码[' + password + ']') : ''
+        let hunter = (username === 'admin') ? (' \ntry password[' + password + ']') : ''
         Log.add({
-          type: 'user',
-          action: 'login',
-          status: 'failed',
+          type: "user",
+          action: "login",
+          status: "failed",
           ip: ip,
           ua: ua,
-          message: JSON.stringify({
-            username: username,
-            ip: ip
-          }) + '\n密码不正确' + hunter + '\n' + err
-        })
+          message:
+            JSON.stringify({
+              username: username,
+              ip: ip,
+            }) +
+            "\npassword incorrect" +
+            hunter +
+            "\n" +
+            err,
+        });
       }
     });
   }
 
 };
-//更新用户session信息
+
+// reload session
 exports.reload = function (uid, callback) {
   User.findById(uid).populate('roles').exec(function (err, user) {
     callback && callback.call(null, err, user);
   });
 };
 
-//注销
 exports.logout = function (req, res) {
   if (req.session) {
     req.session.destroy();
     res.locals.User = null;
-    console.log('注销成功');
+    console.log('Success');
     /*res.render('server/info', {
-        message: '注销成功'
+        message: 'Success'
     });*/
     let path = util.translateAdminDir('/');
     res.redirect(path);
   } else {
     res.render('server/info', {
-      message: '注销失败'
+      message: 'Failure'
     });
   }
 };
-//找回密码
+
 exports.forget = function (req, res) {
   if (req.method === 'GET') {
     let hash = req.query.hash;
@@ -574,14 +569,14 @@ exports.forget = function (req, res) {
       console.log(err, user);
       if (err || !user) {
         return res.render('server/info', {
-          message: 'hash错误'
+          message: 'invalid hash'
         });
       }
       let till = user.forget.till;
-      //检查hash有没有过期
+      // check hash expired
       if (!till || till.getTime() + config.findPasswordTill < Date.now()) {
-        return res.render('server/info', {
-          message: 'hash已过期，请重新找回密码'
+        return res.render("server/info", {
+          message: "Hash Expired",
         });
       } else {
         res.render('server/user/forget', {
@@ -597,28 +592,28 @@ exports.forget = function (req, res) {
     if (req.query.hash) {
       let obj = req.body;
       let hash = req.query.hash;
-      //处理更新密码操作，并重置hash
+      //update password
       User.findOne({ 'forget.hash': hash }, function (err, user) {
         //console.log(err, user);
         if (err || !user) {
-          return res.render('server/info', {
-            message: '初始后：token已过期，请重新找回密码'
+          return res.render("server/info", {
+            message: "token expired",
           });
         }
         let till = user.forget.till;
         //console.log(till.getTime(), Date.now());
         if (!till || till.getTime() + config.findPasswordTill < Date.now()) {
-          return res.render('server/info', {
-            message: 'token已过期，请重新找回密码'
+          return res.render("server/info", {
+            message: "token expired",
           });
         } else {
-          console.log('可以重新设置密码');
+          console.log('update');
           user.password = obj.password;
           user.forget.hash = '';
           user.forget.till = 0;
           user.save(function (err, result) {
             res.render('server/info', {
-              message: '重置密码成功'
+              message: 'Success'
             });
           });
         }
@@ -626,7 +621,6 @@ exports.forget = function (req, res) {
       return;
     }
     let obj = req.body;
-    // 日志
     let ip = util.getIp(req);
     let ua = req.get('User-Agent');
     Log.add({
@@ -641,7 +635,7 @@ exports.forget = function (req, res) {
       //console.log(user);
       if (err || !user) {
         return res.render('server/info', {
-          message: '没有这个用户'
+          message: 'error'
         });
       }
       let hash = crypto.random();
@@ -653,7 +647,7 @@ exports.forget = function (req, res) {
         //console.log(result);
         if (err || !result) {
           return res.render('server/info', {
-            message: '出错了 '
+            message: 'error '
           });
         }
 
@@ -662,10 +656,12 @@ exports.forget = function (req, res) {
         mailer.send({
           from: config.mail.from,
           to: user.email,
-          subject: '找回密码',
-          html: '<p>你好，请点击<a href="' + url + '">此处</a>找回密码<br/>' + url + '</p>',
+          subject: 'Find Password',
+          html: '<p>Hello, please click <a href="' + url + '">here</a>to reset your password<br/>' + url + '</p>',
         }).then((info) => {
-          let message = '修改密码指令已发到您的邮箱 ' + user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, '$1****$3$4');
+          let message =
+            "The reset password link has been sent to your mailbox:  " +
+            user.email.replace(/^([\s\S])(.+)([\s\S])(@.+)/, "$1****$3$4");
           //console.log(err && err.stack);
           //console.dir(reply);
           res.render('server/info', {
@@ -673,7 +669,7 @@ exports.forget = function (req, res) {
           });
         }).catch((err) => {
           res.render('server/info', {
-            message: '发送失败'
+            message: 'Failure'
           });
         })
       });
@@ -683,16 +679,15 @@ exports.forget = function (req, res) {
   }
 }
 
-//修改密码
 exports.changePassword = function (req, res) {
   let obj = req.body;
   User.findById(obj.id, function (err, user) {
     user.password = obj.password;
     user.save(function (err, result) {
       res.render('server/info', {
-        message: '修改密码成功'
+        message: 'Success'
       });
-      console.log('修改密码成功', result);
+      console.log('Success', result);
     })
   });
 };

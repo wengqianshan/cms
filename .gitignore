@@ -1,17 +1,14 @@
-#忽略组件文件
 node_modules/
 bower_components/
 
-#特殊文件
 .DS_Store
 *.log
 
-#上传目录
 public/uploaded/
 
-# 静态资源
 public/build/
 
-#配置文件
 /config.js
 _tools/
+
+client/

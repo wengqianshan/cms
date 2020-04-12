@@ -5,16 +5,16 @@ block content
         .col-md-12
             form(action='', method='post')
                 .form-group
-                    label 用户名
+                    label Username
                     input.form-control(name='username', value='#{user.username}')
                 .form-group
-                    label 姓名
+                    label Name
                     input.form-control(name='name', value='#{user.name}')
                 .form-group
                     label Email
                     input.form-control(name='email', value='#{user.email}')
                 .form-group
-                    label 角色
+                    labelRole
                     select.form-control.input-sm(multiple, name='roles')
                         - each role in roles
                             if (user.roles.indexOf(role.id) > -1)
@@ -24,7 +24,7 @@ block content
                                 option(value='#{role.id}')
                                     | #{role.name}
                 input(type='hidden', name='_csrf', value='#{token}')
-                button.btn.btn-primary(type='submit') 提交
+                button.btn.btn-primary(type='submit') Submit
 
 block foot-js
     script.
@@ -40,20 +40,20 @@ block foot-js
                 },
                 beforeSubmit: function() {
                     console.log('beforeSubmit')
-                    messenger = Messenger().post("处理中...");
+                    messenger = Messenger().post("Processing...");
                 },
                 success: function(data, status, xhr, $form) {
                     console.log(data)
                     var status = data.status;
                     if (status) {
                         messenger.update({
-                            message: '更新成功',
+                            message: 'Success',
                             hideAfter: 3,
                             type: 'success'
                         });
                     } else {
                         messenger.update({
-                            message: '更新失败',
+                            message: 'Failure',
                             hideAfter: 3,
                             type: 'success'
                         });
@@ -62,7 +62,7 @@ block foot-js
                 err: function() {
                     console.log('error')
                     messenger.update({
-                        message: '系统繁忙',
+                        message: 'System Error',
                         hideAfter: 3,
                         type: 'success'
                     });
