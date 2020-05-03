@@ -5,7 +5,7 @@ block content
         .col-md-12
             .panel.panel-default
                 .panel-heading
-                    | 用户信息
+                    | User Info
                 .panel-body
                     .form-horizontal
                         .form-group
@@ -13,11 +13,11 @@ block content
                             .col-sm-10 
                                 p.form-control-static #{user.id}
                         .form-group
-                            label.col-sm-2.control-label 名称
+                            label.col-sm-2.control-label Name
                             .col-sm-10 
                                 p.form-control-static #{user.name}
                         .form-group
-                            label.col-sm-2.control-label 用户名
+                            label.col-sm-2.control-label Username
                             .col-sm-10 
                                 p.form-control-static #{user.username}
                         .form-group
@@ -25,15 +25,15 @@ block content
                             .col-sm-10 
                                 p.form-control-static #{user.email}
                         .form-group
-                            label.col-sm-2.control-label 手机号
+                            label.col-sm-2.control-label Mobile
                             .col-sm-10 
-                                p.form-control-static #{user.mobile || '无'}
+                                p.form-control-static #{user.mobile || 'Empty'}
                         .form-group
-                            label.col-sm-2.control-label 性别
+                            label.col-sm-2.control-label Gender
                             .col-sm-10 
-                                p.form-control-static #{user.gender || '无'}
+                                p.form-control-static #{user.gender || 'Empty'}
                         .form-group
-                            label.col-sm-2.control-label 角色
+                            label.col-sm-2.control-labelRole
                             .col-sm-10 
                                 p.form-control-static
                                     if (user.roles)
@@ -41,34 +41,22 @@ block content
                                             span.label.label-info(data-href='#{adminDir}/role/#{role._id}')
                                                 | #{role.name}
                         .form-group
-                            label.col-sm-2.control-label 创建人
+                            label.col-sm-2.control-label Author
                             .col-sm-10 
                                 p.form-control-static
                                     if (user.author)
                                         | #{user.author.username}
                                     else
-                                        | 无
+                                        | Empty
                         .form-group
-                            label.col-sm-2.control-label 注册时间
+                            label.col-sm-2.control-label Register Date
                             .col-sm-10
                                 p.form-control-static #{moment(user.created).format('LLL')}
                         .form-group
-                            label.col-sm-2.control-label 上次登录时间
+                            label.col-sm-2.control-label Last Login
                             .col-sm-10
                                 p.form-control-static #{moment(user.last_login_date).format('LLL')}
                         .form-group
-                            label.col-sm-2.control-label 上次登录IP
+                            label.col-sm-2.control-label Last Login IP
                             .col-sm-10
                                 p.form-control-static #{user.last_login_ip}
-
-    //.row
-        .col-md-12
-            h3 Ta发布的内容
-            table.table.table-striped
-                thead
-                    tr
-                        th 标题
-                        th 日期
-                        th 分类
-                        th 操作
-

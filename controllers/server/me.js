@@ -9,13 +9,12 @@ let config = require('../../config')
 let util = require('../../lib/util')
 const ACTIONS = require('../../actions')
 
-//管理员资料
 exports.init = function (req, res) {
   let id = req.session.user._id;
   User.findById(id).populate('roles').exec(function (err, user) {
     if (!user) {
       return res.render('server/info', {
-        message: '出错了'
+        message: 'System Error'
       });
     }
 
@@ -34,20 +33,20 @@ exports.init = function (req, res) {
       })
     }
     res.render('server/me/item', {
-      title: '我的资料',
+      title: 'Profile',
       user: user,
       ACTIONS: actions
     });
   });
 };
-//修改管理员信息
+
 exports.edit = function (req, res) {
   let id = req.session.user._id;
   if (req.method === 'GET') {
     User.findById(id).populate('roles').exec(function (err, user) {
       let data = _.pick(user, 'name', 'mobile', 'gender', 'birthday');
       res.render('server/me/edit', {
-        title: '修改资料',
+        title: 'Profile Edit',
         user: data
       });
     });
@@ -59,19 +58,19 @@ exports.edit = function (req, res) {
         console.log(err, result);
         if (err || !result) {
           return res.render('server/info', {
-            message: '修改失败'
+            message: 'Failure'
           });
         }
         req.session.user = result;
         res.locals.User = user;
         res.render('server/info', {
-          message: '修改成功'
+          message: 'Success'
         });
       })
     });
   }
 };
-//修改密码
+
 exports.updatePassword = function (req, res) {
   if (req.method === 'GET') {
 
@@ -90,13 +89,13 @@ exports.updatePassword = function (req, res) {
             req.session.user = user;
             res.locals.User = user;
             res.render('server/info', {
-              message: '密码修改成功'
+              message: 'Success'
             });
           });
         });
       } else {
-        res.render('server/info', {
-          message: '原密码不正确'
+        res.render("server/info", {
+          message: "Old assword is incorrect",
         });
       }
     });

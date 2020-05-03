@@ -5,11 +5,11 @@ block content
         .ui.stackable.grid.container
             if (key)
                 .search-area
-                    | 搜索 
+                    | Search
                     strong "#{key}" 
-                    | 共有 
+                    | has 
                     strong #{total} 
-                    | 条结果
+                    | results
             .row
                 .twelve.wide.column
                     .ui.divided.items
@@ -30,14 +30,14 @@ block content
                                         p #{text}
                                     .extra
                                         .ui.label
-                                            | #{moment(content.created).fromNow()}发布
+                                            | #{moment(content.created).fromNow()}
                                             if (content.author)
                                                 .detail @#{content.author.name}
                                         .ui.label
-                                            | 评论:
+                                            | Comments:
                                             .detail #{content.comments && content.comments.length}
                                         .ui.label 
-                                            | 访客:
+                                            | Visits:
                                             .detail #{content.visits}
                     .ui.center.aligned
                         if (pageInfo && pageInfo.totalPage > 1)
@@ -50,24 +50,23 @@ block content
                             .ui.icon.input(style='width: 100%;')
                                 input(type="text", name="key", id="key", value="", required="required")
                                 i.search.icon
-                                //button.ui.button(type="submit") 搜索
                     .sixteen.wide
                         .ui.segment
-                            .ui.header 最新Top10
+                            .ui.header New
                             .ui.selection.list
                                 each item in newest
                                     .item
                                         .content
                                             a.header(href='/content/#{item.id}') #{item.title}
                                             .description
-                                                | 发布时间 #{moment(item.created).fromNow()}
+                                                | #{moment(item.created).fromNow()}
                         .ui.segment
-                            .ui.header 最热Top10
+                            .ui.header Hot
                             .ui.selection.list
                                 each item in hotest
                                     .item
                                         .content
                                             a.header(href='/content/#{item.id}') #{item.title}
-                                            .description 热度 #{item.visits}
+                                            .description heat #{item.visits}
 block foot-js
     script.

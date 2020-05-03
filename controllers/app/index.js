@@ -21,7 +21,7 @@ exports.index = async function (req, res) {
   let condition = {};
   let key = req.query.key;
   if (key) {
-    let _key = key.replace(/([\(\)\[])/g, '\\$1');//正则bugfix
+    let _key = key.replace(/([\(\)\[])/g, '\\$1');
     let k = '[^\s]*' + _key + '[^\s]*';
     let reg = new RegExp(k, 'gi');
     condition.title = reg;
@@ -77,7 +77,7 @@ exports.index = async function (req, res) {
   } catch (e) {
     console.log(e)
     res.render('app/info', {
-      message: '系统开小差了，请稍等'
+      message: 'System Error'
     });
   }
 };
@@ -93,7 +93,7 @@ exports.contact = function (req, res) {
     if (/http(s)?/.test(obj.content)) {
       return res.redirect('/')
     }
-    notify.sendMessage(`留言: ${JSON.stringify(obj)}`);
+    notify.sendMessage(`Message: ${JSON.stringify(obj)}`);
     let contact = new Message(obj);
     contact.save(function (err, result) {
       // console.log(err, result);
@@ -103,7 +103,7 @@ exports.contact = function (req, res) {
         });
       } else {
         res.render('app/info', {
-          message: '提交成功'
+          message: 'Success'
         });
       }
     })

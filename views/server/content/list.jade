@@ -3,14 +3,14 @@ extends ../layout
 block content
     .row
         .col-md-12
-            a.btn.btn-info(href='#{adminDir}/content/add') 添加内容
+            a.btn.btn-info(href='#{adminDir}/content/add') Add
             table.table.table-striped
                 thead
                     tr
-                        th 标题
-                        th 作者
-                        th 发布时间
-                        th 操作
+                        th Title
+                        th Author
+                        th Time
+                        th Operation
                 tbody
                     - each content in contents
                         tr
@@ -24,9 +24,9 @@ block content
                             td
                                 | #{moment(content.created).format('LLL')}
                             td
-                                a.btn.btn-default.btn-xs(href='#{adminDir}/content/#{content.id}/edit') 编辑
+                                a.btn.btn-default.btn-xs(href='#{adminDir}/content/#{content.id}/edit') edit
                                 | &nbsp;
-                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/content/#{content.id}/del') 删除
+                                a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/content/#{content.id}/del') delete
             
             if (pageInfo && pageInfo.totalPage > 1)
                 - pageInfo.query = query
@@ -47,13 +47,13 @@ block foot-js
                 e.preventDefault();
                 var $this = $(this);
                 var url = $this.attr('href');
-                var messenger = Messenger().post("处理中...");
+                var messenger = Messenger().post("Processing...");
                 $.post(url, {_csrf: token}, function(res) {
                     console.log(res);
                     var status = res.status;
                     if (status) {
                         messenger.update({
-                            message: '删除成功',
+                            message: 'Success',
                             hideAfter: 3,
                             type: 'success'
                         });
@@ -63,7 +63,7 @@ block foot-js
                         
                     } else {
                         messenger.update({
-                            message: '删除失败',
+                            message: 'Failure',
                             hideAfter: 3,
                             type: 'error'
                         });

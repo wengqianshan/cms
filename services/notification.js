@@ -1,5 +1,5 @@
 /**
- * 通知服务
+ * notification
  **/
 'use strict';
 

@@ -2,21 +2,14 @@ extends layout
 
 block content
     .console
-        h3 你好，#{User.name}
-        //- if(User && User.roles)
-            each role in User.roles
-                ul.list-group
-                    li.list-group-item 角色：
-                        span.label.label-primary #{role.name}
-                    li.list-group-item 权限：
-                        span.label.label-info #{role.actions}
+        h3 Hi，#{User.name}
     .row
         .col-md-3.col-sm-6
             a(href="#{adminDir}/content/")
                 .dashboard-tile.detail.tile-turquoise
                     .content
                         h1.text-left.timer(data-from='0', data-to='180', data-speed='2500') #{data.content}
-                        p 内容
+                        p Content
                     .icon
                         i.fa.fa-folder
         .col-md-3.col-sm-6
@@ -24,7 +17,7 @@ block content
                 .dashboard-tile.detail.tile-red
                     .content
                         h1.text-left.timer(data-from='0', data-to='180', data-speed='2500') #{data.category}
-                        p 分类
+                        p Category
                     .icon
                         i.fa.fa-sitemap
         .col-md-3.col-sm-6
@@ -32,7 +25,7 @@ block content
                 .dashboard-tile.detail.tile-blue
                     .content
                         h1.text-left.timer(data-from='0', data-to='180', data-speed='2500') #{data.comment}
-                        p 评论
+                        p Comment
                     .icon
                         i.fa.fa-comments
         .col-md-3.col-sm-6
@@ -40,7 +33,7 @@ block content
                 .dashboard-tile.detail.tile-turquoise
                     .content
                         h1.text-left.timer(data-from='0', data-to='56', data-speed='2500') #{data.user}
-                        p 用户
+                        p User
                     .icon
                         i.fa.fa-users
         .col-md-3.col-sm-6
@@ -48,7 +41,7 @@ block content
                 .dashboard-tile.detail.tile-blue
                     .content
                         h1.text-left.timer(data-from='0', data-to='32', data-speed='2500') #{data.role}
-                        p 角色
+                        p Role
                     .icon
                         i.fa.fa.fa-key
 
@@ -57,7 +50,7 @@ block content
                 .dashboard-tile.detail.tile-purple
                     .content
                         h1.text-left.timer(data-to='105', data-speed='2500') #{data.file}
-                        p 文件
+                        p File
                     .icon
                         i.fa.fa-file
     

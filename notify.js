@@ -27,11 +27,11 @@ class Bot {
 
     this.bot.on('message', (msg) => {
       const chatId = msg.chat.id;
-      bot.sendMessage(chatId, `当前chatId: ${chatId}`);
+      bot.sendMessage(chatId, `Current chatId: ${chatId}`);
     });
 
     this.bot.on('error', (msg) => {
-      console.log(`通知服务错误: ${msg}`);
+      console.log(`error: ${msg}`);
     });
   }
 

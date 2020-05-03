@@ -2,7 +2,6 @@
 
 let _ = require('lodash')
 
-// 检查权限中间件
 exports.checkAction = function (actionName) {
   //console.log(actionName)
   return function (req, res, next) {
@@ -24,18 +23,18 @@ exports.checkAction = function (actionName) {
       if (req.jwt) {
         return res.json({
           success: false,
-          error: '无权访问'
+          error: 'No Permission'
         })
       }
 
       if (req.xhr) {
         res.json({
           success: false,
-          error: '无权访问'
-        })
+          error: "No Permission",
+        });
       } else {
-        res.render('server/info', {
-          message: '无权访问'
+        res.render("server/info", {
+          message: "No Permission",
         });
       }
     }

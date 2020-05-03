@@ -1,14 +1,8 @@
 'use strict';
 
-/**
- * 模块依赖
- */
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
-/**
- * 内容模型
- */
 let ContentSchema = new Schema({
   title: {
     type: String,
@@ -53,17 +47,15 @@ let ContentSchema = new Schema({
     type: Number,
     default: 0
   },
-  //喜欢
   like: {
     type: Number,
     default: 0
   },
-  //置顶，权重由数值决定
+  // Top
   up: {
     type: Number,
     default: 0
   },
-  //喜欢
   like: {
     type: Number,
     default: 0

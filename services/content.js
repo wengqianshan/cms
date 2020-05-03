@@ -1,5 +1,5 @@
 /**
- * 内容服务
+ * content
  **/
 'use strict';
 

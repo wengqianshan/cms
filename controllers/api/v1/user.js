@@ -21,7 +21,7 @@ class UserController extends Base {
     };
     this.fields = {
       list: ['_id', 'username', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'roles', 'rank', 'status'],
-      item: ['_id', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'roles', 'rank', 'status'], // todo: 暂无实现
+      item: ['_id', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'roles', 'rank', 'status'],
       create: [],
       update: []
     };
@@ -47,11 +47,11 @@ class UserController extends Base {
         user.save()
         data = _.pick(user, '_id', 'username', 'token')
       } else {
-        error = '用户名或密码错误'
+        error = "Wrong user name or password";
       }
     } catch (e) {
       // error = e.message
-      error = '请先登录'
+      error = "Please log in first";
     }
 
     res.json({
@@ -74,7 +74,7 @@ class UserController extends Base {
       data = jwt.verify(token, config.jwt.secret)
     } catch (e) {
       // error = e.message
-      error = '校验失败'
+      error = 'Failure'
     }
     res.json({
       success: !error,
@@ -85,8 +85,7 @@ class UserController extends Base {
 
   async create(req, res) {
     let obj = _.pick(req.body, 'username', 'password', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions');
-    // TODO： 校验输入
-    // 后台创建用户
+    // TODO： validation
     let user = req.user
     if (user) {
       obj.author = mongoose.Types.ObjectId(user._id)
@@ -111,7 +110,7 @@ class UserController extends Base {
   async update(req, res) {
     let id = req.params.id
     let obj = _.pick(req.body, 'username', 'email', 'mobile', 'name', 'avatar', 'gender', 'birthday', 'description', 'address', 'position', 'questions', 'roles');
-    // TODO： 校验输入
+    // TODO： validation
     let data = null
     let error
     try {
@@ -119,14 +118,14 @@ class UserController extends Base {
       let item = await userService.findById(id);
       let isAuthor = !!(item.author && ((item.author + '') === (req.user._id + '')))
       let isMine = (item._id + '') === (req.user._id + '')
-      // 校验是否有分配角色权限 roles 值为id
+      // check
       const roles = req.Roles;
       const inputRoles = _.difference(obj.roles, roles);
       const overAuth = inputRoles.length > 0;
       if (!isAdmin && !isAuthor && !isMine) {
-        error = '没有权限'
+        error = 'no permission'
       } else if (!isAdmin && overAuth) {
-        error = '您没有足够权限:' + inputRoles.join(',')
+        error = 'You have no permissions:' + inputRoles.join(',')
       } else {
         data = await userService.findByIdAndUpdate(id, obj, { new: true })
       }

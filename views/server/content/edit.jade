@@ -11,13 +11,13 @@ block content
         .col-md-12
             form(action='', method='post')
                 .form-group
-                    label 标题
+                    label Title
                     input.form-control(name='title', value='#{content.title}')
                 if (categorys && categorys.length > 0)
                     .form-group
-                        label 分类
+                        label Category
                         select.form-control.input-sm(name='category')
-                            option(value='') 请选择
+                            option(value='') please select
                             - each category in categorys
                                 if ((category._id + '') === (content.category + ''))
                                     option(value='#{category._id}', selected)
@@ -26,7 +26,7 @@ block content
                                     option(value='#{category._id}')
                                         | #{category.name}
                 .form-group
-                    label 图集
+                    label Gallery
                     .gallery#J_gallery
                         if (content.gallery)
                             - each file in content.gallery
@@ -38,7 +38,7 @@ block content
                                         span.fa.fa-times-circle
                     span.btn.btn-success.fileinput-button
                         i.glyphicon.glyphicon-plus
-                        span 添加文件
+                        span Add
                         input#fileupload(type='file', name='files[]', multiple='multiple')
                     #J_files
                     div#progress.progress
@@ -46,23 +46,21 @@ block content
                     #J_preview.preview
                        
                 .form-group
-                    label 内容
+                    label Content
                     textarea.form-control#J_editor(name='content', rows='20', style='background-color: #fff; border: none;') #{content.content}
                 .form-group
-                    label 标签
+                    label Tag
                     div
                         if (tags && tags.length > 0)
-                            select#J_select_tags(data-placeholder='请选择标签', name='tags[]', multiple, style='width: 500px;')
+                            select#J_select_tags(data-placeholder='please select', name='tags[]', multiple, style='width: 500px;')
                                 each tag in tags
                                     - var mytags = content.tags && content.tags.map(function(item) {return item.name;});
                                     if (mytags.indexOf(tag.name) > -1)
                                         option(value='#{tag.id}', selected) #{tag.name}
                                     else 
                                         option(value='#{tag.id}') #{tag.name}
-                //.help-block
-                    span.btn.btn-info.btn-xs 新增标签
                 input(type='hidden', name='_csrf', value='#{token}')
-                button.btn.btn-primary(type='submit') 提交
+                button.btn.btn-primary(type='submit') Submit
     script#J_tmpl_gallery_item(type='x-tmpl-mustache')
         .gallery-item
             img.gallery-image(src='{{url}}')
@@ -124,21 +122,21 @@ block foot-js
                     });
                 }
             });
-            //删除图集
+            
             $('#J_gallery').on('click', '.J_del', function(e) {
                 e.preventDefault()
                 var $this = $(this);
                 var $item = $this.closest('.gallery-item');
                 swal({
-                  title: '确定删除图片吗?',
-                  text: '选中下方的复选框将会删除原图',
+                  title: 'Are you sure to delete the picture?',
+                  text: 'Selecting the check box below will delete the original image',
                   type: 'question',
                   input: 'checkbox',
                   inputValue: true,
                   showLoaderOnConfirm: true,
                   showCancelButton: true,
-                  confirmButtonText: '是的',
-                  cancelButtonText: '不了',
+                  confirmButtonText: 'Yes',
+                  cancelButtonText: 'No',
                   preConfirm: function(checked) {
                     return new Promise(function(resolve, reject) {
                         if (checked) {
@@ -151,7 +149,7 @@ block foot-js
                                     resolve()
                                     $item.remove();
                                 } else{
-                                    reject('删除失败')
+                                    reject('Failure')
                                 }
                             });
                             
@@ -163,7 +161,7 @@ block foot-js
                   }
                 }).then(function() {
                     var checked = swal.getInput().checked;
-                    swal('已删除!', '', 'success')
+                    swal('Deleted!', '', 'success')
                 }, function(dismiss) {
                   // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
                 })
@@ -176,20 +174,20 @@ block foot-js
                 },
                 beforeSubmit: function() {
                     console.log('beforeSubmit')
-                    messenger = Messenger().post("处理中...");
+                    messenger = Messenger().post("Processing...");
                 },
                 success: function(data, status, xhr, $form) {
                     console.log(data)
                     var status = data.status;
                     if (status) {
                         messenger.update({
-                            message: '更新成功',
+                            message: 'Success',
                             hideAfter: 3,
                             type: 'success'
                         });
                     } else {
                         messenger.update({
-                            message: '更新失败',
+                            message: 'Failure',
                             hideAfter: 3,
                             type: 'error'
                         });
@@ -198,7 +196,7 @@ block foot-js
                 err: function() {
                     console.log('error')
                     messenger.update({
-                        message: '系统繁忙',
+                        message: 'System Error',
                         hideAfter: 3,
                         type: 'error'
                     });

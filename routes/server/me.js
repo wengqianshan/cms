@@ -5,9 +5,8 @@ let router = express.Router()
 let util = require('../../lib/util')
 let me = require('../../controllers/server/me')
 
-//首页
 router.use(function (req, res, next) {
-  console.log('管理员信息: ' + Date.now());
+  // console.log('me: ' + Date.now());
   res.locals.Path = 'me';
   if (!req.session.user) {
     let path = util.translateAdminDir('/user/login');

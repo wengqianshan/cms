@@ -29,8 +29,8 @@ router.route('/')
 router.use(function (req, res) {
   res.json({
     success: false,
-    error: '无效请求'
-  })
+    error: "invalid request",
+  });
 })
 
 module.exports = function (app) {

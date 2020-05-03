@@ -5,23 +5,23 @@ block content
         .col-md-12
             form(action='', method='post')
                 .form-group
-                    label 名称
+                    label Name
                     input.form-control(name='name')
                 .form-group
-                    label 标记(别名，英文字符，可选)
+                    label Flag(optional)
                     input.form-control(name='flag')
 
                 .form-group
-                    label 父分类
+                    label Parent
                     select.form-control.input-sm(name='parent')
-                        option(value='') 无
+                        option(value='') Empty
                         - each item in items
                             option(value='#{item.id}') #{item.name}
                 .form-group
-                    label 描述
+                    label Description
                     textarea.form-control(name='description', rows='8')
                 input(type='hidden', name='_csrf', value='#{token}')
-                button.btn.btn-primary(type='submit') 提交
+                button.btn.btn-primary(type='submit') Submit
 
 block foot-js
     script.
@@ -37,21 +37,21 @@ block foot-js
                 },
                 beforeSubmit: function() {
                     console.log('beforeSubmit')
-                    messenger = Messenger().post("处理中...");
+                    messenger = Messenger().post("processing...");
                 },
                 success: function(data, status, xhr, $form) {
                     console.log(data)
                     var status = data.status;
                     if (status) {
                         messenger.update({
-                            message: '发布成功',
+                            message: 'Success',
                             hideAfter: 3,
                             type: 'success'
                         });
                         $form[0].reset();
                     } else {
                         messenger.update({
-                            message: '发布失败',
+                            message: 'Failure',
                             hideAfter: 3,
                             type: 'success'
                         });
@@ -60,7 +60,7 @@ block foot-js
                 err: function() {
                     console.log('error')
                     messenger.update({
-                        message: '系统繁忙',
+                        message: 'System Error',
                         hideAfter: 3,
                         type: 'success'
                     });

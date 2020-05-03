@@ -3,15 +3,15 @@ extends ../layout
 block content
     .row
         .col-md-12
-            a.btn.btn-info(href='#{adminDir}/file/add') 添加文件
+            a.btn.btn-info(href='#{adminDir}/file/add') Add
             table.table.table-striped
                 thead
                     tr
-                        th 名称
-                        th 创建人
-                        th 类型
-                        th 创建时间
-                        th 操作
+                        th Name
+                        th Author
+                        thType
+                        th Date
+                        th Operation
                 tbody
                     - each file in files
                         tr
@@ -27,15 +27,15 @@ block content
                                 if (file.author)
                                     | #{file.author.username}
                                 else
-                                    | 无
+                                    | Empty
                             td #{file.type}
                             td
                                 | #{moment(file.created).format('LLL')}
                             td
-                                a.btn.btn-default.btn-xs(href='#{adminDir}/file/#{file.id}/edit') 编辑
+                                a.btn.btn-default.btn-xs(href='#{adminDir}/file/#{file.id}/edit') edit
                                 | &nbsp;
                                 if (file.status !== -1)
-                                    a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/file/#{file.id}/del') 删除
+                                    a.btn.btn-danger.btn-xs.J_del(href='#{adminDir}/file/#{file.id}/del') delete
             if (pageInfo && pageInfo.totalPage > 1)
                 - pageInfo.query = query
                 include ../mixin
@@ -53,13 +53,13 @@ block foot-js
                 var $this = $(this);
                 var $item = $this.closest('tr');
                 var url = $this.attr('href');
-                var messenger = Messenger().post("处理中...");
+                var messenger = Messenger().post("Processing...");
                 $.post(url, {
                     _csrf: token
                 }, function(json) {
                     if(json.success) {
                         messenger.update({
-                            message: '删除成功',
+                            message: 'Success',
                             hideAfter: 3,
                             type: 'success'
                         });
@@ -69,11 +69,11 @@ block foot-js
                         }
                     } else{
                         messenger.update({
-                            message: '删除失败',
+                            message: 'Failure',
                             hideAfter: 3,
                             type: 'error'
                         });
-                        //BootstrapDialog.alert('删除失败');
+                        //BootstrapDialog.alert('Failure');
                     }
                 });
             })

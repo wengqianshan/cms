@@ -1,5 +1,5 @@
 /**
- * 文件服务
+ * file
  **/
 'use strict';
 
@@ -20,8 +20,7 @@ class Service extends Base {
   }
 
   upload(files, fields = {}) {
-    notify.sendMessage('用户上传图片');
-    // console.log('调试开始')
+    notify.sendMessage('Upload File');
     return new Promise(async (resolve, reject) => {
       try {
         const data = await uploader.post(files);
@@ -32,7 +31,7 @@ class Service extends Base {
           const file = await this.Model.create(fileObj);
           result.push(file);
         }
-        // console.log('上传结果: ', result);
+        // console.log('upload result: ', result);
         resolve({
           files: result
         });
@@ -41,16 +40,16 @@ class Service extends Base {
       }
     });
   }
-  // 根据 id 删除文件(含封面)
+  // delete file, include covers
   del(id) {
     return new Promise(async (resolve, reject) => {
       const file = await this.Model.findById(id);
       try {
-        // 删除文件
+        // rm file
         await uploader.delete(file);
-        // 删除数据库记录
+        // rm data
         file.remove((err, product) => {
-          // console.log('文件数据库删除结果: ', err);
+          // console.log('result: ', err);
           if (err) {
             reject(err)
           } else {

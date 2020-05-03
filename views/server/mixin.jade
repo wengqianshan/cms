@@ -1,4 +1,4 @@
-//- 分页模块
+//- pagination module
 //- pageInfo = {
 //-     totalPage: 15,
 //-     currentPage: 5,
@@ -39,7 +39,7 @@ mixin pagination(pageInfo)
         - query.page = nextPage
         li(class=(currentPage === totalPage) ? 'disabled' : '')
             a(href='?#{util.stringify(query)}') &raquo;
-//- 评论条目
+//- comment module
 mixin commentItem(comment, comments)
     if (comment)
         li.media
@@ -47,13 +47,12 @@ mixin commentItem(comment, comments)
                 - var avatar = gravatar.url((comment.author &&comment.author.email) || comment.email || '', {s: '40',r: 'x',d: 'retro'}, true)
                 img.media-object(src='#{avatar}')
             .media-body
-                .media-heading #{comment.name} 在 
+                .media-heading #{comment.name}
                     span.text-muted #{moment(comment.created).fromNow()} 
-                    | 说
                 p #{comment.content}
                 .media-meta(data-id='#{comment._id}', data-reply='#{comment.reply || ""}')
                     //span.text-muted #{moment(comment.created).fromNow()} 
-                    a.text-primary.J_reply(href='javascript:') 回复
+                    a.text-primary.J_reply(href='javascript:') reply
                 if(comments)
                     if (comment.comments && comment.comments.length > 0)
                         ul.media-list.J_list

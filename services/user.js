@@ -1,5 +1,5 @@
 /**
- * 用户服务
+ * user
  **/
 'use strict';
 

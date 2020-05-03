@@ -10,20 +10,20 @@ block content
                         img#J_preview(src='#{file.url}')
                         input#J_hidden(type='hidden', name='url', value='#{file.url}')
                 .form-group
-                    label 选择替换文件
+                    label Select the file to replace
                     div
                         span.btn.btn-success.fileinput-button
-                                i.glyphicon.glyphicon-plus
-                                span 选取文件
+                                i.glyphicon.glyphicon-plus 
+                                span Choose
                                 input#fileupload(type='file')
                         div(style='padding: 10px;')
                         div#progress.progress
                             div.progress-bar.progress-bar-success
                 .form-group
-                    label 描述
+                    label Description
                     textarea.form-control(name='description', rows='8') #{file.description}
                 input(type='hidden', name='_csrf', value='#{token}')
-                button.btn.btn-primary(type='submit') 提交
+                button.btn.btn-primary(type='submit') Submit
 
 block foot-js
     script(src='//cdn.jsdelivr.net/jquery.fileupload/9.9.0/js/vendor/jquery.ui.widget.js')
@@ -40,7 +40,7 @@ block foot-js
             $('#fileupload').fileupload({
                 //url: '/upload',
                 url: '/admin/file/add?_csrf=#{token}',
-                paramName: 'files[]',//防止影响表单提交
+                paramName: 'files[]',
                 formData: {
                     //- _csrf: '#{token}',
                     id: '#{file.id}'

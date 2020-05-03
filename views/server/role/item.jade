@@ -4,16 +4,16 @@ block content
     .row
         .col-md-12
             .lists
-                p 名称：#{role.name}
-                p 创建人: 
+                p Name：#{role.name}
+                p Author: 
                     if (role.author)
                         | #{role.author.username}
                     else
-                        | 无
-                p 权限：
+                        | Empty
+                p Actions：
                     - each action in role.actions
                         span.label.label-info
                             | #{action}
                         | 
-                p 日期：#{role.created}
-                p 描述：!{role.description}
+                pDate：#{role.created}
+                p Description：!{role.description}

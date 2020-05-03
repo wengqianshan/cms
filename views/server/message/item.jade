@@ -4,10 +4,10 @@ block content
     .row
         .col-md-12
             .lists
-                p 内容：#{message.content}
-                p 日期：#{message.created}
-                p 作者：
+                p Content：#{message.content}
+                p Date：#{message.created}
+                p Author：
                     if (message.name)
                         | #{message.name}
                     else
-                        | 匿名
+                        | Anonymous

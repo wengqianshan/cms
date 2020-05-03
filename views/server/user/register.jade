@@ -1,49 +1,28 @@
 extends ../layout-blank
 
 block content
-    //- .container
-        .row
-            .register
-                form(action='', method='post')
-                    h2 注册
-                    .form-group
-                        label 用户名
-                        input.form-control(name='username')
-                    .form-group
-                        label 密码
-                        input.form-control(type='password', name='password')
-                    .form-group
-                        label 姓名
-                        input.form-control(name='name')
-                    .form-group
-                        label Email
-                        input.form-control(name='email')
-                    input(type='hidden', name='_csrf', value='#{token}')
-                    button.btn.btn-primary(type='submit') 提交
-                    | 
-                    a(href='#{adminDir}/user/login') 登录
     section#login-container
         .row
             #login-wrapper.col-md-3
                 .panel.panel-primary
                     .panel-heading
                         h3.panel-title
-                            | 注册
+                            | Register
                     .panel-body
                         p
-                            | 已经是用户? 
+                            | Already member? 
                             a(href='pages-login.html')
-                                strong 登录
+                                strong Login
                         form(role='form', action='', method='post')
                             .form-group
-                                label(for='J_username') *用户名
-                                input#J_username.form-control(type='text', name='username', placeholder='请输入用户名', autofocus)
+                                label(for='J_username') *Username
+                                input#J_username.form-control(type='text', name='username', placeholder='', autofocus)
                             .form-group
-                                label(for='J_password') *密码
-                                input#J_password.form-control(type='password', name='password', placeholder='请输入密码')
+                                label(for='J_password') *Password
+                                input#J_password.form-control(type='password', name='password', placeholder='')
                             .form-group
                                 label(for='J_email') *Email
-                                input#J_email.form-control(type='email', name='email', placeholder='请输入Email')
+                                input#J_email.form-control(type='email', name='email', placeholder='')
                             input(type='hidden', name='_csrf', value='#{token}')
-                            button.btn.btn-primary.btn-block(type='submit') 注册
+                            button.btn.btn-primary.btn-block(type='submit') Submit
 

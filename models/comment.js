@@ -1,24 +1,18 @@
 'use strict';
 
-/**
- * 模块依赖
- */
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
-/**
- * 评论模型
- */
 let CommentSchema = new Schema({
   content: {
     type: String,
     required: true
   },
-  from: {//文章id
+  from: {
     type: Schema.ObjectId,
     ref: 'Content'
   },
-  reply: {//回复评论的id
+  reply: {
     type: Schema.ObjectId,
     ref: 'Comment'
   },
@@ -26,7 +20,7 @@ let CommentSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
-  //匿名用户信息
+  // guest user info
   name: {
     type: String
   },
@@ -44,7 +38,7 @@ let CommentSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'Comment'
   }],
-  ip: {//回复ip
+  ip: {
     type: String
   },
   status: {

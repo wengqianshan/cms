@@ -20,7 +20,7 @@ class CommentController extends Base {
     };
     this.fields = {
       list: ['_id', 'content', 'from', 'reply', 'name', 'email', 'website', 'comments'],
-      create: ['content', 'from', 'reply', 'name', 'email', 'website'], // todo: 新增接口返回的数据还包含 'id', 'content', 'created', 'name', 'email', 'reply', 'from', 'ip'
+      create: ['content', 'from', 'reply', 'name', 'email', 'website'], // todo: more field > 'id', 'content', 'created', 'name', 'email', 'reply', 'from', 'ip'
       update: ['content', 'name', 'email', 'website']
     };
   }
@@ -32,7 +32,7 @@ class CommentController extends Base {
       return res.json({
         success: false,
         data: null,
-        error: 'from参数不存在'
+        error: "param required: from",
       });
     }
     let obj = _.pick(body, 'content', 'from', 'reply', 'name', 'email', 'website');

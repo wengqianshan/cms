@@ -1,5 +1,5 @@
 /**
- * 留言服务
+ * message
  **/
 'use strict';
 

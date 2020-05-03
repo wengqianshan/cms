@@ -1,27 +1,20 @@
 'use strict';
-/**
- * 模块依赖
- */
 
 let crypto = require('crypto')
 let _ = require('lodash')
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
-
-/**
- * 用户模型
- */
 let UserSchema = new Schema({
   username: {
     type: String,
-    required: '请输入用户名',
+    required: 'please input username',
     unique: true
   },
 
   email: {
     type: String,
-    required: '请输入邮箱',
+    required: 'please input email',
     unique: true
   },
 
@@ -31,7 +24,6 @@ let UserSchema = new Schema({
 
   name: {
     type: String,
-    // required: '请输入姓名'
   },
 
   avatar: {
@@ -40,7 +32,7 @@ let UserSchema = new Schema({
 
   gender: {
     type: String,
-    enum: ['男', '女', '保密']
+    enum: ['male', 'female', 'secret']
   },
 
   birthday: {
@@ -72,7 +64,7 @@ let UserSchema = new Schema({
     index: '2dsphere'
   },
 
-  reg_ip: String,//注册ip
+  reg_ip: String,
 
   created: {
     type: Date,
@@ -94,7 +86,6 @@ let UserSchema = new Schema({
     default: 0
   },
 
-  //找回密码
   forget: {
     hash: String,
     till: Date
@@ -114,7 +105,7 @@ let UserSchema = new Schema({
     default: false
   },
   token: String,
-  // 用来标记token变更比如修改密码后需要重新登录
+  // update value after change password
   token_version: {
     type: Number,
     default: 0
@@ -132,26 +123,23 @@ UserSchema.virtual('password').set(function (password) {
   return this._password;
 });
 
-/**
- * Validations
- */
-// UserSchema.path('name').validate(function(name) {
-//     return (typeof name === 'string' && name.length >= 1 && name.length <= 50);
-// }, '名字在1-50个字符之间');
-
 UserSchema.path('email').validate(function (email) {
   return (typeof email === 'string' && email.length > 0);
-}, 'Email不能为空');
+}, 'Email can not empty');
 UserSchema.path('email').validate(function (email) {
   return /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(email);
-}, 'Email格式不正确');
+}, 'Email invalid');
 
-UserSchema.path('username').validate(function (username) {
-  return (typeof username === 'string' && username.length >= 4 && username.length <= 20);
-}, '用户名为4-20个字符');
+UserSchema.path("username").validate(function (username) {
+  return (
+    typeof username === "string" &&
+    username.length >= 4 &&
+    username.length <= 20
+  );
+}, "User name must be 4-20 character");
 UserSchema.path('username').validate(function (username) {
   return /^\w+$/.test(username);
-}, '用户名只能为a-zA-Z0-9_');
+}, 'username role: a-zA-Z0-9_');
 
 
 /**
@@ -179,7 +167,6 @@ UserSchema.methods = {
    * @return {Boolean}
    * @api public
    */
-  //通过角色名判断权限
   hasRole: function (role) {
     let roles = [];
     this.roles.forEach(function (item) {
@@ -187,7 +174,6 @@ UserSchema.methods = {
     });
     return (roles.indexOf(role) !== -1);
   },
-  //通过动作判断权限
   hasAction: function (action) {
     let actions = [];
     this.roles.forEach(function (item) {

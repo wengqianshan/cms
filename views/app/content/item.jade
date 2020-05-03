@@ -9,18 +9,15 @@ block content
             .ui
                 if (content.author)
                     .ui.label
-                        | 作者
+                        | Author
                         .detail #{content.author.name}
                 .ui.label
-                    | 发布时间
+                    | Time
                     .detail #{moment(content.created).format('YYYY-MM-DD HH:mm')}
                 if (content.category)
                     .ui.label
-                        | 分类
+                        | Category
                         .detail #{content.category.name}    
-                //.ui.label
-                    | 访客：#{content.visits}
-            
             
             .ui.basic.segment.post-content
                 - var images = content.gallery
@@ -57,7 +54,7 @@ block content
                     | !{content.content}
             
             .post-comments
-                h3 评论(#{content.comments.length}) 
+                h3 Comments(#{content.comments.length}) 
                             
                 if(content.comments)
                     .ui.threaded.comments.J_list
@@ -80,7 +77,7 @@ block content
                         textarea.J_textarea(name='content', placeholder='small talk')
                     .ui.primary.submit.labeled.icon.button.J_submit
                         i.icon.edit
-                        | 发送
+                        | Submit
     script#J_tmpl_comment_item(type='x-tmpl-mustache')
         .comment.J_comment(data-id='{{id}}', data-reply='{{reply}}')
             a.avatar
@@ -92,7 +89,7 @@ block content
                 .text
                     p {{content}}
                 .actions
-                    a.reply.J_reply(href='javascript:') 回复
+                    a.reply.J_reply(href='javascript:') reply
 
     script#J_tmpl_comment_form(type='x-tmpl-mustache')
         .ui.reply.form.J_commentForm(data-reply='{{reply}}')
@@ -104,7 +101,7 @@ block content
                 textarea.J_textarea(name='content', placeholder='small talk')
             .ui.primary.submit.labeled.icon.button.J_submit
                 i.icon.edit
-                | 发送
+                | Submit
 
     #blueimp-gallery.blueimp-gallery
         .slides
@@ -165,11 +162,11 @@ block foot-js
             var content = $textarea.val();
             //console.log(cid, content, reply);
             if(!email) {
-                alert('请输入email');
+                alert('please input email');
                 return;
             }
             if(!content) {
-                alert('请输入评论内容');
+                alert('please leave some text');
                 return;
             }
             var data = {
@@ -199,7 +196,6 @@ block foot-js
                         $list.append(html);
                     }
 
-                    // 清空输入
                     $textarea.val('');
                     var commentUser = {
                         name: name,

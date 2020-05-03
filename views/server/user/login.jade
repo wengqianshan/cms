@@ -7,23 +7,22 @@ block content
                     .panel.panel-primary
                         .panel-heading
                             h3.panel-title
-                                | 登录
+                                | Login
                         .panel-body
-                            p  登录后方可继续访问
                             form.form-horizontal(role='form', action='', method='post')
                                 .form-group
                                     .col-md-12
-                                        input#email.form-control(type='text', name='username', placeholder='用户名', autofocus)
+                                        input#email.form-control(type='text', name='username', placeholder='username', autofocus)
                                         i.fa.fa-user
                                 .form-group
                                     .col-md-12
-                                        input#password.form-control(type='password', name='password', placeholder='密码')
+                                        input#password.form-control(type='password', name='password', placeholder='password')
                                         i.fa.fa-lock
-                                        a.help-block(href='#{adminDir}/user/forget') 忘记密码?
+                                        a.help-block(href='#{adminDir}/user/forget') Forgot Password?
                                 .form-group
                                     .col-md-12
                                         input(type='hidden', name='_csrf', value='#{token}')
-                                        button.btn.btn-primary.btn-block(type='submit') 登录
+                                        button.btn.btn-primary.btn-block(type='submit') Submit
                                         hr
-                                        a.btn.btn-default.btn-block(href='#{adminDir}/user/register') 还不是用户? 注册
+                                        a.btn.btn-default.btn-block(href='#{adminDir}/user/register') Register
 
