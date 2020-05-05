@@ -63,9 +63,10 @@ class BaseController {
         skip: pageSize * (current - 1),
         limit: pageSize,
         sort: {
-          created: -1
-        }
-      })
+          up: -1,
+          created: -1,
+        },
+      });
       if (this.fields.list.length) {
         data = data.map((item) => {
           return _.pick(item, this.fields.list)

@@ -6,60 +6,66 @@ let Schema = mongoose.Schema
 let ContentSchema = new Schema({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   summary: {
-    type: String
+    type: String,
   },
   content: {
     type: String,
-    required: true
+    required: true,
   },
-  gallery: [{
-    type: Schema.ObjectId,
-    ref: 'File'
-  }],
+  gallery: [
+    {
+      type: Schema.ObjectId,
+      ref: "File",
+    },
+  ],
   author: {
     type: Schema.ObjectId,
-    ref: 'User'
+    ref: "User",
   },
   category: {
     type: Schema.ObjectId,
-    ref: 'Category'
+    ref: "Category",
   },
-  tags: [{
-    type: Schema.ObjectId,
-    ref: 'Tag'
-  }],
+  tags: [
+    {
+      type: Schema.ObjectId,
+      ref: "Tag",
+    },
+  ],
   created: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   visits: {
     type: Number,
-    default: 0
+    default: 0,
   },
-  comments: [{
-    type: Schema.ObjectId,
-    ref: 'Comment'
-  }],
+  comments: [
+    {
+      type: Schema.ObjectId,
+      ref: "Comment",
+    },
+  ],
   status: {
     type: Number,
-    default: 0
+    default: 0,
   },
   like: {
     type: Number,
-    default: 0
+    default: 0,
   },
   // Top
   up: {
     type: Number,
-    default: 0
+    default: 0,
   },
   like: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 });
 
 /*ContentSchema.pre('save', function(next) {

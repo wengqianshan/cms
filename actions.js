@@ -27,6 +27,11 @@ module.exports = [
         value: "CONTENT_DELETE",
         description: "content delete",
       },
+      {
+        name: "content up",
+        value: "CONTENT_UP",
+        description: "content up",
+      },
     ],
   },
   {

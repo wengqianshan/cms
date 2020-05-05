@@ -25,6 +25,14 @@ router.route('/:id/update')
 router.route('/:id/destroy')
   .post(jwtMiddleWare.verify, action.checkAction('CONTENT_DELETE'), content.delete)
 
+router
+  .route("/:id/up")
+  .post(
+    jwtMiddleWare.verify,
+    action.checkAction("CONTENT_UP"),
+    content.up
+  );
+
 router.route('/')
   .get(content.list)
   .post(jwtMiddleWare.verify, action.checkAction('CONTENT_CREATE'), content.create)
