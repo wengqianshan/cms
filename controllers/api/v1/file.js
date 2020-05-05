@@ -9,8 +9,18 @@ class FileController extends Base {
     super(props);
     this.service = fileService;
     this.populates = {
-      list: [],
-      item: []
+      list: [
+        {
+          path: "author",
+          select: "name avatar",
+        },
+      ],
+      item: [
+        {
+          path: "author",
+          select: "name avatar",
+        },
+      ],
     };
     this.fields = {
       list: [],
@@ -35,6 +45,7 @@ class FileController extends Base {
         author: uid || ""
       });
     } catch (e) {
+      console.log('upload controller', e);
       error = "Upload failed";
     }
     res.json({

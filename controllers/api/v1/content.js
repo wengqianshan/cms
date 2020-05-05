@@ -30,7 +30,7 @@ class ContentController extends Base{
     this.fields = {
       list: ['_id', 'title', 'category', 'author', 'up', 'like', 'status', 'visits', 'created', 'tags', 'gallery', 'comments'],
       create: ['title', 'summary', 'content', 'gallery', 'category', 'tags'],
-      update: ['title', 'summary', 'content', 'gallery', 'category', 'tags']
+      update: ['title', 'summary', 'content', 'gallery', 'category', 'tags', 'up', 'like']
     };
   }
 }
