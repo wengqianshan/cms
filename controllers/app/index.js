@@ -38,11 +38,12 @@ exports.index = async function (req, res) {
       }, {
         path: 'gallery',
         select: 'name url md_url sm_url type covers',
-        perDocumentLimit: 3,
+        // perDocumentLimit: 3,
       }],
       skip: pageInfo.start,
       limit: pageInfo.pageSize,
       sort: {
+        up: -1,
         created: -1
       }
     })

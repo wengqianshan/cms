@@ -22,13 +22,15 @@ block content
                                         .image
                                             img(src='#{url}')
                                 .content
-                                    a.ui.large.header(href='/content/#{content._id}') #{content.title}
-                                    .meta
+                                    a.ui.large.header(href='/content/#{content._id}') #{content.title} 
+                                    //- .meta
                                         .cinema 
                                     .description
                                         - var text = content.content.substr(0, 100);
                                         p #{text}
                                     .extra
+                                        if (content.up > 0)
+                                            i.arrow.alternate.circle.up.outline.icon
                                         .ui.label
                                             | #{moment(content.created).fromNow()}
                                             if (content.author)
