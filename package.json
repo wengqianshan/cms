@@ -28,7 +28,7 @@
     "markdown-it": "^10.0.0",
     "md5-file": "^4.0.0",
     "mkdirp": "^0.5.4",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mongoose": "^5.9.7",
     "morgan": "^1.10.0",
     "node-telegram-bot-api": "^0.40.0",
